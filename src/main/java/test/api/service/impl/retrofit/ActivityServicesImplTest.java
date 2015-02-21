@@ -1633,4 +1633,19 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listAllAuthenticatedAthleteActivities();
 		assertNotNull(activities);
 	}
+	
+	@Test
+	// TODO Other test cases
+	public void testCreateComment() throws NotFoundException {
+		ActivityServices service = getActivityService();
+		StravaComment comment = service.createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+		service.deleteComment(comment.getActivityId(), comment.getId());
+		
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testGiveKudos() {
+		getActivityService().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+	}
 }
