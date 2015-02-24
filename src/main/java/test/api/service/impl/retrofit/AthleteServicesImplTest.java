@@ -489,6 +489,34 @@ public class AthleteServicesImplTest {
 		StravaStatistics stats = getService().statistics(TestUtils.ATHLETE_INVALID_ID);
 		assertNull(stats);
 	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllAthleteFriends() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllAthleteKOMs() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllAthletesBothFollowing() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllAuthenticatedAthleteFriends() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
 
 	/**
 	 * @return

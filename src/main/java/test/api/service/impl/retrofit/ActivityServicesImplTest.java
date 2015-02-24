@@ -1629,6 +1629,7 @@ public class ActivityServicesImplTest {
 	}
 
 	@Test
+	// TODO Other test cases (before, after, both, invalid)
 	public void testListAllAuthenticatedAthleteActivities() {
 		List<StravaActivity> activities = getActivityService().listAllAuthenticatedAthleteActivities();
 		assertNotNull(activities);
@@ -1647,5 +1648,19 @@ public class ActivityServicesImplTest {
 	// TODO Other test cases
 	public void testGiveKudos() {
 		getActivityService().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllRelatedActivities() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	// TODO Other test cases including an attempt to get > 200??
+	public void testListAllFriendsActivities() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
 	}
 }

@@ -45,6 +45,14 @@ public class StravaTest {
 		assertEquals("Second paging instruction should ignore last 198 records", 198, second.getIgnoreLastN());
 
 	}
+	
+	@Test
+	public void testConvertToStravaPaging_sequence() {
+		List<Paging> paging = Strava.convertToStravaPaging(new Paging(1,Strava.MAX_PAGE_SIZE));
+		assertEquals(1,paging.size());
+		paging = Strava.convertToStravaPaging(new Paging(2,Strava.MAX_PAGE_SIZE));
+		assertEquals(1,paging.size());
+	}
 
 	@Test
 	public void testIgnoreFirstN_valid() {

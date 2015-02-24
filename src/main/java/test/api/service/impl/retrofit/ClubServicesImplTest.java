@@ -520,6 +520,20 @@ public class ClubServicesImplTest {
 		assertNotNull(response);
 		assertEquals(Boolean.FALSE, response.getSuccess());
 	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllClubMembers() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	// TODO Other test cases
+	public void testListAllRecentClubActivities() {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
 
 	private ClubServices getClubService() {
 		if (this.clubService == null) {
