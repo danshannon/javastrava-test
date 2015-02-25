@@ -15,7 +15,10 @@ import java.util.List;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.StravaStatistics;
+import javastrava.api.v3.model.reference.StravaFollowerState;
 import javastrava.api.v3.model.reference.StravaGender;
+import javastrava.api.v3.model.reference.StravaMeasurementMethod;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.AthleteServices;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -89,15 +92,15 @@ public class AthleteServicesImplTest {
 	public void testGetAuthenticatedAthlete() {
 		AthleteServices service = getService();
 		StravaAthlete athlete = service.getAuthenticatedAthlete();
-		assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, athlete.getId());
+		validateAthlete(athlete,TestUtils.ATHLETE_AUTHENTICATED_ID,StravaResourceState.DETAILED);
+
 	}
 
 	@Test
 	public void testGetAthlete_validAthlete() {
 		AthleteServices service = getService();
 		StravaAthlete athlete = service.getAthlete(TestUtils.ATHLETE_VALID_ID);
-		assertNotNull(athlete);
-		assertEquals(TestUtils.ATHLETE_VALID_ID, athlete.getId());
+		validateAthlete(athlete,TestUtils.ATHLETE_VALID_ID,StravaResourceState.SUMMARY);
 	}
 
 	@Test
@@ -114,9 +117,7 @@ public class AthleteServicesImplTest {
 		StravaAthlete athlete = service.getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
 		assertNotNull(athlete);
 		assertEquals(TestUtils.ATHLETE_PRIVATE_ID, athlete.getId());
-		// StravaAthlete privateAthlete = new StravaAthlete();
-		// privateAthlete.setId(TestUtils.ATHLETE_PRIVATE_ID);
-		// assertEquals(privateAthlete,athlete);
+		validateAthlete(athlete,TestUtils.ATHLETE_PRIVATE_ID,StravaResourceState.SUMMARY);
 	}
 
 	@Test
@@ -129,9 +130,10 @@ public class AthleteServicesImplTest {
 		StravaGender sex = athlete.getSex();
 		String country = athlete.getCountry();
 		athlete.setWeight(92.0f);
-		athlete = service.updateAuthenticatedAthlete(null, null, null, null, new Float(92));
-		athlete = service.updateAuthenticatedAthlete(city, state, country, sex, null);
-
+		StravaAthlete returnedAthlete = service.updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+		validateAthlete(returnedAthlete,athlete.getId(),StravaResourceState.DETAILED);
+		returnedAthlete = service.updateAuthenticatedAthlete(city, state, country, sex, null);
+		validateAthlete(returnedAthlete,athlete.getId(),StravaResourceState.DETAILED);
 	}
 
 	@Test
@@ -245,6 +247,9 @@ public class AthleteServicesImplTest {
 		List<StravaAthlete> friends = service.listAuthenticatedAthleteFriends();
 		assertNotNull(friends);
 		assertFalse(friends.isEmpty());
+		for (StravaAthlete athlete : friends) {
+			validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+		}
 	}
 
 	@Test
@@ -309,6 +314,9 @@ public class AthleteServicesImplTest {
 		List<StravaAthlete> friends = service.listAthleteFriends(TestUtils.ATHLETE_VALID_ID);
 		assertNotNull(friends);
 		assertFalse(friends.size() == 0);
+		for (StravaAthlete athlete : friends) {
+			validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+		}
 	}
 
 	// Test cases
@@ -399,6 +407,9 @@ public class AthleteServicesImplTest {
 		List<StravaAthlete> friends = service.listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
 		assertNotNull(friends);
 		assertFalse(friends.size() == 0);
+		for (StravaAthlete athlete : friends) {
+			validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+		}
 	}
 
 	// 2. Invalid other athlete
@@ -528,6 +539,126 @@ public class AthleteServicesImplTest {
 
 	private AthleteServices getServiceWithoutWriteAccess() {
 		return AthleteServicesImpl.implementation(TestUtils.getValidTokenWithoutWriteAccess());
+	}
+	
+	private void validateAthlete(StravaAthlete athlete, Integer expectedId, StravaResourceState state) {
+		assertNotNull(athlete);
+		assertEquals(expectedId, athlete.getId());
+		assertNotNull(athlete.getResourceState());
+		assertEquals(state,athlete.getResourceState());
+		
+		if (athlete.getResourceState() == StravaResourceState.DETAILED) {
+			// Not returned because it's not part of the API for detailed athlete returns
+			assertNull(athlete.getApproveFollowers());
+			assertNotNull(athlete.getBikes());
+			assertNotNull(athlete.getCity());
+			assertNotNull(athlete.getClubs());
+			assertNotNull(athlete.getCountry());
+			assertNotNull(athlete.getCreatedAt());
+			assertNotNull(athlete.getDatePreference());
+			assertNotNull(athlete.getEmail());
+			assertNotNull(athlete.getFirstname());
+			// Is NULL because this IS the authenticated athlete and you can't follow yourself 
+			assertNull(athlete.getFollower());
+			assertNotNull(athlete.getFollowerCount());
+			// Is NULL because this is the authenticated athlete and you can't follow yourself
+			assertNull(athlete.getFriend());
+			assertNotNull(athlete.getFriendCount());
+			assertNotNull(athlete.getFtp());
+			assertNotNull(athlete.getLastname());
+			assertNotNull(athlete.getMeasurementPreference());
+			assertFalse(StravaMeasurementMethod.UNKNOWN == athlete.getMeasurementPreference());
+			assertNotNull(athlete.getMutualFriendCount());
+			assertEquals(new Integer(0),athlete.getMutualFriendCount());
+			assertNotNull(athlete.getPremium());
+			assertNotNull(athlete.getProfile());
+			assertNotNull(athlete.getProfileMedium());
+			assertNotNull(athlete.getResourceState());
+			assertNotNull(athlete.getSex());
+			assertNotNull(athlete.getShoes());
+			assertNotNull(athlete.getState());
+			assertNotNull(athlete.getUpdatedAt());
+			// Not part of detailed data
+			assertNull(athlete.getWeight());
+			assertNotNull(athlete.getBadgeTypeId());
+		}
+		if (athlete.getResourceState() == StravaResourceState.SUMMARY) {
+			// Not part of summary data
+			assertNull(athlete.getApproveFollowers());
+			// Not part of summary data
+			assertNull(athlete.getBikes());
+			assertNotNull(athlete.getCity());
+			// Not part of summary data
+			assertNull(athlete.getClubs());
+			assertNotNull(athlete.getCountry());
+			assertNotNull(athlete.getCreatedAt());
+			// Not part of summary data
+			assertNull(athlete.getDatePreference());
+			// Not part of summary data
+			assertNull(athlete.getEmail());
+			assertNotNull(athlete.getFirstname());
+			if (athlete.getFollower() != null) {
+				assertFalse(StravaFollowerState.UNKNOWN == athlete.getFollower());
+			}
+			// Not part of summary data
+			assertNull(athlete.getFollowerCount());
+			if (athlete.getFriend() != null) {
+				assertFalse(StravaFollowerState.UNKNOWN == athlete.getFriend());
+			}
+			assertNull(athlete.getFriendCount());
+			// Not part of summary data
+			assertNull(athlete.getFtp());
+			assertNotNull(athlete.getLastname());
+			// Not part of summary data
+			assertNull(athlete.getMeasurementPreference());
+			// Not part of summary data
+			assertNull(athlete.getMutualFriendCount());
+			assertNotNull(athlete.getPremium());
+			assertNotNull(athlete.getProfile());
+			assertNotNull(athlete.getProfileMedium());
+			// Not part of summary data
+			assertNotNull(athlete.getResourceState());
+			assertNotNull(athlete.getSex());
+			// Not part of summary data
+			assertNull(athlete.getShoes());
+			assertNotNull(athlete.getState());
+			assertNotNull(athlete.getUpdatedAt());
+			// Not part of summary data
+			assertNull(athlete.getWeight());
+			assertNotNull(athlete.getBadgeTypeId());
+		}
+		if (athlete.getResourceState() == StravaResourceState.META) {
+			assertNull(athlete.getApproveFollowers());
+			assertNull(athlete.getBikes());
+			assertNull(athlete.getCity());
+			assertNull(athlete.getClubs());
+			assertNull(athlete.getCountry());
+			assertNull(athlete.getCreatedAt());
+			assertNull(athlete.getDatePreference());
+			assertNull(athlete.getEmail());
+			assertNull(athlete.getFirstname());
+			assertNull(athlete.getFollower());
+			assertNull(athlete.getFollowerCount());
+			assertNull(athlete.getFriend());
+			assertNull(athlete.getFriendCount());
+			assertNull(athlete.getFtp());
+			assertNull(athlete.getLastname());
+			assertNull(athlete.getMeasurementPreference());
+			assertNull(athlete.getMutualFriendCount());
+			assertNull(athlete.getPremium());
+			assertNull(athlete.getProfile());
+			assertNull(athlete.getProfileMedium());
+			assertNull(athlete.getResourceState());
+			assertNull(athlete.getSex());
+			assertNull(athlete.getShoes());
+			assertNull(athlete.getState());
+			assertNull(athlete.getUpdatedAt());
+			assertNull(athlete.getWeight());
+			assertNull(athlete.getBadgeTypeId());			
+		}
+		if (athlete.getResourceState() == StravaResourceState.UNKNOWN) {
+			fail("Cannot have an athlete with resource state == \"" + StravaResourceState.UNKNOWN + "\"");
+		}
 	}
 
 }

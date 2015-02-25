@@ -726,9 +726,15 @@ public class SegmentServicesImplTest {
 	
 	@Test
 	// TODO Other test cases
-	public void testGetAllSegmentLeaderboard() {
+	public void testGetAllSegmentLeaderboard_validSegment() {
 		StravaSegmentLeaderboard leaderboard = service().getAllSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID);
 		assertNotNull(leaderboard);
+		assertNotNull(leaderboard.getEntries());
+		int lastPosition = 1;
+		for (StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
+			assertTrue(entry.getRank() >= lastPosition);
+			lastPosition = entry.getRank();
+		}
 	}
 	
 	@Test
