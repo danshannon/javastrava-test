@@ -541,10 +541,9 @@ public class AthleteServicesImplTest {
 		return AthleteServicesImpl.implementation(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 	
-	private void validateAthlete(StravaAthlete athlete, Integer expectedId, StravaResourceState state) {
+	public static void validateAthlete(StravaAthlete athlete, Integer expectedId, StravaResourceState state) {
 		assertNotNull(athlete);
 		assertEquals(expectedId, athlete.getId());
-		assertNotNull(athlete.getResourceState());
 		assertEquals(state,athlete.getResourceState());
 		
 		if (athlete.getResourceState() == StravaResourceState.DETAILED) {
@@ -581,6 +580,7 @@ public class AthleteServicesImplTest {
 			// Not part of detailed data
 			assertNull(athlete.getWeight());
 			assertNotNull(athlete.getBadgeTypeId());
+			return;
 		}
 		if (athlete.getResourceState() == StravaResourceState.SUMMARY) {
 			// Not part of summary data
@@ -626,6 +626,7 @@ public class AthleteServicesImplTest {
 			// Not part of summary data
 			assertNull(athlete.getWeight());
 			assertNotNull(athlete.getBadgeTypeId());
+			return;
 		}
 		if (athlete.getResourceState() == StravaResourceState.META) {
 			assertNull(athlete.getApproveFollowers());
@@ -648,17 +649,15 @@ public class AthleteServicesImplTest {
 			assertNull(athlete.getPremium());
 			assertNull(athlete.getProfile());
 			assertNull(athlete.getProfileMedium());
-			assertNull(athlete.getResourceState());
 			assertNull(athlete.getSex());
 			assertNull(athlete.getShoes());
 			assertNull(athlete.getState());
 			assertNull(athlete.getUpdatedAt());
 			assertNull(athlete.getWeight());
-			assertNull(athlete.getBadgeTypeId());			
+			assertNull(athlete.getBadgeTypeId());
+			return;
 		}
-		if (athlete.getResourceState() == StravaResourceState.UNKNOWN) {
-			fail("Cannot have an athlete with resource state == \"" + StravaResourceState.UNKNOWN + "\"");
-		}
+		fail("Athlete returned with unexpected resource state " + state + " : " + athlete);
 	}
 
 }

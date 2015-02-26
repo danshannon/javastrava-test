@@ -1,6 +1,7 @@
 package test.api.service.impl.retrofit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -15,10 +16,13 @@ import java.util.TimeZone;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityZone;
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.model.StravaBestRunningEffort;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.StravaLap;
+import javastrava.api.v3.model.StravaMap;
 import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.model.StravaSplit;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.ActivityServices;
@@ -164,9 +168,24 @@ public class ActivityServicesImplTest {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
+		// TODO This is a workaround for a Strava bug (Issue javastrava-api #11)
+		for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
+			if (effort.getActivity().getResourceState() == null) {
+				effort.getActivity().setResourceState(StravaResourceState.META);
+			}
+		}
+		
+		// TODO This is a workaround for a Strava bug (Issue javastrava-api #12)
+		for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
+			if (effort.getAthlete().getResourceState() == null) {
+				effort.getAthlete().setResourceState(StravaResourceState.META);
+			}
+		}
+		
 		assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, activity);
 		assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), StravaResourceState.DETAILED,
 				activity.getResourceState());
+		validateActivity(activity, TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
 	}
 
 	/**
@@ -1663,4 +1682,298 @@ public class ActivityServicesImplTest {
 		// TODO Not yet implemented
 		fail("Not yet implemented");
 	}
+	
+	public static void validateActivity(StravaActivity activity, Integer id, StravaResourceState state) {
+		assertNotNull(activity);
+		assertEquals(id,activity.getId());
+		assertEquals(state,activity.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(activity.getAchievementCount());
+			assertNotNull(activity.getAthlete());
+			assertTrue(activity.getAthlete().getResourceState() == StravaResourceState.META || activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY);
+			AthleteServicesImplTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
+			assertNotNull(activity.getName());
+			assertNotNull(activity.getDistance());
+			assertTrue(activity.getDistance() > 0);
+			assertNotNull(activity.getAthleteCount());
+			assertNotNull(activity.getAverageCadence());
+			assertNotNull(activity.getAverageHeartrate());
+			assertNotNull(activity.getAverageSpeed());
+			// OPTIONAL assertNotNull(activity.getAverageTemp());
+			assertNotNull(activity.getAverageWatts());
+			if (activity.getType() == StravaActivityType.RUN) {
+				assertNotNull(activity.getBestEfforts());
+				for (StravaBestRunningEffort effort : activity.getBestEfforts()) {
+					validateBestEffort(effort,effort.getId(),effort.getResourceState());
+				}
+				assertNotNull(activity.getSplitsMetric());
+				for (StravaSplit split : activity.getSplitsMetric()) {
+					validateSplit(split);
+				}
+				assertNotNull(activity.getSplitsStandard());
+				for (StravaSplit split : activity.getSplitsStandard()) {
+					validateSplit(split);
+				}
+			}
+			assertNotNull(activity.getCalories());
+			assertNotNull(activity.getCommentCount());
+			assertNotNull(activity.getCommute());
+			// OPTIONAL assertNotNull(activity.getDescription());
+			assertNotNull(activity.getDeviceWatts());
+			assertNotNull(activity.getElapsedTime());
+			assertNotNull(activity.getEndLatlng());
+			assertNotNull(activity.getExternalId());
+			assertNotNull(activity.getFlagged());
+			assertNotNull(activity.getGear());
+			assertNotNull(activity.getGearId());
+			GearServicesImplTest.validateGear(activity.getGear(),activity.getGearId(),activity.getGear().getResourceState());
+			assertNotNull(activity.getHasKudoed());
+			assertNotNull(activity.getKilojoules());
+			assertNotNull(activity.getKudosCount());
+			assertNotNull(activity.getLocationCity());
+			assertNotNull(activity.getLocationCountry());
+			assertNotNull(activity.getLocationState());
+			assertNotNull(activity.getManual());
+			assertNotNull(activity.getMap());
+			validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState());
+			assertNotNull(activity.getMaxHeartrate());
+			assertNotNull(activity.getMaxSpeed());
+			assertNotNull(activity.getMovingTime());
+			assertNotNull(activity.getName());
+			assertNotNull(activity.getPhotoCount());
+			assertNotNull(activity.getPrivateActivity());
+			assertNotNull(activity.getSegmentEfforts());
+			for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
+				SegmentEffortServicesImplTest.validateSegmentEffort(effort, effort.getId(), effort.getResourceState());
+			}
+			assertNotNull(activity.getStartDate());
+			assertNotNull(activity.getStartDateLocal());
+			assertNotNull(activity.getStartLatlng());
+			assertNotNull(activity.getTimezone());
+			assertNotNull(activity.getTotalElevationGain());
+			assertNotNull(activity.getTrainer());
+			assertNotNull(activity.getTruncated());
+			assertNotNull(activity.getType());
+			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
+			assertNotNull(activity.getWeightedAverageWatts());
+			assertNotNull(activity.getWorkoutType());
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(activity.getAchievementCount());
+			assertNotNull(activity.getAthlete());
+			assertTrue(activity.getAthlete().getResourceState() == StravaResourceState.META || activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY);
+			AthleteServicesImplTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
+			assertNotNull(activity.getName());
+			assertNotNull(activity.getDistance());
+			assertTrue(activity.getDistance() > 0);
+			assertNotNull(activity.getAthleteCount());
+			assertNotNull(activity.getAverageCadence());
+			assertNotNull(activity.getAverageHeartrate());
+			assertNotNull(activity.getAverageSpeed());
+			assertNotNull(activity.getAverageTemp());
+			assertNotNull(activity.getAverageWatts());
+			assertNull(activity.getBestEfforts());
+			assertNull(activity.getCalories());
+			assertNotNull(activity.getCommentCount());
+			assertNotNull(activity.getCommute());
+			assertNull(activity.getDescription());
+			assertNotNull(activity.getDeviceWatts());
+			assertNotNull(activity.getElapsedTime());
+			assertNotNull(activity.getEndLatlng());
+			assertNotNull(activity.getExternalId());
+			assertNotNull(activity.getFlagged());
+			assertNull(activity.getGear());
+			assertNotNull(activity.getGearId());
+			assertNotNull(activity.getHasKudoed());
+			assertNotNull(activity.getKilojoules());
+			assertNotNull(activity.getKudosCount());
+			assertNotNull(activity.getLocationCity());
+			assertNotNull(activity.getLocationCountry());
+			assertNotNull(activity.getLocationState());
+			assertNotNull(activity.getManual());
+			assertNotNull(activity.getMap());
+			validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState());
+			assertNotNull(activity.getMaxHeartrate());
+			assertNotNull(activity.getMaxSpeed());
+			assertNotNull(activity.getMovingTime());
+			assertNotNull(activity.getName());
+			assertNotNull(activity.getPhotoCount());
+			assertNotNull(activity.getPrivateActivity());
+			assertNull(activity.getSegmentEfforts());
+			assertNull(activity.getSplitsMetric());
+			assertNull(activity.getSplitsStandard());
+			assertNotNull(activity.getStartDate());
+			assertNotNull(activity.getStartDateLocal());
+			assertNotNull(activity.getStartLatlng());
+			assertNotNull(activity.getTimezone());
+			assertNotNull(activity.getTotalElevationGain());
+			assertNotNull(activity.getTrainer());
+			assertNotNull(activity.getTruncated());
+			assertNotNull(activity.getType());
+			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
+			assertNotNull(activity.getWeightedAverageWatts());
+			assertNotNull(activity.getWorkoutType());
+			return;
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(activity.getAchievementCount());
+			assertNull(activity.getAthlete());
+			assertNull(activity.getName());
+			assertNull(activity.getDistance());
+			assertNull(activity.getAthleteCount());
+			assertNull(activity.getAverageCadence());
+			assertNull(activity.getAverageHeartrate());
+			assertNull(activity.getAverageSpeed());
+			assertNull(activity.getAverageTemp());
+			assertNull(activity.getAverageWatts());
+			assertNull(activity.getBestEfforts());
+			assertNull(activity.getCalories());
+			assertNull(activity.getCommentCount());
+			assertNull(activity.getCommute());
+			assertNull(activity.getDescription());
+			assertNull(activity.getDeviceWatts());
+			assertNull(activity.getElapsedTime());
+			assertNull(activity.getEndLatlng());
+			assertNull(activity.getExternalId());
+			assertNull(activity.getFlagged());
+			assertNull(activity.getGear());
+			assertNull(activity.getGearId());
+			assertNull(activity.getHasKudoed());
+			assertNull(activity.getKilojoules());
+			assertNull(activity.getKudosCount());
+			assertNull(activity.getLocationCity());
+			assertNull(activity.getLocationCountry());
+			assertNull(activity.getLocationState());
+			assertNull(activity.getManual());
+			assertNull(activity.getMap());
+			assertNull(activity.getMaxHeartrate());
+			assertNull(activity.getMaxSpeed());
+			assertNull(activity.getMovingTime());
+			assertNull(activity.getName());
+			assertNull(activity.getPhotoCount());
+			assertNull(activity.getPrivateActivity());
+			assertNull(activity.getSegmentEfforts());
+			assertNull(activity.getSplitsMetric());
+			assertNull(activity.getSplitsStandard());
+			assertNull(activity.getStartDate());
+			assertNull(activity.getStartDateLocal());
+			assertNull(activity.getStartLatlng());
+			assertNull(activity.getTimezone());
+			assertNull(activity.getTotalElevationGain());
+			assertNull(activity.getTrainer());
+			assertNull(activity.getTruncated());
+			assertNull(activity.getType());
+			assertNull(activity.getWeightedAverageWatts());
+			assertNull(activity.getWorkoutType());
+			return;
+		}
+		fail("Unexpected activity state " + state + " for activity " + activity);
+	}
+
+	/**
+	 * @param split
+	 */
+	private static void validateSplit(StravaSplit split) {
+		assertNotNull(split);
+		assertNotNull(split.getDistance());
+		assertNotNull(split.getElapsedTime());
+		assertNotNull(split.getElevationDifference());
+		assertNotNull(split.getMovingTime());
+		assertNotNull(split.getSplit());
+		
+	}
+
+	/**
+	 * @param effort
+	 * @param id
+	 * @param resourceState
+	 */
+	public static void validateBestEffort(StravaBestRunningEffort effort, Integer id, StravaResourceState state) {
+		assertNotNull(effort);
+		assertEquals(id, effort.getId());
+		assertEquals(state, effort.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(effort.getActivity());
+			// NB Don't validate the activity - that way lies 1 Infinite Loop
+			assertNotNull(effort.getAthlete());
+			AthleteServicesImplTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+			assertNotNull(effort.getDistance());
+			assertNotNull(effort.getElapsedTime());
+			assertNotNull(effort.getKomRank());
+			assertNotNull(effort.getMovingTime());
+			assertNotNull(effort.getName());
+			assertNotNull(effort.getPrRank());
+			assertNotNull(effort.getSegment());
+			SegmentServicesImplTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
+			assertNotNull(effort.getStartDate());
+			assertNotNull(effort.getStartDateLocal());
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(effort.getActivity());
+			// NB Don't validate the activity - that way lies 1 Infinite Loop
+			assertNotNull(effort.getAthlete());
+			AthleteServicesImplTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+			assertNotNull(effort.getDistance());
+			assertNotNull(effort.getElapsedTime());
+			assertNotNull(effort.getKomRank());
+			assertNotNull(effort.getMovingTime());
+			assertNotNull(effort.getName());
+			assertNotNull(effort.getPrRank());
+			assertNotNull(effort.getSegment());
+			SegmentServicesImplTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
+			assertNotNull(effort.getStartDate());
+			assertNotNull(effort.getStartDateLocal());
+			return;
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(effort.getActivity());
+			// NB Don't validate the activity - that way lies 1 Infinite Loop
+			assertNull(effort.getAthlete());
+			assertNull(effort.getDistance());
+			assertNull(effort.getElapsedTime());
+			assertNull(effort.getKomRank());
+			assertNull(effort.getMovingTime());
+			assertNull(effort.getName());
+			assertNull(effort.getPrRank());
+			assertNull(effort.getSegment());
+			assertNull(effort.getStartDate());
+			assertNull(effort.getStartDateLocal());
+			return;
+		}
+		fail("Unexpected state " + state + " for best effort " + effort);
+
+	}
+
+	/**
+	 * @param map
+	 * @param id
+	 * @param state
+	 */
+	public static void validateMap(StravaMap map, String id, StravaResourceState state) {
+		assertNotNull(map);
+		assertEquals(id,map.getId());
+		assertEquals(state,map.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(map.getPolyline());
+			assertNotNull(map.getSummaryPolyline());
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(map.getPolyline());
+			assertNotNull(map.getSummaryPolyline());
+		}
+		if (state == StravaResourceState.META) {
+			assertNotNull(map.getPolyline());
+			assertNotNull(map.getSummaryPolyline());
+		}
+		if (state == StravaResourceState.UNKNOWN || state == StravaResourceState.UPDATING) {
+			fail("Unexpected state " + state + " for map " + map);
+		}
+		
+	}
+	
 }

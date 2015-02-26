@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaGear;
+import javastrava.api.v3.model.reference.StravaFrameType;
+import javastrava.api.v3.model.reference.StravaGearType;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.GearServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.GearServicesImpl;
@@ -24,7 +27,7 @@ import test.utils.TestUtils;
  *
  */
 public class GearServicesImplTest {
-	private GearServices gearService;
+	private GearServices	gearService;
 
 	@Before
 	public void setUp() {
@@ -88,8 +91,8 @@ public class GearServicesImplTest {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link GearServicesImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
-	 * strategy is working)
+	 * Test that when we ask for a {@link GearServicesImpl service implementation} for a second time, we get the SAME ONE as the
+	 * first time (i.e. the caching strategy is working)
 	 * </p>
 	 */
 	@Test
@@ -101,7 +104,8 @@ public class GearServicesImplTest {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link GearServicesImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
+	 * Test that when we ask for a {@link GearServicesImpl service implementation} for a second, valid, different token, we get a
+	 * DIFFERENT implementation
 	 * </p>
 	 * 
 	 * @throws UnauthorizedException
@@ -164,5 +168,51 @@ public class GearServicesImplTest {
 	private GearServices getGearServiceWithoutWriteAccess() {
 		this.gearService = null;
 		return GearServicesImpl.implementation(TestUtils.getValidTokenWithoutWriteAccess());
+	}
+
+	/**
+	 * @param gear
+	 * @param id
+	 * @param resourceState
+	 */
+	public static void validateGear(StravaGear gear, String id, StravaResourceState resourceState) {
+		assertNotNull(gear);
+		assertEquals(gear.getId(), id);
+		if (resourceState == StravaResourceState.DETAILED) {
+			assertEquals(resourceState, gear.getResourceState());
+			assertNotNull(gear.getDistance());
+			if (gear.getGearType() == StravaGearType.BIKE) {
+				assertNotNull(gear.getFrameType());
+				assertFalse(gear.getFrameType() == StravaFrameType.UNKNOWN);
+			}
+			assertNotNull(gear.getBrandName());
+			assertNotNull(gear.getDescription());
+			assertNotNull(gear.getName());
+			assertNotNull(gear.getPrimary());
+			assertNotNull(gear.getModelName());
+		}
+		if (resourceState == StravaResourceState.SUMMARY) {
+			assertEquals(resourceState, gear.getResourceState());
+			assertNotNull(gear.getDistance());
+			assertNull(gear.getBrandName());
+			assertNull(gear.getDescription());
+			assertNull(gear.getFrameType());
+			assertNull(gear.getModelName());
+			assertNotNull(gear.getName());
+			assertNotNull(gear.getPrimary());
+		}
+		if (resourceState == StravaResourceState.META) {
+			assertEquals(resourceState, gear.getResourceState());
+			assertNull(gear.getDistance());
+			assertNull(gear.getBrandName());
+			assertNull(gear.getDescription());
+			assertNull(gear.getFrameType());
+			assertNull(gear.getModelName());
+			assertNull(gear.getName());
+			assertNull(gear.getPrimary());
+		}
+		if (resourceState == StravaResourceState.UNKNOWN || resourceState == StravaResourceState.UPDATING) {
+			fail("Unexpected resource state " + resourceState);
+		}
 	}
 }
