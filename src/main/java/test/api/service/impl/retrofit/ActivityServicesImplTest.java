@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityZone;
+import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaBestRunningEffort;
 import javastrava.api.v3.model.StravaComment;
@@ -24,7 +25,10 @@ import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.StravaSplit;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.model.reference.StravaActivityZoneType;
+import javastrava.api.v3.model.reference.StravaPhotoType;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.model.reference.StravaWorkoutType;
 import javastrava.api.v3.service.ActivityServices;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.NotFoundException;
@@ -40,7 +44,7 @@ import test.utils.TestUtils;
 
 /**
  * <p>
- * Unit tests for {@link ActivityServicesImpl}
+ * Unit/integration tests for {@link ActivityServicesImpl}
  * </p>
  * 
  * @author Dan Shannon
@@ -152,6 +156,7 @@ public class ActivityServicesImplTest {
 		assertNotNull("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is null", activity.getSegmentEfforts());
 		assertNotEquals("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is empty", 0, activity.getSegmentEfforts()
 				.size());
+		validateActivity(activity);
 	}
 
 	/**
@@ -168,20 +173,6 @@ public class ActivityServicesImplTest {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
-		// TODO This is a workaround for a Strava bug (Issue javastrava-api #11)
-		for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
-			if (effort.getActivity().getResourceState() == null) {
-				effort.getActivity().setResourceState(StravaResourceState.META);
-			}
-		}
-		
-		// TODO This is a workaround for a Strava bug (Issue javastrava-api #12)
-		for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
-			if (effort.getAthlete().getResourceState() == null) {
-				effort.getAthlete().setResourceState(StravaResourceState.META);
-			}
-		}
-		
 		assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, activity);
 		assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), StravaResourceState.DETAILED,
 				activity.getResourceState());
@@ -205,6 +196,7 @@ public class ActivityServicesImplTest {
 		assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, activity);
 		assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), StravaResourceState.SUMMARY,
 				activity.getResourceState());
+		validateActivity(activity, TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
 	}
 
 	/**
@@ -222,6 +214,7 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity);
 		assertNotNull("Returned null segment efforts for known activity, when they were expected", activity.getSegmentEfforts());
+		validateActivity(activity, TestUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
 	}
 
 	/**
@@ -259,6 +252,10 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Authenticated athlete's activities returned as null", activities);
 		assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size());
+		for (StravaActivity activity : activities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
 	}
 
 	/**
@@ -277,6 +274,8 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = service.listAuthenticatedAthleteActivities(calendar, null);
 		for (StravaActivity activity : activities) {
 			assertTrue(activity.getStartDate().before(calendar.getTime()));
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
 		}
 	}
 
@@ -296,6 +295,8 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = service.listAuthenticatedAthleteActivities(null, calendar);
 		for (StravaActivity activity : activities) {
 			assertTrue(activity.getStartDate().after(calendar.getTime()));
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
 		}
 	}
 
@@ -318,6 +319,8 @@ public class ActivityServicesImplTest {
 		for (StravaActivity activity : activities) {
 			assertTrue(activity.getStartDate().before(before.getTime()));
 			assertTrue(activity.getStartDate().after(after.getTime()));
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
 		}
 	}
 
@@ -342,6 +345,8 @@ public class ActivityServicesImplTest {
 		for (StravaActivity activity : activities) {
 			assertTrue(activity.getStartDate().before(before.getTime()));
 			assertTrue(activity.getStartDate().after(after.getTime()));
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity, activity.getId(), StravaResourceState.DETAILED);
 		}
 
 	}
@@ -369,6 +374,10 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = service.listAuthenticatedAthleteActivities(new Paging(2, 201));
 		assertNotNull("Returned null list of activities", activities);
 		assertEquals(201, activities.size());
+		for (StravaActivity activity : activities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
 	}
 
 	/**
@@ -388,15 +397,27 @@ public class ActivityServicesImplTest {
 	public void testListAuthenticatedAthleteActivities_pageNumberAndSize() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		List<StravaActivity> defaultActivities = service.listAuthenticatedAthleteActivities(new Paging(1, 2));
+		for (StravaActivity activity : defaultActivities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
 
 		assertEquals("Default page of activities should be of size 2", 2, defaultActivities.size());
 
 		List<StravaActivity> firstPageOfActivities = service.listAuthenticatedAthleteActivities(new Paging(1, 1));
+		for (StravaActivity activity : firstPageOfActivities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
 
 		assertEquals("First page of activities should be of size 1", 1, firstPageOfActivities.size());
 		assertEquals("Different first page of activities to expected", defaultActivities.get(0).getId(), firstPageOfActivities.get(0).getId());
 
 		List<StravaActivity> secondPageOfActivities = service.listAuthenticatedAthleteActivities(new Paging(2, 1));
+		for (StravaActivity activity : secondPageOfActivities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
 
 		assertEquals("Second page of activities should be of size 1", 1, firstPageOfActivities.size());
 		assertEquals("Different second page of activities to expected", defaultActivities.get(1).getId(), secondPageOfActivities.get(0).getId());
@@ -452,7 +473,17 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listAuthenticatedAthleteActivities(new Paging(1, 2, 1, 0));
 		assertNotNull(activities);
 		assertEquals(1, activities.size());
+		for (StravaActivity activity : activities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
+
 		List<StravaActivity> expectedActivities = getActivityService().listAuthenticatedAthleteActivities();
+		for (StravaActivity activity : expectedActivities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
+
 		assertEquals(expectedActivities.get(1), activities.get(0));
 	}
 
@@ -464,7 +495,17 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listAuthenticatedAthleteActivities(new Paging(1, 2, 0, 1));
 		assertNotNull(activities);
 		assertEquals(1, activities.size());
+		for (StravaActivity activity : activities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
+
 		List<StravaActivity> expectedActivities = getActivityService().listAuthenticatedAthleteActivities();
+		for (StravaActivity activity : expectedActivities) {
+			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID,activity.getAthlete().getId());
+			validateActivity(activity);
+		}
+
 		assertEquals(expectedActivities.get(0), activities.get(0));
 	}
 
@@ -483,6 +524,10 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Null list of photos returned for activity", photos);
 		assertNotEquals("No photos returned although some were expected", 0, photos.size());
+		for (StravaPhoto photo : photos) {
+			assertEquals(TestUtils.ACTIVITY_WITH_PHOTOS,photo.getActivityId());
+			validatePhoto(photo, photo.getId(), photo.getResourceState());
+		}
 	}
 
 	/**
@@ -567,6 +612,7 @@ public class ActivityServicesImplTest {
 		// Load it from Strava
 		StravaActivity stravaActivity = service.getActivity(activity.getId());
 		assertNotNull(stravaActivity);
+		validateActivity(stravaActivity,stravaActivity.getId(),stravaActivity.getResourceState());
 
 		// And delete it
 		service.deleteActivity(activity.getId());
@@ -777,6 +823,14 @@ public class ActivityServicesImplTest {
 		assertNotNull("Returned null list of comments (without markdown) when some were expected");
 		assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!", comments.size(),
 				commentsWithoutMarkdown.size());
+		for (StravaComment comment : comments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
+		for (StravaComment comment : commentsWithoutMarkdown) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 	}
 
 	/**
@@ -798,6 +852,10 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Returned null list of comments when an empty array was expected", comments);
 		assertEquals("Returned a non-empty list of comments when none were expected", 0, comments.size());
+		for (StravaComment comment : comments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 	}
 
 	@Test
@@ -811,15 +869,27 @@ public class ActivityServicesImplTest {
 	public void testListActivityComments_pageNumberAndSize() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		List<StravaComment> defaultComments = service.listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE, new Paging(1, 2));
+		for (StravaComment comment : defaultComments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 
 		assertEquals("Default page of comments should be of size 2", 2, defaultComments.size());
 
 		List<StravaComment> firstPageOfComments = service.listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE, new Paging(1, 1));
+		for (StravaComment comment : firstPageOfComments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 
 		assertEquals("First page of comments should be of size 1", 1, firstPageOfComments.size());
 		assertEquals("Different first page of comments to expected", defaultComments.get(0).getId(), firstPageOfComments.get(0).getId());
 
 		List<StravaComment> secondPageOfComments = service.listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE, new Paging(2, 1));
+		for (StravaComment comment : secondPageOfComments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 
 		assertEquals("Second page of activities should be of size 1", 1, firstPageOfComments.size());
 		assertEquals("Different second page of comments to expected", defaultComments.get(1).getId(), secondPageOfComments.get(0).getId());
@@ -841,6 +911,10 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Asked for one comment in a page, got null", comments);
 		assertEquals("Asked for one comment in a page, got " + comments.size(), 1, comments.size());
+		for (StravaComment comment : comments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 	}
 
 	/**
@@ -899,6 +973,14 @@ public class ActivityServicesImplTest {
 		assertNotNull(comments);
 		assertEquals(1, comments.size());
 		assertEquals(expectedComments.get(1), comments.get(0));
+		for (StravaComment comment : comments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
+		for (StravaComment comment : expectedComments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 	}
 
 	@Test
@@ -908,6 +990,14 @@ public class ActivityServicesImplTest {
 		assertNotNull(comments);
 		assertEquals(1, comments.size());
 		assertEquals(expectedComments.get(0), comments.get(0));
+		for (StravaComment comment : comments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
+		for (StravaComment comment : expectedComments) {
+			assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
+			validateComment(comment, comment.getId(), comment.getResourceState());
+		}
 	}
 
 	/**
@@ -955,6 +1045,9 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Returned null kudos array for activity with kudos", kudoers);
 		assertNotEquals("Returned empty kudos array for activity with kudos", 0, kudoers.size());
+		for (StravaAthlete athlete : kudoers) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
 	}
 
 	/**
@@ -1026,15 +1119,24 @@ public class ActivityServicesImplTest {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 
 		List<StravaAthlete> defaultKudoers = service.listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(1, 2));
+		for (StravaAthlete athlete : defaultKudoers) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
 
 		assertEquals("Default kudoers should be of length 2", 2, defaultKudoers.size());
 
 		List<StravaAthlete> firstPage = service.listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(1, 1));
+		for (StravaAthlete athlete : firstPage) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
 
 		assertEquals("Asking for page of size 1 should return an array of length 1", 1, firstPage.size());
 		assertEquals("Page 1 of size 1 should contain the same athlete as the first athlete returned", defaultKudoers.get(0).getId(), firstPage.get(0).getId());
 
 		List<StravaAthlete> secondPage = service.listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(2, 1));
+		for (StravaAthlete athlete : secondPage) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
 
 		assertEquals("Asking for page of size 1 should return an array of length 1", 1, secondPage.size());
 		assertEquals("Page 2 of size 1 should contain the same athlete as the second athlete returned", defaultKudoers.get(1).getId(), secondPage.get(0)
@@ -1054,9 +1156,12 @@ public class ActivityServicesImplTest {
 	public void testListActivityKudoers_pageSize() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		List<StravaAthlete> kudoers = service.listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(1, 1));
+		for (StravaAthlete athlete : kudoers) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
 
 		assertNotNull("Asked for one kudoer in a page, got null", kudoers);
-		assertEquals("Asked for one comment in a page, got " + kudoers.size(), 1, kudoers.size());
+		assertEquals("Asked for one kudoer in a page, got " + kudoers.size(), 1, kudoers.size());
 	}
 
 	/**
@@ -1111,8 +1216,16 @@ public class ActivityServicesImplTest {
 		List<StravaAthlete> athletes = getActivityService().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(1, 2, 1, 0));
 		assertNotNull(athletes);
 		assertEquals(1, athletes.size());
+		for (StravaAthlete athlete : athletes) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
+
 		List<StravaAthlete> expectedAthletes = getActivityService().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
 		assertEquals(expectedAthletes.get(1), athletes.get(0));
+		for (StravaAthlete athlete : expectedAthletes) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
+
 	}
 
 	@Test
@@ -1120,8 +1233,16 @@ public class ActivityServicesImplTest {
 		List<StravaAthlete> athletes = getActivityService().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, new Paging(1, 2, 0, 1));
 		assertNotNull(athletes);
 		assertEquals(1, athletes.size());
+		for (StravaAthlete athlete : athletes) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
+
 		List<StravaAthlete> expectedAthletes = getActivityService().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
 		assertEquals(expectedAthletes.get(0), athletes.get(0));
+		for (StravaAthlete athlete : expectedAthletes) {
+			AthleteServicesImplTest.validateAthlete(athlete,athlete.getId(),athlete.getResourceState());
+		}
+
 	}
 
 	/**
@@ -1139,6 +1260,12 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Laps not returned for an activity which should have them", laps);
 		assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+		for (StravaLap lap : laps) {
+			if (lap.getResourceState() != StravaResourceState.META) {
+				assertEquals(TestUtils.ACTIVITY_WITH_LAPS,lap.getActivity().getId());
+			}
+			validateLap(lap,lap.getId(),lap.getResourceState());
+		}
 	}
 
 	/**
@@ -1160,6 +1287,12 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Laps not returned for an activity which should have them", laps);
 		assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+		for (StravaLap lap : laps) {
+			if (lap.getResourceState() != StravaResourceState.META) {
+				assertEquals(TestUtils.ACTIVITY_WITHOUT_LAPS,lap.getActivity().getId());
+			}
+			validateLap(lap,lap.getId(),lap.getResourceState());
+		}
 	}
 
 	/**
@@ -1206,6 +1339,9 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Returned null activity zones for an activity with zones", zones);
 		assertNotEquals("Returned an empty array of activity zones for an activity with zones", 0, zones.size());
+		for (StravaActivityZone zone : zones) {
+			validateActivityZone(zone,zone.getResourceState());
+		}
 	}
 
 	/**
@@ -1286,6 +1422,7 @@ public class ActivityServicesImplTest {
 					fail("Activities not returned in descending start date order");
 				}
 			}
+			validateActivity(activity, activity.getId(), activity.getResourceState());
 		}
 	}
 
@@ -1306,18 +1443,27 @@ public class ActivityServicesImplTest {
 	public void testListFriendsActivities_pageNumberAndSize() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		List<StravaActivity> defaultActivities = service.listFriendsActivities(new Paging(1, 2));
+		for (StravaActivity activity : defaultActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 
 		assertEquals("Default page of activities should be of size 2", 2, defaultActivities.size());
 
 		List<StravaActivity> firstPageOfActivities = service.listFriendsActivities(new Paging(1, 1));
+		for (StravaActivity activity : firstPageOfActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 
 		assertEquals("First page of activities should be of size 1", 1, firstPageOfActivities.size());
-//		assertEquals("Different first page of activities to expected", defaultActivities.get(0).getId(), firstPageOfActivities.get(0).getId());
+		assertEquals("Different first page of activities to expected", defaultActivities.get(0).getId(), firstPageOfActivities.get(0).getId());
 
 		List<StravaActivity> secondPageOfActivities = service.listFriendsActivities(new Paging(2, 1));
+		for (StravaActivity activity : secondPageOfActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 
 		assertEquals("Second page of activities should be of size 1", 1, secondPageOfActivities.size());
-//		assertEquals("Different second page of activities to expected", defaultActivities.get(1).getId(), secondPageOfActivities.get(0).getId());
+		assertEquals("Different second page of activities to expected", defaultActivities.get(1).getId(), secondPageOfActivities.get(0).getId());
 
 	}
 
@@ -1336,6 +1482,9 @@ public class ActivityServicesImplTest {
 
 		assertNotNull("Authenticated athlete's activities returned as null when asking for a page of size 1", activities);
 		assertEquals("Wrong number of activities returned when asking for a page of size 1", 1, activities.size());
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	/**
@@ -1384,8 +1533,9 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listFriendsActivities(new Paging(1, 2, 1, 0));
 		assertNotNull(activities);
 		assertEquals(1, activities.size());
-//		List<StravaActivity> expectedActivities = getActivityService().listFriendsActivities();
-//		assertEquals(expectedActivities.get(1), activities.get(0));
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	@Test
@@ -1393,8 +1543,14 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listFriendsActivities(new Paging(1, 2, 0, 1));
 		assertNotNull(activities);
 		assertEquals(1, activities.size());
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 		List<StravaActivity> expectedActivities = getActivityService().listFriendsActivities();
 		assertEquals(expectedActivities.get(0), activities.get(0));
+		for (StravaActivity activity : expectedActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	/**
@@ -1427,6 +1583,13 @@ public class ActivityServicesImplTest {
 		String name = "testUpdateActivity_validUpdate";
 		activity.setName(name);
 		activity.setId(stravaResponse.getId());
+		
+		// Update
+		stravaResponse = service.updateActivity(activity);
+		
+		// Check that the name is now set
+		assertEquals("Name not updated correctly", name, stravaResponse.getName());
+
 
 		// Change the type
 		activity.setType(StravaActivityType.RIDE);
@@ -1453,25 +1616,22 @@ public class ActivityServicesImplTest {
 		// Get the activity again
 		stravaResponse = service.getActivity(stravaResponse.getId());
 
-		// Check that the name is now set
-		assertEquals("Name not updated correctly", name, stravaResponse.getName());
-
 		// Check that the type is now set
-		assertEquals("Type not updated correctly", StravaActivityType.RIDE, stravaResponse.getType());
+		assertEquals("Type not updated correctly", activity.getType(), stravaResponse.getType());
 
 		// Check that the privacy flag is now set
-		assertEquals("Private ride flag not updated correctly", Boolean.TRUE, stravaResponse.getPrivateActivity());
+		assertEquals("Private ride flag not updated correctly", activity.getPrivateActivity(), stravaResponse.getPrivateActivity());
 
 		// Check that the commute flag is now set
-		// TODO There seems to be a Strava bug here
-		// assertEquals("Commute flag not updated correctly",Boolean.TRUE,stravaResponse.getCommute());
+		// TODO There seems to be a Strava bug here (javastrava-api #13)
+		// assertEquals("Commute flag not updated correctly",activity.getCommute(),stravaResponse.getCommute());
 
 		// Check that the trainer flag is now set
-		assertEquals("Trainer flag not updated correctly", Boolean.TRUE, stravaResponse.getTrainer());
+		assertEquals("Trainer flag not updated correctly", activity.getTrainer(), stravaResponse.getTrainer());
 
 		// Check that the gear id is set right
-		// TODO There seems to be a Strava bug here
-		// assertEquals("StravaGear not set correctly",TestUtils.GEAR_VALID_ID,stravaResponse.getGearId());
+		// TODO There seems to be a Strava bug here (javastrava-api #14)
+		// assertEquals("StravaGear not set correctly",activity.getGearId(),stravaResponse.getGearId());
 
 		// Check the description has changed
 		assertEquals("Description not updated correctly", description, stravaResponse.getDescription());
@@ -1479,10 +1639,13 @@ public class ActivityServicesImplTest {
 		// Change the gear id to 'none'
 		activity.setGearId("none");
 		stravaResponse = service.updateActivity(activity);
+		
+		stravaResponse = service.getActivity(activity.getId());
 
 		// Check that the gear id is gone
 		assertNull("StravaGear not removed from activity", stravaResponse.getGearId());
 
+		validateActivity(stravaResponse);
 		// Delete the activity at the end
 		service.deleteActivity(activity.getId());
 	}
@@ -1499,7 +1662,10 @@ public class ActivityServicesImplTest {
 		activity.setId(stravaResponse.getId());
 
 		stravaResponse = service.updateActivity(activity);
+		
+		stravaResponse = service.getActivity(stravaResponse.getId());
 		assertNull(stravaResponse.getAverageCadence());
+		validateActivity(stravaResponse);
 
 		service.deleteActivity(stravaResponse.getId());
 	}
@@ -1561,7 +1727,9 @@ public class ActivityServicesImplTest {
 		assertNotNull(activity);
 		StravaActivity comparisonActivity = new StravaActivity();
 		comparisonActivity.setId(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		comparisonActivity.setResourceState(StravaResourceState.META);
 		assertEquals(comparisonActivity, activity);
+		validateActivity(activity);
 	}
 
 	@Test
@@ -1569,6 +1737,10 @@ public class ActivityServicesImplTest {
 		ActivityServices service = getActivityService();
 		List<StravaActivity> activities = service.listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 		assertNotNull(activities);
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
+
 	}
 
 	@Test
@@ -1593,10 +1765,21 @@ public class ActivityServicesImplTest {
 	@Test
 	public void testListRelatedActivities_pageNumberAndSize() {
 		List<StravaActivity> activities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(1, 2));
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 		List<StravaActivity> page1 = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(1, 1));
-		List<StravaActivity> page2 = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(2, 1));
 		assertNotNull(page1);
+		for (StravaActivity activity : page1) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
+
+		List<StravaActivity> page2 = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(2, 1));
 		assertNotNull(page2);
+		for (StravaActivity activity : page2) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
+
 		assertEquals(1, page1.size());
 		assertEquals(1, page2.size());
 		assertEquals(activities.get(0), page1.get(0));
@@ -1607,16 +1790,26 @@ public class ActivityServicesImplTest {
 	public void testListRelatedActivities_pageSize() {
 		List<StravaActivity> activities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(1, 1));
 		assertNotNull(activities);
-		// assertEquals(1,activities.size());
+		assertEquals(1,activities.size());
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	@Test
 	public void testListRelatedActivities_pagingIgnoreFirstN() {
 		List<StravaActivity> activities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(1, 2, 1, 0));
-		// List<StravaActivity> expectedActivities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+		List<StravaActivity> expectedActivities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 		assertNotNull(activities);
-		// assertEquals(1,activities.size());
-		// assertEquals(expectedActivities.get(1),activities.get(0));
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
+		
+		assertEquals(1,activities.size());
+		assertEquals(expectedActivities.get(1),activities.get(0));
+		for (StravaActivity activity : expectedActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	@Test
@@ -1624,8 +1817,14 @@ public class ActivityServicesImplTest {
 		List<StravaActivity> activities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, new Paging(1, 2, 0, 1));
 		List<StravaActivity> expectedActivities = getActivityService().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 		assertNotNull(activities);
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 		assertEquals(1, activities.size());
 		assertEquals(expectedActivities.get(0), activities.get(0));
+		for (StravaActivity activity : expectedActivities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 
 	@Test
@@ -1652,6 +1851,9 @@ public class ActivityServicesImplTest {
 	public void testListAllAuthenticatedAthleteActivities() {
 		List<StravaActivity> activities = getActivityService().listAllAuthenticatedAthleteActivities();
 		assertNotNull(activities);
+		for (StravaActivity activity : activities) {
+			validateActivity(activity, activity.getId(), activity.getResourceState());
+		}
 	}
 	
 	@Test
@@ -1659,6 +1861,7 @@ public class ActivityServicesImplTest {
 	public void testCreateComment() throws NotFoundException {
 		ActivityServices service = getActivityService();
 		StravaComment comment = service.createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+		validateComment(comment);
 		service.deleteComment(comment.getActivityId(), comment.getId());
 		
 	}
@@ -1667,6 +1870,17 @@ public class ActivityServicesImplTest {
 	// TODO Other test cases
 	public void testGiveKudos() {
 		getActivityService().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+		List<StravaAthlete> kudoers = getActivityService().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+		
+		// Check that kudos is now given
+		boolean found = false;
+		for (StravaAthlete athlete : kudoers) {
+			AthleteServicesImplTest.validateAthlete(athlete);
+			if (athlete.getId() == TestUtils.ATHLETE_AUTHENTICATED_ID) {
+				found = true;
+			}
+		}
+		assertTrue(found);
 	}
 	
 	@Test
@@ -1683,6 +1897,10 @@ public class ActivityServicesImplTest {
 		fail("Not yet implemented");
 	}
 	
+	public static void validateActivity(StravaActivity activity) {
+		validateActivity(activity, activity.getId(), activity.getResourceState());
+	}
+	
 	public static void validateActivity(StravaActivity activity, Integer id, StravaResourceState state) {
 		assertNotNull(activity);
 		assertEquals(id,activity.getId());
@@ -1697,11 +1915,34 @@ public class ActivityServicesImplTest {
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() > 0);
 			assertNotNull(activity.getAthleteCount());
-			assertNotNull(activity.getAverageCadence());
-			assertNotNull(activity.getAverageHeartrate());
+			if (activity.getType() == StravaActivityType.RIDE) {
+				if (activity.getAverageCadence() != null) {
+					assertTrue(activity.getAverageCadence() >= 0);
+				}
+				if (activity.getAverageWatts() != null) {
+					assertTrue(activity.getAverageWatts() >= 0);
+				}
+				assertNotNull(activity.getDeviceWatts());
+				if (activity.getDeviceWatts()) {
+					assertNotNull(activity.getWeightedAverageWatts());
+				}
+			} else {
+				assertNull(activity.getAverageCadence());
+				assertNull(activity.getAverageWatts());
+				assertNull(activity.getDeviceWatts());
+				assertNull(activity.getWeightedAverageWatts());
+			}
+			if (activity.getAverageHeartrate() != null) {
+				assertTrue(activity.getAverageHeartrate() >= 0);
+				assertNotNull(activity.getMaxHeartrate());
+				assertTrue(activity.getMaxHeartrate() >= activity.getAverageHeartrate());
+			}
+			if (activity.getMaxHeartrate() != null) {
+				assertNotNull(activity.getAverageHeartrate());
+			}
+			
 			assertNotNull(activity.getAverageSpeed());
-			// OPTIONAL assertNotNull(activity.getAverageTemp());
-			assertNotNull(activity.getAverageWatts());
+			// Optional assertNotNull(activity.getAverageTemp());
 			if (activity.getType() == StravaActivityType.RUN) {
 				assertNotNull(activity.getBestEfforts());
 				for (StravaBestRunningEffort effort : activity.getBestEfforts()) {
@@ -1720,25 +1961,38 @@ public class ActivityServicesImplTest {
 			assertNotNull(activity.getCommentCount());
 			assertNotNull(activity.getCommute());
 			// OPTIONAL assertNotNull(activity.getDescription());
-			assertNotNull(activity.getDeviceWatts());
 			assertNotNull(activity.getElapsedTime());
-			assertNotNull(activity.getEndLatlng());
-			assertNotNull(activity.getExternalId());
+			if (activity.getManual()) {
+				assertNull(activity.getEndLatlng());
+			} else {
+				if (!activity.getTrainer()) {
+					assertNotNull(activity.getEndLatlng());
+				}
+			}
+			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
-			assertNotNull(activity.getGear());
-			assertNotNull(activity.getGearId());
-			GearServicesImplTest.validateGear(activity.getGear(),activity.getGearId(),activity.getGear().getResourceState());
+			if (activity.getGear() != null) {
+				GearServicesImplTest.validateGear(activity.getGear(),activity.getGearId(),activity.getGear().getResourceState());
+			}
 			assertNotNull(activity.getHasKudoed());
-			assertNotNull(activity.getKilojoules());
+			if (activity.getType() == StravaActivityType.RIDE && !activity.getManual() && !activity.getTrainer() && activity.getCalories() != null) {
+				assertNotNull(activity.getKilojoules());
+			}
 			assertNotNull(activity.getKudosCount());
-			assertNotNull(activity.getLocationCity());
-			assertNotNull(activity.getLocationCountry());
-			assertNotNull(activity.getLocationState());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertNotNull(activity.getLocationCity());
+				assertNotNull(activity.getLocationCountry());
+				// Optional assertNotNull(activity.getLocationState());
+			}
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
-			validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState());
-			assertNotNull(activity.getMaxHeartrate());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState(), activity);
+			}
 			assertNotNull(activity.getMaxSpeed());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertTrue(activity.getMaxSpeed() >= activity.getAverageSpeed());
+			}
 			assertNotNull(activity.getMovingTime());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getPhotoCount());
@@ -1749,15 +2003,23 @@ public class ActivityServicesImplTest {
 			}
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			assertNotNull(activity.getStartLatlng());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertNotNull(activity.getStartLatlng());
+			}
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
-			assertNotNull(activity.getTruncated());
+			if (activity.getAthlete().getId().intValue() != TestUtils.ATHLETE_AUTHENTICATED_ID) {
+				assertNull(activity.getTruncated());
+			}
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
-			assertNotNull(activity.getWeightedAverageWatts());
-			assertNotNull(activity.getWorkoutType());
+			if (activity.getType() != StravaActivityType.RUN) {
+				assertNull(activity.getWorkoutType());
+			}
+			if (activity.getWorkoutType() != null) {
+				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
+			}
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
@@ -1769,34 +2031,69 @@ public class ActivityServicesImplTest {
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() > 0);
 			assertNotNull(activity.getAthleteCount());
-			assertNotNull(activity.getAverageCadence());
-			assertNotNull(activity.getAverageHeartrate());
+			if (activity.getType() == StravaActivityType.RIDE) {
+				if (activity.getAverageCadence() != null) {
+					assertTrue(activity.getAverageCadence() >= 0);
+				}
+				if (activity.getAverageWatts() != null) {
+					assertTrue(activity.getAverageWatts() >= 0);
+				}
+				assertNotNull(activity.getDeviceWatts());
+				if (activity.getDeviceWatts()) {
+					assertNotNull(activity.getWeightedAverageWatts());
+				}
+			} else {
+				assertNull(activity.getAverageCadence());
+				assertNull(activity.getAverageWatts());
+				assertNull(activity.getDeviceWatts());
+				assertNull(activity.getWeightedAverageWatts());
+			}
+			if (activity.getAverageHeartrate() != null) {
+				assertTrue(activity.getAverageHeartrate() >= 0);
+				assertNotNull(activity.getMaxHeartrate());
+				assertTrue(activity.getMaxHeartrate() >= activity.getAverageHeartrate());
+			}
+			if (activity.getMaxHeartrate() != null) {
+				assertNotNull(activity.getAverageHeartrate());
+			}
 			assertNotNull(activity.getAverageSpeed());
-			assertNotNull(activity.getAverageTemp());
-			assertNotNull(activity.getAverageWatts());
+			// Optional assertNotNull(activity.getAverageTemp());
 			assertNull(activity.getBestEfforts());
 			assertNull(activity.getCalories());
 			assertNotNull(activity.getCommentCount());
 			assertNotNull(activity.getCommute());
 			assertNull(activity.getDescription());
-			assertNotNull(activity.getDeviceWatts());
 			assertNotNull(activity.getElapsedTime());
-			assertNotNull(activity.getEndLatlng());
-			assertNotNull(activity.getExternalId());
+			if (activity.getManual()) {
+				assertNull(activity.getEndLatlng());
+			} else {
+				if (!activity.getTrainer()) {
+					assertNotNull(activity.getEndLatlng());
+				}
+			}
+			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
 			assertNull(activity.getGear());
-			assertNotNull(activity.getGearId());
+			// Optional assertNotNull(activity.getGearId());
 			assertNotNull(activity.getHasKudoed());
-			assertNotNull(activity.getKilojoules());
+			if (activity.getType() == StravaActivityType.RIDE && !activity.getManual() && !activity.getTrainer() && activity.getCalories() != null) {
+				assertNotNull(activity.getKilojoules());
+			}
 			assertNotNull(activity.getKudosCount());
-			assertNotNull(activity.getLocationCity());
-			assertNotNull(activity.getLocationCountry());
-			assertNotNull(activity.getLocationState());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertNotNull(activity.getLocationCity());
+				assertNotNull(activity.getLocationCountry());
+				// Optional assertNotNull(activity.getLocationState());
+			}
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
-			validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState());
-			assertNotNull(activity.getMaxHeartrate());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState(), activity);
+			}
 			assertNotNull(activity.getMaxSpeed());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertTrue(activity.getMaxSpeed() >= activity.getAverageSpeed());
+			}
 			assertNotNull(activity.getMovingTime());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getPhotoCount());
@@ -1806,15 +2103,23 @@ public class ActivityServicesImplTest {
 			assertNull(activity.getSplitsStandard());
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			assertNotNull(activity.getStartLatlng());
+			if (!activity.getManual() && !activity.getTrainer()) {
+				assertNotNull(activity.getStartLatlng());
+			}
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
-			assertNotNull(activity.getTruncated());
+			if (activity.getAthlete().getId().intValue() != TestUtils.ATHLETE_AUTHENTICATED_ID) {
+				assertNull(activity.getTruncated());
+			}
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
-			assertNotNull(activity.getWeightedAverageWatts());
-			assertNotNull(activity.getWorkoutType());
+			if (activity.getType() != StravaActivityType.RUN) {
+				assertNull(activity.getWorkoutType());
+			}
+			if (activity.getWorkoutType() != null) {
+				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
+			}
 			return;
 		}
 		if (state == StravaResourceState.META) {
@@ -1953,18 +2258,22 @@ public class ActivityServicesImplTest {
 	 * @param id
 	 * @param state
 	 */
-	public static void validateMap(StravaMap map, String id, StravaResourceState state) {
+	public static void validateMap(StravaMap map, String id, StravaResourceState state, StravaActivity activity) {
 		assertNotNull(map);
 		assertEquals(id,map.getId());
 		assertEquals(state,map.getResourceState());
+		
+		if (activity != null && (activity.getManual() || activity.getTrainer())) {
+			return;
+		}
 		
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(map.getPolyline());
 			assertNotNull(map.getSummaryPolyline());
 		}
 		if (state == StravaResourceState.SUMMARY) {
-			assertNotNull(map.getPolyline());
-			assertNotNull(map.getSummaryPolyline());
+			assertNull(map.getPolyline());
+			// Optional assertNotNull(map.getSummaryPolyline());
 		}
 		if (state == StravaResourceState.META) {
 			assertNotNull(map.getPolyline());
@@ -1976,4 +2285,252 @@ public class ActivityServicesImplTest {
 		
 	}
 	
+	public static void validatePhoto(StravaPhoto photo, Integer id, StravaResourceState state) {
+		assertNotNull(photo);
+		assertEquals(id,photo.getId());
+		assertEquals(state,photo.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(photo.getCaption());
+			assertNotNull(photo.getCreatedAt());
+			// Optional assertNotNull(photo.getLocation());
+			assertNotNull(photo.getRef());
+			assertNotNull(photo.getType());
+			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
+			assertNotNull(photo.getUid());
+			assertNotNull(photo.getUploadedAt());
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(photo.getCaption());
+			assertNotNull(photo.getCreatedAt());
+			// Optional assertNotNull(photo.getLocation());
+			assertNotNull(photo.getRef());
+			assertNotNull(photo.getType());
+			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
+			assertNotNull(photo.getUid());
+			assertNotNull(photo.getUploadedAt());
+			return;
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(photo.getCaption());
+			assertNull(photo.getCreatedAt());
+			assertNull(photo.getLocation());
+			assertNull(photo.getRef());
+			assertNull(photo.getType());
+			assertNull(photo.getUid());
+			assertNull(photo.getUploadedAt());
+			return;
+		}
+		fail("Unexpected resource state " + state + " for photo " + photo);
+	}
+	
+	public static void validateComment(StravaComment comment) {
+		validateComment(comment, comment.getId(), comment.getResourceState());
+	}
+	
+	public static void validateComment(StravaComment comment, Integer id, StravaResourceState state) {
+		assertNotNull(comment);
+		assertEquals(id, comment.getId());
+		assertEquals(state, comment.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(comment.getActivityId());
+			assertNotNull(comment.getAthlete());
+			AthleteServicesImplTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
+			assertNotNull(comment.getCreatedAt());
+			assertNotNull(comment.getText());
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(comment.getActivityId());
+			assertNotNull(comment.getAthlete());
+			AthleteServicesImplTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
+			assertNotNull(comment.getCreatedAt());
+			assertNotNull(comment.getText());
+			return;
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(comment.getActivityId());
+			assertNull(comment.getAthlete());
+			assertNull(comment.getCreatedAt());
+			assertNull(comment.getText());
+			return;
+		}
+		fail("Unexpected resource state " + state + " for comment " + comment);
+	}
+	
+	public static void validateLap(StravaLap lap, Integer id, StravaResourceState state) {
+		assertNotNull(lap);
+		assertEquals(id,lap.getId());
+		assertEquals(state,lap.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(lap.getActivity());
+			validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			assertNotNull(lap.getAthlete());
+			AthleteServicesImplTest.validateAthlete(lap.getAthlete(),lap.getAthlete().getId(),lap.getAthlete().getResourceState());
+			if (lap.getAverageCadence() != null) {
+				assertTrue(lap.getAverageCadence() >= 0);
+			}
+			if (lap.getAverageHeartrate() != null) { 
+				assertTrue(lap.getAverageHeartrate() >= 0);
+				assertNotNull(lap.getMaxHeartrate());
+				assertTrue(lap.getMaxHeartrate() >= lap.getAverageHeartrate());
+			}
+			if (lap.getMaxHeartrate() != null) {
+				assertNotNull(lap.getAverageHeartrate());
+			}
+			assertNotNull(lap.getAverageSpeed());
+			assertTrue(lap.getAverageSpeed() >= 0);
+			if (lap.getAverageWatts() != null) {
+				assertTrue(lap.getAverageWatts() >= 0);
+				assertNotNull(lap.getDeviceWatts());
+			}
+			assertNotNull(lap.getDistance());
+			assertTrue(lap.getDistance() >= 0);
+			assertNotNull(lap.getElapsedTime());
+			assertTrue(lap.getElapsedTime() >= 0);
+			assertNotNull(lap.getEndIndex());
+			assertNotNull(lap.getLapIndex());
+			assertNotNull(lap.getMaxSpeed());
+			assertTrue(lap.getMaxSpeed() >= lap.getAverageSpeed());
+			assertNotNull(lap.getMovingTime());
+			assertTrue(lap.getMovingTime() >= 0);
+			assertNotNull(lap.getName());
+			assertNotNull(lap.getStartDate());
+			assertNotNull(lap.getStartDateLocal());
+			assertNotNull(lap.getStartIndex());
+			assertTrue(lap.getEndIndex() >= lap.getStartIndex());
+			assertNotNull(lap.getTotalElevationGain());
+			assertTrue(lap.getTotalElevationGain() >= 0);
+			return;
+			
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNotNull(lap.getActivity());
+			validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			assertNotNull(lap.getAthlete());
+			AthleteServicesImplTest.validateAthlete(lap.getAthlete(),lap.getAthlete().getId(),lap.getAthlete().getResourceState());
+			if (lap.getAverageCadence() != null) {
+				assertTrue(lap.getAverageCadence() >= 0);
+			}
+			if (lap.getAverageHeartrate() != null) { 
+				assertTrue(lap.getAverageHeartrate() >= 0);
+				assertNotNull(lap.getMaxHeartrate());
+				assertTrue(lap.getMaxHeartrate() >= lap.getAverageHeartrate());
+			}
+			if (lap.getMaxHeartrate() != null) {
+				assertNotNull(lap.getAverageHeartrate());
+			}
+			assertNotNull(lap.getAverageSpeed());
+			assertTrue(lap.getAverageSpeed() >= 0);
+			if (lap.getAverageWatts() != null) {
+				assertTrue(lap.getAverageWatts() >= 0);
+				assertNotNull(lap.getDeviceWatts());
+			}
+			assertNotNull(lap.getDistance());
+			assertTrue(lap.getDistance() >= 0);
+			assertNotNull(lap.getElapsedTime());
+			assertTrue(lap.getElapsedTime() >= 0);
+			assertNotNull(lap.getEndIndex());
+			assertNotNull(lap.getLapIndex());
+			assertNotNull(lap.getMaxSpeed());
+			assertTrue(lap.getMaxSpeed() >= lap.getAverageSpeed());
+			assertNotNull(lap.getMovingTime());
+			assertTrue(lap.getMovingTime() >= 0);
+			assertNotNull(lap.getName());
+			assertNotNull(lap.getStartDate());
+			assertNotNull(lap.getStartDateLocal());
+			assertNotNull(lap.getStartIndex());
+			assertTrue(lap.getEndIndex() >= lap.getStartIndex());
+			assertNotNull(lap.getTotalElevationGain());
+			assertTrue(lap.getTotalElevationGain() >= 0);
+			return;
+			
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(lap.getActivity());
+			assertNull(lap.getAthlete());
+			assertNull(lap.getAverageCadence());
+			assertNull(lap.getAverageHeartrate());
+			assertNull(lap.getMaxHeartrate());
+			assertNull(lap.getAverageSpeed());
+			assertNull(lap.getAverageWatts());
+			assertNull(lap.getDeviceWatts());
+			assertNull(lap.getDistance());
+			assertNull(lap.getElapsedTime());
+			assertNull(lap.getEndIndex());
+			assertNull(lap.getLapIndex());
+			assertNull(lap.getMaxSpeed());
+			assertNull(lap.getMovingTime());
+			assertNull(lap.getName());
+			assertNull(lap.getStartDate());
+			assertNull(lap.getStartDateLocal());
+			assertNull(lap.getStartIndex());
+			assertNull(lap.getTotalElevationGain());
+			return;
+			
+		}
+	}
+	
+	public static void validateActivityZone(StravaActivityZone zone, StravaResourceState state) {
+		assertNotNull(zone);
+		assertEquals(state, zone.getResourceState());
+		
+		if (state == StravaResourceState.DETAILED) {
+			// Optional assertNotNull(zone.getCustomZones());
+			assertNotNull(zone.getDistributionBuckets());
+			for (StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
+				validateBucket(bucket);
+			}
+			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
+				// Optional assertNotNull(zone.getMax());
+			} else {
+				assertNull(zone.getMax());
+			}
+			assertNotNull(zone.getPoints());
+			assertNotNull(zone.getScore());
+			assertNotNull(zone.getSensorBased());
+			assertNotNull(zone.getType());
+			assertFalse(zone.getType() == StravaActivityZoneType.UNKNOWN);
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			// Optional assertNotNull(zone.getCustomZones());
+			assertNotNull(zone.getDistributionBuckets());
+			for (StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
+				validateBucket(bucket);
+			}
+			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
+				// Optional assertNotNull(zone.getMax());
+			} else {
+				assertNull(zone.getMax());
+			}
+			assertNotNull(zone.getPoints());
+			assertNotNull(zone.getScore());
+			assertNotNull(zone.getSensorBased());
+			assertNotNull(zone.getType());
+			assertFalse(zone.getType() == StravaActivityZoneType.UNKNOWN);
+			return;
+		}
+		if (state == StravaResourceState.META) {
+			assertNull(zone.getCustomZones());
+			assertNull(zone.getDistributionBuckets());
+			assertNull(zone.getMax());
+			assertNull(zone.getPoints());
+			assertNull(zone.getScore());
+			assertNull(zone.getSensorBased());
+			assertNull(zone.getType());
+			return;
+		}
+		fail("unexpected state " + state + " for activity zone " + zone);
+	}
+	
+	public static void validateBucket(StravaActivityZoneDistributionBucket bucket) {
+		assertNotNull(bucket);
+		assertNotNull(bucket.getMax());
+		assertNotNull(bucket.getMin());
+		assertNotNull(bucket.getTime());
+	}
 }

@@ -786,10 +786,10 @@ public class SegmentServicesImplTest {
 				SegmentEffortServicesImplTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort().getResourceState());
 			}
 			assertNotNull(segment.getAverageGrade());
-			assertNotNull(segment.getCity());
+			// Optional assertNotNull(segment.getCity());
 			assertNotNull(segment.getClimbCategory());
 			assertFalse(segment.getClimbCategory() == StravaClimbCategory.UNKNOWN);
-			assertNotNull(segment.getCountry());
+			// Optional assertNotNull(segment.getCountry());
 			assertNotNull(segment.getCreatedAt());
 			assertNotNull(segment.getDistance());
 			assertNotNull(segment.getEffortCount());
@@ -798,14 +798,14 @@ public class SegmentServicesImplTest {
 			assertNotNull(segment.getEndLatlng());
 			assertNotNull(segment.getHazardous());
 			assertNotNull(segment.getMap());
-			ActivityServicesImplTest.validateMap(segment.getMap(),segment.getMap().getId(),segment.getMap().getResourceState());
+			ActivityServicesImplTest.validateMap(segment.getMap(),segment.getMap().getId(),segment.getMap().getResourceState(), null);
 			assertNotNull(segment.getMaximumGrade());
 			assertNotNull(segment.getName());
 			assertNotNull(segment.getPrivateSegment());
 			assertNotNull(segment.getStarCount());
 			assertNotNull(segment.getStarred());
 			assertNotNull(segment.getStartLatlng());
-			assertNotNull(segment.getState());
+			// Optional assertNotNull(segment.getState());
 			assertNotNull(segment.getTotalElevationGain());
 			assertNotNull(segment.getUpdatedAt());
 		}
@@ -819,10 +819,10 @@ public class SegmentServicesImplTest {
 				SegmentEffortServicesImplTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort().getResourceState());
 			}
 			assertNotNull(segment.getAverageGrade());
-			assertNotNull(segment.getCity());
+			// Optional assertNotNull(segment.getCity());
 			assertNotNull(segment.getClimbCategory());
 			assertFalse(segment.getClimbCategory() == StravaClimbCategory.UNKNOWN);
-			assertNotNull(segment.getCountry());
+			// Optional assertNotNull(segment.getCountry());
 			assertNull(segment.getCreatedAt());
 			assertNotNull(segment.getDistance());
 			assertNull(segment.getEffortCount());
@@ -837,7 +837,7 @@ public class SegmentServicesImplTest {
 			assertNull(segment.getStarCount());
 			assertNotNull(segment.getStarred());
 			assertNotNull(segment.getStartLatlng());
-			assertNotNull(segment.getState());
+			// Optional assertNotNull(segment.getState());
 			assertNull(segment.getTotalElevationGain());
 			assertNull(segment.getUpdatedAt());
 		}

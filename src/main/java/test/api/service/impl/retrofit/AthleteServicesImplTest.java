@@ -541,6 +541,10 @@ public class AthleteServicesImplTest {
 		return AthleteServicesImpl.implementation(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 	
+	public static void validateAthlete(StravaAthlete athlete) {
+		validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
+	}
+	
 	public static void validateAthlete(StravaAthlete athlete, Integer expectedId, StravaResourceState state) {
 		assertNotNull(athlete);
 		assertEquals(expectedId, athlete.getId());
@@ -618,7 +622,10 @@ public class AthleteServicesImplTest {
 			assertNotNull(athlete.getProfileMedium());
 			// Not part of summary data
 			assertNotNull(athlete.getResourceState());
-			assertNotNull(athlete.getSex());
+			// Optional
+			if (athlete.getSex() != null) {
+				assertFalse(athlete.getSex() == StravaGender.UNKNOWN);
+			}
 			// Not part of summary data
 			assertNull(athlete.getShoes());
 			assertNotNull(athlete.getState());
