@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.StravaActivityZone;
 import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
 import javastrava.api.v3.model.StravaAthlete;
@@ -1569,87 +1570,201 @@ public class ActivityServicesImplTest {
 	 * 
 	 */
 	@Test
-	public void testUpdateActivity_validUpdate() {
-		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
+	public void testUpdateActivity_validUpdateName() {
+		ActivityServices service = getActivityService();
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setType(StravaActivityType.ALPINE_SKI);
-		Fairy fairy = Fairy.create();
-		TextProducer text = fairy.textProducer();
-
-		// Create the activity on Strava
-		StravaActivity stravaResponse = service.createManualActivity(activity);
-
-		// Change the name
-		String name = "testUpdateActivity_validUpdate";
-		activity.setName(name);
-		activity.setId(stravaResponse.getId());
 		
-		// Update
-		stravaResponse = service.updateActivity(activity);
+		TextProducer text = Fairy.create().textProducer();
 		
-		// Check that the name is now set
-		assertEquals("Name not updated correctly", name, stravaResponse.getName());
-
-
-		// Change the type
-		activity.setType(StravaActivityType.RIDE);
-
-		// Change the privacy flag
-		activity.setPrivateActivity(Boolean.TRUE);
-
-		// Change the commute flag
-		activity.setCommute(Boolean.TRUE);
-
-		// Change the trainer flag
-		activity.setTrainer(Boolean.TRUE);
-
-		// Change the gear id
-		activity.setGearId(TestUtils.GEAR_VALID_ID);
-
-		// Change the description
-		String description = text.paragraph();
-		activity.setDescription(description);
-
-		// Update the activity
-		stravaResponse = service.updateActivity(activity);
-
-		// Get the activity again
-		stravaResponse = service.getActivity(stravaResponse.getId());
-
-		// Check that the type is now set
-		assertEquals("Type not updated correctly", activity.getType(), stravaResponse.getType());
-
-		// Check that the privacy flag is now set
-		assertEquals("Private ride flag not updated correctly", activity.getPrivateActivity(), stravaResponse.getPrivateActivity());
-
-		// Check that the commute flag is now set
-		// TODO There seems to be a Strava bug here (javastrava-api #13)
-		// assertEquals("Commute flag not updated correctly",activity.getCommute(),stravaResponse.getCommute());
-
-		// Check that the trainer flag is now set
-		assertEquals("Trainer flag not updated correctly", activity.getTrainer(), stravaResponse.getTrainer());
-
-		// Check that the gear id is set right
-		// TODO There seems to be a Strava bug here (javastrava-api #14)
-		// assertEquals("StravaGear not set correctly",activity.getGearId(),stravaResponse.getGearId());
-
-		// Check the description has changed
-		assertEquals("Description not updated correctly", description, stravaResponse.getDescription());
-
-		// Change the gear id to 'none'
-		activity.setGearId("none");
-		stravaResponse = service.updateActivity(activity);
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
 		
-		stravaResponse = service.getActivity(activity.getId());
-
-		// Check that the gear id is gone
-		assertNull("StravaGear not removed from activity", stravaResponse.getGearId());
-
-		validateActivity(stravaResponse);
-		// Delete the activity at the end
-		service.deleteActivity(activity.getId());
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		String sentence = text.sentence();
+		update.setName(sentence);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(sentence, response.getName());
+		
+		service.deleteActivity(response.getId());
 	}
-
+	
+	@Test
+	public void testUpdateActivity_validUpdateType() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		activity.setType(StravaActivityType.ALPINE_SKI);
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		StravaActivityType type = StravaActivityType.RIDE;
+		update.setType(type);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(type, response.getType());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdatePrivate() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		Boolean privateFlag = Boolean.TRUE;
+		update.setPrivateActivity(privateFlag);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(privateFlag, response.getPrivateActivity());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateCommute() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		Boolean commute = Boolean.TRUE;
+		update.setCommute(commute);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(commute, response.getCommute());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateTrainer() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		Boolean trainer = Boolean.TRUE;
+		update.setTrainer(trainer);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(trainer, response.getTrainer());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateGearId() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		String gearId = TestUtils.GEAR_VALID_ID;
+		update.setGearId(gearId);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(gearId, response.getGearId());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateGearIDNone() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		String gearId = "none";
+		update.setGearId(gearId);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertNull(response.getGearId());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateDescription() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		TextProducer text = Fairy.create().textProducer();
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		String description = text.sentence();
+		update.setDescription(description);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(description, response.getDescription());
+		
+		service.deleteActivity(response.getId());
+	}
+	
+	@Test
+	public void testUpdateActivity_validUpdateAllAtOnce() {
+		ActivityServices service = getActivityService();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		
+		StravaActivity response = service.createManualActivity(activity);
+		validateActivity(response);
+		
+		TextProducer text = Fairy.create().textProducer();
+		String description = text.sentence();
+		String name = text.sentence();
+		StravaActivityType type = StravaActivityType.RUN;
+		Boolean privateActivity = Boolean.TRUE;
+		Boolean commute = Boolean.TRUE;
+		Boolean trainer = Boolean.TRUE;
+		String gearId = TestUtils.GEAR_VALID_ID;
+		
+		StravaActivityUpdate update = new StravaActivityUpdate();
+		update.setDescription(description);
+		update.setCommute(commute);
+		update.setGearId(gearId);
+		update.setName(name);
+		update.setPrivateActivity(privateActivity);
+		update.setTrainer(trainer);
+		update.setType(type);
+		
+		response = service.updateActivity(response.getId(), update);
+		validateActivity(response);
+		assertEquals(description, response.getDescription());
+		assertEquals(commute, response.getCommute());
+		assertEquals(gearId, response.getGearId());
+		assertEquals(name, response.getName());
+		assertEquals(privateActivity, response.getPrivateActivity());
+		assertEquals(trainer, response.getTrainer());
+		assertEquals(type, response.getType());
+		
+		service.deleteActivity(response.getId());
+	}
+	
 	@Test
 	public void testUpdateActivity_tooManyActivityAttributes() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
@@ -1661,9 +1776,8 @@ public class ActivityServicesImplTest {
 		activity.setAverageCadence(cadence);
 		activity.setId(stravaResponse.getId());
 
-		stravaResponse = service.updateActivity(activity);
+		stravaResponse = service.updateActivity(stravaResponse.getId(), new StravaActivityUpdate(activity));
 		
-		stravaResponse = service.getActivity(stravaResponse.getId());
 		assertNull(stravaResponse.getAverageCadence());
 		validateActivity(stravaResponse);
 
@@ -1676,7 +1790,7 @@ public class ActivityServicesImplTest {
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setId(TestUtils.ACTIVITY_INVALID);
 
-		StravaActivity response = service.updateActivity(activity);
+		StravaActivity response = service.updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 		assertNull("Updated an activity which doesn't exist?", response);
 	}
 
@@ -1686,7 +1800,7 @@ public class ActivityServicesImplTest {
 		StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 		try {
-			service.updateActivity(activity);
+			service.updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 		} catch (UnauthorizedException e) {
 			// Expected behaviour
 			return;
@@ -1710,7 +1824,7 @@ public class ActivityServicesImplTest {
 		activity.setDescription(text.paragraph(1));
 
 		try {
-			service.updateActivity(activity);
+			service.updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 		} catch (UnauthorizedException e) {
 			// Expected behaviour
 			return;
@@ -1948,13 +2062,15 @@ public class ActivityServicesImplTest {
 				for (StravaBestRunningEffort effort : activity.getBestEfforts()) {
 					validateBestEffort(effort,effort.getId(),effort.getResourceState());
 				}
-				assertNotNull(activity.getSplitsMetric());
-				for (StravaSplit split : activity.getSplitsMetric()) {
-					validateSplit(split);
-				}
-				assertNotNull(activity.getSplitsStandard());
-				for (StravaSplit split : activity.getSplitsStandard()) {
-					validateSplit(split);
+				if (!activity.getManual()) {
+					assertNotNull(activity.getSplitsMetric());
+					for (StravaSplit split : activity.getSplitsMetric()) {
+						validateSplit(split);
+					}
+					assertNotNull(activity.getSplitsStandard());
+					for (StravaSplit split : activity.getSplitsStandard()) {
+						validateSplit(split);
+					}
 				}
 			}
 			assertNotNull(activity.getCalories());
@@ -1962,13 +2078,7 @@ public class ActivityServicesImplTest {
 			assertNotNull(activity.getCommute());
 			// OPTIONAL assertNotNull(activity.getDescription());
 			assertNotNull(activity.getElapsedTime());
-			if (activity.getManual()) {
-				assertNull(activity.getEndLatlng());
-			} else {
-				if (!activity.getTrainer()) {
-					assertNotNull(activity.getEndLatlng());
-				}
-			}
+			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getEndLatlng());
 			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
 			if (activity.getGear() != null) {
@@ -1979,20 +2089,16 @@ public class ActivityServicesImplTest {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertNotNull(activity.getLocationCity());
-				assertNotNull(activity.getLocationCountry());
-				// Optional assertNotNull(activity.getLocationState());
-			}
+			// Optional assertNotNull(activity.getLocationCity());
+			// Optional assertNotNull(activity.getLocationCountry());
+			// Optional assertNotNull(activity.getLocationState());
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
 				validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertTrue(activity.getMaxSpeed() >= activity.getAverageSpeed());
-			}
+			assertTrue(activity.getMaxSpeed() >= 0);
 			assertNotNull(activity.getMovingTime());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getPhotoCount());
@@ -2003,9 +2109,7 @@ public class ActivityServicesImplTest {
 			}
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertNotNull(activity.getStartLatlng());
-			}
+			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getStartLatlng());
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
@@ -2064,13 +2168,7 @@ public class ActivityServicesImplTest {
 			assertNotNull(activity.getCommute());
 			assertNull(activity.getDescription());
 			assertNotNull(activity.getElapsedTime());
-			if (activity.getManual()) {
-				assertNull(activity.getEndLatlng());
-			} else {
-				if (!activity.getTrainer()) {
-					assertNotNull(activity.getEndLatlng());
-				}
-			}
+			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getEndLatlng());
 			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
 			assertNull(activity.getGear());
@@ -2080,20 +2178,16 @@ public class ActivityServicesImplTest {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertNotNull(activity.getLocationCity());
-				assertNotNull(activity.getLocationCountry());
-				// Optional assertNotNull(activity.getLocationState());
-			}
+			// Optional assertNotNull(activity.getLocationCity());
+			// Optional assertNotNull(activity.getLocationCountry());
+			// Optional assertNotNull(activity.getLocationState());
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
 				validateMap(activity.getMap(),activity.getMap().getId(),activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertTrue(activity.getMaxSpeed() >= activity.getAverageSpeed());
-			}
+			assertTrue(activity.getMaxSpeed() >= 0);
 			assertNotNull(activity.getMovingTime());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getPhotoCount());
@@ -2103,9 +2197,7 @@ public class ActivityServicesImplTest {
 			assertNull(activity.getSplitsStandard());
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			if (!activity.getManual() && !activity.getTrainer()) {
-				assertNotNull(activity.getStartLatlng());
-			}
+			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getStartLatlng());
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
@@ -2485,13 +2577,18 @@ public class ActivityServicesImplTest {
 				validateBucket(bucket);
 			}
 			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
-				// Optional assertNotNull(zone.getMax());
+				if (zone.getMax() != null) {
+					assertTrue(zone.getMax() >= 0);
+				}
 			} else {
 				assertNull(zone.getMax());
 			}
-			assertNotNull(zone.getPoints());
-			assertNotNull(zone.getScore());
-			assertNotNull(zone.getSensorBased());
+			if (zone.getPoints() != null) {
+				assertTrue(zone.getPoints() >= 0);
+			}
+			if (zone.getScore() != null) {
+				assertTrue(zone.getScore() >= 0);
+			}
 			assertNotNull(zone.getType());
 			assertFalse(zone.getType() == StravaActivityZoneType.UNKNOWN);
 			return;
@@ -2503,13 +2600,18 @@ public class ActivityServicesImplTest {
 				validateBucket(bucket);
 			}
 			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
-				// Optional assertNotNull(zone.getMax());
+				if (zone.getMax() != null) {
+					assertTrue(zone.getMax() >= 0);
+				}
 			} else {
 				assertNull(zone.getMax());
 			}
-			assertNotNull(zone.getPoints());
-			assertNotNull(zone.getScore());
-			assertNotNull(zone.getSensorBased());
+			if (zone.getPoints() != null) {
+				assertTrue(zone.getPoints() >= 0);
+			}
+			if (zone.getScore() != null) {
+				assertTrue(zone.getScore() >= 0);
+			}
 			assertNotNull(zone.getType());
 			assertFalse(zone.getType() == StravaActivityZoneType.UNKNOWN);
 			return;
