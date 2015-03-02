@@ -57,6 +57,7 @@ public class TestUtils {
 
 	public static Integer CLUB_VALID_ID;
 	public static Integer CLUB_INVALID_ID;
+	public static Integer CLUB_PUBLIC_MEMBER_ID;
 	public static Integer CLUB_PUBLIC_NON_MEMBER_ID;
 	public static Integer CLUB_PRIVATE_MEMBER_ID;
 	public static Integer CLUB_PRIVATE_NON_MEMBER_ID;
@@ -74,6 +75,7 @@ public class TestUtils {
 	public static Integer SEGMENT_INVALID_ID;
 	public static Integer SEGMENT_PRIVATE_ID;
 	public static Integer SEGMENT_OTHER_USER_PRIVATE_ID;
+	public static Integer SEGMENT_HAZARDOUS_ID;
 
 	private static final String PROPERTIES_FILE = "test-config.properties";
 	private static Properties properties;
@@ -121,6 +123,7 @@ public class TestUtils {
 		CLUB_PRIVATE_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubPrivateMemberId");
 		CLUB_PRIVATE_NON_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubPrivateNonMemberId");
 		CLUB_PUBLIC_NON_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubNonMemberId");
+		CLUB_PUBLIC_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubPublicMemberId");
 
 		GEAR_VALID_ID = properties.getProperty("test.gearServicesImplTest.gearId");
 		GEAR_INVALID_ID = properties.getProperty("test.gearServicesImplTest.gearInvalidId");
@@ -135,6 +138,7 @@ public class TestUtils {
 		SEGMENT_INVALID_ID = integerProperty("test.segmentServicesImplTest.segmentInvalidId");
 		SEGMENT_PRIVATE_ID = integerProperty("test.segmentServicesImplTest.segmentPrivateId");
 		SEGMENT_OTHER_USER_PRIVATE_ID = integerProperty("test.segmentServicesImplTest.segmentOtherUserPrivateId");
+		SEGMENT_HAZARDOUS_ID = integerProperty("test.segmentServicesImplTest.segmentHazardousId");
 	}
 
 	/**

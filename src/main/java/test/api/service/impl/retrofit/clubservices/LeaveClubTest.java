@@ -33,7 +33,7 @@ public class LeaveClubTest {
 	// 2. Valid club which authenticated user is already a member of
 	@Test
 	public void testLeaveClub_member() {
-		final Integer id = TestUtils.CLUB_VALID_ID;
+		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
 		service().leaveClub(id);
 
@@ -75,7 +75,7 @@ public class LeaveClubTest {
 	// 5. Leave a club using a token with no write access
 	@Test
 	public void testLeaveClub_noWriteAccess() {
-		final Integer id = TestUtils.CLUB_VALID_ID;
+		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
 		final StravaClubMembershipResponse response = serviceWithoutWriteAccess().leaveClub(id);
 		assertNotNull(response);

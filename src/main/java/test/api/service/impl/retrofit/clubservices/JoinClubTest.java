@@ -40,7 +40,7 @@ public class JoinClubTest {
 	// 2. Valid club which authenticated user is already a member of
 	@Test
 	public void testJoinClub_member() {
-		final Integer id = TestUtils.CLUB_VALID_ID;
+		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
 		final StravaClubMembershipResponse response = service().joinClub(id);
 
@@ -77,7 +77,7 @@ public class JoinClubTest {
 	// 5. Attempt to join a club without having write access
 	@Test
 	public void testJoinClub_noWriteAccess() {
-		final Integer id = TestUtils.CLUB_VALID_ID;
+		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
 		final StravaClubMembershipResponse response = serviceWithoutWriteAccess().joinClub(id);
 		assertNotNull(response);

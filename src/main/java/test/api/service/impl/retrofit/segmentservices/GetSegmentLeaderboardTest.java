@@ -130,6 +130,27 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 				StravaWeightClass.KG85_94, Boolean.FALSE, TestUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null);
 		assertNotNull(leaderboard);
 		assertFalse(leaderboard.getEntries().isEmpty());
+		StravaSegmentLeaderboardTest.validate(leaderboard);
+	}
+	
+	@Test
+	public void testGetSegmentLeaderboard_privateSegment() {
+		StravaSegmentLeaderboard leaderboard = service().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
+		assertNotNull(leaderboard);
+		assertFalse(leaderboard.getEntries().isEmpty());
+		StravaSegmentLeaderboardTest.validate(leaderboard);
+	}
+	
+	@Test
+	public void testGetSegmentLeaderboard_privateSegmentOtherUser() {
+		StravaSegmentLeaderboard leaderboard = service().getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
+		assertNull(leaderboard);
+	}
+	
+	@Test
+	public void testGetSegmentLeaderboard_hazardousSegment() {
+		StravaSegmentLeaderboard leaderboard = service().getSegmentLeaderboard(TestUtils.SEGMENT_HAZARDOUS_ID);
+		assertNull(leaderboard);
 	}
 
 	private SegmentServices service() {
