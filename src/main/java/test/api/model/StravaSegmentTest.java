@@ -37,69 +37,60 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 		assertEquals(id, segment.getId());
 		assertEquals(state, segment.getResourceState());
 
-		if (state == StravaResourceState.DETAILED) {
+		if (state == StravaResourceState.DETAILED || state == StravaResourceState.SUMMARY) {
 			assertNotNull(segment.getActivityType());
-			assertFalse(segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
-			assertNotNull(segment.getAthleteCount());
-			// Can be null, if the athlete's never done the segment (and it's only returned with starred segments anyway)
-			if (segment.getAthletePrEffort() != null) {
-				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort().getResourceState());
-			}
-			assertNotNull(segment.getAverageGrade());
-			// Optional assertNotNull(segment.getCity());
-			assertNotNull(segment.getClimbCategory());
-			assertFalse(segment.getClimbCategory() == StravaClimbCategory.UNKNOWN);
-			// Optional assertNotNull(segment.getCountry());
-			assertNotNull(segment.getCreatedAt());
-			assertNotNull(segment.getDistance());
-			assertNotNull(segment.getEffortCount());
-			assertNotNull(segment.getElevationHigh());
-			assertNotNull(segment.getElevationLow());
-			assertNotNull(segment.getEndLatlng());
-			assertNotNull(segment.getHazardous());
-			assertNotNull(segment.getMap());
-			StravaMapTest.validateMap(segment.getMap(),segment.getMap().getId(),segment.getMap().getResourceState(), null);
-			assertNotNull(segment.getMaximumGrade());
-			assertNotNull(segment.getName());
-			assertNotNull(segment.getPrivateSegment());
-			assertNotNull(segment.getStarCount());
-			assertNotNull(segment.getStarred());
-			assertNotNull(segment.getStartLatlng());
-			// Optional assertNotNull(segment.getState());
-			assertNotNull(segment.getTotalElevationGain());
-			assertNotNull(segment.getUpdatedAt());
-		}
-		if (state == StravaResourceState.SUMMARY) {
-			assertNotNull(segment.getActivityType());
-			assertFalse(segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
+			assertFalse("Segment " + segment.getId() + " has an unknown activity type",segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
 			assertNull(segment.getAthleteCount());
 
 			// Can be null, if the athlete's never done the segment (and it's only returned with starred segments anyway)
 			if (segment.getAthletePrEffort() != null) {
-				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort().getResourceState());
+				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(),
+						segment.getAthletePrEffort().getResourceState());
 			}
+
 			assertNotNull(segment.getAverageGrade());
+
 			// Optional assertNotNull(segment.getCity());
+
 			assertNotNull(segment.getClimbCategory());
 			assertFalse(segment.getClimbCategory() == StravaClimbCategory.UNKNOWN);
+
 			// Optional assertNotNull(segment.getCountry());
-			assertNull(segment.getCreatedAt());
+
 			assertNotNull(segment.getDistance());
-			assertNull(segment.getEffortCount());
 			assertNotNull(segment.getElevationHigh());
 			assertNotNull(segment.getElevationLow());
 			assertNotNull(segment.getEndLatlng());
-			assertNull(segment.getHazardous());
-			assertNull(segment.getMap());
 			assertNotNull(segment.getMaximumGrade());
-			assertNotNull(segment.getName());
+			
+			// Optional assertNotNull("Segment " + segment.getId() + " has no name!", segment.getName());
+			
 			assertNotNull(segment.getPrivateSegment());
-			assertNull(segment.getStarCount());
 			assertNotNull(segment.getStarred());
 			assertNotNull(segment.getStartLatlng());
 			// Optional assertNotNull(segment.getState());
+		}
+
+		if (state == StravaResourceState.DETAILED) {
+			assertNotNull(segment.getCreatedAt());
+			assertNotNull(segment.getEffortCount());
+			assertNotNull(segment.getHazardous());
+			assertNotNull(segment.getMap());
+			StravaMapTest.validateMap(segment.getMap(), segment.getMap().getId(), segment.getMap().getResourceState(), null);
+			assertNotNull(segment.getStarCount());
+			assertNotNull(segment.getTotalElevationGain());
+			assertNotNull(segment.getUpdatedAt());
+			return;
+		}
+		if (state == StravaResourceState.SUMMARY) {
+			assertNull(segment.getCreatedAt());
+			assertNull(segment.getEffortCount());
+			assertNull(segment.getHazardous());
+			assertNull(segment.getMap());
+			assertNull(segment.getStarCount());
 			assertNull(segment.getTotalElevationGain());
 			assertNull(segment.getUpdatedAt());
+			return;
 		}
 		if (state == StravaResourceState.META) {
 			assertNull(segment.getActivityType());
@@ -108,7 +99,6 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNull(segment.getAverageGrade());
 			assertNull(segment.getCity());
 			assertNull(segment.getClimbCategory());
-			assertFalse(segment.getClimbCategory() == StravaClimbCategory.UNKNOWN);
 			assertNull(segment.getCountry());
 			assertNull(segment.getCreatedAt());
 			assertNull(segment.getDistance());
@@ -127,9 +117,8 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNull(segment.getState());
 			assertNull(segment.getTotalElevationGain());
 			assertNull(segment.getUpdatedAt());
+			return;
 		}
-		if (state == StravaResourceState.UNKNOWN || state == StravaResourceState.UPDATING) {
-			fail("Unexpected segment state " + state + " for segment " + segment);
-		}
+		fail("Unexpected segment state " + state + " for segment " + segment);
 	}
 }

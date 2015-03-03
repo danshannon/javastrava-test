@@ -17,7 +17,6 @@ import test.utils.TestUtils;
 
 public class ListAllStarredSegmentsTest {
 	@Test
-	// TODO Other test cases
 	public void listAllStarredSegments_validAthlete() {
 		List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
 		assertNotNull(segments);

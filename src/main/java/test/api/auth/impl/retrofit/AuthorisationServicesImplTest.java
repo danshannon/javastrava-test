@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javastrava.api.v3.auth.AuthorisationServices;
 import javastrava.api.v3.auth.impl.retrofit.AuthorisationServicesImpl;
+import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.model.TokenResponse;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
@@ -215,7 +216,7 @@ public class AuthorisationServicesImplTest {
 		assertNotNull("Token not successfully returned by Strava", tokenResponse);
 
 		// test case to prove we've got write access
-		ActivityServices activityService = ActivityServicesImpl.implementation(tokenResponse.getAccessToken());
+		ActivityServices activityService = ActivityServicesImpl.implementation(new Token(tokenResponse,AuthorisationScope.WRITE));
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setName("AuthorisationServicesImplTest.testTokenExchange_writeScope");
 		StravaActivity response = activityService.createManualActivity(activity);

@@ -26,7 +26,7 @@ public class ListAllAthleteKOMsTest {
 		assertNotNull(efforts);
 		for (final StravaSegmentEffort effort : efforts) {
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
-			assertTrue(isKom(effort.getSegment(),TestUtils.ATHLETE_AUTHENTICATED_ID));
+			assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_AUTHENTICATED_ID + " is not the KOM!",isKom(effort.getSegment(),TestUtils.ATHLETE_AUTHENTICATED_ID));
 		}
 	}
 
@@ -36,7 +36,7 @@ public class ListAllAthleteKOMsTest {
 		assertNotNull(efforts);
 		for (final StravaSegmentEffort effort : efforts) {
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
-			assertTrue(isKom(effort.getSegment(),TestUtils.ATHLETE_VALID_ID));
+			assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_VALID_ID + " is not the KOM!",isKom(effort.getSegment(),TestUtils.ATHLETE_VALID_ID));
 		}
 	}
 

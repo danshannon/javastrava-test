@@ -117,6 +117,13 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			validate(effort);
 		}
 	}
+	
+	@Test
+	public void testListSegmentEfforts_hazardousSegment() {
+		List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID);
+		assertNotNull(efforts);
+		assertEquals(0,efforts.size());
+	}
 
 	private SegmentServices service() {
 		return SegmentServicesImpl.implementation(TestUtils.getValidToken());

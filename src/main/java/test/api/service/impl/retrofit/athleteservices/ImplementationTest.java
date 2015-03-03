@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.service.AthleteServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.AthleteServicesImpl;
@@ -51,7 +52,7 @@ public class ImplementationTest implements ImplementationTestSpec {
 	@Override
 	@Test
 	public void testImplementation_implementationIsCached() {
-		final String token = TestUtils.getValidToken();
+		final Token token = TestUtils.getValidToken();
 		final AthleteServices service1 = AthleteServicesImpl.implementation(token);
 		final AthleteServices service2 = AthleteServicesImpl.implementation(token);
 		assertTrue(service1 == service2);
@@ -60,10 +61,10 @@ public class ImplementationTest implements ImplementationTestSpec {
 	@Override
 	@Test
 	public void testImplementation_differentImplementationIsNotCached() {
-		final String token1 = TestUtils.getValidToken();
+		final Token token1 = TestUtils.getValidToken();
 		final AthleteServices service1 = AthleteServicesImpl.implementation(token1);
 
-		final String token2 = TestUtils.getValidTokenWithoutWriteAccess();
+		final Token token2 = TestUtils.getValidTokenWithoutWriteAccess();
 		assertFalse(token1.equals(token2));
 		final AthleteServices service2 = AthleteServicesImpl.implementation(token2);
 		assertFalse(service1 == service2);

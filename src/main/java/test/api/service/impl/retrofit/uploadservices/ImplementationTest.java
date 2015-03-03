@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.model.StravaUploadResponse;
 import javastrava.api.v3.service.UploadServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -59,7 +60,7 @@ public class ImplementationTest implements ImplementationTestSpec {
 	@Override
 	@Test
 	public void testImplementation_implementationIsCached() {
-		final String token = TestUtils.getValidToken();
+		final Token token = TestUtils.getValidToken();
 		final UploadServices service = UploadServicesImpl.implementation(token);
 		final UploadServices service2 = UploadServicesImpl.implementation(token);
 		assertEquals(service, service2);

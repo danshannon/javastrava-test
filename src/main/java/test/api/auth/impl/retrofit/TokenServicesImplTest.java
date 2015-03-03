@@ -5,7 +5,6 @@ import javastrava.api.v3.auth.TokenServices;
 import javastrava.api.v3.auth.impl.retrofit.TokenServicesImpl;
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.model.TokenResponse;
-import javastrava.api.v3.service.AthleteServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.AthleteServicesImpl;
 
@@ -47,14 +46,9 @@ public class TokenServicesImplTest {
 	 */
 	@Test
 	public void testDeauthorise_validToken() throws UnauthorizedException {
-		// 1. Get a deauthorised token
-		String token = TestUtils.getRevokedToken();
-
 		// 2. Attempt to use the token to get a service implementation
-		AthleteServices athleteServices = null;
-		athleteServices = AthleteServicesImpl.implementation(token);
 		try {
-			athleteServices.getAuthenticatedAthlete();
+			AthleteServicesImpl.implementation(TestUtils.getRevokedToken()).getAuthenticatedAthlete();
 		} catch (UnauthorizedException e) {
 			// This is expected behaviour
 			return;
@@ -78,13 +72,13 @@ public class TokenServicesImplTest {
 	@Test
 	public void testDeauthorise_invalidToken() throws UnauthorizedException {
 		// 1. Get a valid token
-		Token token = TestUtils.getValidTokenAsToken();
+		Token token = TestUtils.getValidToken();
 
 		// 2. Get a service implementation for the valid token
-		TokenServices service = TokenServicesImpl.implementation(token.getToken());
+		TokenServices service = TokenServicesImpl.implementation(token);
 
 		// 3. Get an INVALID token
-		token.setToken(TestUtils.INVALID_TOKEN);
+		token = TestUtils.INVALID_TOKEN;
 
 		// 4. Attempt to deauthorise the invalid token
 		try {
@@ -108,10 +102,10 @@ public class TokenServicesImplTest {
 	@Test
 	public void testDeauthorise_deauthorisedToken() throws UnauthorizedException {
 		// 1. Get a deauthorised token
-		Token token = TestUtils.getValidTokenAsToken();
+		Token token = TestUtils.getValidToken();
 
 		// 2. Attempt to deauthorise it twice
-		TokenServices service = TokenServicesImpl.implementation(token.getToken());
+		TokenServices service = TokenServicesImpl.implementation(token);
 		@SuppressWarnings("unused")
 		TokenResponse response = service.deauthorise(token);
 		try {

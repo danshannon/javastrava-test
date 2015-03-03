@@ -2,6 +2,7 @@ package test.utils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javastrava.api.v3.auth.impl.retrofit.TokenServicesImpl;
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -30,7 +32,7 @@ public class TestUtils {
 	public static String STRAVA_CLIENT_SECRET;
 
 	// public static String VALID_TOKEN;
-	public static String INVALID_TOKEN;
+	public static Token INVALID_TOKEN;
 	// public static String VALID_TOKEN_WITHOUT_WRITE_ACCESS;
 	public static Integer ACTIVITY_WITH_EFFORTS;
 	public static Integer ACTIVITY_WITH_PHOTOS;
@@ -94,7 +96,7 @@ public class TestUtils {
 		// VALID_TOKEN = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		// VALID_TOKEN_WITHOUT_WRITE_ACCESS = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD);
 
-		INVALID_TOKEN = properties.getProperty("test.activityServicesImplTest.invalidToken");
+		INVALID_TOKEN = createToken(properties.getProperty("test.activityServicesImplTest.invalidToken"),USERNAME);
 		ACTIVITY_WITH_EFFORTS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithEfforts"));
 		ACTIVITY_WITH_PHOTOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithPhotos"));
 		ACTIVITY_WITHOUT_PHOTOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutPhotos"));
@@ -156,6 +158,19 @@ public class TestUtils {
 	}
 
 	/**
+	 * @param accessToken
+	 * @return
+	 */
+	private static Token createToken(String accessToken, String username) {
+		Token token = new Token();
+		token.setToken(accessToken);
+		token.setScopes(new ArrayList<AuthorisationScope>());
+		token.setAthlete(new StravaAthlete());
+		token.getAthlete().setEmail(username);
+		return token;
+	}
+
+	/**
 	 * @param key
 	 * @return
 	 */
@@ -178,7 +193,7 @@ public class TestUtils {
 		return properties;
 	}
 
-	public static Token getValidTokenAsToken() {
+	public static Token getValidToken() {
 		Token token = TokenManager.implementation().retrieveTokenWithScope(USERNAME, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		if (token == null) {
 			try {
@@ -191,11 +206,7 @@ public class TestUtils {
 		return token;
 	}
 
-	public static String getValidToken() {
-		return getValidTokenAsToken().getToken();
-	}
-
-	public static Token getValidTokenWithoutWriteAccessAsToken() {
+	public static Token getValidTokenWithoutWriteAccess() {
 		Token token = TokenManager.implementation().retrieveTokenWithExactScope(USERNAME);
 		if (token == null) {
 			try {
@@ -208,15 +219,11 @@ public class TestUtils {
 		return token;
 	}
 
-	public static String getValidTokenWithoutWriteAccess() {
-		return getValidTokenWithoutWriteAccessAsToken().getToken();
-	}
-
-	public static String getRevokedToken() throws UnauthorizedException {
-		Token token = getValidTokenAsToken();
-		TokenServices service = TokenServicesImpl.implementation(token.getToken());
+	public static Token getRevokedToken() throws UnauthorizedException {
+		Token token = getValidToken();
+		TokenServices service = TokenServicesImpl.implementation(token);
 		service.deauthorise(token);
-		return token.getToken();
+		return token;
 	}
 
 }

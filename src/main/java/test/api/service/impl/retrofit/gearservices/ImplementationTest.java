@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.service.GearServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.GearServicesImpl;
@@ -60,7 +61,7 @@ public class ImplementationTest implements ImplementationTestSpec {
 	@Override
 	@Test
 	public void testImplementation_revokedToken() {
-		final String token = getRevokedToken();
+		final Token token = getRevokedToken();
 		final GearServices service = GearServicesImpl.implementation(token);
 
 		try {
@@ -107,7 +108,7 @@ public class ImplementationTest implements ImplementationTestSpec {
 		return GearServicesImpl.implementation(TestUtils.getValidToken());
 	}
 
-	private String getRevokedToken() {
+	private Token getRevokedToken() {
 		return TestUtils.getRevokedToken();
 	}
 

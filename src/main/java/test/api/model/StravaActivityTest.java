@@ -43,7 +43,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
-			assertTrue(activity.getDistance() > 0);
+			assertTrue(activity.getDistance() >= 0);
 			assertNotNull(activity.getAthleteCount());
 			if (activity.getType() == StravaActivityType.RIDE) {
 				if (activity.getAverageCadence() != null) {
@@ -149,7 +149,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
-			assertTrue(activity.getDistance() > 0);
+			assertTrue(activity.getDistance() >= 0);
 			assertNotNull(activity.getAthleteCount());
 			if (activity.getType() == StravaActivityType.RIDE) {
 				if (activity.getAverageCadence() != null) {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.service.SegmentEffortServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.SegmentEffortServicesImpl;
@@ -57,8 +58,8 @@ public class ImplementationTest implements ImplementationTestSpec {
 	@Override
 	@Test
 	public void testImplementation_revokedToken() {
-		final SegmentEffortServices service = SegmentEffortServicesImpl.implementation(getRevokedToken());
 		try {
+			final SegmentEffortServices service = SegmentEffortServicesImpl.implementation(getRevokedToken());
 			service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
 		} catch (final UnauthorizedException e) {
 			// Expected behaviour
@@ -102,7 +103,7 @@ public class ImplementationTest implements ImplementationTestSpec {
 		return SegmentEffortServicesImpl.implementation(TestUtils.getValidToken());
 	}
 
-	private String getRevokedToken() {
+	private Token getRevokedToken() {
 		return TestUtils.getRevokedToken();
 	}
 
