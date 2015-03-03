@@ -85,7 +85,7 @@ public class TestUtils {
 	static {
 		try {
 			properties = loadPropertiesFile(PROPERTIES_FILE);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 		HTTP_UTILS = new TestHttpUtils();
@@ -147,7 +147,7 @@ public class TestUtils {
 	 * @return
 	 */
 	public static StravaActivity createDefaultActivity() {
-		StravaActivity activity = new StravaActivity();
+		final StravaActivity activity = new StravaActivity();
 		activity.setName("TO BE DELETED");
 		activity.setType(StravaActivityType.RIDE);
 		activity.setStartDateLocal(new Date());
@@ -161,8 +161,8 @@ public class TestUtils {
 	 * @param accessToken
 	 * @return
 	 */
-	private static Token createToken(String accessToken, String username) {
-		Token token = new Token();
+	private static Token createToken(final String accessToken, final String username) {
+		final Token token = new Token();
 		token.setToken(accessToken);
 		token.setScopes(new ArrayList<AuthorisationScope>());
 		token.setAthlete(new StravaAthlete());
@@ -174,11 +174,11 @@ public class TestUtils {
 	 * @param key
 	 * @return
 	 */
-	private static Integer integerProperty(String key) {
+	private static Integer integerProperty(final String key) {
 		return new Integer(properties.getProperty(key));
 	}
 
-	private static Long longProperty(String key) {
+	private static Long longProperty(final String key) {
 		return new Long(properties.getProperty(key));
 	}
 
@@ -186,9 +186,9 @@ public class TestUtils {
 	 * @param propertiesFile
 	 * @return
 	 */
-	public static Properties loadPropertiesFile(String propertiesFile) throws IOException {
-		Properties properties = new Properties();
-		URL url = ActivityServicesImplTest.class.getClassLoader().getResource(PROPERTIES_FILE);
+	private static Properties loadPropertiesFile(final String propertiesFile) throws IOException {
+		final Properties properties = new Properties();
+		final URL url = ActivityServicesImplTest.class.getClassLoader().getResource(PROPERTIES_FILE);
 		properties.load(url.openStream());
 		return properties;
 	}
@@ -220,8 +220,8 @@ public class TestUtils {
 	}
 
 	public static Token getRevokedToken() throws UnauthorizedException {
-		Token token = getValidToken();
-		TokenServices service = TokenServicesImpl.implementation(token);
+		final Token token = getValidToken();
+		final TokenServices service = TokenServicesImpl.implementation(token);
 		service.deauthorise(token);
 		return token;
 	}
