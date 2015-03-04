@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 
 import javastrava.api.v3.auth.TokenManager;
@@ -14,6 +15,7 @@ import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.service.StravaServices;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.service.impl.retrofit.ActivityServicesImplTest;
@@ -167,6 +169,7 @@ public class TestUtils {
 		token.setScopes(new ArrayList<AuthorisationScope>());
 		token.setAthlete(new StravaAthlete());
 		token.getAthlete().setEmail(username);
+		token.setServices(new HashMap<Class<? extends StravaServices>,StravaServices>());
 		return token;
 	}
 
