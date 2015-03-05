@@ -47,7 +47,8 @@ public class ListAllSegmentEffortsTest {
 	@Test
 	public void listAllSegmentEfforts_privateSegmentOtherUser() {
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-		assertNull(efforts);
+		assertNotNull(efforts);
+		assertTrue(efforts.isEmpty());
 		
 	}
 	
