@@ -80,13 +80,13 @@ public class GiveKudosTest {
 	@Test
 	public void testGiveKudos_noWriteAccess() throws NotFoundException {
 		try {
-			serviceWithoutWriteAccess().giveKudos(261474554);
+			serviceWithoutWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 		} catch (final UnauthorizedException e) {
 			// Expected
 			return;
 		}
 		// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
-		//fail("Gave kudos without write access");
+		// fail("Gave kudos without write access");
 	}
 
 	private ActivityServices service() {
