@@ -12,11 +12,11 @@ import test.utils.TestUtils;
 
 /**
  * <p>
- * These tests should PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/32">javastrava-api #32</a> still exists
+ * These tests should PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/27">javastrava-api #27</a> still exists
  * </p>
  * 
  * @author Dan Shannon
- * @see <a href="https://github.com/danshannon/javastravav3api/issues/32">https://github.com/danshannon/javastravav3api/issues/32</a>
+ * @see <a href="https://github.com/danshannon/javastravav3api/issues/27">https://github.com/danshannon/javastravav3api/issues/27</a>
  *
  */
 public class Issue27 {
