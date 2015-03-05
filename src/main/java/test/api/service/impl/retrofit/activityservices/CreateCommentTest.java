@@ -79,27 +79,25 @@ public class CreateCommentTest {
 		fail("Added a comment to a private activity");
 	}
 
-	// TODO This is a workaround for issue javastrava-api #30 (https://github.com/danshannon/javastravav3api/issues/30) - uncomment this when resolved
-	//	@Test
-	//	public void testCreateComment_noWriteAccess() throws NotFoundException, BadRequestException {
-	//
-	//		StravaComment comment = null;
-	//		try {
-	//			comment = serviceWithoutWriteAccess().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
-	//		} catch (final UnauthorizedException e) {
-	//			// Expected
-	//			return;
-	//		}
-	//		service().deleteComment(comment);
-	//		fail("Created a comment despite not having write access");
-	//
-	//	}
+	@Test
+	public void testCreateComment_noWriteAccess() throws NotFoundException, BadRequestException {
+
+		StravaComment comment = null;
+		try {
+			comment = serviceWithoutWriteAccess().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
+		} catch (final UnauthorizedException e) {
+			// Expected
+			return;
+		}
+		service().deleteComment(comment);
+		fail("Created a comment despite not having write access");
+
+	}
 
 	private ActivityServices service() {
 		return ActivityServicesImpl.implementation(TestUtils.getValidToken());
 	}
 
-	@SuppressWarnings("unused")
 	private ActivityServices serviceWithoutWriteAccess() {
 		return ActivityServicesImpl.implementation(TestUtils.getValidTokenWithoutWriteAccess());
 	}
