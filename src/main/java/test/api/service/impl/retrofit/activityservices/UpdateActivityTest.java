@@ -191,15 +191,15 @@ public class UpdateActivityTest {
 		StravaActivityTest.validateActivity(response);
 
 		final TextProducer text = Fairy.create().textProducer();
-		String description = text.sentence();
-		String name = text.sentence();
-		StravaActivityType type = StravaActivityType.RIDE;
-		Boolean privateActivity = Boolean.TRUE;
-		Boolean commute = Boolean.TRUE;
-		Boolean trainer = Boolean.FALSE;
-		String gearId = TestUtils.GEAR_VALID_ID;
+		final String description = text.sentence();
+		final String name = text.sentence();
+		final StravaActivityType type = StravaActivityType.RIDE;
+		final Boolean privateActivity = Boolean.TRUE;
+		final Boolean commute = Boolean.TRUE;
+		final Boolean trainer = Boolean.TRUE;
+		final String gearId = TestUtils.GEAR_VALID_ID;
 
-		StravaActivityUpdate update = new StravaActivityUpdate();
+		final StravaActivityUpdate update = new StravaActivityUpdate();
 		update.setDescription(description);
 		update.setCommute(commute);
 		update.setGearId(gearId);
@@ -211,65 +211,8 @@ public class UpdateActivityTest {
 		response = service().updateActivity(response.getId(), update);
 		StravaActivityTest.validateActivity(response);
 		assertEquals(description, response.getDescription());
-		
-		// TODO This is commented out as a workaround for issue javastrava-api #13
-		// assertEquals(commute, response.getCommute());
-		assertEquals(gearId, response.getGearId());
-		assertEquals(name, response.getName());
-		assertEquals(privateActivity, response.getPrivateActivity());
-		assertEquals(trainer, response.getTrainer());
-		assertEquals(type, response.getType());
 
-		description = text.sentence();
-		name = text.sentence();
-		type = StravaActivityType.RIDE;
-		privateActivity = Boolean.TRUE;
-		commute = Boolean.FALSE;
-		trainer = Boolean.TRUE;
-		gearId = TestUtils.GEAR_VALID_ID;
-
-		update = new StravaActivityUpdate();
-		update.setDescription(description);
-		update.setCommute(commute);
-		update.setGearId(gearId);
-		update.setName(name);
-		update.setPrivateActivity(privateActivity);
-		update.setTrainer(trainer);
-		update.setType(type);
-
-		response = service().updateActivity(response.getId(), update);
-		StravaActivityTest.validateActivity(response);
-		assertEquals(description, response.getDescription());
-		// TODO This is commented out as a workaround for issue javastrava-api #13
-		// assertEquals(commute, response.getCommute());
-		assertEquals(gearId, response.getGearId());
-		assertEquals(name, response.getName());
-		assertEquals(privateActivity, response.getPrivateActivity());
-		assertEquals(trainer, response.getTrainer());
-		assertEquals(type, response.getType());
-
-		description = text.sentence();
-		name = text.sentence();
-		type = StravaActivityType.RIDE;
-		privateActivity = Boolean.TRUE;
-		commute = Boolean.TRUE;
-		trainer = Boolean.TRUE;
-		gearId = TestUtils.GEAR_VALID_ID;
-
-		update = new StravaActivityUpdate();
-		update.setDescription(description);
-		update.setCommute(commute);
-		update.setGearId(gearId);
-		update.setName(name);
-		update.setPrivateActivity(privateActivity);
-		update.setTrainer(trainer);
-		update.setType(type);
-
-		response = service().updateActivity(response.getId(), update);
-		StravaActivityTest.validateActivity(response);
-		assertEquals(description, response.getDescription());
-		// TODO This is commented out as a workaround for issue javastrava-api #13
-		// assertEquals(commute, response.getCommute());
+		assertEquals(commute, response.getCommute());
 		assertEquals(gearId, response.getGearId());
 		assertEquals(name, response.getName());
 		assertEquals(privateActivity, response.getPrivateActivity());
@@ -299,10 +242,10 @@ public class UpdateActivityTest {
 
 	@Test
 	public void testUpdateActivity_nullUpdate() {
-		StravaActivity activity = service().updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
+		final StravaActivity activity = service().updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
 		assertEquals(activity,service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
 	}
-	
+
 	@Test
 	public void testUpdateActivity_invalidActivity() {
 		final StravaActivity activity = TestUtils.createDefaultActivity();

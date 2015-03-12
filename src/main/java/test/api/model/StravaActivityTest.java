@@ -27,15 +27,19 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 		return StravaActivity.class;
 	}
 
-	public static void validateActivity(StravaActivity activity) {
+	public static void validateActivity(final StravaActivity activity) {
 		validateActivity(activity, activity.getId(), activity.getResourceState());
 	}
 
-	public static void validateActivity(StravaActivity activity, Integer id, StravaResourceState state) {
+	public static void validateActivity(final StravaActivity activity, final Integer id, final StravaResourceState state) {
 		assertNotNull(activity);
 		assertEquals(id,activity.getId());
 		assertEquals(state,activity.getResourceState());
-		
+
+		if (state == StravaResourceState.UPDATING) {
+			assertNotNull(activity.getId());
+		}
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(activity.getAchievementCount());
 			assertNotNull(activity.getAthlete());
@@ -70,21 +74,21 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			if (activity.getMaxHeartrate() != null) {
 				assertNotNull(activity.getAverageHeartrate());
 			}
-			
+
 			assertNotNull(activity.getAverageSpeed());
 			// Optional assertNotNull(activity.getAverageTemp());
 			if (activity.getType() == StravaActivityType.RUN) {
 				assertNotNull(activity.getBestEfforts());
-				for (StravaBestRunningEffort effort : activity.getBestEfforts()) {
+				for (final StravaBestRunningEffort effort : activity.getBestEfforts()) {
 					StravaBestRunningEffortTest.validateBestEffort(effort,effort.getId(),effort.getResourceState());
 				}
 				if (!activity.getManual()) {
 					assertNotNull(activity.getSplitsMetric());
-					for (StravaSplit split : activity.getSplitsMetric()) {
+					for (final StravaSplit split : activity.getSplitsMetric()) {
 						StravaSplitTest.validateSplit(split);
 					}
 					assertNotNull(activity.getSplitsStandard());
-					for (StravaSplit split : activity.getSplitsStandard()) {
+					for (final StravaSplit split : activity.getSplitsStandard()) {
 						StravaSplitTest.validateSplit(split);
 					}
 				}
@@ -120,7 +124,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getPhotoCount());
 			assertNotNull(activity.getPrivateActivity());
 			assertNotNull(activity.getSegmentEfforts());
-			for (StravaSegmentEffort effort : activity.getSegmentEfforts()) {
+			for (final StravaSegmentEffort effort : activity.getSegmentEfforts()) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort, effort.getId(), effort.getResourceState());
 			}
 			assertNotNull(activity.getStartDate());
