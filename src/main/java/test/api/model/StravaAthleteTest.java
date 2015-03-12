@@ -12,6 +12,7 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
+import test.utils.TestUtils;
 
 /**
  * @author dshannon
@@ -64,7 +65,11 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			// Optional assertNotNull(athlete.getState());
 			assertNotNull(athlete.getUpdatedAt());
 			// Not part of detailed data
-			assertNull(athlete.getWeight());
+			if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+				assertNotNull(athlete.getWeight());
+			} else {
+				assertNull(athlete.getWeight());
+			}
 			assertNotNull(athlete.getBadgeTypeId());
 			return;
 		}
