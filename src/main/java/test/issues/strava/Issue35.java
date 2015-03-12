@@ -2,7 +2,7 @@ package test.issues.strava;
 
 import static org.junit.Assert.fail;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.StravaUnknownAPIException;
+import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 import javastrava.api.v3.service.impl.retrofit.Retrofit;
 import javastrava.api.v3.service.impl.retrofit.SegmentServicesRetrofit;
 
@@ -18,7 +18,7 @@ public class Issue35 {
 		final String end = "9999-12-31T18:11:07";
 		try {
 			retrofit.listSegmentEfforts(966356, null, start, end, 9, 200);
-		} catch (final StravaUnknownAPIException e) {
+		} catch (final StravaInternalServerErrorException e) {
 			// Expected behaviour
 			return;
 		}
