@@ -17,34 +17,34 @@ import test.apicheck.api.SegmentAPI;
 import test.utils.TestUtils;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class SegmentAPITest {
 	@Test
 	public void testAPI_getSegment() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().getSegment(TestUtils.SEGMENT_VALID_ID);
+		final Response response = api().getSegment(TestUtils.SEGMENT_VALID_ID);
 		ResponseValidator.validate(response, StravaSegment.class);
 	}
-	
+
 	@Test
 	public void testAPI_getSegmentLeaderboard() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, null, null, null, null);
+		final Response response = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, null, null, null, null);
 		ResponseValidator.validate(response, StravaSegmentLeaderboard.class);
 	}
-	
+
 	@Test
-	public void testAPI_listAuthenticatedAthlete() throws JsonSerialisationException, IOException {
-		Response response = api().listAuthenticatedAthleteStarredSegments(null, null);
+	public void testAPI_listAuthenticatedAthleteStarredSegments() throws JsonSerialisationException, IOException {
+		final Response response = api().listAuthenticatedAthleteStarredSegments(null, null);
 		ResponseValidator.validate(response, StravaSegment.class);
 	}
-	
+
 	@Test
 	public void testAPI_listSegmentEfforts() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null);
+		final Response response = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null);
 		ResponseValidator.validate(response, StravaSegmentEffort.class);
 	}
-	
+
 	private SegmentAPI api() {
 		return Retrofit.retrofit(SegmentAPI.class, TestUtils.getValidToken());
 	}

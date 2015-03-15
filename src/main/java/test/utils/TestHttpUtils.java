@@ -13,7 +13,7 @@ import javastrava.api.v3.auth.ref.AuthorisationResponseType;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.config.Strava;
+import javastrava.config.StravaConfig;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -93,7 +93,7 @@ public class TestHttpUtils {
 	public String login(final String email, final String password, final String authenticityToken) {
 		String location = null;
 		try {
-			HttpUriRequest login = RequestBuilder.post().setUri(new URI(Strava.AUTH_ENDPOINT + "/session")).addParameter("email", email)
+			HttpUriRequest login = RequestBuilder.post().setUri(new URI(StravaConfig.AUTH_ENDPOINT + "/session")).addParameter("email", email)
 					.addParameter("password", password).addParameter("authenticity_token", authenticityToken).addParameter("utf8", "✓").build();
 			CloseableHttpResponse response2 = this.httpClient.execute(login);
 			try {
@@ -134,7 +134,7 @@ public class TestHttpUtils {
 		}
 		String location = null;
 		try {
-			HttpUriRequest post = RequestBuilder.post().setUri(new URI(Strava.AUTH_ENDPOINT + "/oauth/accept_application"))
+			HttpUriRequest post = RequestBuilder.post().setUri(new URI(StravaConfig.AUTH_ENDPOINT + "/oauth/accept_application"))
 					.addParameter("client_id", TestUtils.STRAVA_APPLICATION_ID.toString()).addParameter("redirect_uri", DEFAULT_REDIRECT_URI)
 					.addParameter("response_type", DEFAULT_RESPONSE_TYPE.toString()).addParameter("authenticity_token", authenticityToken)
 					.addParameter("scope", scopeString).build();
@@ -175,7 +175,7 @@ public class TestHttpUtils {
 		BasicNameValuePair[] params = null;
 		Document loginPage;
 		try {
-			loginPage = httpGet(Strava.AUTH_ENDPOINT + "/login", params);
+			loginPage = httpGet(StravaConfig.AUTH_ENDPOINT + "/login", params);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -196,7 +196,7 @@ public class TestHttpUtils {
 		}
 		Document authPage;
 		try {
-			authPage = httpGet(Strava.AUTH_ENDPOINT + "/oauth/authorize", new BasicNameValuePair("client_id", TestUtils.STRAVA_APPLICATION_ID.toString()),
+			authPage = httpGet(StravaConfig.AUTH_ENDPOINT + "/oauth/authorize", new BasicNameValuePair("client_id", TestUtils.STRAVA_APPLICATION_ID.toString()),
 					new BasicNameValuePair("response_type", DEFAULT_RESPONSE_TYPE.toString()), new BasicNameValuePair("redirect_uri", DEFAULT_REDIRECT_URI),
 					new BasicNameValuePair("approval_prompt", AuthorisationApprovalPrompt.FORCE.toString()), new BasicNameValuePair("scope", scopeString));
 		} catch (IOException e) {
@@ -223,7 +223,7 @@ public class TestHttpUtils {
 
 		// Log in - success should send a redirect to the dashboard
 		String location = login(username, password, authenticityToken);
-		if (!location.equals(Strava.AUTH_ENDPOINT + "/dashboard")) {
+		if (!location.equals(StravaConfig.AUTH_ENDPOINT + "/dashboard")) {
 			throw new UnauthorizedException("Login failed");
 		}
 
