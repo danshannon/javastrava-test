@@ -3,8 +3,8 @@ package test.api.service.impl.retrofit.segmentservices;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.SegmentServices;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.retrofit.SegmentServicesImpl;
@@ -35,13 +35,8 @@ public class GetSegmentTest {
 	@Test
 	public void testGetSegment_otherUserPrivateSegment() throws UnauthorizedException {
 		final SegmentServices service = service();
-		try {
-			service.getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-		} catch (final UnauthorizedException e) {
-			// Expected
-			return;
-		}
-		fail("Returned segment details for a private segment that belongs to another user");
+		final StravaSegment segment = service.getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
+		assertEquals(StravaResourceState.META, segment.getResourceState());
 	}
 
 	// 4. Private segment belonging to the authenticated user
@@ -56,6 +51,5 @@ public class GetSegmentTest {
 	private SegmentServices service() {
 		return SegmentServicesImpl.implementation(TestUtils.getValidToken());
 	}
-
 
 }
