@@ -24,25 +24,25 @@ public class ClubAPITest {
 	@Test
 	public void testAPI_getClub() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().getClub(TestUtils.CLUB_VALID_ID);
-		ResponseValidator.validate(response, StravaClub.class);
+		ResponseValidator.validate(response, StravaClub.class, "getClub");
 	}
 	
 	@Test
 	public void testAPI_listAuthenticatedAthleteClubs() throws JsonSerialisationException, IOException {
 		Response response = api().listAuthenticatedAthleteClubs();
-		ResponseValidator.validate(response, StravaClub.class);
+		ResponseValidator.validate(response, StravaClub.class, "listAuthenticatedAthleteClubs");
 	}
 	
 	@Test
 	public void testAPI_listClubMembers() throws JsonSerialisationException, IOException, NotFoundException {
 		Response response = api().listClubMembers(TestUtils.CLUB_VALID_ID, null, null);
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "listClubMembers");
 	}
 	
 	@Test
-	public void testAPI_list() throws JsonSerialisationException, IOException, NotFoundException {
+	public void testAPI_listRecentClubactivities() throws JsonSerialisationException, IOException, NotFoundException {
 		Response response = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, null, null);
-		ResponseValidator.validate(response, StravaActivity.class);
+		ResponseValidator.validate(response, StravaActivity.class, "listRecentClubActivities");
 	}
 	
 	private ClubAPI api() {

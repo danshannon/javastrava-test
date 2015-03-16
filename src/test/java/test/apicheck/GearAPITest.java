@@ -22,7 +22,7 @@ public class GearAPITest {
 	@Test
 	public void testAPI_getGear() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().getGear(TestUtils.GEAR_VALID_ID);
-		ResponseValidator.validate(response, StravaGear.class);
+		ResponseValidator.validate(response, StravaGear.class, "getGear");
 	}
 	
 	private GearAPI api() {

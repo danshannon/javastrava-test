@@ -22,7 +22,7 @@ public class SegmentEffortAPITest {
 	@Test
 	public void testAPI_getSegmentEffort() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
-		ResponseValidator.validate(response, StravaSegmentEffort.class);
+		ResponseValidator.validate(response, StravaSegmentEffort.class, "getSegmentEffort");
 	}
 	
 	private SegmentEffortAPI api() {

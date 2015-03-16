@@ -24,43 +24,43 @@ public class AthleteAPITest {
 	@Test
 	public void testAPI_getAuthenticatedAthlete() throws JsonSerialisationException, IOException {
 		Response response = api().getAuthenticatedAthlete();
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "getAuthenticatedAthlete");
 	}
 	
 	@Test
 	public void testAPI_getAthlete() throws JsonSerialisationException, IOException, NotFoundException {
 		Response response = api().getAthlete(TestUtils.ATHLETE_VALID_ID);
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "getAthlete");
 	}
 	
 	@Test
 	public void testAPI_listAthleteFriends() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().listAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "listAthleteFriends");
 	}
 	
 	@Test
 	public void testAPI_listAthleteKOMs() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
-		ResponseValidator.validate(response, StravaSegmentEffort.class);
+		ResponseValidator.validate(response, StravaSegmentEffort.class, "listAthleteKOMs");
 	}
 	
 	@Test
 	public void testAPI_listAthletesBothFollowing() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID, null, null);
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "listAthletesNothFollowing");
 	}
 	
 	@Test
 	public void testAPI_listAuthenticatedAthleteFriends() throws JsonSerialisationException, IOException {
 		Response response = api().listAuthenticatedAthleteFriends(null, null);
-		ResponseValidator.validate(response, StravaAthlete.class);
+		ResponseValidator.validate(response, StravaAthlete.class, "listAuthenticatedAthleteFriends");
 	}
 	
 	@Test
-	public void testAPI_() throws NotFoundException, JsonSerialisationException, IOException {
+	public void testAPI_getStatistics() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
-		ResponseValidator.validate(response, StravaStatistics.class);
+		ResponseValidator.validate(response, StravaStatistics.class, "getStatistics" );
 	}
 	
 	private AthleteAPI api() {

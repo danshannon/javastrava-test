@@ -1,15 +1,35 @@
 package test.apicheck.api;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import javastrava.api.v3.model.StravaAchievement;
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaActivityPhotos;
+import javastrava.api.v3.model.StravaActivityZone;
+import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
+import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.model.StravaAthleteSegmentStats;
+import javastrava.api.v3.model.StravaBestRunningEffort;
+import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.model.StravaGear;
+import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.StravaMap;
+import javastrava.api.v3.model.StravaMapPoint;
+import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.model.StravaSegmentExplorerResponse;
+import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
+import javastrava.api.v3.model.StravaSegmentLeaderboard;
+import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
+import javastrava.api.v3.model.StravaSplit;
+import javastrava.api.v3.model.StravaStatistics;
+import javastrava.api.v3.model.StravaStatisticsEntry;
 import javastrava.util.exception.JsonSerialisationException;
 import javastrava.util.impl.gson.JsonUtilImpl;
 
@@ -25,120 +45,366 @@ import com.google.gson.JsonParser;
  *
  */
 public class ResponseValidator {
-	private static JsonUtilImpl util = new JsonUtilImpl();
+	private static JsonUtilImpl	util	= new JsonUtilImpl();
+
 	/**
 	 * @param errors
 	 * @return
 	 */
-	private static boolean containsErrors(final List<String> errors) {
-		boolean fail = false;
+	private static String errors(final Set<String> errors) {
+		String errorString = "";
 		if (!errors.isEmpty()) {
 			for (final String error : errors) {
-				System.out.println(error);
+				errorString = errorString + error + "; ";
 			}
-			fail = true;
 		}
-		return fail;
+		if (errorString.length() == 0) {
+			return null;
+		}
+		System.out.println(errorString);
+		return errorString;
 	}
 
 	/**
-	 * @param response response to be validated
-	 * @param class1 class of the element (or of the array contents if the input is a JsonArray)
+	 * @param response
+	 *            response to be validated
+	 * @param class1
+	 *            class of the element (or of the array contents if the input is a JsonArray)
 	 * @throws JsonSerialisationException
 	 * @throws IOException
 	 */
-	public static <T> void validate(final Response response, final Class<T> class1) throws JsonSerialisationException, IOException {
+	public static <T> void validate(final Response response, final Class<T> class1, final String prefix)
+			throws JsonSerialisationException, IOException {
 		final String input = IOUtils.toString(response.getBody().in());
 		final JsonParser parser = new JsonParser();
 		final JsonElement inputElement = parser.parse(input);
-		final List<String> errors = new ArrayList<String>();
+		final Set<String> errors = new LinkedHashSet<String>();
 		if (inputElement == null || inputElement.isJsonNull() || inputElement.isJsonPrimitive()) {
 			return;
 		}
 
+		validateElement(inputElement, errors, class1, prefix);
+		String message = errors(errors);
+		assertNull(message,message);
 
+	}
+
+	private static <T> JsonElement roundTrip(JsonElement input, Class<T> class1) {
+		return util.getGson().toJsonTree(util.getGson().fromJson(input, class1));
+	}
+
+	private static <T> void validateElement(JsonElement inputElement, Set<String> errors, Class<T> class1, String prefix) {
 		if (inputElement.isJsonObject()) {
-			final T object = util.deserialise(input, class1);
-			final String outputString = util.serialise(object);
-			final JsonElement output = parser.parse(outputString);
-			for (final Entry<String, JsonElement> entry : inputElement.getAsJsonObject().entrySet()) {
-				final String name = entry.getKey();
-				final JsonElement element = entry.getValue();
-				if (!(element.isJsonNull()) && output.getAsJsonObject().get(name)  == null) {
-					errors.add("No element named '" + name + "'");
-				}
+			final JsonElement outputElement = roundTrip(inputElement, class1);
+
+			// If it's an activity, validate the bits
+			if (class1 == StravaActivity.class) {
+				validateActivity(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaActivityPhotos.class) {
+				validateActivityPhotos(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaActivityZone.class) {
+				validateActivityZone(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaAthlete.class) {
+				validateAthlete(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaBestRunningEffort.class) {
+				validateBestEffort(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaLap.class) {
+				validateLap(inputElement, errors, prefix);
+			}
+
+			// If it's a segment, validate the bits
+			else if (class1 == StravaSegment.class) {
+				validateSegment(inputElement, errors, prefix);
+			}
+
+			// If it's a segment effort, validate the bits
+			else if (class1 == StravaSegmentEffort.class) {
+				validateSegmentEffort(inputElement, errors, prefix);
+
+			}
+
+			else if (class1 == StravaSegmentExplorerResponse.class) {
+				validateSegmentExplorerResponse(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaSegmentExplorerResponseSegment.class) {
+				validateSegmentExplorerResponseSegment(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaSegmentLeaderboard.class) {
+				validateSegmentLeaderboard(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaStatistics.class) {
+				validateStravaStatistics(inputElement, errors, prefix);
+			}
+			// For everything else which doesn't have composed Strava model objects
+			else {
+				compareJsonObjects(outputElement, inputElement, errors, prefix);
 			}
 		}
 
 		if (inputElement.isJsonArray()) {
 			for (final JsonElement element : inputElement.getAsJsonArray()) {
-				final T object = util.getGson().fromJson(element, class1);
-				final JsonElement output = util.getGson().toJsonTree(object);
-				for (final Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-					final String name = entry.getKey();
-					final JsonElement subelement = entry.getValue();
-					if (!(subelement.isJsonNull()) && output.getAsJsonObject().get(name)  == null) {
-						errors.add("No element named '" + name + "'");
-					}
-				}
+				validateElement(element, errors, class1, prefix);
 			}
 		}
 
-		// If it's a segment, validate the bits
-		if (class1 == StravaSegment.class) {
-			final StravaSegment segment = util.deserialise(input, StravaSegment.class);
-			validateSegment(segment, inputElement, errors, "segment.");
-		}
-
-		// If it's a segment effort, validate the bits
-		if (class1 == StravaSegmentEffort.class) {
-			final StravaSegmentEffort effort = util.deserialise(input, StravaSegmentEffort.class);
-			validateSegmentEffort(effort, inputElement, errors, "segmentEffort.");
-		}
-
-		assertFalse(containsErrors(errors));
 	}
 
-	private static void validateSegment(final StravaSegment segment, final JsonElement element, final List<String> errors, final String prefix) {
-		compareJsonElements(util.getGson().toJsonTree(segment),element,errors,prefix);
-		if (segment.getAthletePrEffort() != null) {
-			final JsonElement prElement = element.getAsJsonObject().get("athlete_pr_effort");
-			validateSegmentEffort(segment.getAthletePrEffort(), prElement, errors, prefix + "athlete_pr_effort");
-		}
-		if (segment.getMap() != null) {
-			final JsonElement mapElement = element.getAsJsonObject().get("map");
-			validateMap(segment.getMap(), mapElement, errors, prefix + ".map");
-		}
-
-	}
-
-	private static void validateSegmentEffort(final StravaSegmentEffort effort, final JsonElement element, final List<String> errors, final String prefix) {
-		compareJsonElements(util.getGson().toJsonTree(effort), element, errors, prefix);
-		if (effort.getAchievements() != null) {
-			final JsonElement achievements = element.getAsJsonObject().get("achievements");
-			validateAchievements(effort.getAchievements(), achievements, errors, prefix + "achievements");
-		}
-		if (effort.getActivity() != null) {
-			// TODO
-		}
-		if (effort.getAthleteSegmentStats() != null) {
-			// TODO
-		}
-		if (effort.getSegment() != null ) {
-			// TODO
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateStravaStatistics(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaStatistics.class), element, errors, prefix);
+		String[] totalsList = { "all_ride_totals", "all_run_totals", "recent_ride_totals", "recent_run_totals", "ytd_ride_totals",
+				"ytd_run_totals" };
+		for (String totals : totalsList) {
+			JsonElement stats = element.getAsJsonObject().get("allRideTotals");
+			if (stats != null) {
+				validateElement(stats, errors, StravaStatisticsEntry.class, prefix + "." + totals);
+			}
 		}
 	}
 
-	private static void validateMap(final StravaMap map, final JsonElement mapElement, final List<String> errors, final String prefix) {
-		compareJsonElements(util.getGson().toJsonTree(map), mapElement, errors, prefix);
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateSegmentLeaderboard(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaSegmentLeaderboard.class), element, errors, prefix);
+		JsonElement entries = element.getAsJsonObject().get("entries");
+		if (entries != null) {
+			validateElement(entries, errors, StravaSegmentLeaderboardEntry.class, prefix + ".entries");
+		}
 
 	}
 
-	private static void compareJsonElements(final JsonElement output, final JsonElement jsonElement, final List<String> errors, final String prefix) {
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateSegmentExplorerResponseSegment(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaSegmentExplorerResponseSegment.class), element, errors, prefix);
+		JsonElement endLatLng = element.getAsJsonObject().get("end_latlng");
+		if (endLatLng != null) {
+			validateElement(endLatLng, errors, StravaMapPoint.class, prefix + ".end_latlng");
+		}
+
+		JsonElement startLatLng = element.getAsJsonObject().get("start_latlng");
+		if (startLatLng != null) {
+			validateElement(startLatLng, errors, StravaMapPoint.class, prefix + ".start_latlng");
+		}
+	}
+
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateSegmentExplorerResponse(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaSegmentExplorerResponse.class), element, errors, prefix);
+		JsonElement segments = element.getAsJsonObject().get("segments");
+		if (segments != null) {
+			validateElement(segments, errors, StravaSegmentExplorerResponseSegment.class, prefix + ".segments");
+		}
+
+	}
+
+	/**
+	 * @param element
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateLap(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaLap.class), element, errors, prefix);
+		JsonElement athlete = element.getAsJsonObject().get("athlete");
+		if (athlete != null) {
+			validateElement(athlete, errors, StravaAthlete.class, prefix + ".athlete");
+		}
+		JsonElement activity = element.getAsJsonObject().get("acivity");
+		if (activity != null) {
+			validateElement(activity, errors, StravaActivity.class, prefix + ".activity");
+		}
+
+	}
+
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateBestEffort(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaBestRunningEffort.class), element, errors, prefix);
+		final JsonElement activity = element.getAsJsonObject().get("activity");
+		if (activity != null) {
+			validateElement(activity, errors, StravaActivity.class, prefix + ".activity");
+		}
+		final JsonElement athlete = element.getAsJsonObject().get("athlete");
+		if (athlete != null) {
+			validateElement(athlete, errors, StravaAthlete.class, prefix + ".athlete");
+		}
+		final JsonElement segment = element.getAsJsonObject().get("segment");
+		if (segment != null) {
+			validateElement(segment, errors, StravaSegment.class, prefix + ".segment");
+		}
+
+	}
+
+	/**
+	 * @param inputElement
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateActivityZone(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaActivityZone.class), element, errors, prefix);
+		final JsonElement buckets = element.getAsJsonObject().get("distribution_buckets");
+		if (buckets != null) {
+			validateElement(buckets, errors, StravaActivityZoneDistributionBucket.class, prefix + ".distributoin_buckets");
+		}
+
+	}
+
+	/**
+	 * @param element
+	 * @param errors
+	 * @param prefix
+	 */
+	private static void validateActivityPhotos(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaActivityPhotos.class), element, errors, prefix);
+		final JsonElement primary = element.getAsJsonObject().get("primary");
+		if (primary != null) {
+			validateElement(primary, errors, StravaPhoto.class, prefix + ".primary");
+		}
+	}
+
+	private static void validateSegment(final JsonElement element, final Set<String> errors, final String prefix) {
+		compareJsonObjects(roundTrip(element, StravaSegment.class), element, errors, prefix);
+		final JsonElement prElement = element.getAsJsonObject().get("athlete_pr_effort");
+		if (prElement != null) {
+			validateElement(prElement, errors, StravaSegmentEffort.class, prefix + ".athlete_pr_effort");
+		}
+		final JsonElement mapElement = element.getAsJsonObject().get("map");
+		if (mapElement != null) {
+			validateElement(mapElement, errors, StravaMap.class, prefix + ".map");
+		}
+
+	}
+
+	private static void validateSegmentEffort(final JsonElement element, final Set<String> errors, final String prefix) {
+		compareJsonObjects(roundTrip(element, StravaSegmentEffort.class), element, errors, prefix);
+		final JsonElement achievements = element.getAsJsonObject().get("achievements");
+		if (achievements != null) {
+			validateElement(achievements, errors, StravaAchievement.class, prefix + ".achievements");
+		}
+		final JsonElement activity = element.getAsJsonObject().get("activity");
+		if (activity != null) {
+			validateElement(activity, errors, StravaActivity.class, prefix + ".activity");
+		}
+		final JsonElement stats = element.getAsJsonObject().get("athlete_segment_stats");
+		if (stats != null) {
+			validateElement(stats, errors, StravaAthleteSegmentStats.class, prefix + ".athlete_segment_stats");
+		}
+		final JsonElement segment = element.getAsJsonObject().get("segment");
+		if (segment != null) {
+			validateElement(segment, errors, StravaSegment.class, prefix + ".segment");
+		}
+	}
+
+	/**
+	 * @param activity
+	 * @param activity2
+	 * @param errors
+	 * @param string
+	 */
+	private static void validateActivity(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaActivity.class), element, errors, prefix);
+		final JsonElement athlete = element.getAsJsonObject().get("athlete");
+		if (athlete != null) {
+			validateElement(athlete, errors, StravaAthlete.class, prefix + ".athlete");
+		}
+		final JsonElement bestEfforts = element.getAsJsonObject().get("best_efforts");
+		if (bestEfforts != null) {
+			validateElement(bestEfforts, errors, StravaBestRunningEffort.class, prefix + ".best_efforts");
+		}
+		final JsonElement endLatLng = element.getAsJsonObject().get("end_latlng");
+		if (endLatLng != null) {
+			validateElement(endLatLng, errors, StravaMapPoint.class, prefix + ".end_latlng");
+		}
+		final JsonElement gear = element.getAsJsonObject().get("gear");
+		if (gear != null) {
+			validateElement(gear, errors, StravaGear.class, prefix + ".gear");
+		}
+		final JsonElement map = element.getAsJsonObject().get("map");
+		if (map != null) {
+			validateElement(map, errors, StravaMap.class, prefix + ".map");
+		}
+		final JsonElement photos = element.getAsJsonObject().get("photos");
+		if (photos != null) {
+			validateElement(photos, errors, StravaActivityPhotos.class, prefix + ".photos");
+		}
+		final JsonElement segmentEfforts = element.getAsJsonObject().get("segment_efforts");
+		if (segmentEfforts != null) {
+			validateElement(segmentEfforts, errors, StravaSegmentEffort.class, prefix + ".segment_efforts");
+		}
+		final JsonElement splitsMetric = element.getAsJsonObject().get("splits_metric");
+		if (splitsMetric != null) {
+			validateElement(splitsMetric, errors, StravaSplit.class, prefix + ".splits_metric");
+		}
+		final JsonElement splitsStandard = element.getAsJsonObject().get("splits_standard");
+		if (splitsStandard != null) {
+			validateElement(splitsStandard, errors, StravaSplit.class, prefix + ".splits_metric");
+		}
+		final JsonElement startLatLng = element.getAsJsonObject().get("start_latlng");
+		if (startLatLng != null) {
+			validateElement(startLatLng, errors, StravaMapPoint.class, prefix + ".start_latlng");
+		}
+
+	}
+
+	/**
+	 * @param athlete
+	 * @param athlete2
+	 * @param errors
+	 * @param string
+	 */
+	private static void validateAthlete(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaAthlete.class), element, errors, prefix);
+		JsonElement bikes = element.getAsJsonObject().get("bikes");
+		if (bikes != null) {
+			validateElement(bikes, errors, StravaGear.class, prefix + ".bikes");
+		}
+		JsonElement clubs = element.getAsJsonObject().get("clubs");
+		if (clubs != null) {
+			validateElement(clubs, errors, StravaClub.class, prefix + ".clubs");
+		}
+		JsonElement shoes = element.getAsJsonObject().get("shoes");
+		if (shoes != null) {
+			validateElement(shoes, errors, StravaGear.class, prefix + ".shoes");
+		}
+
+	}
+
+	private static void compareJsonObjects(final JsonElement output, final JsonElement jsonElement, final Set<String> errors,
+			final String prefix) {
 		for (final Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
 			final String name = entry.getKey();
 			final JsonElement element = entry.getValue();
-			if (!(element.isJsonNull()) && output.getAsJsonObject().get(name)  == null) {
+			if (!(element.isJsonNull()) && output.getAsJsonObject().get(name) == null) {
 				errors.add("No element named '" + prefix + "." + name + "'");
 			}
 		}
