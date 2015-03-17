@@ -33,7 +33,7 @@ public class Issue33 {
 	public void testIssue33() throws NotFoundException {
 		// Create a retrofit service to use
 		SegmentServicesRetrofit retrofit = Retrofit.retrofit(SegmentServicesRetrofit.class, TestUtils.getValidToken());
-		List<StravaSegmentEffort> efforts = Arrays.asList(retrofit.listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null,
+		List<StravaSegmentEffort> efforts = Arrays.asList(retrofit.listSegmentEfforts(1111556, null, null,
 				null, null, null));
 		assertNotNull(efforts);
 		assertFalse(efforts.isEmpty());
