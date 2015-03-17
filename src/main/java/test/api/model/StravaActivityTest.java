@@ -144,6 +144,9 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			if (activity.getWorkoutType() != null) {
 				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
 			}
+			if (activity.getPhotos() != null) {
+				StravaActivityPhotosTest.validate(activity.getPhotos());
+			}
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
@@ -232,6 +235,9 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			if (activity.getWorkoutType() != null) {
 				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
 			}
+			if (activity.getPhotos() != null) {
+				StravaActivityPhotosTest.validate(activity.getPhotos());
+			}
 			return;
 		}
 		if (state == StravaResourceState.META) {
@@ -284,6 +290,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getType());
 			assertNull(activity.getWeightedAverageWatts());
 			assertNull(activity.getWorkoutType());
+			assertNull(activity.getPhotos());
 			return;
 		}
 		fail("Unexpected activity state " + state + " for activity " + activity);
