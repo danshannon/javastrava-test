@@ -35,6 +35,9 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
 			assertNotNull(photo.getUid());
 			assertNotNull(photo.getUploadedAt());
+			if (photo.getUrls() != null) {
+				StravaPhotoUrlsTest.validate(photo.getUrls());
+			}
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
@@ -46,6 +49,9 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
 			assertNotNull(photo.getUid());
 			assertNotNull(photo.getUploadedAt());
+			if (photo.getUrls() != null) {
+				StravaPhotoUrlsTest.validate(photo.getUrls());
+			}
 			return;
 		}
 		if (state == StravaResourceState.META) {
@@ -56,6 +62,7 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			assertNull(photo.getType());
 			assertNull(photo.getUid());
 			assertNull(photo.getUploadedAt());
+			assertNull(photo.getUrls());
 			return;
 		}
 		fail("Unexpected resource state " + state + " for photo " + photo);
