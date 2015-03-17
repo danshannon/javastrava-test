@@ -20,8 +20,9 @@ public class StravaActivityPhotosTest extends BeanTest<StravaActivityPhotos> {
 	
 	public static void validate(StravaActivityPhotos photos) {
 		assertNotNull(photos.getCount());
-		assertNotNull(photos.getPrimary());
-		StravaPhotoTest.validatePhoto(photos.getPrimary(), photos.getPrimary().getId(), photos.getPrimary().getResourceState());
+		if (photos.getPrimary() != null) {
+			StravaPhotoTest.validatePhoto(photos.getPrimary(), photos.getPrimary().getId(), photos.getPrimary().getResourceState());
+		}
 	}
 
 }

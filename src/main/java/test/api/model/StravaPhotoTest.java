@@ -31,6 +31,7 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			assertNotNull(photo.getCreatedAt());
 			// Optional assertNotNull(photo.getLocation());
 			assertNotNull(photo.getRef());
+			assertNotNull(photo.getSource());
 			assertNotNull(photo.getType());
 			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
 			assertNotNull(photo.getUid());
@@ -40,15 +41,16 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			}
 			return;
 		}
-		if (state == StravaResourceState.SUMMARY) {
-			assertNotNull(photo.getCaption());
-			assertNotNull(photo.getCreatedAt());
+		if (state == StravaResourceState.SUMMARY || state == null) {
+			// Optional assertNotNull(photo.getCaption());
+			// Optional assertNotNull(photo.getCreatedAt());
 			// Optional assertNotNull(photo.getLocation());
-			assertNotNull(photo.getRef());
-			assertNotNull(photo.getType());
+			// Optional assertNotNull(photo.getRef());
+			assertNotNull(photo.getSource());
+			// Optional assertNotNull(photo.getType());
 			assertFalse(photo.getType() == StravaPhotoType.UNKNOWN);
-			assertNotNull(photo.getUid());
-			assertNotNull(photo.getUploadedAt());
+			// Optional assertNotNull(photo.getUid());
+			// Optional assertNotNull(photo.getUploadedAt());
 			if (photo.getUrls() != null) {
 				StravaPhotoUrlsTest.validate(photo.getUrls());
 			}
