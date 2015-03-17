@@ -86,7 +86,7 @@ public class GetAllSegmentLeaderboardTest {
 
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByDateRange() {
-		final StravaSegmentLeaderboard leaderboard = service().getAllSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, StravaLeaderboardDateRange.THIS_WEEK);
+		final StravaSegmentLeaderboard leaderboard = service().getAllSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, StravaLeaderboardDateRange.TODAY);
 		assertNotNull(leaderboard);
 		StravaSegmentLeaderboardTest.validate(leaderboard);
 	}
