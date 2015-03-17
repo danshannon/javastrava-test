@@ -5,7 +5,7 @@ import javastrava.api.v3.model.StravaPhotoUrls;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaPhotoUrlsTest extends BeanTest<StravaPhotoUrls> {
