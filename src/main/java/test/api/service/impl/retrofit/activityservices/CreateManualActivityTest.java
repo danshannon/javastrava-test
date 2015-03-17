@@ -1,7 +1,6 @@
 package test.api.service.impl.retrofit.activityservices;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
@@ -86,69 +85,129 @@ public class CreateManualActivityTest {
 	 * @throws UnauthorizedException
 	 */
 	@Test
-	public void testCreateManualActivity_incompleteActivityDetails() {
+	public void testCreateManualActivity_noName() {
 		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 
 		// Name is required
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		StravaActivity stravaResponse = null;
 		activity.setName(null);
-		activity.setDescription("testCreateManualActivity_incompleteActivityDetails");
+		activity.setDescription("testCreateManualActivity_noName");
 		try {
 			stravaResponse = service.createManualActivity(activity);
 		} catch (IllegalArgumentException e) {
 			// Expected behaviour
 			return;
+		} catch (Exception e) {
+			// Ignore ALL other exceptions
 		}
-		assertNull("Created an activity with no name in error", stravaResponse);
+		
+		// If it did get created, delete it again
+		if (stravaResponse != null) {
+			service.deleteActivity(stravaResponse.getId());
+		}
 
+		fail("Created an activity with no type in error" + stravaResponse);
+	}
+	
+	@Test
+	public void testCreateManualActivity_noType() {
+		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		// Type is required
-		activity = TestUtils.createDefaultActivity();
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		StravaActivity stravaResponse = null;
 		activity.setType(null);
-		activity.setDescription("testCreateManualActivity_incompleteActivityDetails");
+		activity.setName("testCreateManualActivity_noType");
 		try {
 			stravaResponse = service.createManualActivity(activity);
 		} catch (IllegalArgumentException e) {
 			// Expected behaviour
 			return;
+		} catch (Exception e) {
+			// Ignore ALL other exceptions
 		}
-		assertNull("Created an activity with no type in error", stravaResponse);
+		
+		// If it did get created, delete it again
+		if (stravaResponse != null) {
+			service.deleteActivity(stravaResponse.getId());
+		}
 
+		fail("Created an activity with no type in error" + stravaResponse);
+	}
+	
+	@Test
+	public void testCreateManualActivity_invalidType() {
+		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
 		// Type must be one of the specified values
-		activity = TestUtils.createDefaultActivity();
-		activity.setDescription("testCreateManualActivity_incompleteActivityDetails");
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		StravaActivity stravaResponse = null;
+		activity.setName("testCreateManualActivity_invalidType");
 		activity.setType(StravaActivityType.UNKNOWN);
 		try {
 			stravaResponse = service.createManualActivity(activity);
 		} catch (IllegalArgumentException e) {
 			// Expected behaviour
 			return;
+		} catch (Exception e) {
+			// Ignore ALL other exceptions
 		}
-		assertNull("Created an activity with unknown type in error", stravaResponse);
+		
+		// If it did get created, delete it again
+		if (stravaResponse != null) {
+			service.deleteActivity(stravaResponse.getId());
+		}
 
+		fail("Created an activity with invalid type in error");
+	}
+	
+	@Test
+	public void testCreateManualActivity_noStartDate() {
+		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		StravaActivity stravaResponse = null;
 		// Start date is required
-		activity = TestUtils.createDefaultActivity();
-		activity.setDescription("testCreateManualActivity_incompleteActivityDetails");
+		activity.setName("testCreateManualActivity_noStartDate");
 		activity.setStartDateLocal(null);
 		try {
 			stravaResponse = service.createManualActivity(activity);
 		} catch (IllegalArgumentException e) {
 			// Expected behaviour
 			return;
+		} catch (Exception e) {
+			// Ignore ALL other exceptions
 		}
-		assertNull("Created an activity with no start date in error", stravaResponse);
+		
+		// If it did get created, delete it again
+		if (stravaResponse != null) {
+			service.deleteActivity(stravaResponse.getId());
+		}
 
+		fail("Created an activity with no start date in error" + stravaResponse);
+	}
+	
+	@Test
+	public void testCreateManualActivity_noElapsedTime() {
+		ActivityServices service = ActivityServicesImpl.implementation(TestUtils.getValidToken());
+		StravaActivity activity = TestUtils.createDefaultActivity();
+		StravaActivity stravaResponse = null;
 		// Elapsed time is required
-		activity = TestUtils.createDefaultActivity();
-		activity.setDescription("testCreateManualActivity_incompleteActivityDetails");
+		activity.setName("testCreateManualActivity_noElapsedTime");
 		activity.setElapsedTime(null);
 		try {
 			stravaResponse = service.createManualActivity(activity);
 		} catch (IllegalArgumentException e) {
 			// Expected behaviour
 			return;
+		} catch (Exception e) {
+			// Ignore ALL other exceptions
 		}
-		assertNull("Created an activity with no elapsed time in error", stravaResponse);
+		
+		// If it did get created, delete it again
+		if (stravaResponse != null) {
+			service.deleteActivity(stravaResponse.getId());
+		}
+
+		fail("Created an activity with no elapsed time in error" + stravaResponse);
 	}
 
 }
