@@ -3,9 +3,9 @@ package test.apicheck;
 import java.io.IOException;
 
 import javastrava.api.v3.model.StravaGear;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.util.exception.JsonSerialisationException;
+import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class GearAPITest {
 	}
 	
 	private GearAPI api() {
-		return Retrofit.retrofit(GearAPI.class, TestUtils.getValidToken());
+		return API.instance(GearAPI.class, TestUtils.getValidToken());
 	}
 
 }

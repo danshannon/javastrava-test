@@ -4,10 +4,10 @@ import static org.junit.Assert.assertFalse;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.ActivityServicesRetrofit;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import test.utils.TestUtils;
 public class Issue36 {
 	@Test
 	public void testIssue() throws NotFoundException, BadRequestException {
-		final ActivityServicesRetrofit retrofit = Retrofit.retrofit(ActivityServicesRetrofit.class, TestUtils.getValidToken());
+		final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
 		StravaActivity activity = retrofit.createManualActivity(TestUtils.createDefaultActivity());
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		update.setCommute(Boolean.TRUE);

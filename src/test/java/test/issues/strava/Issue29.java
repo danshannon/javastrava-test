@@ -1,8 +1,8 @@
 package test.issues.strava;
 
+import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.ActivityServicesRetrofit;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ import test.utils.TestUtils;
 public class Issue29 {
 	@Test
 	public void testIssue() throws NotFoundException {
-		ActivityServicesRetrofit retrofit = Retrofit.retrofit(ActivityServicesRetrofit.class,TestUtils.getValidTokenWithoutWriteAccess());
+		ActivityAPI retrofit = API.instance(ActivityAPI.class,TestUtils.getValidTokenWithoutWriteAccess());
 		retrofit.giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 	}
 

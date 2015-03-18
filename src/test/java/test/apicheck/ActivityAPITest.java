@@ -8,9 +8,9 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.StravaPhoto;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.util.exception.JsonSerialisationException;
+import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
 
@@ -79,7 +79,7 @@ public class ActivityAPITest {
 	}
 	
 	private ActivityAPI api() {
-		return Retrofit.retrofit(ActivityAPI.class, TestUtils.getValidToken());
+		return API.instance(ActivityAPI.class, TestUtils.getValidToken());
 	}
 	
 }

@@ -7,7 +7,7 @@ import retrofit.http.Path;
 
 /**
  * <p>
- * Retrofit definitions for the gear services endpoints
+ * API definitions for the gear services endpoints
  * </p>
  * 
  * @author Dan Shannon
@@ -15,7 +15,7 @@ import retrofit.http.Path;
  */
 public interface GearAPI {
 	/**
-	 * @see javastrava.api.v3.service.GearServices#getGear(java.lang.String)
+	 * @see javastrava.api.v3.service.GearService#getGear(java.lang.String)
 	 * 
 	 * @param id Gear identifier
 	 * @return Details of the identified gear

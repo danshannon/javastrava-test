@@ -3,9 +3,9 @@ package test.apicheck;
 import java.io.IOException;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.util.exception.JsonSerialisationException;
+import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class SegmentEffortAPITest {
 	}
 	
 	private SegmentEffortAPI api() {
-		return Retrofit.retrofit(SegmentEffortAPI.class, TestUtils.getValidToken());
+		return API.instance(SegmentEffortAPI.class, TestUtils.getValidToken());
 	}
 
 }

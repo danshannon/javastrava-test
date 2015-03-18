@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javastrava.api.v3.auth.AuthorisationServices;
-import javastrava.api.v3.auth.impl.retrofit.AuthorisationServicesImpl;
+import javastrava.api.v3.auth.AuthorisationService;
+import javastrava.api.v3.auth.impl.retrofit.AuthorisationServiceImpl;
 import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.auth.model.TokenResponse;
 import javastrava.api.v3.auth.ref.AuthorisationApprovalPrompt;
 import javastrava.api.v3.auth.ref.AuthorisationResponseType;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
@@ -262,7 +261,7 @@ public class TestHttpUtils {
 	 */
 	public Token getStravaAccessToken(final String username, final String password, final AuthorisationScope... scopes) throws BadRequestException,
 			UnauthorizedException {
-		AuthorisationServices service = new AuthorisationServicesImpl();
+		AuthorisationService service = new AuthorisationServiceImpl();
 
 		// Login
 		String authenticityToken = getLoginAuthenticityToken();
@@ -272,8 +271,7 @@ public class TestHttpUtils {
 		String approvalCode = approveApplication(scopes);
 
 		// Perform the token exchange
-		TokenResponse tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET, approvalCode);
-		Token token = new Token(tokenResponse, scopes);
+		Token token = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET, approvalCode, scopes);
 		return token;
 	}
 

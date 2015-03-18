@@ -11,6 +11,7 @@ import java.util.Random;
 
 import javastrava.config.StravaConfig;
 import javastrava.util.Paging;
+import javastrava.util.PagingUtils;
 
 import org.jfairy.Fairy;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class StravaTest {
 
 	@Test
 	public void testConvertToStravaPaging_small() {
-		final List<Paging> paging = StravaConfig.convertToStravaPaging(new Paging(7, 11));
+		final List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(7, 11));
 		assertEquals("Should return one paging instruction", 1, paging.size());
 		assertEquals("Paging instruction should return page number 7", 7, paging.get(0).getPage().intValue());
 		assertEquals("Paging instruction should return page size 11", 11, paging.get(0).getPageSize().intValue());
@@ -33,7 +34,7 @@ public class StravaTest {
 
 	@Test
 	public void testConvertToStravaPaging_large() {
-		final List<Paging> paging = StravaConfig.convertToStravaPaging(new Paging(2, 201));
+		final List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(2, 201));
 		assertEquals("Should return 2 paging instructions", 2, paging.size());
 		final Paging first = paging.get(0);
 		final Paging second = paging.get(1);
@@ -48,9 +49,9 @@ public class StravaTest {
 
 	@Test
 	public void testConvertToStravaPaging_sequence() {
-		List<Paging> paging = StravaConfig.convertToStravaPaging(new Paging(1,StravaConfig.MAX_PAGE_SIZE));
+		List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(1,StravaConfig.MAX_PAGE_SIZE));
 		assertEquals(1,paging.size());
-		paging = StravaConfig.convertToStravaPaging(new Paging(2,StravaConfig.MAX_PAGE_SIZE));
+		paging = PagingUtils.convertToStravaPaging(new Paging(2,StravaConfig.MAX_PAGE_SIZE));
 		assertEquals(1,paging.size());
 	}
 
@@ -62,7 +63,7 @@ public class StravaTest {
 		// Remove a random number of elements from it
 		final int size = list.size();
 		final int firstN = random.nextInt(list.size() - 2) + 1; // i.e. between 1 and list.size() - 1
-		final List<String> result = StravaConfig.ignoreFirstN(list, firstN);
+		final List<String> result = PagingUtils.ignoreFirstN(list, firstN);
 		assertEquals(size - firstN, result.size());
 	}
 
@@ -85,7 +86,7 @@ public class StravaTest {
 
 		final int firstN = -1;
 		try {
-			StravaConfig.ignoreFirstN(list, firstN);
+			PagingUtils.ignoreFirstN(list, firstN);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -96,7 +97,7 @@ public class StravaTest {
 	@Test
 	public void testIgnoreFirstN_invalidTooLarge() {
 		List<String> list = getRandomList();
-		list = StravaConfig.ignoreFirstN(list, list.size() + 1);
+		list = PagingUtils.ignoreFirstN(list, list.size() + 1);
 		assertNotNull(list);
 		assertEquals(0, list.size());
 	}
@@ -106,7 +107,7 @@ public class StravaTest {
 		List<String> list = getRandomList();
 		final int size = list.size();
 
-		list = StravaConfig.ignoreFirstN(list, 0);
+		list = PagingUtils.ignoreFirstN(list, 0);
 		assertEquals(size, list.size());
 	}
 
@@ -118,7 +119,7 @@ public class StravaTest {
 		// Remove a random number of elements from it
 		final int size = list.size();
 		final int lastN = random.nextInt(list.size() - 2) + 1; // i.e. between 1 and list.size() - 1
-		final List<String> result = StravaConfig.ignoreLastN(list, lastN);
+		final List<String> result = PagingUtils.ignoreLastN(list, lastN);
 		assertEquals(size - lastN, result.size());
 	}
 
@@ -127,7 +128,7 @@ public class StravaTest {
 		List<String> list = getRandomList();
 		final int size = list.size();
 
-		list = StravaConfig.ignoreLastN(list, 0);
+		list = PagingUtils.ignoreLastN(list, 0);
 		assertEquals(size, list.size());
 	}
 
@@ -137,7 +138,7 @@ public class StravaTest {
 
 		final int lastN = -1;
 		try {
-			StravaConfig.ignoreLastN(list, lastN);
+			PagingUtils.ignoreLastN(list, lastN);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -148,14 +149,14 @@ public class StravaTest {
 	@Test
 	public void testIgnoreLastN_invalidTooLarge() {
 		List<String> list = getRandomList();
-		list = StravaConfig.ignoreFirstN(list, list.size() + 1);
+		list = PagingUtils.ignoreFirstN(list, list.size() + 1);
 		assertNotNull(list);
 		assertEquals(0, list.size());
 	}
 
 	@Test
 	public void testConvertToStravaPaging_defaultValueTest() {
-		final List<Paging> pagingList = StravaConfig.convertToStravaPaging(new Paging(0, 0));
+		final List<Paging> pagingList = PagingUtils.convertToStravaPaging(new Paging(0, 0));
 		assertNotNull(pagingList);
 		assertEquals(1, pagingList.size());
 		final Paging paging = pagingList.get(0);
@@ -166,7 +167,7 @@ public class StravaTest {
 	@Test
 	public void testConvertToStravaPaging_ignoreFirstNLargerThanMaxPageSize() {
 		// One page of MAX+2 elements, ignoring the first MAX+1
-		List<Paging> pagingList = StravaConfig.convertToStravaPaging(new Paging(1, StravaConfig.MAX_PAGE_SIZE + 2, StravaConfig.MAX_PAGE_SIZE + 1, 0));
+		List<Paging> pagingList = PagingUtils.convertToStravaPaging(new Paging(1, StravaConfig.MAX_PAGE_SIZE + 2, StravaConfig.MAX_PAGE_SIZE + 1, 0));
 		assertNotNull(pagingList);
 		assertEquals(1, pagingList.size());
 		Paging paging = pagingList.get(0);
@@ -174,7 +175,7 @@ public class StravaTest {
 		assertEquals(expected, paging);
 
 		// Second page of MAX+2 elements, ignoring the first MAX+1
-		pagingList = StravaConfig.convertToStravaPaging(new Paging(2, StravaConfig.MAX_PAGE_SIZE + 2, StravaConfig.MAX_PAGE_SIZE + 1, 0));
+		pagingList = PagingUtils.convertToStravaPaging(new Paging(2, StravaConfig.MAX_PAGE_SIZE + 2, StravaConfig.MAX_PAGE_SIZE + 1, 0));
 		assertNotNull(pagingList);
 		assertEquals(1, pagingList.size());
 		paging = pagingList.get(0);
@@ -186,7 +187,7 @@ public class StravaTest {
 	public void testConvertToStravaPaging_ignoreLastNLargerThanMaxPageSize() {
 		// One page of MAX+2 elements, ignoring the last MAX+1
 		// Should return only the first element
-		final List<Paging> pagingList = StravaConfig.convertToStravaPaging(new Paging(1, StravaConfig.MAX_PAGE_SIZE + 2, 0, StravaConfig.MAX_PAGE_SIZE + 1));
+		final List<Paging> pagingList = PagingUtils.convertToStravaPaging(new Paging(1, StravaConfig.MAX_PAGE_SIZE + 2, 0, StravaConfig.MAX_PAGE_SIZE + 1));
 		assertNotNull(pagingList);
 		assertEquals(1, pagingList.size());
 		final Paging paging = pagingList.get(0);
@@ -200,28 +201,28 @@ public class StravaTest {
 	@Test
 	public void testIgnoreFirstN_nullList() {
 		final List<String> list = null;
-		final List<String> result = StravaConfig.ignoreFirstN(list, 10);
+		final List<String> result = PagingUtils.ignoreFirstN(list, 10);
 		assertNull(result);
 	}
 
 	@Test
 	public void testIgnoreLastN_nullList() {
 		final List<String> list = null;
-		final List<String> result = StravaConfig.ignoreLastN(list, 1);
+		final List<String> result = PagingUtils.ignoreLastN(list, 1);
 		assertNull(result);
 	}
 
 	@Test
 	public void testValidatePagingArguments_nullPagingInstruction() {
 		final Paging paging = null;
-		StravaConfig.validatePagingArguments(paging);
+		PagingUtils.validatePagingArguments(paging);
 	}
 
 	@Test
 	public void testValidatePagingArguments_negativePage() {
 		final Paging paging = new Paging(-1, 0);
 		try {
-			StravaConfig.validatePagingArguments(paging);
+			PagingUtils.validatePagingArguments(paging);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -233,7 +234,7 @@ public class StravaTest {
 	public void testValidatePagingArguments_negativePageSize() {
 		final Paging paging = new Paging(1, -1);
 		try {
-			StravaConfig.validatePagingArguments(paging);
+			PagingUtils.validatePagingArguments(paging);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -245,7 +246,7 @@ public class StravaTest {
 	public void testValidatePagingArguments_ignoreFirstNGreaterThanPageSize() {
 		final Paging paging = new Paging(1, StravaConfig.MAX_PAGE_SIZE, StravaConfig.MAX_PAGE_SIZE + 1, 0);
 		try {
-			StravaConfig.validatePagingArguments(paging);
+			PagingUtils.validatePagingArguments(paging);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -257,7 +258,7 @@ public class StravaTest {
 	public void testValidatePagingArguments_ignoreLastNGreaterThanPageSize() {
 		final Paging paging = new Paging(1, StravaConfig.MAX_PAGE_SIZE, 0, StravaConfig.MAX_PAGE_SIZE + 1);
 		try {
-			StravaConfig.validatePagingArguments(paging);
+			PagingUtils.validatePagingArguments(paging);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;

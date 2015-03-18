@@ -30,8 +30,8 @@ import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.model.StravaSplit;
 import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.model.StravaStatisticsEntry;
-import javastrava.util.exception.JsonSerialisationException;
-import javastrava.util.impl.gson.JsonUtilImpl;
+import javastrava.json.exception.JsonSerialisationException;
+import javastrava.json.impl.gson.JsonUtilImpl;
 
 import org.apache.commons.io.IOUtils;
 

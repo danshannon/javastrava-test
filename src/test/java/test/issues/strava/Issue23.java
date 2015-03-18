@@ -1,8 +1,8 @@
 package test.issues.strava;
 
+import javastrava.api.v3.rest.API;
+import javastrava.api.v3.rest.SegmentAPI;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.api.v3.service.impl.retrofit.SegmentServicesRetrofit;
 
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ import test.utils.TestUtils;
 public class Issue23 {
 	@Test
 	public void testIssue() throws NotFoundException {
-		SegmentServicesRetrofit retrofit = Retrofit.retrofit(SegmentServicesRetrofit.class, TestUtils.getValidToken());
+		SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
 		retrofit.getSegmentLeaderboard(966356, null, null, null, null, 2, null, null, null, null);
 		// Note - that's all for this test, because it should have thrown a NotFoundException
 

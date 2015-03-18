@@ -13,7 +13,7 @@ import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
 import javastrava.api.v3.model.reference.StravaWeightClass;
-import javastrava.api.v3.service.SegmentServices;
+import javastrava.api.v3.service.SegmentService;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import retrofit.client.Response;
@@ -23,7 +23,7 @@ import retrofit.http.Query;
 
 /**
  * <p>
- * Retrofit definitions for the {@link SegmentServices} Strava endpoints
+ * API definitions for the {@link SegmentService} Strava endpoints
  * </p>
  * 
  * @author Dan Shannon
@@ -31,7 +31,7 @@ import retrofit.http.Query;
  */
 public interface SegmentAPI {
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#getSegment(java.lang.Integer)
+	 * @see javastrava.api.v3.service.SegmentService#getSegment(java.lang.Integer)
 	 */
 	/**
 	 * @param id The unique identifier of the segment
@@ -42,7 +42,7 @@ public interface SegmentAPI {
 	public Response getSegment(@Path("id") final Integer id) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#listAuthenticatedAthleteStarredSegments(javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.SegmentService#listAuthenticatedAthleteStarredSegments(javastrava.util.Paging)
 	 * 
 	 * @param page (optional) Page number to be returned
 	 * @param perPage (optional) Number of entries to return per page
@@ -52,7 +52,7 @@ public interface SegmentAPI {
 	public Response listAuthenticatedAthleteStarredSegments(@Query("page") final Integer page, @Query("per_page") final Integer perPage);
 
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#listStarredSegments(java.lang.Integer, java.lang.Integer, java.lang.Integer)
+	 * @see javastrava.api.v3.service.SegmentService#listStarredSegments(java.lang.Integer, java.lang.Integer, java.lang.Integer)
 	 */
 	/**
 	 * @param id The id of the athlete whose starred segments are to be retrieved
@@ -67,7 +67,7 @@ public interface SegmentAPI {
 			throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#listSegmentEfforts(Integer, Integer, java.util.Calendar, java.util.Calendar, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.SegmentService#listSegmentEfforts(Integer, Integer, java.util.Calendar, java.util.Calendar, javastrava.util.Paging)
 	 * 
 	 * @param id
 	 *            The id of the {@link StravaSegment} for which {@link StravaSegmentEffort segment efforts} are to be returned
@@ -90,7 +90,7 @@ public interface SegmentAPI {
 			@Query("per_page") final Integer perPage) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#getSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.SegmentService#getSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, javastrava.util.Paging)
 	 * 
 	 * @param id Segment identifier
 	 * @param gender (Optional) Gender to filter the leaderboard by
@@ -112,7 +112,7 @@ public interface SegmentAPI {
 			@Query("per_page") final Integer perPage, @Query("context_entries") final Integer contextEntries) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.SegmentServices#segmentExplore(javastrava.api.v3.model.StravaMapPoint, javastrava.api.v3.model.StravaMapPoint, StravaSegmentExplorerActivityType, StravaClimbCategory, StravaClimbCategory)
+	 * @see javastrava.api.v3.service.SegmentService#segmentExplore(javastrava.api.v3.model.StravaMapPoint, javastrava.api.v3.model.StravaMapPoint, StravaSegmentExplorerActivityType, StravaClimbCategory, StravaClimbCategory)
 	 * 
 	 * @param bounds Pair of co-ordinates defining a box which is to be searched for segments
 	 * @param activityType (Optional) Activity type to filter by (default is 'ride')

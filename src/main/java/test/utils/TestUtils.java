@@ -8,17 +8,17 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import javastrava.api.v3.auth.TokenManager;
-import javastrava.api.v3.auth.TokenServices;
-import javastrava.api.v3.auth.impl.retrofit.TokenServicesImpl;
+import javastrava.api.v3.auth.TokenService;
+import javastrava.api.v3.auth.impl.retrofit.TokenServiceImpl;
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.service.StravaServices;
+import javastrava.api.v3.service.StravaService;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.service.impl.retrofit.ActivityServicesImplTest;
+import test.api.service.impl.ActivityServicesImplTest;
 
 /**
  * @author Dan Shannon
@@ -169,7 +169,7 @@ public class TestUtils {
 		token.setScopes(new ArrayList<AuthorisationScope>());
 		token.setAthlete(new StravaAthlete());
 		token.getAthlete().setEmail(username);
-		token.setServices(new HashMap<Class<? extends StravaServices>,StravaServices>());
+		token.setServices(new HashMap<Class<? extends StravaService>,StravaService>());
 		return token;
 	}
 
@@ -197,11 +197,11 @@ public class TestUtils {
 	}
 
 	public static Token getValidToken() {
-		Token token = TokenManager.implementation().retrieveTokenWithScope(USERNAME, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
+		Token token = TokenManager.instance().retrieveTokenWithScope(USERNAME, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		if (token == null) {
 			try {
 				token = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
-				TokenManager.implementation().storeToken(token);
+				TokenManager.instance().storeToken(token);
 			} catch (BadRequestException | UnauthorizedException e) {
 				return null;
 			}
@@ -210,11 +210,11 @@ public class TestUtils {
 	}
 
 	public static Token getValidTokenWithoutWriteAccess() {
-		Token token = TokenManager.implementation().retrieveTokenWithExactScope(USERNAME);
+		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
 		if (token == null) {
 			try {
 				token = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD);
-				TokenManager.implementation().storeToken(token);
+				TokenManager.instance().storeToken(token);
 			} catch (BadRequestException | UnauthorizedException e) {
 				return null;
 			}
@@ -224,7 +224,7 @@ public class TestUtils {
 
 	public static Token getRevokedToken() throws UnauthorizedException {
 		final Token token = getValidToken();
-		final TokenServices service = TokenServicesImpl.implementation(token);
+		final TokenService service = TokenServiceImpl.instance(token);
 		service.deauthorise(token);
 		return token;
 	}

@@ -9,9 +9,9 @@ import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.service.AthleteServices;
-import javastrava.api.v3.service.impl.retrofit.AthleteServicesImpl;
-import javastrava.api.v3.service.impl.retrofit.SegmentServicesImpl;
+import javastrava.api.v3.service.AthleteService;
+import javastrava.api.v3.service.impl.AthleteServiceImpl;
+import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
@@ -39,7 +39,7 @@ public class Issue32 {
 	}
 
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = SegmentServicesImpl.implementation(TestUtils.getValidToken())
+		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken())
 				.getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
@@ -50,7 +50,7 @@ public class Issue32 {
 		return isKom;
 	}
 
-	private AthleteServices service() {
-		return AthleteServicesImpl.implementation(TestUtils.getValidToken());
+	private AthleteService service() {
+		return AthleteServiceImpl.instance(TestUtils.getValidToken());
 	}
 }

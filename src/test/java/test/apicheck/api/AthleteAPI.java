@@ -1,6 +1,6 @@
 package test.apicheck.api;
 
-import javastrava.api.v3.service.AthleteServices;
+import javastrava.api.v3.service.AthleteService;
 import javastrava.api.v3.service.exception.NotFoundException;
 import retrofit.client.Response;
 import retrofit.http.GET;
@@ -9,7 +9,7 @@ import retrofit.http.Query;
 
 /**
  * <p>
- * Retrofit definitions for implementation of {@link AthleteServices}
+ * API definitions for implementation of {@link AthleteService}
  * </p>
  * 
  * @author Dan Shannon
@@ -17,7 +17,7 @@ import retrofit.http.Query;
  */
 public interface AthleteAPI {
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#getAuthenticatedAthlete()
+	 * @see javastrava.api.v3.service.AthleteService#getAuthenticatedAthlete()
 	 * 
 	 * @return Full details of the authenticated athlete
 	 */
@@ -25,7 +25,7 @@ public interface AthleteAPI {
 	public Response getAuthenticatedAthlete();
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#getAthlete(java.lang.Integer)
+	 * @see javastrava.api.v3.service.AthleteService#getAthlete(java.lang.Integer)
 	 * 
 	 * @param id Athlete identifier
 	 * @return Details of the athlete, will be somewhat anonymised if the athlete is private
@@ -35,7 +35,7 @@ public interface AthleteAPI {
 	public Response getAthlete(@Path("id") final Integer id) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#listAthleteKOMs(Integer, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.AthleteService#listAthleteKOMs(Integer, javastrava.util.Paging)
 	 * 
 	 * @param id Athlete identifier
 	 * @param page Page number to be returned (default is 1)
@@ -48,7 +48,7 @@ public interface AthleteAPI {
 			throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#listAuthenticatedAthleteFriends(javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.AthleteService#listAuthenticatedAthleteFriends(javastrava.util.Paging)
 	 * 
 	 * @param page Page number to be returned (default is 1)
 	 * @param perPage Page size to be returned (default is 50)
@@ -58,7 +58,7 @@ public interface AthleteAPI {
 	public Response listAuthenticatedAthleteFriends(@Query("page") final Integer page, @Query("per_page") final Integer perPage);
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#listAthleteFriends(Integer, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.AthleteService#listAthleteFriends(Integer, javastrava.util.Paging)
 	 * 
 	 * @param id Athlete identifier
 	 * @param page Page number to be returned (default is 1)
@@ -70,7 +70,7 @@ public interface AthleteAPI {
 	public Response listAthleteFriends(@Path("id") final Integer id, @Query("page") final Integer page, @Query("per_page") final Integer perPage) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#listAthletesBothFollowing(Integer, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.AthleteService#listAthletesBothFollowing(Integer, javastrava.util.Paging)
 	 * 
 	 * @param id Athlete identifier
 	 * @param page Page number to be returned (default is 1)
@@ -83,7 +83,7 @@ public interface AthleteAPI {
 			throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.AthleteServices#statistics(Integer)
+	 * @see javastrava.api.v3.service.AthleteService#statistics(Integer)
 	 * 
 	 * @param id Athlete identifier
 	 * @return Statistics summary for the identified athlete

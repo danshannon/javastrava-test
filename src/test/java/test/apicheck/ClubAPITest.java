@@ -5,9 +5,9 @@ import java.io.IOException;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.util.exception.JsonSerialisationException;
+import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class ClubAPITest {
 	}
 	
 	private ClubAPI api() {
-		return Retrofit.retrofit(ClubAPI.class, TestUtils.getValidToken());
+		return API.instance(ClubAPI.class, TestUtils.getValidToken());
 	}
 
 }

@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>com.github.danshannon</groupId>
 			<artifactId>javastrava-api</artifactId>
-			<version>0.2.0-ALPHA</version>
+			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -22,7 +22,7 @@ public class TokenManagerTest {
 	@Test
 	public void testStoreToken_normal() {
 		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
 		Token retrieved = tokenManager.retrieveTokenWithScope(token.getAthlete().getEmail());
@@ -32,7 +32,7 @@ public class TokenManagerTest {
 	@Test
 	public void testStoreToken_nullToken() {
 		Token token = null;
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
@@ -47,7 +47,7 @@ public class TokenManagerTest {
 	public void testStoreToken_nullScopes() {
 		Token token = getValidToken();
 		token.setScopes(null);
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
@@ -62,7 +62,7 @@ public class TokenManagerTest {
 	public void testStoreToken_noAthleteInToken() {
 		Token token = getValidToken();
 		token.setAthlete(null);
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
@@ -78,7 +78,7 @@ public class TokenManagerTest {
 	public void testStoreToken_noAthleteEmailInToken() {
 		Token token = getValidToken();
 		token.getAthlete().setEmail(null);
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
@@ -92,7 +92,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRetrieveTokenWithScope_normal() {
 		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		token.setScopes(getAllScopes());
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
@@ -105,7 +105,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRetrieveTokenWithScope_nullUsername() {
 		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
 
@@ -117,7 +117,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRetrieveTokenWithScope_nullScopes() {
 		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
 
@@ -130,7 +130,7 @@ public class TokenManagerTest {
 	public void testRetrieveTokenWithExactScope_normal() {
 		Token token = getValidToken();
 		token.setScopes(getAllScopes());
-		TokenManager tokenManager = TokenManager.implementation();
+		TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
 
@@ -144,7 +144,7 @@ public class TokenManagerTest {
 	public void testRetrieveTokenWithExactScope_tokenHasTooLittleScope() {
 		Token token = getValidToken();
 		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.storeToken(token);
 
@@ -180,7 +180,7 @@ public class TokenManagerTest {
 	public void testRetrieveTokenWithExactScope_tokenHasTooMuchScope() {
 		Token token = getValidToken();
 		token.setScopes(getAllScopes());
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.storeToken(token);
 
@@ -193,7 +193,7 @@ public class TokenManagerTest {
 	public void testRetrieveTokenWithExactScope_nullUsername() {
 		Token token = getValidToken();
 		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.storeToken(token);
 
@@ -206,7 +206,7 @@ public class TokenManagerTest {
 	public void testRetrieveTokenWithExactScope_nullScope() {
 		Token token = getValidToken();
 		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.storeToken(token);
 
@@ -219,7 +219,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRetrieveTokenWithExactScope_noTokenRetrieved() {
 		String username = "b@example.com";
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		Token token = manager.retrieveTokenWithExactScope(username, getAllScopes());
 		assertNull(token);
@@ -228,7 +228,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRemoveToken_validToken() {
 		Token token = getValidToken();
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.storeToken(token);
 		manager.revokeToken(token);
@@ -238,7 +238,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRemoveToken_tokenNotInCache() {
 		Token token = getValidToken();
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 
 		manager.revokeToken(token);
@@ -247,7 +247,7 @@ public class TokenManagerTest {
 	@Test
 	public void testRemoveToken_nullToken() {
 		Token token = getValidToken();
-		TokenManager manager = TokenManager.implementation();
+		TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		manager.revokeToken(token);
 	}

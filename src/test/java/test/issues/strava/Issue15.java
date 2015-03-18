@@ -2,9 +2,9 @@ package test.issues.strava;
 
 import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.model.StravaLap;
+import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.ActivityServicesRetrofit;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
 
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import test.utils.TestUtils;
 public class Issue15 {
 	@Test
 	public void testIssue() throws NotFoundException {
-		ActivityServicesRetrofit retrofit = Retrofit.retrofit(ActivityServicesRetrofit.class, TestUtils.getValidToken());
+		ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
 		StravaLap[] laps = retrofit.listActivityLaps(113202);
 		boolean issue = false;
 		for (StravaLap lap : laps) {

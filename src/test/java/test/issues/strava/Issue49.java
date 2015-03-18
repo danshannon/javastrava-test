@@ -3,10 +3,10 @@ package test.issues.strava;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
-import javastrava.api.v3.service.impl.retrofit.ActivityServicesRetrofit;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
 
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ import test.utils.TestUtils;
 public class Issue49 {
 	@Test
 	public void testIssue() {
-		ActivityServicesRetrofit retrofit = Retrofit.retrofit(ActivityServicesRetrofit.class, TestUtils.getValidToken());
+		ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setType(StravaActivityType.UNKNOWN);
 		try {

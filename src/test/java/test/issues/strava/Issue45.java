@@ -1,9 +1,9 @@
 package test.issues.strava;
 
 import static org.junit.Assert.fail;
+import javastrava.api.v3.rest.API;
+import javastrava.api.v3.rest.SegmentAPI;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.api.v3.service.impl.retrofit.SegmentServicesRetrofit;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import test.utils.TestUtils;
 public class Issue45 {
 	@Test
 	public void testIssue() {
-		SegmentServicesRetrofit retrofit = Retrofit.retrofit(SegmentServicesRetrofit.class, TestUtils.getValidToken());
+		SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
 		try {
 			retrofit.listSegmentEfforts(8857183, null, null, null, null, null);
 		} catch (NotFoundException e) {

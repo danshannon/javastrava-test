@@ -8,7 +8,7 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**<p>
- * Retrofit declarations of activity service endpoints
+ * API declarations of activity service endpoints
  * </p>
  * 
  * @author Dan Shannon
@@ -17,7 +17,7 @@ import retrofit.http.Query;
 public interface ActivityAPI {
 	
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#getActivity(java.lang.Integer, java.lang.Boolean)
+	 * @see javastrava.api.v3.service.ActivityService#getActivity(java.lang.Integer, java.lang.Boolean)
 	 */
 	/**
 	 * @param id
@@ -33,7 +33,7 @@ public interface ActivityAPI {
 	public Response getActivity(@Path("id") final Integer id, @Query("include_all_efforts") final Boolean includeAllEfforts) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listAuthenticatedAthleteActivities(java.util.Calendar, java.util.Calendar, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ActivityService#listAuthenticatedAthleteActivities(java.util.Calendar, java.util.Calendar, javastrava.util.Paging)
 	 * 
 	 * @param before Unix epoch time in seconds - return activities before this time
 	 * @param after Unix epoch time in seconds - return activities after this time
@@ -46,7 +46,7 @@ public interface ActivityAPI {
 			@Query("per_page") final Integer perPage);
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listFriendsActivities(javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ActivityService#listFriendsActivities(javastrava.util.Paging)
 	 * 
 	 * @param page Page number to be returned
 	 * @param perPage Page size to be returned
@@ -56,7 +56,7 @@ public interface ActivityAPI {
 	public Response listFriendsActivities(@Query("page") final Integer page, @Query("per_page") final Integer perPage);
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listActivityZones(java.lang.Integer)
+	 * @see javastrava.api.v3.service.ActivityService#listActivityZones(java.lang.Integer)
 	 * 
 	 * @param id The activity identifier
 	 * @return Array of activity zones for the activity
@@ -66,7 +66,7 @@ public interface ActivityAPI {
 	public Response listActivityZones(@Path("id") final Integer id) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listActivityLaps(java.lang.Integer)
+	 * @see javastrava.api.v3.service.ActivityService#listActivityLaps(java.lang.Integer)
 	 * 
 	 * @param id The activity identifier
 	 * @return Array of laps belonging to the activity
@@ -76,7 +76,7 @@ public interface ActivityAPI {
 	public Response listActivityLaps(@Path("id") final Integer id) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listActivityComments(Integer, Boolean, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ActivityService#listActivityComments(Integer, Boolean, javastrava.util.Paging)
 	 * 
 	 * @param id Activity identifier
 	 * @param markdown Whether or not to return comments including markdown
@@ -90,7 +90,7 @@ public interface ActivityAPI {
 			@Query("per_page") final Integer perPage) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listActivityKudoers(Integer, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ActivityService#listActivityKudoers(Integer, javastrava.util.Paging)
 	 * 
 	 * @param id Activity identifier
 	 * @param page Page number to be returned
@@ -103,7 +103,7 @@ public interface ActivityAPI {
 			throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listActivityPhotos(java.lang.Integer)
+	 * @see javastrava.api.v3.service.ActivityService#listActivityPhotos(java.lang.Integer)
 	 * 
 	 * @param id Activity identifier
 	 * @return Array of photos attached to the activity
@@ -113,7 +113,7 @@ public interface ActivityAPI {
 	public Response listActivityPhotos(@Path("id") final Integer id) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ActivityServices#listRelatedActivities(java.lang.Integer, javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ActivityService#listRelatedActivities(java.lang.Integer, javastrava.util.Paging)
 	 * 
 	 * @param id Activity identifier
 	 * @param page Page number to be returned

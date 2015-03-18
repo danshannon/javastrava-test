@@ -7,7 +7,7 @@ import retrofit.http.Path;
 
 /**
  * <p>
- * Retrofit definition of segment effort services endpoints on the Strava API
+ * API definition of segment effort services endpoints on the Strava API
  * </p>
  * 
  * @author Dan Shannon
@@ -15,7 +15,7 @@ import retrofit.http.Path;
  */
 public interface SegmentEffortAPI {
 	/**
-	 * @see javastrava.api.v3.service.SegmentEffortServices#getSegmentEffort(java.lang.Long)
+	 * @see javastrava.api.v3.service.SegmentEffortService#getSegmentEffort(java.lang.Long)
 	 * 
 	 * @param id Effort identifier
 	 * @return Effort details

@@ -2,9 +2,9 @@ package test.issues.strava;
 
 import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
+import javastrava.api.v3.rest.SegmentAPI;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
-import javastrava.api.v3.service.impl.retrofit.SegmentServicesRetrofit;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ import test.utils.TestUtils;
 public class Issue25 {
 	@Test
 	public void testIssue_listAthleteStarredSegments() throws NotFoundException {
-		SegmentServicesRetrofit retrofit = Retrofit.retrofit(SegmentServicesRetrofit.class, TestUtils.getValidToken());
+		SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
 		StravaSegment[] segments = retrofit.listStarredSegments(5614, 1, 2);
 		boolean issue = false;
 		for (StravaSegment segment : segments) {
@@ -33,7 +33,7 @@ public class Issue25 {
 	
 	@Test
 	public void testIssue_listAuthenticatedAthleteStarredSegments() {
-		SegmentServicesRetrofit retrofit = Retrofit.retrofit(SegmentServicesRetrofit.class, TestUtils.getValidToken());
+		SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
 		StravaSegment[] segments = retrofit.listAuthenticatedAthleteStarredSegments(1, 50);
 		boolean issue = false;
 		for (StravaSegment segment : segments) {

@@ -1,10 +1,10 @@
 package test.issues.strava;
 
 import javastrava.api.v3.model.StravaComment;
+import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.impl.retrofit.ActivityServicesRetrofit;
-import javastrava.api.v3.service.impl.retrofit.Retrofit;
 
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ import test.utils.TestUtils;
 public class Issue30 {
 	@Test
 	public void testIssue30() throws BadRequestException, NotFoundException {
-		ActivityServicesRetrofit retrofit = Retrofit.retrofit(ActivityServicesRetrofit.class, TestUtils.getValidTokenWithoutWriteAccess());
+		ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithoutWriteAccess());
 		StravaComment comment = retrofit.createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
 		retrofit.deleteComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, comment.getId());
 	}
