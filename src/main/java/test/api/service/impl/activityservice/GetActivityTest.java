@@ -7,16 +7,15 @@ import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GetActivityTest {
+public class GetActivityTest extends StravaTest {
 	/**
 	 * <p>
 	 * Test retrieval of a known {@link StravaActivity}, complete with all
@@ -118,8 +117,7 @@ public class GetActivityTest {
 	 */
 	@Test
 	public void testGetActivity_unknownActivity() {
-		final ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-		final StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_INVALID);
+		final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_INVALID);
 
 		assertNull("Got an activity for an invalid activity id " + TestUtils.ACTIVITY_INVALID, activity);
 	}
@@ -136,10 +134,5 @@ public class GetActivityTest {
 		assertEquals(comparisonActivity, activity);
 		StravaActivityTest.validateActivity(activity);
 	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 
 }

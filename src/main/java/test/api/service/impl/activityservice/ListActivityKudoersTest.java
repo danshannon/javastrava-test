@@ -10,10 +10,8 @@ import java.util.List;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -88,10 +86,6 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 		assertNotNull(kudoers);
 		assertEquals(0, kudoers.size());
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

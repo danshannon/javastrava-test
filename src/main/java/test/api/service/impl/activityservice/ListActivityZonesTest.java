@@ -9,16 +9,15 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityZone;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityZoneTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListActivityZonesTest {
+public class ListActivityZonesTest extends StravaTest {
 	/**
 	 * <p>
 	 * List {@link StravaActivityZone activity zones} for an {@link StravaActivity} which has them
@@ -72,8 +71,7 @@ public class ListActivityZonesTest {
 	 */
 	@Test
 	public void testListActivityZones_invalidActivity() {
-		final ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-		final List<StravaActivityZone> zones = service.listActivityZones(TestUtils.ACTIVITY_INVALID);
+		final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_INVALID);
 
 		assertNull("Returned non-null activity zones for an activity which doesn't exist", zones);
 	}
@@ -85,7 +83,4 @@ public class ListActivityZonesTest {
 		assertEquals(0, zones.size());
 	}
 
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

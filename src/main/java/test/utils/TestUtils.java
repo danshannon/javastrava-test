@@ -1,11 +1,10 @@
 package test.utils;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javastrava.api.v3.auth.TokenManager;
 import javastrava.api.v3.auth.TokenService;
@@ -15,10 +14,10 @@ import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.StravaService;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.service.impl.ActivityServicesImplTest;
 
 /**
  * @author Dan Shannon
@@ -33,9 +32,7 @@ public class TestUtils {
 	public static Integer STRAVA_APPLICATION_ID;
 	public static String STRAVA_CLIENT_SECRET;
 
-	// public static String VALID_TOKEN;
 	public static Token INVALID_TOKEN;
-	// public static String VALID_TOKEN_WITHOUT_WRITE_ACCESS;
 	public static Integer ACTIVITY_WITH_EFFORTS;
 	public static Integer ACTIVITY_WITH_PHOTOS;
 	public static Integer ACTIVITY_WITHOUT_PHOTOS;
@@ -81,8 +78,8 @@ public class TestUtils {
 	public static Integer SEGMENT_OTHER_USER_PRIVATE_ID;
 	public static Integer SEGMENT_HAZARDOUS_ID;
 
-	private static final String PROPERTIES_FILE = "test-config.properties";
-	private static Properties properties;
+	private static final String PROPERTIES_FILE = "test-config";
+	private static ResourceBundle properties;
 
 	static {
 		try {
@@ -91,28 +88,28 @@ public class TestUtils {
 			throw new RuntimeException(e);
 		}
 		HTTP_UTILS = new TestHttpUtils();
-		USERNAME = properties.getProperty("username");
-		PASSWORD = properties.getProperty("password");
-		STRAVA_APPLICATION_ID = new Integer(properties.getProperty("strava_application_id"));
-		STRAVA_CLIENT_SECRET = properties.getProperty("client_secret");
+		USERNAME = properties.getString("username");
+		PASSWORD = properties.getString("password");
+		STRAVA_APPLICATION_ID = new Integer(properties.getString("strava_application_id"));
+		STRAVA_CLIENT_SECRET = properties.getString("client_secret");
 		// VALID_TOKEN = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		// VALID_TOKEN_WITHOUT_WRITE_ACCESS = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD);
 
-		INVALID_TOKEN = createToken(properties.getProperty("test.activityServicesImplTest.invalidToken"),USERNAME);
-		ACTIVITY_WITH_EFFORTS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithEfforts"));
-		ACTIVITY_WITH_PHOTOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithPhotos"));
-		ACTIVITY_WITHOUT_PHOTOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutPhotos"));
-		ACTIVITY_WITH_COMMENTS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithComments"));
-		ACTIVITY_WITHOUT_COMMENTS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutComments"));
-		ACTIVITY_WITH_KUDOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithKudos"));
-		ACTIVITY_WITHOUT_KUDOS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutKudos"));
-		ACTIVITY_WITH_LAPS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithLaps"));
-		ACTIVITY_WITHOUT_LAPS = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutLaps"));
-		ACTIVITY_WITH_ZONES = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithZones"));
-		ACTIVITY_WITHOUT_ZONES = new Integer(properties.getProperty("test.activityServicesImplTest.activityWithoutZones"));
-		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(properties.getProperty("test.activityServicesImplTest.activityBelongingToAuthenticatedUser"));
-		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getProperty("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
-		ACTIVITY_INVALID = new Integer(properties.getProperty("test.activityServicesImplTest.activityInvalid"));
+		INVALID_TOKEN = createToken(properties.getString("test.activityServicesImplTest.invalidToken"),USERNAME);
+		ACTIVITY_WITH_EFFORTS = new Integer(properties.getString("test.activityServicesImplTest.activityWithEfforts"));
+		ACTIVITY_WITH_PHOTOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithPhotos"));
+		ACTIVITY_WITHOUT_PHOTOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutPhotos"));
+		ACTIVITY_WITH_COMMENTS = new Integer(properties.getString("test.activityServicesImplTest.activityWithComments"));
+		ACTIVITY_WITHOUT_COMMENTS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutComments"));
+		ACTIVITY_WITH_KUDOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithKudos"));
+		ACTIVITY_WITHOUT_KUDOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutKudos"));
+		ACTIVITY_WITH_LAPS = new Integer(properties.getString("test.activityServicesImplTest.activityWithLaps"));
+		ACTIVITY_WITHOUT_LAPS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutLaps"));
+		ACTIVITY_WITH_ZONES = new Integer(properties.getString("test.activityServicesImplTest.activityWithZones"));
+		ACTIVITY_WITHOUT_ZONES = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutZones"));
+		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToAuthenticatedUser"));
+		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
+		ACTIVITY_INVALID = new Integer(properties.getString("test.activityServicesImplTest.activityInvalid"));
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityServicesImplTest.activityPrivateOtherUser");
 
 		ATHLETE_AUTHENTICATED_ID = integerProperty("test.athleteServicesImplTest.authenticatedAthleteId");
@@ -129,9 +126,9 @@ public class TestUtils {
 		CLUB_PUBLIC_NON_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubNonMemberId");
 		CLUB_PUBLIC_MEMBER_ID = integerProperty("test.clubServicesImplTest.clubPublicMemberId");
 
-		GEAR_VALID_ID = properties.getProperty("test.gearServicesImplTest.gearId");
-		GEAR_INVALID_ID = properties.getProperty("test.gearServicesImplTest.gearInvalidId");
-		GEAR_OTHER_ATHLETE_ID = properties.getProperty("test.gearServicesImplTest.gearOtherAthleteId");
+		GEAR_VALID_ID = properties.getString("test.gearServicesImplTest.gearId");
+		GEAR_INVALID_ID = properties.getString("test.gearServicesImplTest.gearInvalidId");
+		GEAR_OTHER_ATHLETE_ID = properties.getString("test.gearServicesImplTest.gearOtherAthleteId");
 
 		SEGMENT_EFFORT_INVALID_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortInvalidId");
 		SEGMENT_EFFORT_VALID_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortId");
@@ -178,22 +175,19 @@ public class TestUtils {
 	 * @return
 	 */
 	private static Integer integerProperty(final String key) {
-		return new Integer(properties.getProperty(key));
+		return new Integer(properties.getString(key));
 	}
 
 	private static Long longProperty(final String key) {
-		return new Long(properties.getProperty(key));
+		return new Long(properties.getString(key));
 	}
 
 	/**
 	 * @param propertiesFile
 	 * @return
 	 */
-	private static Properties loadPropertiesFile(final String propertiesFile) throws IOException {
-		final Properties properties = new Properties();
-		final URL url = ActivityServicesImplTest.class.getClassLoader().getResource(PROPERTIES_FILE);
-		properties.load(url.openStream());
-		return properties;
+	private static ResourceBundle loadPropertiesFile(final String propertiesFile) throws IOException {
+		return ResourceBundle.getBundle(propertiesFile);
 	}
 
 	public static Token getValidToken() {
@@ -227,6 +221,14 @@ public class TestUtils {
 		final TokenService service = TokenServiceImpl.instance(token);
 		service.deauthorise(token);
 		return token;
+	}
+	
+	public static Strava strava() {
+		return new Strava(getValidToken());
+	}
+	
+	public static Strava stravaWithoutWriteAccess() {
+		return new Strava(getValidTokenWithoutWriteAccess());
 	}
 
 }

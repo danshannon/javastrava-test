@@ -7,17 +7,16 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GiveKudosTest {
+public class GiveKudosTest extends StravaTest {
 
 	@Test
 	public void testGiveKudos_activityOtherUser() throws NotFoundException {
@@ -87,14 +86,6 @@ public class GiveKudosTest {
 		}
 		// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
 		// fail("Gave kudos without write access");
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-	private ActivityService serviceWithoutWriteAccess() {
-		return ActivityServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 
 }

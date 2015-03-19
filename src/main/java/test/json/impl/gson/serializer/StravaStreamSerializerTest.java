@@ -10,9 +10,8 @@ import java.util.List;
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
-import javastrava.api.v3.service.StreamService;
+import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.StreamServiceImpl;
 import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
@@ -24,8 +23,7 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 	@Override
 	public void testRoundTrip() throws UnauthorizedException, JsonSerialisationException {
 		// Get a stream
-		StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-		List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
+		List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
 				StravaStreamSeriesDownsamplingType.DISTANCE);
 		assertNotNull(streams);
 		assertTrue(streams.size() > 0);
@@ -44,8 +42,7 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
 		// Get a stream
-		StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-		List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
+		List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
 				StravaStreamSeriesDownsamplingType.DISTANCE);
 		assertNotNull(streams);
 		assertTrue(streams.size() > 0);
@@ -65,6 +62,10 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 	@Override
 	public Class<StravaStream> getClassUnderTest() {
 		return StravaStream.class;
+	}
+	
+	private Strava service() {
+		return TestUtils.strava();
 	}
 
 }

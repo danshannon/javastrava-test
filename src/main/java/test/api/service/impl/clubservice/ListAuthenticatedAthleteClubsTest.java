@@ -6,15 +6,13 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaClubTest;
-import test.utils.TestUtils;
+import test.api.service.StravaTest;
 
-public class ListAuthenticatedAthleteClubsTest {
+public class ListAuthenticatedAthleteClubsTest extends StravaTest {
 	// Test cases
 	// 1. StravaAthlete has clubs
 	@Test
@@ -25,10 +23,6 @@ public class ListAuthenticatedAthleteClubsTest {
 		for (final StravaClub club : clubs) {
 			StravaClubTest.validate(club);
 		}
-	}
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 }

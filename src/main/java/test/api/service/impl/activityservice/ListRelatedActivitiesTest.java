@@ -8,8 +8,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -43,10 +41,6 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 		assertEquals(0, activities.size());
 	}
 
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 	@Override
 	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
 		StravaActivityTest.validateActivity(activity, id, state);
@@ -70,5 +64,5 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 		});
 	}
-
+	
 }

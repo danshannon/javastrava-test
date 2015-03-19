@@ -9,8 +9,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -55,10 +53,6 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID);
 		assertNotNull(koms);
 		assertTrue(koms.isEmpty());
-	}
-
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

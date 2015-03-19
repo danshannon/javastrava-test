@@ -8,14 +8,13 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class LeaveClubTest {
+public class LeaveClubTest extends StravaTest {
 	// Test cases
 	// 1. Valid club which authenticated user is not already a member of
 	@Test
@@ -80,14 +79,6 @@ public class LeaveClubTest {
 		final StravaClubMembershipResponse response = serviceWithoutWriteAccess().leaveClub(id);
 		assertNotNull(response);
 		assertEquals(Boolean.FALSE, response.getSuccess());
-	}
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-	private ClubService serviceWithoutWriteAccess() {
-		return ClubServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 
 	/**

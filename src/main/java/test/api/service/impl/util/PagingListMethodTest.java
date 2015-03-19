@@ -13,6 +13,8 @@ import javastrava.util.Paging;
 
 import org.junit.Test;
 
+import test.api.service.StravaTest;
+
 /**
  * <p>
  * Utility test class used for testing all the service method implementations that return lists
@@ -23,7 +25,7 @@ import org.junit.Test;
  * @param <T> Class of objects contained in the lists returned by the method being tested
  * @param <U> Class of the object's identifier (mostly they're Integer, but some are Long or even String)
  */
-public abstract class PagingListMethodTest<T,U> {
+public abstract class PagingListMethodTest<T,U> extends StravaTest {
 	/**
 	 * <p>
 	 * Test paging (page size only)
@@ -172,5 +174,5 @@ public abstract class PagingListMethodTest<T,U> {
 	}
 
 	protected abstract ListCallback<T> callback();
-
+	
 }

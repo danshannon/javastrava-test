@@ -2,18 +2,17 @@ package test.api.service.impl.activityservice;
 
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaCommentTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class CreateCommentTest {
+public class CreateCommentTest extends StravaTest {
 	@Test
 	public void testCreateComment_valid() throws NotFoundException, BadRequestException {
 		final StravaComment comment = service().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
@@ -92,14 +91,6 @@ public class CreateCommentTest {
 		service().deleteComment(comment);
 		fail("Created a comment despite not having write access");
 
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-	private ActivityService serviceWithoutWriteAccess() {
-		return ActivityServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 
 }

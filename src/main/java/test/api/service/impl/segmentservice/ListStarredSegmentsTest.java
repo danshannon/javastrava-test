@@ -8,8 +8,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -22,35 +20,27 @@ import test.utils.TestUtils;
 public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Test
 	public void testListStarredSegments_authenticatedUser() {
-		final SegmentService service = service();
-		final List<StravaSegment> segments = service.listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
 		assertNotNull(segments);
 	}
 
 	@Test
 	public void testListStarredSegments_otherUser() {
-		final SegmentService service = service();
-		final List<StravaSegment> segments = service.listStarredSegments(TestUtils.ATHLETE_VALID_ID);
+		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_VALID_ID);
 		assertNotNull(segments);
 	}
 
 	@Test
 	public void testListStarredSegments_invalidAthlete() {
-		final SegmentService service = service();
-		final List<StravaSegment> segments = service.listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
+		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
 		assertNull(segments);
 	}
 
 	@Test
 	public void testListStarredSegments_privateAthlete() {
-		final SegmentService service = service();
-		final List<StravaSegment> segments = service.listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
+		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
 		assertNotNull(segments);
 		assertEquals(0, segments.size());
-	}
-
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

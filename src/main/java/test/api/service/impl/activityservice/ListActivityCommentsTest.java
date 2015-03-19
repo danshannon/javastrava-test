@@ -10,9 +10,7 @@ import java.util.List;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -96,18 +94,15 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	 */
 	@Test
 	public void testListActivityComments_invalidActivity() {
-		final ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-
 		List<StravaComment> comments;
-		comments = service.listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE);
+		comments = service().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE);
 
 		assertNull("Expected null response when retrieving comments for an invalid activity", comments);
 	}
 
 	@Test
 	public void testListActivityComments_privateActivity() {
-		final ActivityService service = service();
-		final List<StravaComment> comments = service.listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 		assertNotNull(comments);
 		assertEquals(0, comments.size());
 	}
@@ -122,10 +117,6 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	protected void validate(final StravaComment comment) {
 		validate(comment, comment.getId(), comment.getResourceState());
 
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

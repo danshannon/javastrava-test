@@ -9,8 +9,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -59,10 +57,6 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		for (final StravaAthlete athlete : members) {
 			validate(athlete);
 		}
-	}
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

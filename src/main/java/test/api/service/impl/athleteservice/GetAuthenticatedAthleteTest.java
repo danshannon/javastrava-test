@@ -5,15 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GetAuthenticatedAthleteTest {
+public class GetAuthenticatedAthleteTest extends StravaTest {
 	@Test
 	public void testGetAuthenticatedAthlete() {
 		final StravaAthlete athlete = service().getAuthenticatedAthlete();
@@ -42,7 +41,4 @@ public class GetAuthenticatedAthleteTest {
 		StravaAthleteTest.validateAthlete(athlete,TestUtils.ATHLETE_PRIVATE_ID,StravaResourceState.SUMMARY);
 	}
 
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

@@ -9,16 +9,15 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaPhotoTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListActivityPhotosTest {
+public class ListActivityPhotosTest extends StravaTest {
 	/**
 	 * <p>
 	 * List {@link StravaPhoto photos}, with an {@link StravaActivity activity} that has a known non-zero number of photos
@@ -88,15 +87,10 @@ public class ListActivityPhotosTest {
 	 */
 	@Test
 	public void testListActivityPhotos_hasNoPhotos() {
-		ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-		List<StravaPhoto> photos = service.listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
+		List<StravaPhoto> photos = service().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
 
 		assertNotNull("Photos returned as null for a valid activity without photos", photos);
 		assertEquals("Photos were returned for an activity which has no photos", 0, photos.size());
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 

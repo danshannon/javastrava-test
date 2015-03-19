@@ -10,16 +10,15 @@ import java.util.List;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaLapTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListActivityLapsTest {
+public class ListActivityLapsTest extends StravaTest {
 
 	/**
 	 * <p>
@@ -96,7 +95,4 @@ public class ListActivityLapsTest {
 		assertEquals(0, laps.size());
 	}
 
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

@@ -10,16 +10,14 @@ import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentEffortTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllAthleteKOMsTest {
+public class ListAllAthleteKOMsTest extends StravaTest {
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthlete() {
 		final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
@@ -47,12 +45,8 @@ public class ListAllAthleteKOMsTest {
 		assertNull(efforts);
 	}
 
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken()).getSegmentLeaderboard(segment.getId());
+		final StravaSegmentLeaderboard leaderboard = service().getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			if (entry.getAthleteId().equals(athleteId) && entry.getRank().equals(1)) {

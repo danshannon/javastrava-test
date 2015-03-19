@@ -5,15 +5,13 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
-import test.utils.TestUtils;
+import test.api.service.StravaTest;
 
-public class ListAllAuthenticatedAthleteStarredSegmentsTest {
+public class ListAllAuthenticatedAthleteStarredSegmentsTest extends StravaTest {
 	@Test
 	public void testListAllAuthenticatedAthleteStarredSegments() {
 		List<StravaSegment> segments = service().listAllAuthenticatedAthleteStarredSegments();
@@ -22,9 +20,4 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest {
 			StravaSegmentTest.validateSegment(segment);
 		}
 	}
-	
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 }

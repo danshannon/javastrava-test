@@ -5,15 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaClubTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GetClubTest {
+public class GetClubTest extends StravaTest {
 	// Test cases
 	// 1. Valid club
 	@Test
@@ -49,10 +48,5 @@ public class GetClubTest {
 		assertEquals(comparison, club);
 		StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
 	}
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 
 }

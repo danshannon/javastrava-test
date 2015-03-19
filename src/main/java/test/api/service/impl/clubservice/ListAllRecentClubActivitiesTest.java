@@ -7,15 +7,14 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllRecentClubActivitiesTest {
+public class ListAllRecentClubActivitiesTest extends StravaTest {
 	@Test
 	public void testListAllRecentClubActivities_validClub() {
 		List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_VALID_ID);
@@ -56,7 +55,4 @@ public class ListAllRecentClubActivitiesTest {
 		}
 	}
 
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

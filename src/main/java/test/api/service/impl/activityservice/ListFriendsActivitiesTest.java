@@ -10,9 +10,7 @@ import java.util.List;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -20,7 +18,6 @@ import org.junit.Test;
 import test.api.model.StravaActivityTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
-import test.utils.TestUtils;
 
 public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivity,Integer>{
 	/**
@@ -53,10 +50,6 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 			}
 			StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
 		}
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override
@@ -112,6 +105,5 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		// The second entry in bothPages should be the same as the first entry in secondPage
 		// assertEquals(bothPages.get(1),secondPage.get(0));
 	}
-
 
 }

@@ -6,18 +6,17 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class UpdateActivityTest {
+public class UpdateActivityTest extends StravaTest {
 
 	/**
 	 * <p>
@@ -288,14 +287,6 @@ public class UpdateActivityTest {
 			return;
 		}
 		fail("Successfully updated an activity despite not having write access");
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-	private ActivityService serviceWithoutWriteAccess() {
-		return ActivityServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
 	}
 
 }

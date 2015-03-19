@@ -6,15 +6,13 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
-import test.utils.TestUtils;
+import test.api.service.StravaTest;
 
-public class ListAllAuthenticatedAthleteFriendsTest {
+public class ListAllAuthenticatedAthleteFriendsTest extends StravaTest {
 	@Test
 	public void testListAllAuthenticatedAthleteFriends() {
 		List<StravaAthlete> athletes = service().listAllAuthenticatedAthleteFriends();
@@ -26,9 +24,4 @@ public class ListAllAuthenticatedAthleteFriendsTest {
 		
 	}
 	
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-
 }

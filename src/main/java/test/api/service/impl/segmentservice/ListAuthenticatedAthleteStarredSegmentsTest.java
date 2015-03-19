@@ -7,8 +7,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -16,22 +14,16 @@ import org.junit.Test;
 import test.api.model.StravaSegmentTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
-import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	// Test cases:
 	// 1. No paging
 	@Test
 	public void testListAuthenticatedAthleteStarredSegments_noPaging() {
-		final SegmentService service = service();
-		final List<StravaSegment> segments = service.listAuthenticatedAthleteStarredSegments();
+		final List<StravaSegment> segments = service().listAuthenticatedAthleteStarredSegments();
 		assertNotNull(segments);
 		assertFalse(segments.size() == 0);
 		validateList(segments);
-	}
-
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

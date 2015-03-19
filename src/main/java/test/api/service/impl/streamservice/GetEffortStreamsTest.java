@@ -11,16 +11,15 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
-import javastrava.api.v3.service.StreamService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.StreamServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaStreamTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GetEffortStreamsTest {
+public class GetEffortStreamsTest extends StravaTest {
 	/**
 	 * Test method for
 	 * {@link javastrava.api.v3.service.impl.StreamServiceImpl#getEffortStreams(java.lang.String, javastrava.api.v3.model.reference.StravaStreamType[], javastrava.api.v3.model.reference.StravaStreamResolutionType, javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType)}
@@ -29,25 +28,22 @@ public class GetEffortStreamsTest {
 	// 1. Valid effort for the authenticated user
 	@Test
 	public void testGetEffortStreams_validEffortAuthenticatedUser() throws UnauthorizedException {
-		final StreamService service = getService();
-		final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
+		final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
 		validateList(streams);
 	}
 
 	// 2. Invalid effort
 	@Test
 	public void testGetEffortStreams_invalidEffort() throws UnauthorizedException {
-		final StreamService service = getService();
-		final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID);
+		final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID);
 		assertNull(streams);
 	}
 
 	// 3. Valid effort for other user
 	@Test
 	public void testGetEffortStreams_validEffortUnauthenticatedUser() {
-		final StreamService service = getService();
 		try {
-			service.getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
+			service().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
 		} catch (final UnauthorizedException e) {
 			// Expected
 			return;
@@ -58,8 +54,7 @@ public class GetEffortStreamsTest {
 	// 4. All stream types
 	@Test
 	public void testGetEffortStreams_allStreamTypes() throws UnauthorizedException {
-		final StreamService service = getService();
-		final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
+		final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
 		validateList(streams);
 
 	}
@@ -67,8 +62,7 @@ public class GetEffortStreamsTest {
 	// 5. Only one stream type
 	@Test
 	public void testGetEffortStreams_oneStreamType() throws UnauthorizedException {
-		final StreamService service = getService();
-		final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.DISTANCE);
+		final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.DISTANCE);
 		assertNotNull(streams);
 		assertEquals(1, streams.size());
 		assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -78,10 +72,9 @@ public class GetEffortStreamsTest {
 	// 6. Downsampled by time
 	@Test
 	public void testGetEffortStreams_downsampledByTime() throws UnauthorizedException {
-		final StreamService service = getService();
 		for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 			if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-				final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
+				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
 						StravaStreamSeriesDownsamplingType.TIME);
 				validateList(streams);
 			}
@@ -91,10 +84,9 @@ public class GetEffortStreamsTest {
 	// 7. Downsampled by distance
 	@Test
 	public void testGetEffortStreams_downsampledByDistance() throws UnauthorizedException {
-		final StreamService service = getService();
 		for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 			if (resolutionType != StravaStreamResolutionType.UNKNOWN && resolutionType != null) {
-				final List<StravaStream> streams = service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
+				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
 						StravaStreamSeriesDownsamplingType.DISTANCE);
 				validateList(streams);
 			}
@@ -104,9 +96,8 @@ public class GetEffortStreamsTest {
 	// 8. Invalid stream type
 	@Test
 	public void testGetEffortStreams_invalidStreamType() throws UnauthorizedException {
-		final StreamService service = getService();
 		try {
-			service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
+			service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -117,9 +108,8 @@ public class GetEffortStreamsTest {
 	// 9. Invalid downsample resolution
 	@Test
 	public void testGetEffortStreams_invalidDownsampleResolution() throws UnauthorizedException {
-		final StreamService service = getService();
 		try {
-			service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
+			service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
@@ -130,18 +120,13 @@ public class GetEffortStreamsTest {
 	// 10. Invalid downsample type (i.e. not distance or time)
 	@Test
 	public void testGetEffortStreams_invalidDownsampleType() throws UnauthorizedException {
-		final StreamService service = getService();
 		try {
-			service.getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
+			service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
 		fail("Didn't throw an exception when asking for an invalid downsample type");
-	}
-
-	private StreamService getService() {
-		return StreamServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	private void validateList(final List<StravaStream> streams) {

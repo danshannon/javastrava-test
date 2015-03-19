@@ -6,15 +6,14 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.ActivityService;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllRelatedActivitiesTest {
+public class ListAllRelatedActivitiesTest extends StravaTest {
 	@Test
 	public void testListAllRelatedActivities_validActivity() {
 		List<StravaActivity> activities = service().listAllRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
@@ -41,7 +40,4 @@ public class ListAllRelatedActivitiesTest {
 		
 	}
 	
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

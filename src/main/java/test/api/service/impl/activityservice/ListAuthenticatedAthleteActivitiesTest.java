@@ -11,9 +11,7 @@ import java.util.TimeZone;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -122,19 +120,14 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 */
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterInvalidCombination() {
-		final ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
 		final Calendar before = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		before.set(2014, Calendar.JANUARY, 1);
 		final Calendar after = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 		after.set(2015, Calendar.JANUARY, 1);
 
-		final List<StravaActivity> activities = service.listAuthenticatedAthleteActivities(before, after);
+		final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after);
 		assertNotNull("Returned null collection of activities", activities);
 		assertEquals(0,activities.size());
-	}
-
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override
@@ -160,6 +153,5 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 		});
 	}
-
 
 }

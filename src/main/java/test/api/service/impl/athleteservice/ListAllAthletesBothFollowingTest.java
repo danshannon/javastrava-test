@@ -7,15 +7,14 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllAthletesBothFollowingTest {
+public class ListAllAthletesBothFollowingTest extends StravaTest {
 	@Test
 	public void testListAllAthletesBothFollowing_validAthlete() {
 		List<StravaAthlete> athletes = service().listAllAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
@@ -50,7 +49,4 @@ public class ListAllAthletesBothFollowingTest {
 		
 	}
 
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

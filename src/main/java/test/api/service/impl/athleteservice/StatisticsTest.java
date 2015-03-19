@@ -3,15 +3,14 @@ package test.api.service.impl.athleteservice;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaStatistics;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaStatisticsTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class StatisticsTest {
+public class StatisticsTest extends StravaTest {
 	@Test
 	public void testStatistics_authenticatedAthlete() {
 		final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
@@ -35,10 +34,5 @@ public class StatisticsTest {
 		final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_PRIVATE_ID);
 		StravaStatisticsTest.validate(stats);
 	}
-
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 
 }

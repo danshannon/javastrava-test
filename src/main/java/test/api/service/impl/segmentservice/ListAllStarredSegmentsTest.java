@@ -7,15 +7,14 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllStarredSegmentsTest {
+public class ListAllStarredSegmentsTest extends StravaTest {
 	@Test
 	public void listAllStarredSegments_validAthlete() {
 		List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
@@ -42,7 +41,4 @@ public class ListAllStarredSegmentsTest {
 
 	}
 
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

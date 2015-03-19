@@ -6,15 +6,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.ActivityService;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
-import test.utils.TestUtils;
+import test.api.service.StravaTest;
 
-public class ListAllFriendsActivitiesTest {
+public class ListAllFriendsActivitiesTest extends StravaTest {
 	@Test
 	public void testListAllFriendsActivities() {
 		List<StravaActivity> activities = service().listAllFriendsActivities();
@@ -25,8 +23,4 @@ public class ListAllFriendsActivitiesTest {
 		}
 	}
 	
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 }

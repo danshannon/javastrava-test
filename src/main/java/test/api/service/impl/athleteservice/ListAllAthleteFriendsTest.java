@@ -8,15 +8,14 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaFollowerState;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllAthleteFriendsTest {
+public class ListAllAthleteFriendsTest extends StravaTest {
 	@Test
 	public void testListAllAthleteFriends_authenticatedAthlete() {
 		final List<StravaAthlete> athletes = service().listAllAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID);
@@ -43,10 +42,5 @@ public class ListAllAthleteFriendsTest {
 		final List<StravaAthlete> athletes = service().listAllAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
 		assertNull(athletes);
 	}
-
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
-	}
-
 
 }

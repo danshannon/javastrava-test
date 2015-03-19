@@ -9,8 +9,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -46,10 +44,6 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 		final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID);
 		assertNotNull(friends);
 		assertTrue(friends.isEmpty());
-	}
-
-	private AthleteService service() {
-		return AthleteServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

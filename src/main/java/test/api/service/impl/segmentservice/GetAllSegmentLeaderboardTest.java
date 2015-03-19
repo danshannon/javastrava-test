@@ -10,15 +10,14 @@ import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentLeaderboardTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class GetAllSegmentLeaderboardTest {
+public class GetAllSegmentLeaderboardTest extends StravaTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_validSegment() {
 		final StravaSegmentLeaderboard leaderboard = service().getAllSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID);
@@ -89,10 +88,6 @@ public class GetAllSegmentLeaderboardTest {
 		final StravaSegmentLeaderboard leaderboard = service().getAllSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, StravaLeaderboardDateRange.TODAY);
 		assertNotNull(leaderboard);
 		StravaSegmentLeaderboardTest.validate(leaderboard);
-	}
-
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 }

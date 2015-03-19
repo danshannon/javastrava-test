@@ -9,8 +9,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -59,11 +57,6 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		assertNotNull(activities);
 		assertFalse(0 == activities.size());
 		validateList(activities);
-	}
-
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
 	}
 
 	@Override

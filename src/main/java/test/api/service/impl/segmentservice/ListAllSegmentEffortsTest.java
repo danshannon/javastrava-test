@@ -9,15 +9,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentEffortTest;
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class ListAllSegmentEffortsTest {
+public class ListAllSegmentEffortsTest extends StravaTest {
 	@Test
 	public void listAllSegmentEfforts_validSegment() {
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_VALID_ID);
@@ -133,7 +132,4 @@ public class ListAllSegmentEffortsTest {
 		}
 	}
 
-	private SegmentService service() {
-		return SegmentServiceImpl.instance(TestUtils.getValidToken());
-	}
 }

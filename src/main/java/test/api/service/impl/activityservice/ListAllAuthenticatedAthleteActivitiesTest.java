@@ -5,15 +5,13 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.ActivityService;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
-import test.utils.TestUtils;
+import test.api.service.StravaTest;
 
-public class ListAllAuthenticatedAthleteActivitiesTest {
+public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 	@Test
 	// TODO Other test cases (before, after, both, invalid)
 	public void testListAllAuthenticatedAthleteActivities() {
@@ -24,8 +22,4 @@ public class ListAllAuthenticatedAthleteActivitiesTest {
 		}
 	}
 
-	private ActivityService service() {
-		return ActivityServiceImpl.instance(TestUtils.getValidToken());
-
-	}
 }

@@ -4,15 +4,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
 import org.junit.Test;
 
+import test.api.service.StravaTest;
 import test.utils.TestUtils;
 
-public class DeleteActivityTest {
+public class DeleteActivityTest extends StravaTest {
 	/**
 	 * <p>
 	 * Attempt to delete an existing {@link StravaActivity} for the user
@@ -29,13 +28,12 @@ public class DeleteActivityTest {
 	 */
 	@Test
 	public void testDeleteActivity_validActivity() {
-		ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setName("testDeleteActivity_validActivity");
-		StravaActivity stravaResponse = service.createManualActivity(activity);
-		activity = service.getActivity(stravaResponse.getId());
+		StravaActivity stravaResponse = service().createManualActivity(activity);
+		activity = service().getActivity(stravaResponse.getId());
 		assertNotNull(activity);
-		service.deleteActivity(activity.getId());
+		service().deleteActivity(activity.getId());
 
 	}
 
@@ -51,25 +49,22 @@ public class DeleteActivityTest {
 	@Test
 	public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() {
 		// Create the activity using a service which DOES have write access
-		ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
 		StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setName("testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
-		StravaActivity stravaResponse = service.createManualActivity(activity);
-		activity = service.getActivity(stravaResponse.getId());
+		StravaActivity stravaResponse = service().createManualActivity(activity);
+		activity = service().getActivity(stravaResponse.getId());
 		assertNotNull(activity);
 
 		// Now get a token without write access and attempt to delete
-		service = ActivityServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
 		try {
-			service.deleteActivity(activity.getId());
+			serviceWithoutWriteAccess().deleteActivity(activity.getId());
 			fail("Succeeded in deleting an activity despite not having write access");
 		} catch (UnauthorizedException e) {
 			// Expected behaviour
 		}
 
 		// Delete the activity using a token with write access
-		service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-		service.deleteActivity(activity.getId());
+		service().deleteActivity(activity.getId());
 	}
 
 	/**
@@ -81,8 +76,7 @@ public class DeleteActivityTest {
 	 */
 	@Test
 	public void testDeleteActivity_invalidActivity() {
-		ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
-		StravaActivity stravaResponse = service.deleteActivity(1);
+		StravaActivity stravaResponse = service().deleteActivity(1);
 		assertNull("deleted an activity that doesn't exist", stravaResponse);
 	}
 
