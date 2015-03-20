@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.danshannon</groupId>
   <artifactId>javastrava-test</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.3.1-SNAPSHOT</version>
   <name>Javastrava Test Suite</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,12 +12,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.4-beta1</version>
+			<version>4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.7.2</version>
+			<version>1.8.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.meanbean</groupId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>1.6</version>
+			<version>1.7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jfairy</groupId>
