@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.danshannon</groupId>
   <artifactId>javastrava-test</artifactId>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.9.0-BETA</version>
   <name>Javastrava Test Suite</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>com.github.danshannon</groupId>
 			<artifactId>javastrava-api</artifactId>
-			<version>0.3.2-SNAPSHOT</version>
+			<version>0.9.0-BETA</version>
 		</dependency>
 	</dependencies>
 </project>
