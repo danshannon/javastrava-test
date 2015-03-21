@@ -1,8 +1,8 @@
 package test.utils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -149,7 +149,7 @@ public class TestUtils {
 		final StravaActivity activity = new StravaActivity();
 		activity.setName("TO BE DELETED");
 		activity.setType(StravaActivityType.RIDE);
-		activity.setStartDateLocal(new Date());
+		activity.setStartDateLocal(LocalDateTime.now());
 		activity.setElapsedTime(1000);
 		activity.setDescription("Created by Strava API v3 Java");
 		activity.setDistance(1000.1F);

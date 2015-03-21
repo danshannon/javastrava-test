@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
@@ -39,12 +39,12 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		assertNotNull("Returned null array for latest friends' activities", activities);
 
 		// Check that the activities are returned in descending order of start date
-		Date lastStartDate = null;
+		ZonedDateTime lastStartDate = null;
 		for (final StravaActivity activity : activities) {
 			if (lastStartDate == null) {
 				lastStartDate = activity.getStartDate();
 			} else {
-				if (activity.getStartDate().after(lastStartDate)) {
+				if (activity.getStartDate().isAfter(lastStartDate)) {
 					fail("Activities not returned in descending start date order");
 				}
 			}

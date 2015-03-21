@@ -6,7 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
@@ -60,15 +61,14 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	// 5. Filter by start date, valid segment
 	@Test
 	public void testListSegmentEfforts_filterByStartDate() {
-		final Calendar startDate = Calendar.getInstance();
-		startDate.set(2014, Calendar.JANUARY, 1, 0, 0, 0);
+		LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
 		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
 		assertNotNull(efforts);
 		assertFalse(0 == efforts.size());
 		for (final StravaSegmentEffort effort : efforts) {
 			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().after(startDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isAfter(startDate));
 			validate(effort);
 		}
 
@@ -77,15 +77,14 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	// 6. Filter by end date, valid segment
 	@Test
 	public void testListSegmentEfforts_filterByEndDate() {
-		final Calendar endDate = Calendar.getInstance();
-		endDate.set(2013, Calendar.DECEMBER, 31, 23, 59, 59);
+		final LocalDateTime endDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 23, 59, 59);
 
 		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate);
 		assertNotNull(efforts);
 		assertFalse(0 == efforts.size());
 		for (final StravaSegmentEffort effort : efforts) {
 			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().before(endDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isBefore(endDate));
 			validate(effort);
 		}
 	}
@@ -93,18 +92,16 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	// 7. Filter by date range, valid segment
 	@Test
 	public void testListSegmentEfforts_filterByDateRange() {
-		final Calendar startDate = Calendar.getInstance();
-		startDate.set(2014, Calendar.JANUARY, 1, 0, 0, 0);
-		final Calendar endDate = Calendar.getInstance();
-		endDate.set(2014, Calendar.JANUARY, 31, 23, 59, 59);
+		final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
+		final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
 
 		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
 		assertNotNull(efforts);
 		assertFalse(0 == efforts.size());
 		for (final StravaSegmentEffort effort : efforts) {
 			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().after(startDate.getTime()));
-			assertTrue(effort.getStartDateLocal().before(endDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isAfter(startDate));
+			assertTrue(effort.getStartDateLocal().isBefore(endDate));
 			validate(effort);
 		}
 	}

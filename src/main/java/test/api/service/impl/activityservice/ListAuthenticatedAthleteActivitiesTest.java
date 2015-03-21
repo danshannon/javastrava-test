@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
-import java.util.TimeZone;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -53,12 +53,11 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 */
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeActivity() {
-		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		calendar.set(2015, Calendar.JANUARY, 1);
-
+		final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
+		
 		final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(calendar, null);
 		for (final StravaActivity activity : activities) {
-			assertTrue(activity.getStartDate().before(calendar.getTime()));
+			assertTrue(activity.getStartDateLocal().isBefore(calendar));
 			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 			StravaActivityTest.validateActivity(activity);
 		}
@@ -74,12 +73,11 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 */
 	@Test
 	public void testListAuthenticatedAthleteActivities_afterActivity() {
-		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		calendar.set(2015, Calendar.JANUARY, 1);
-
+		final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
+		
 		final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(null, calendar);
 		for (final StravaActivity activity : activities) {
-			assertTrue(activity.getStartDate().after(calendar.getTime()));
+			assertTrue(activity.getStartDateLocal().isAfter(calendar));
 			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 			StravaActivityTest.validateActivity(activity);
 		}
@@ -95,15 +93,13 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 */
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterCombination() {
-		final Calendar before = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		before.set(2015, Calendar.JANUARY, 1);
-		final Calendar after = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		after.set(2014, Calendar.JANUARY, 1);
+		final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
+		final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
 		final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after);
 		for (final StravaActivity activity : activities) {
-			assertTrue(activity.getStartDate().before(before.getTime()));
-			assertTrue(activity.getStartDate().after(after.getTime()));
+			assertTrue(activity.getStartDateLocal().isBefore(before));
+			assertTrue(activity.getStartDateLocal().isAfter(after));
 			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 			StravaActivityTest.validateActivity(activity);
 		}
@@ -120,10 +116,8 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 */
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterInvalidCombination() {
-		final Calendar before = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		before.set(2014, Calendar.JANUARY, 1);
-		final Calendar after = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		after.set(2015, Calendar.JANUARY, 1);
+		final LocalDateTime before = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
+		final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
 		final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after);
 		assertNotNull("Returned null collection of activities", activities);

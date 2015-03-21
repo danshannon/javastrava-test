@@ -5,7 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
@@ -79,55 +80,49 @@ public class ListAllSegmentEffortsTest extends StravaTest {
 	
 	@Test
 	public void listAllSegmentEfforts_filterByBeforeDate() {
-		Calendar beforeDate = Calendar.getInstance();
-		beforeDate.set(2013,Calendar.JANUARY,1);
+		LocalDateTime beforeDate = LocalDateTime.of(2013, Month.JANUARY, 1, 0, 0);
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, beforeDate);
 		assertNotNull(efforts);
 		for (StravaSegmentEffort effort : efforts) {
-			assertTrue(effort.getStartDate().before(beforeDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
 		}
 	}
 
 	@Test
 	public void listAllSegmentEfforts_filterByAfterDate() {
-		Calendar afterDate = Calendar.getInstance();
-		afterDate.set(2015,Calendar.JANUARY,1);
+		LocalDateTime afterDate = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, afterDate, null);
 		assertNotNull(efforts);
 		for (StravaSegmentEffort effort : efforts) {
-			assertTrue(effort.getStartDate().after(afterDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isAfter(afterDate));
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
 		}
 	}
 
 	@Test
 	public void listAllSegmentEfforts_filterByDateRange() {
-		Calendar afterDate = Calendar.getInstance();
-		afterDate.set(2013,Calendar.JANUARY,1);
-		Calendar beforeDate = Calendar.getInstance();
-		beforeDate.set(2013,Calendar.DECEMBER,31);
+		LocalDateTime afterDate = LocalDateTime.of(2013, Month.JANUARY, 1, 0, 0);
+		LocalDateTime beforeDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 0, 0);
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, afterDate, beforeDate);
 		assertNotNull(efforts);
 		for (StravaSegmentEffort effort : efforts) {
-			assertTrue(effort.getStartDate().after(afterDate.getTime()));
-			assertTrue(effort.getStartDate().before(beforeDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isAfter(afterDate));
+			assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
 		}
 	}
 	
 	@Test
 	public void listAllSegmentEfforts_filterByEverything() {
-		Calendar afterDate = Calendar.getInstance();
-		afterDate.set(2013,Calendar.JANUARY,1,0,0,0);
-		Calendar beforeDate = Calendar.getInstance();
-		beforeDate.set(2013,Calendar.DECEMBER,31,23,59,59);
+		LocalDateTime afterDate = LocalDateTime.of(2013, Month.JANUARY, 1, 0, 0);
+		LocalDateTime beforeDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 0, 0);
 		List<StravaSegmentEffort> efforts = service().listAllSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, afterDate, beforeDate);
 		assertNotNull(efforts);
 		for (StravaSegmentEffort effort : efforts) {
-			assertTrue(effort.getStartDate().before(beforeDate.getTime()));
-			assertTrue(effort.getStartDate().after(afterDate.getTime()));
-			assertTrue(effort.getStartDate().before(beforeDate.getTime()));
+			assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
+			assertTrue(effort.getStartDateLocal().isAfter(afterDate));
+			assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
 			StravaSegmentEffortTest.validateSegmentEffort(effort);
 		}
 	}
