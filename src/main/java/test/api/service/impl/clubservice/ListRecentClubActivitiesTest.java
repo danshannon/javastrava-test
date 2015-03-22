@@ -18,7 +18,7 @@ import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
 import test.utils.TestUtils;
 
-public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
+public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaActivity, Integer>{
 	// Test cases
 	// 1. Valid club
 	@Test
@@ -35,7 +35,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		final List<StravaActivity> activities = service().listRecentClubActivities(TestUtils.CLUB_INVALID_ID);
 
 		assertNotNull(activities);
-		assertEquals(0, activities.size());
+		assertEquals(0,activities.size());
 		validateList(activities);
 	}
 
@@ -82,30 +82,31 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 		});
 	}
-
+	
 	// This is a workaround for issue javastrava-api #18 (https://github.com/danshannon/javastravav3api/issues/18)
 	@Override
 	@Test
 	public void testPageNumberAndSize() {
-		final List<StravaActivity> bothPages = callback().getList(new Paging(1, 2));
+		final List<StravaActivity> bothPages = callback().getList(new Paging(1,2));
 		assertNotNull(bothPages);
-		assertEquals(2, bothPages.size());
+		assertEquals(2,bothPages.size());
 		validateList(bothPages);
-		final List<StravaActivity> firstPage = callback().getList(new Paging(1, 1));
+		final List<StravaActivity> firstPage = callback().getList(new Paging(1,1));
 		assertNotNull(firstPage);
-		assertEquals(1, firstPage.size());
+		assertEquals(1,firstPage.size());
 		validateList(firstPage);
-		final List<StravaActivity> secondPage = callback().getList(new Paging(2, 1));
+		final List<StravaActivity> secondPage = callback().getList(new Paging(2,1));
 		assertNotNull(secondPage);
-		assertEquals(1, secondPage.size());
+		assertEquals(1,secondPage.size());
 		validateList(secondPage);
 
-		// // The first entry in bothPages should be the same as the first entry in firstPage
-		// assertEquals(bothPages.get(0),firstPage.get(0));
-		//
-		// // The second entry in bothPages should be the same as the first entry in secondPage
-		// assertEquals(bothPages.get(1),secondPage.get(0));
+//		// The first entry in bothPages should be the same as the first entry in firstPage
+//		assertEquals(bothPages.get(0),firstPage.get(0));
+//
+//		// The second entry in bothPages should be the same as the first entry in secondPage
+//		assertEquals(bothPages.get(1),secondPage.get(0));
 
 	}
+
 
 }
