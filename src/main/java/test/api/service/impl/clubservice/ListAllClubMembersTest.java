@@ -12,50 +12,74 @@ import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
-
 
 public class ListAllClubMembersTest extends StravaTest {
 	@Test
-	public void testListAllClubMembers_validClub() {
-		List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_VALID_ID);
-		assertNotNull(athletes);
-		for (StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
-		}
-	}
-	
-	@Test
-	public void testListAllClubMembers_invalidClub() {
-		List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_INVALID_ID);
-		assertNull(athletes);
-	}
-	
-	@Test
-	public void testListAllClubMembers_privateMember() {
-		List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
-		assertNotNull(athletes);
-		for (StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
-		}
+	public void testListAllClubMembers_validClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_VALID_ID);
+				assertNotNull(athletes);
+				for (final StravaAthlete athlete : athletes) {
+					StravaAthleteTest.validateAthlete(athlete);
+				}
+			}
+		});
 	}
 
 	@Test
-	public void testListAllClubMembers_privateNonMember() {
-		List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-		assertNotNull(athletes);
-		assertEquals(0,athletes.size());
-		
+	public void testListAllClubMembers_invalidClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_INVALID_ID);
+				assertNull(athletes);
+			}
+		});
 	}
-	
+
 	@Test
-	public void testListAllClubMembers_publicNonMember() {
-		List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
-		assertNotNull(athletes);
-		for (StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
-		}
-		
+	public void testListAllClubMembers_privateMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+				assertNotNull(athletes);
+				for (final StravaAthlete athlete : athletes) {
+					StravaAthleteTest.validateAthlete(athlete);
+				}
+			}
+		});
+	}
+
+	@Test
+	public void testListAllClubMembers_privateNonMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				assertNotNull(athletes);
+				assertEquals(0, athletes.size());
+			}
+		});
+	}
+
+	@Test
+	public void testListAllClubMembers_publicNonMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+				assertNotNull(athletes);
+				for (final StravaAthlete athlete : athletes) {
+					StravaAthleteTest.validateAthlete(athlete);
+				}
+			}
+		});
 	}
 
 }

@@ -16,34 +16,51 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
-public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAthlete, Integer>{
+public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	// Test cases
 	// 1. Valid athlete - at least 1 common friend
 	@Test
-	public void testListAthletesBothFollowing_validAthlete() {
-		final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
-		assertNotNull(friends);
-		assertFalse(friends.size() == 0);
-		for (final StravaAthlete athlete : friends) {
-			StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
-		}
+	public void testListAthletesBothFollowing_validAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
+				assertNotNull(friends);
+				assertFalse(friends.size() == 0);
+				for (final StravaAthlete athlete : friends) {
+					StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+				}
+			}
+		});
 	}
 
 	// 2. Invalid other athlete
 	@Test
-	public void testListAthletesBothFollowing_invalidAthlete() {
-		final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
-		assertNull("Returned list of athletes being followed by invalid athlete", friends);
+	public void testListAthletesBothFollowing_invalidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
+				assertNull("Returned list of athletes being followed by invalid athlete", friends);
+			}
+		});
 	}
 
 	// 3. Private athlete
 	@Test
-	public void testListAthletesBothFollowing_privateAthlete() {
-		final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID);
-		assertNotNull(friends);
-		assertTrue(friends.isEmpty());
+	public void testListAthletesBothFollowing_privateAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID);
+				assertNotNull(friends);
+				assertTrue(friends.isEmpty());
+			}
+		});
 	}
 
 	@Override

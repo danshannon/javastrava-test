@@ -19,26 +19,35 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
-public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,Integer>{
+public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	/**
 	 * <p>
 	 * List {@link StravaAthlete athletes} giving kudos for an {@link StravaActivity} which has >0 kudos
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityKudoers_hasKudoers() {
-		final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
+	public void testListActivityKudoers_hasKudoers() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
 
-		assertNotNull("Returned null kudos array for activity with kudos", kudoers);
-		assertNotEquals("Returned empty kudos array for activity with kudos", 0, kudoers.size());
-		for (final StravaAthlete athlete : kudoers) {
-			StravaAthleteTest.validateAthlete(athlete);
-		}
+				assertNotNull("Returned null kudos array for activity with kudos", kudoers);
+				assertNotEquals("Returned empty kudos array for activity with kudos", 0, kudoers.size());
+				for (final StravaAthlete athlete : kudoers) {
+					StravaAthleteTest.validateAthlete(athlete);
+				}
+			}
+		});
 	}
 
 	/**
@@ -49,17 +58,24 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 	 * <p>
 	 * Should return an empty array of {@link StravaAthlete athletes}
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 * @throws NotFoundException
 	 */
 	@Test
-	public void testListActivityKudoers_hasNoKudoers() {
-		final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITHOUT_KUDOS);
+	public void testListActivityKudoers_hasNoKudoers() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITHOUT_KUDOS);
 
-		assertNotNull("Returned null kudos array for activity without kudos", kudoers);
-		assertEquals("Did not return empty kudos array for activity with no kudos", 0, kudoers.size());
+				assertNotNull("Returned null kudos array for activity without kudos", kudoers);
+				assertEquals("Did not return empty kudos array for activity with no kudos", 0, kudoers.size());
+			}
+		});
 	}
 
 	/**
@@ -70,22 +86,34 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 	 * <p>
 	 * Should return <code>null</code>
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityKudoers_invalidActivity() {
-		final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_INVALID);
+	public void testListActivityKudoers_invalidActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_INVALID);
 
-		assertNull("Returned a non-null array of kudoers for an invalid activity", kudoers);
+				assertNull("Returned a non-null array of kudoers for an invalid activity", kudoers);
+			}
+		});
 	}
 
 	@Test
-	public void testListActivityKudoers_privateActivity() {
-		final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-		assertNotNull(kudoers);
-		assertEquals(0, kudoers.size());
+	public void testListActivityKudoers_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				assertNotNull(kudoers);
+				assertEquals(0, kudoers.size());
+			}
+		});
 	}
 
 	@Override

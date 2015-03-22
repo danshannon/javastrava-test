@@ -12,75 +12,101 @@ import javastrava.api.v3.model.StravaClubMembershipResponse;
 import org.junit.Test;
 
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class JoinClubTest extends StravaTest {
 	// Test cases
 	// 1. Valid club which authenticated user is not already a member of
 	@Test
-	public void testJoinClub_nonMember() {
-		final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
+	public void testJoinClub_nonMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
-		final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = service().joinClub(id);
 
-		// Make sure the athlete now a member
-		final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
-		final boolean member = checkIsMember(clubs, id);
+				// Make sure the athlete now a member
+				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
+				final boolean member = checkIsMember(clubs, id);
 
-		// Leave the club again, just to be sure
-		service().leaveClub(id);
+				// Leave the club again, just to be sure
+				service().leaveClub(id);
 
-		assertNotNull(response);
-		assertTrue(response.getSuccess());
-		assertTrue(response.getActive());
-		assertTrue(member);
+				assertNotNull(response);
+				assertTrue(response.getSuccess());
+				assertTrue(response.getActive());
+				assertTrue(member);
+			}
+		});
 	}
 
 	// 2. Valid club which authenticated user is already a member of
 	@Test
-	public void testJoinClub_member() {
-		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+	public void testJoinClub_member() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-		final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = service().joinClub(id);
 
-		// Make sure the athlete now (still) a member
-		final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
-		final boolean member = checkIsMember(clubs, id);
+				// Make sure the athlete now (still) a member
+				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
+				final boolean member = checkIsMember(clubs, id);
 
-		assertNotNull(response);
-		assertTrue(response.getSuccess());
-		assertTrue(response.getActive());
-		assertTrue(member);
+				assertNotNull(response);
+				assertTrue(response.getSuccess());
+				assertTrue(response.getActive());
+				assertTrue(member);
+			}
+		});
 	}
 
 	// 3. Invalid club
 	@Test
-	public void testJoinClub_invalidClub() {
-		final Integer id = TestUtils.CLUB_INVALID_ID;
+	public void testJoinClub_invalidClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Integer id = TestUtils.CLUB_INVALID_ID;
 
-		final StravaClubMembershipResponse response = service().joinClub(id);
-		assertEquals(Boolean.FALSE, response.getSuccess());
+				final StravaClubMembershipResponse response = service().joinClub(id);
+				assertEquals(Boolean.FALSE, response.getSuccess());
+			}
+		});
 	}
 
 	// 4. Private club which authenticated user is NOT a member of
 	@Test
-	public void testJoinClub_privateClub() {
-		final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+	public void testJoinClub_privateClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
-		final StravaClubMembershipResponse response = service().joinClub(id);
-		assertNotNull(response);
-		assertEquals(Boolean.FALSE, response.getSuccess());
-
+				final StravaClubMembershipResponse response = service().joinClub(id);
+				assertNotNull(response);
+				assertEquals(Boolean.FALSE, response.getSuccess());
+			}
+		});
 	}
 
 	// 5. Attempt to join a club without having write access
 	@Test
-	public void testJoinClub_noWriteAccess() {
-		final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+	public void testJoinClub_noWriteAccess() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-		final StravaClubMembershipResponse response = serviceWithoutWriteAccess().joinClub(id);
-		assertNotNull(response);
-		assertEquals(Boolean.FALSE, response.getSuccess());
+				final StravaClubMembershipResponse response = serviceWithoutWriteAccess().joinClub(id);
+				assertNotNull(response);
+				assertEquals(Boolean.FALSE, response.getSuccess());
+			}
+		});
 	}
 
 	/**

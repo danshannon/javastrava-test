@@ -16,47 +16,69 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	// Test cases
 	// 1. Valid club
 	@Test
-	public void testListClubMembers_validClub() {
-		final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_VALID_ID);
-		assertNotNull(members);
-		assertFalse(members.size() == 0);
-		for (final StravaAthlete athlete : members) {
-			validate(athlete);
-		}
+	public void testListClubMembers_validClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_VALID_ID);
+				assertNotNull(members);
+				assertFalse(members.size() == 0);
+				for (final StravaAthlete athlete : members) {
+					validate(athlete);
+				}
+			}
+		});
 	}
 
 	// 2. Invalid club
 	@Test
-	public void testListClubMembers_invalidClub() {
-		List<StravaAthlete> members;
+	public void testListClubMembers_invalidClub() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				List<StravaAthlete> members;
 
-		members = service().listClubMembers(TestUtils.CLUB_INVALID_ID);
-		assertNull("Returned a list of members for a non-existent club", members);
+				members = service().listClubMembers(TestUtils.CLUB_INVALID_ID);
+				assertNull("Returned a list of members for a non-existent club", members);
+			}
+		});
 	}
 
 	// 4. Private club of which current authenticated athlete is NOT a member
 	@Test
-	public void testListClubMembers_privateClubNotMember() {
-		final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-		assertNotNull(members);
-		assertEquals(0, members.size());
+	public void testListClubMembers_privateClubNotMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				assertNotNull(members);
+				assertEquals(0, members.size());
+			}
+		});
 	}
 
 	// 3. Private club of which current authenticated athlete is a member
 	@Test
-	public void testListClubMembers_privateClubIsMember() {
-		final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
-		assertNotNull(members);
-		assertFalse(members.size() == 0);
-		for (final StravaAthlete athlete : members) {
-			validate(athlete);
-		}
+	public void testListClubMembers_privateClubIsMember() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+				assertNotNull(members);
+				assertFalse(members.size() == 0);
+				for (final StravaAthlete athlete : members) {
+					validate(athlete);
+				}
+			}
+		});
 	}
 
 	@Override

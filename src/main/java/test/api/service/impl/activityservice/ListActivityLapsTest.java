@@ -16,6 +16,8 @@ import org.junit.Test;
 
 import test.api.model.StravaLapTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListActivityLapsTest extends StravaTest {
@@ -24,22 +26,29 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Attempt to list the {@link StravaLap laps} in an {@link StravaActivity} which has laps
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityLaps_hasLaps() {
-		final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
+	public void testListActivityLaps_hasLaps() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
 
-		assertNotNull("Laps not returned for an activity which should have them", laps);
-		assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
-		for (final StravaLap lap : laps) {
-			if (lap.getResourceState() != StravaResourceState.META) {
-				assertEquals(TestUtils.ACTIVITY_WITH_LAPS,lap.getActivity().getId());
+				assertNotNull("Laps not returned for an activity which should have them", laps);
+				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+				for (final StravaLap lap : laps) {
+					if (lap.getResourceState() != StravaResourceState.META) {
+						assertEquals(TestUtils.ACTIVITY_WITH_LAPS, lap.getActivity().getId());
+					}
+					StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
+				}
 			}
-			StravaLapTest.validateLap(lap,lap.getId(),lap.getResourceState());
-		}
+		});
 	}
 
 	/**
@@ -50,22 +59,29 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Should return an empty array of {@link StravaLap}
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityLaps_hasNoLaps() {
-		final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
+	public void testListActivityLaps_hasNoLaps() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
 
-		assertNotNull("Laps not returned for an activity which should have them", laps);
-		assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
-		for (final StravaLap lap : laps) {
-			if (lap.getResourceState() != StravaResourceState.META) {
-				assertEquals(TestUtils.ACTIVITY_WITHOUT_LAPS,lap.getActivity().getId());
+				assertNotNull("Laps not returned for an activity which should have them", laps);
+				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+				for (final StravaLap lap : laps) {
+					if (lap.getResourceState() != StravaResourceState.META) {
+						assertEquals(TestUtils.ACTIVITY_WITHOUT_LAPS, lap.getActivity().getId());
+					}
+					StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
+				}
 			}
-			StravaLapTest.validateLap(lap,lap.getId(),lap.getResourceState());
-		}
+		});
 	}
 
 	/**
@@ -76,23 +92,35 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Should return <code>null</code>
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityLaps_invalidActivity() {
-		final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_INVALID);
+	public void testListActivityLaps_invalidActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_INVALID);
 
-		assertNull("Laps returned for an invalid activity", laps);
+				assertNull("Laps returned for an invalid activity", laps);
+			}
+		});
 	}
 
 	@Test
-	public void testListActivityLaps_privateActivity() {
-		final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+	public void testListActivityLaps_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
-		assertNotNull(laps);
-		assertEquals(0, laps.size());
+				assertNotNull(laps);
+				assertEquals(0, laps.size());
+			}
+		});
 	}
 
 }

@@ -15,64 +15,91 @@ import javastrava.api.v3.service.impl.StreamServiceImpl;
 import org.junit.Test;
 
 import test.api.service.impl.util.InstanceTestSpec;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ImplementationTest implements InstanceTestSpec {
 
 	/**
 	 * Test method for {@link javastrava.api.v3.service.impl.StreamServiceImpl#instance(java.lang.String)}.
-	 *
-	 * @throws UnauthorizedException
+	 * 
+	 * @throws Exception
 	 */
 	@Override
 	@Test
-	public void testImplementation_validToken() throws UnauthorizedException {
-		final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-		assertNotNull("Didn't get a service implementation using a valid token", service);
-		final List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		assertNotNull(streams);
+	public void testImplementation_validToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
+				assertNotNull("Didn't get a service implementation using a valid token", service);
+				final List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				assertNotNull(streams);
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_invalidToken() {
-		try {
-			final StreamService service = StreamServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		} catch (final UnauthorizedException e) {
-			// Expected behaviour
-			return;
-		}
-		fail("Got a usable implementation from an invalid token");
+	public void testImplementation_invalidToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				try {
+					final StreamService service = StreamServiceImpl.instance(TestUtils.INVALID_TOKEN);
+					service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				} catch (final UnauthorizedException e) {
+					// Expected behaviour
+					return;
+				}
+				fail("Got a usable implementation from an invalid token");
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_implementationIsCached() {
-		final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-		final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidToken());
-		assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+	public void testImplementation_implementationIsCached() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
+				final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidToken());
+				assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_differentImplementationIsNotCached() {
-		final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-		final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
-		assertFalse(service == service2);
+	public void testImplementation_differentImplementationIsNotCached() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
+				final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				assertFalse(service == service2);
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_revokedToken() {
-		final StreamService service = StreamServiceImpl.instance(TestUtils.getRevokedToken());
-		try {
-			service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		} catch (final UnauthorizedException e) {
-			// expected
-			return;
-		}
-		fail("Managed to use a revoked token to access streams");
+	public void testImplementation_revokedToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final StreamService service = StreamServiceImpl.instance(TestUtils.getRevokedToken());
+				try {
+					service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				} catch (final UnauthorizedException e) {
+					// expected
+					return;
+				}
+				fail("Managed to use a revoked token to access streams");
+			}
+		});
 	}
 
 }

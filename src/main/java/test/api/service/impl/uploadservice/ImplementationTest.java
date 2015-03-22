@@ -13,6 +13,8 @@ import javastrava.api.v3.service.impl.UploadServiceImpl;
 import org.junit.Test;
 
 import test.api.service.impl.util.InstanceTestSpec;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ImplementationTest implements InstanceTestSpec {
@@ -20,59 +22,83 @@ public class ImplementationTest implements InstanceTestSpec {
 	/**
 	 * Test method for {@link javastrava.api.v3.service.impl.StreamServiceImpl#instance(java.lang.String)}.
 	 *
-	 * @throws UnauthorizedException
+	 * @throws Exception
 	 */
 	@Override
 	@Test
-	public void testImplementation_validToken() throws UnauthorizedException {
-		final UploadService service = UploadServiceImpl.instance(TestUtils.getValidToken());
-		assertNotNull("Didn't get a service implementation using a valid token", service);
-		final StravaUploadResponse response = service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		assertNotNull(response);
+	public void testImplementation_validToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final UploadService service = UploadServiceImpl.instance(TestUtils.getValidToken());
+				assertNotNull("Didn't get a service implementation using a valid token", service);
+				final StravaUploadResponse response = service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				assertNotNull(response);
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_invalidToken() {
-		try {
-			final UploadService service = UploadServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		} catch (final UnauthorizedException e) {
-			// Expected behaviour
-			return;
-		}
-		fail("Got a usable implementation from an invalid token");
+	public void testImplementation_invalidToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				try {
+					final UploadService service = UploadServiceImpl.instance(TestUtils.INVALID_TOKEN);
+					service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				} catch (final UnauthorizedException e) {
+					// Expected behaviour
+					return;
+				}
+				fail("Got a usable implementation from an invalid token");
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_revokedToken() {
-		try {
-			final UploadService service = UploadServiceImpl.instance(TestUtils.getRevokedToken());
-			service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		} catch (final UnauthorizedException e) {
-			// Expected
-			return;
-		}
-		fail("Got a service implementation with a valid token!");
+	public void testImplementation_revokedToken() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				try {
+					final UploadService service = UploadServiceImpl.instance(TestUtils.getRevokedToken());
+					service.checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+				fail("Got a service implementation with a valid token!");
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_implementationIsCached() {
-		final Token token = TestUtils.getValidToken();
-		final UploadService service = UploadServiceImpl.instance(token);
-		final UploadService service2 = UploadServiceImpl.instance(token);
-		assertEquals(service, service2);
+	public void testImplementation_implementationIsCached() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final Token token = TestUtils.getValidToken();
+				final UploadService service = UploadServiceImpl.instance(token);
+				final UploadService service2 = UploadServiceImpl.instance(token);
+				assertEquals(service, service2);
+			}
+		});
 	}
 
 	@Override
 	@Test
-	public void testImplementation_differentImplementationIsNotCached() {
-		final UploadService service = UploadServiceImpl.instance(TestUtils.getValidToken());
-		final UploadService service2 = UploadServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
-		assertFalse(service == service2);
+	public void testImplementation_differentImplementationIsNotCached() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final UploadService service = UploadServiceImpl.instance(TestUtils.getValidToken());
+				final UploadService service2 = UploadServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				assertFalse(service == service2);
+			}
+		});
 	}
-
 
 }

@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityZoneTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListActivityZonesTest extends StravaTest {
@@ -22,19 +24,26 @@ public class ListActivityZonesTest extends StravaTest {
 	 * <p>
 	 * List {@link StravaActivityZone activity zones} for an {@link StravaActivity} which has them
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityZones_hasZones() {
-		final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITH_ZONES);
+	public void testListActivityZones_hasZones() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITH_ZONES);
 
-		assertNotNull("Returned null activity zones for an activity with zones", zones);
-		assertNotEquals("Returned an empty array of activity zones for an activity with zones", 0, zones.size());
-		for (final StravaActivityZone zone : zones) {
-			StravaActivityZoneTest.validateActivityZone(zone,zone.getResourceState());
-		}
+				assertNotNull("Returned null activity zones for an activity with zones", zones);
+				assertNotEquals("Returned an empty array of activity zones for an activity with zones", 0, zones.size());
+				for (final StravaActivityZone zone : zones) {
+					StravaActivityZoneTest.validateActivityZone(zone, zone.getResourceState());
+				}
+			}
+		});
 	}
 
 	/**
@@ -45,16 +54,23 @@ public class ListActivityZonesTest extends StravaTest {
 	 * <p>
 	 * Should return an empty array
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityZones_hasNoZones() {
-		final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITHOUT_ZONES);
+	public void testListActivityZones_hasNoZones() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITHOUT_ZONES);
 
-		assertNotNull("Returned null activity zones for an activity without zones (should return an empty array)", zones);
-		assertEquals("Returned an non-empty array of activity zones for an activity without zones", 0, zones.size());
+				assertNotNull("Returned null activity zones for an activity without zones (should return an empty array)", zones);
+				assertEquals("Returned an non-empty array of activity zones for an activity without zones", 0, zones.size());
+			}
+		});
 	}
 
 	/**
@@ -65,22 +81,34 @@ public class ListActivityZonesTest extends StravaTest {
 	 * <p>
 	 * Should return <code>null</code>
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
 	 */
 	@Test
-	public void testListActivityZones_invalidActivity() {
-		final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_INVALID);
+	public void testListActivityZones_invalidActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_INVALID);
 
-		assertNull("Returned non-null activity zones for an activity which doesn't exist", zones);
+				assertNull("Returned non-null activity zones for an activity which doesn't exist", zones);
+			}
+		});
 	}
 
 	@Test
-	public void testListActivityZones_privateActivity() {
-		final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-		assertNotNull(zones);
-		assertEquals(0, zones.size());
+	public void testListActivityZones_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				assertNotNull(zones);
+				assertEquals(0, zones.size());
+			}
+		});
 	}
 
 }

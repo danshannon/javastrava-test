@@ -16,43 +16,65 @@ import org.junit.Test;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
-public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort,Long>{
+public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort, Long> {
 	// Test cases
 	// 1. Valid athlete with some KOM's
 	@Test
-	public void testListAthleteKOMs_withKOM() {
-		final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
-		assertNotNull(koms);
-		assertFalse(koms.size() == 0);
-		for (final StravaSegmentEffort effort : koms) {
-			StravaSegmentEffortTest.validateSegmentEffort(effort);
-		}
+	public void testListAthleteKOMs_withKOM() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				assertNotNull(koms);
+				assertFalse(koms.size() == 0);
+				for (final StravaSegmentEffort effort : koms) {
+					StravaSegmentEffortTest.validateSegmentEffort(effort);
+				}
+			}
+		});
 	}
 
 	// 2. Valid athlete with no KOM's
 	@Test
-	public void testListAthleteKOMs_withoutKOM() {
-		final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS);
-		assertNotNull(koms);
-		assertTrue(koms.size() == 0);
+	public void testListAthleteKOMs_withoutKOM() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS);
+				assertNotNull(koms);
+				assertTrue(koms.size() == 0);
+			}
+		});
 	}
 
 	// 3. Invalid athlete
 	@Test
-	public void testListAthleteKOMs_invalidAthlete() {
-		List<StravaSegmentEffort> koms = null;
-		koms = service().listAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
+	public void testListAthleteKOMs_invalidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				List<StravaSegmentEffort> koms = null;
+				koms = service().listAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
 
-		assertNull(koms);
+				assertNull(koms);
+			}
+		});
 	}
 
 	// 4. Private athlete
-	public void testListAthleteKOMs_privateAthlete() {
-		final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID);
-		assertNotNull(koms);
-		assertTrue(koms.isEmpty());
+	public void testListAthleteKOMs_privateAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID);
+				assertNotNull(koms);
+				assertTrue(koms.isEmpty());
+			}
+		});
 	}
 
 	@Override

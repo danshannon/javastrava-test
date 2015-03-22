@@ -15,30 +15,47 @@ import org.junit.Test;
 import test.api.model.StravaActivityTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
-public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity,Integer> {
+public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Test
-	public void testListRelatedActivities_validActivity() {
-		final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-		assertNotNull(activities);
-		for (final StravaActivity activity : activities) {
-			StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
-		}
+	public void testListRelatedActivities_validActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				assertNotNull(activities);
+				for (final StravaActivity activity : activities) {
+					StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
+				}
 
+			}
+		});
 	}
 
 	@Test
-	public void testListRelatedActivities_invalidActivity() {
-		final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_INVALID);
-		assertNull(activities);
+	public void testListRelatedActivities_invalidActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_INVALID);
+				assertNull(activities);
+			}
+		});
 	}
 
 	@Test
-	public void testListRelatedActivities_privateActivity() {
-		final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-		assertNotNull(activities);
-		assertEquals(0, activities.size());
+	public void testListRelatedActivities_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				assertNotNull(activities);
+				assertEquals(0, activities.size());
+			}
+		});
 	}
 
 	@Override
@@ -64,5 +81,5 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 		});
 	}
-	
+
 }

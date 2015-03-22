@@ -12,33 +12,49 @@ import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListAllStarredSegmentsTest extends StravaTest {
 	@Test
-	public void listAllStarredSegments_validAthlete() {
-		List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
-		assertNotNull(segments);
-		for (StravaSegment segment : segments) {
-			StravaSegmentTest.validateSegment(segment);
-		}
+	public void listAllStarredSegments_validAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
+				assertNotNull(segments);
+				for (final StravaSegment segment : segments) {
+					StravaSegmentTest.validateSegment(segment);
+				}
+			}
+		});
 	}
-	
-	@Test
-	public void listAllStarredSegments_invalidAthlete() {
-		List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_INVALID_ID);
-		assertNull(segments);
-	}
-	
-	@Test
-	public void listAllStarredSegments_authenticatedAthlete() {
-		List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
-		assertNotNull(segments);
-		
-		List<StravaSegment> starredSegments = service().listAllAuthenticatedAthleteStarredSegments();
-		assertNotNull(starredSegments);
-		assertEquals(starredSegments.size(),segments.size());
 
+	@Test
+	public void listAllStarredSegments_invalidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_INVALID_ID);
+				assertNull(segments);
+			}
+		});
+	}
+
+	@Test
+	public void listAllStarredSegments_authenticatedAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				assertNotNull(segments);
+
+				final List<StravaSegment> starredSegments = service().listAllAuthenticatedAthleteStarredSegments();
+				assertNotNull(starredSegments);
+				assertEquals(starredSegments.size(), segments.size());
+			}
+		});
 	}
 
 }

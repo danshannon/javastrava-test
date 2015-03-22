@@ -11,17 +11,23 @@ import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 
 public class ListAllAuthenticatedAthleteFriendsTest extends StravaTest {
 	@Test
-	public void testListAllAuthenticatedAthleteFriends() {
-		List<StravaAthlete> athletes = service().listAllAuthenticatedAthleteFriends();
-		assertNotNull(athletes);
-		assertEquals(service().getAuthenticatedAthlete().getFriendCount().intValue(),athletes.size());
-		for (StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
-		}
-		
+	public void testListAllAuthenticatedAthleteFriends() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaAthlete> athletes = service().listAllAuthenticatedAthleteFriends();
+				assertNotNull(athletes);
+				assertEquals(service().getAuthenticatedAthlete().getFriendCount().intValue(), athletes.size());
+				for (final StravaAthlete athlete : athletes) {
+					StravaAthleteTest.validateAthlete(athlete);
+				}
+			}
+		});
 	}
-	
+
 }

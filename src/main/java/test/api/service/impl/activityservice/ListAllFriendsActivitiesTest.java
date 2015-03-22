@@ -11,16 +11,22 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 
 public class ListAllFriendsActivitiesTest extends StravaTest {
 	@Test
-	public void testListAllFriendsActivities() {
-		List<StravaActivity> activities = service().listAllFriendsActivities();
-		assertNotNull(activities);
-		assertTrue(activities.size() <= 200);
-		for (StravaActivity activity : activities) {
-			StravaActivityTest.validateActivity(activity);
-		}
+	public void testListAllFriendsActivities() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaActivity> activities = service().listAllFriendsActivities();
+				assertNotNull(activities);
+				assertTrue(activities.size() <= 200);
+				for (final StravaActivity activity : activities) {
+					StravaActivityTest.validateActivity(activity);
+				}
+			}
+		});
 	}
-	
 }

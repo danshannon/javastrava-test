@@ -8,6 +8,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import org.junit.Test;
 
 import test.api.service.StravaTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class DeleteActivityTest extends StravaTest {
@@ -24,15 +26,22 @@ public class DeleteActivityTest extends StravaTest {
 	 * <p>
 	 * Should successfully delete the activity; it should no longer be able to be retrieved via the API
 	 * </p>
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	public void testDeleteActivity_validActivity() {
-		StravaActivity activity = TestUtils.createDefaultActivity();
-		activity.setName("testDeleteActivity_validActivity");
-		final StravaActivity stravaResponse = service().createManualActivity(activity);
-		activity = service().getActivity(stravaResponse.getId());
-		service().deleteActivity(activity.getId());
+	public void testDeleteActivity_validActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				StravaActivity activity = TestUtils.createDefaultActivity();
+				activity.setName("testDeleteActivity_validActivity");
+				final StravaActivity stravaResponse = service().createManualActivity(activity);
+				activity = service().getActivity(stravaResponse.getId());
+				service().deleteActivity(activity.getId());
 
+			}
+		});
 	}
 
 	/**
@@ -43,38 +52,52 @@ public class DeleteActivityTest extends StravaTest {
 	 * <p>
 	 * Should fail to create the activity and throw an {@link UnauthorizedException}
 	 * </p>
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() {
-		// Create the activity using a service which DOES have write access
-		StravaActivity activity = TestUtils.createDefaultActivity();
-		activity.setName("testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
-		final StravaActivity stravaResponse = service().createManualActivity(activity);
-		activity = service().getActivity(stravaResponse.getId());
+	public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				// Create the activity using a service which DOES have write access
+				StravaActivity activity = TestUtils.createDefaultActivity();
+				activity.setName("testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
+				final StravaActivity stravaResponse = service().createManualActivity(activity);
+				activity = service().getActivity(stravaResponse.getId());
 
-		// Now get a token without write access and attempt to delete
-		try {
-			serviceWithoutWriteAccess().deleteActivity(activity.getId());
-			fail("Succeeded in deleting an activity despite not having write access");
-		} catch (final UnauthorizedException e) {
-			// Expected behaviour
-		}
+				// Now get a token without write access and attempt to delete
+				try {
+					serviceWithoutWriteAccess().deleteActivity(activity.getId());
+					fail("Succeeded in deleting an activity despite not having write access");
+				} catch (final UnauthorizedException e) {
+					// Expected behaviour
+				}
 
-		// Delete the activity using a token with write access
-		service().deleteActivity(activity.getId());
+				// Delete the activity using a token with write access
+				service().deleteActivity(activity.getId());
+			}
+		});
 	}
 
 	/**
 	 * <p>
 	 * Attempt to delete an {@link StravaActivity} which does not exist
 	 * </p>
+	 * 
+	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
 	 */
 	@Test
-	public void testDeleteActivity_invalidActivity() {
-		final StravaActivity stravaResponse = service().deleteActivity(1);
-		assertNull("deleted an activity that doesn't exist", stravaResponse);
+	public void testDeleteActivity_invalidActivity() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final StravaActivity stravaResponse = service().deleteActivity(1);
+				assertNull("deleted an activity that doesn't exist", stravaResponse);
+			}
+		});
 	}
 
 }

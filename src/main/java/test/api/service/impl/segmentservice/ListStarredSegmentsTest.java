@@ -15,32 +15,54 @@ import org.junit.Test;
 import test.api.model.StravaSegmentTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Test
-	public void testListStarredSegments_authenticatedUser() {
-		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
-		assertNotNull(segments);
+	public void testListStarredSegments_authenticatedUser() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				assertNotNull(segments);
+			}
+		});
 	}
 
 	@Test
-	public void testListStarredSegments_otherUser() {
-		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_VALID_ID);
-		assertNotNull(segments);
+	public void testListStarredSegments_otherUser() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_VALID_ID);
+				assertNotNull(segments);
+			}
+		});
 	}
 
 	@Test
-	public void testListStarredSegments_invalidAthlete() {
-		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
-		assertNull(segments);
+	public void testListStarredSegments_invalidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
+				assertNull(segments);
+			}
+		});
 	}
 
 	@Test
-	public void testListStarredSegments_privateAthlete() {
-		final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
-		assertNotNull(segments);
-		assertEquals(0, segments.size());
+	public void testListStarredSegments_privateAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
+				assertNotNull(segments);
+				assertEquals(0, segments.size());
+			}
+		});
 	}
 
 	@Override
@@ -65,6 +87,5 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 
 		});
 	}
-
 
 }

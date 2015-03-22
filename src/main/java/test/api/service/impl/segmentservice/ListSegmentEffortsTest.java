@@ -19,98 +19,140 @@ import org.junit.Test;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.utils.RateLimitedTestRunner;
+import test.utils.TestCallback;
 import test.utils.TestUtils;
 
-public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEffort, Long>{
+public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEffort, Long> {
 	// Test cases
 	// 1. No filtering, valid segment
 	@Test
-	public void testListSegmentEfforts_validSegment() {
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID);
-		assertNotNull(efforts);
-		assertFalse(efforts.size() == 0);
-		validateList(efforts);
+	public void testListSegmentEfforts_validSegment() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID);
+				assertNotNull(efforts);
+				assertFalse(efforts.size() == 0);
+				validateList(efforts);
+			}
+		});
 	}
 
 	// 2. No filtering, invalid segment
 	@Test
-	public void testListSegmentEfforts_invalidSegment() {
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID);
-		assertNull(efforts);
+	public void testListSegmentEfforts_invalidSegment() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID);
+				assertNull(efforts);
+			}
+		});
 	}
 
 	// 3. Filter by valid athlete, valid segment
 	@Test
-	public void testListSegmentEfforts_filterByValidAthlete() {
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
-		assertNotNull(efforts);
-		assertFalse(0 == efforts.size());
-		for (final StravaSegmentEffort effort : efforts) {
-			validate(effort);
-			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, effort.getAthlete().getId());
-		}
+	public void testListSegmentEfforts_filterByValidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null,
+						null);
+				assertNotNull(efforts);
+				assertFalse(0 == efforts.size());
+				for (final StravaSegmentEffort effort : efforts) {
+					validate(effort);
+					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, effort.getAthlete().getId());
+				}
+			}
+		});
 	}
 
 	// 4. Filter by invalid athlete, valid segment
 	@Test
-	public void testListSegmentEfforts_filterByInvalidAthlete() {
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null);
-		assertNull(efforts);
+	public void testListSegmentEfforts_filterByInvalidAthlete() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null);
+				assertNull(efforts);
+			}
+		});
 	}
 
 	// 5. Filter by start date, valid segment
 	@Test
-	public void testListSegmentEfforts_filterByStartDate() {
-		LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
+	public void testListSegmentEfforts_filterByStartDate() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
-		assertNotNull(efforts);
-		assertFalse(0 == efforts.size());
-		for (final StravaSegmentEffort effort : efforts) {
-			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().isAfter(startDate));
-			validate(effort);
-		}
-
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
+				assertNotNull(efforts);
+				assertFalse(0 == efforts.size());
+				for (final StravaSegmentEffort effort : efforts) {
+					assertNotNull(effort.getStartDateLocal());
+					assertTrue(effort.getStartDateLocal().isAfter(startDate));
+					validate(effort);
+				}
+			}
+		});
 	}
 
 	// 6. Filter by end date, valid segment
 	@Test
-	public void testListSegmentEfforts_filterByEndDate() {
-		final LocalDateTime endDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 23, 59, 59);
+	public void testListSegmentEfforts_filterByEndDate() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final LocalDateTime endDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 23, 59, 59);
 
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate);
-		assertNotNull(efforts);
-		assertFalse(0 == efforts.size());
-		for (final StravaSegmentEffort effort : efforts) {
-			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().isBefore(endDate));
-			validate(effort);
-		}
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate);
+				assertNotNull(efforts);
+				assertFalse(0 == efforts.size());
+				for (final StravaSegmentEffort effort : efforts) {
+					assertNotNull(effort.getStartDateLocal());
+					assertTrue(effort.getStartDateLocal().isBefore(endDate));
+					validate(effort);
+				}
+			}
+		});
 	}
 
 	// 7. Filter by date range, valid segment
 	@Test
-	public void testListSegmentEfforts_filterByDateRange() {
-		final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
-		final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
+	public void testListSegmentEfforts_filterByDateRange() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
+				final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
 
-		final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
-		assertNotNull(efforts);
-		assertFalse(0 == efforts.size());
-		for (final StravaSegmentEffort effort : efforts) {
-			assertNotNull(effort.getStartDateLocal());
-			assertTrue(effort.getStartDateLocal().isAfter(startDate));
-			assertTrue(effort.getStartDateLocal().isBefore(endDate));
-			validate(effort);
-		}
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
+				assertNotNull(efforts);
+				assertFalse(0 == efforts.size());
+				for (final StravaSegmentEffort effort : efforts) {
+					assertNotNull(effort.getStartDateLocal());
+					assertTrue(effort.getStartDateLocal().isAfter(startDate));
+					assertTrue(effort.getStartDateLocal().isBefore(endDate));
+					validate(effort);
+				}
+			}
+		});
 	}
-	
+
 	@Test
-	public void testListSegmentEfforts_hazardousSegment() {
-		List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID);
-		assertNotNull(efforts);
-		assertEquals(0,efforts.size());
+	public void testListSegmentEfforts_hazardousSegment() throws Exception {
+		RateLimitedTestRunner.run(new TestCallback() {
+			@Override
+			public void test() throws Exception {
+				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID);
+				assertNotNull(efforts);
+				assertEquals(0, efforts.size());
+			}
+		});
 	}
 
 	@Override
