@@ -4,8 +4,8 @@ import static org.junit.Assert.assertFalse;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.rest.ActivityAPI;
 import javastrava.api.v3.rest.API;
+import javastrava.api.v3.rest.ActivityAPI;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
 
@@ -16,8 +16,8 @@ import test.utils.TestUtils;
 public class Issue36 {
 	@Test
 	public void testIssue() throws NotFoundException, BadRequestException {
-		final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-		StravaActivity activity = retrofit.createManualActivity(TestUtils.createDefaultActivity());
+		final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
+		StravaActivity activity = api.createManualActivity(TestUtils.createDefaultActivity());
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		update.setCommute(Boolean.TRUE);
 		update.setPrivateActivity(Boolean.TRUE);
@@ -26,7 +26,14 @@ public class Issue36 {
 		update.setName("Blah");
 		update.setTrainer(Boolean.TRUE);
 		update.setType(StravaActivityType.RIDE);
-		activity = retrofit.updateActivity(activity.getId(), update);
+		try {
+			activity = api.updateActivity(activity.getId(), update);
+		} catch (final Throwable e) {
+			api.deleteActivity(activity.getId());
+			throw e;
+		}
+		api.deleteActivity(activity.getId());
+
 		assertFalse(activity.getCommute());
 	}
 

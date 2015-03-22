@@ -35,159 +35,174 @@ public class UpdateActivityTest extends StravaTest {
 	 */
 	@Test
 	public void testUpdateActivity_validUpdateName() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setType(StravaActivityType.ALPINE_SKI);
 
 		final TextProducer text = Fairy.create().textProducer();
 
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
-
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final String sentence = text.sentence();
 		update.setName(sentence);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertEquals(sentence, response.getName());
 
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateType() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
 		activity.setType(StravaActivityType.ALPINE_SKI);
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
 
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final StravaActivityType type = StravaActivityType.RIDE;
 		update.setType(type);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertEquals(type, response.getType());
-
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdatePrivate() {
+		// set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
 
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final Boolean privateFlag = Boolean.TRUE;
 		update.setPrivateActivity(privateFlag);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertEquals(privateFlag, response.getPrivateActivity());
-
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateCommute() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
+		StravaActivity updateResponse = null;
 
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final Boolean commute = Boolean.TRUE;
 		update.setCommute(commute);
 
-		response = service().updateActivity(response.getId(), update);
-		StravaActivityTest.validateActivity(response);
-		assertEquals(commute, response.getCommute());
+		// Do all the interaction with the Strava API at once
+		updateResponse = createUpdateAndDelete(activity, update);
 
+		// Validate the results
+		StravaActivityTest.validateActivity(updateResponse);
+		assertEquals(commute, updateResponse.getCommute());
+
+	}
+
+	/**
+	 * @param activity
+	 *            The initial activity to create
+	 * @param update
+	 *            The update to apply
+	 * @return The activity as it was created on Strava (although it is ALWAYS deleted again)
+	 */
+	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) {
+		final StravaActivity response = service().createManualActivity(activity);
+		StravaActivity updateResponse = null;
+		try {
+			updateResponse = service().updateActivity(response.getId(), update);
+		} catch (final Throwable e) {
+			service().deleteActivity(response.getId());
+			throw e;
+		}
 		service().deleteActivity(response.getId());
+		return updateResponse;
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateTrainer() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
 
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final Boolean trainer = Boolean.TRUE;
 		update.setTrainer(trainer);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertEquals(trainer, response.getTrainer());
-
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateGearId() {
+		// set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
-
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final String gearId = TestUtils.GEAR_VALID_ID;
 		update.setGearId(gearId);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertEquals(gearId, response.getGearId());
-
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateGearIDNone() {
-		final StravaActivity activity = TestUtils.createDefaultActivity();
 
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
+		// Set up all the test data
+		final StravaActivity activity = TestUtils.createDefaultActivity();
 
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final String gearId = "none";
 		update.setGearId(gearId);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the Strava API interaction at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Validate the results
 		StravaActivityTest.validateActivity(response);
 		assertNull(response.getGearId());
 
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateDescription() {
+		// Set up test date
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
 
 		final TextProducer text = Fairy.create().textProducer();
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		final String description = text.sentence();
 		update.setDescription(description);
 
-		response = service().updateActivity(response.getId(), update);
+		// Do all the interaction with the Strava API at once
+		final StravaActivity response = createUpdateAndDelete(activity, update);
+
+		// Test the response
 		StravaActivityTest.validateActivity(response);
 		assertEquals(description, response.getDescription());
 
-		service().deleteActivity(response.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateAllAtOnce() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-
-		StravaActivity response = service().createManualActivity(activity);
-		StravaActivityTest.validateActivity(response);
 
 		final TextProducer text = Fairy.create().textProducer();
 		final String description = text.sentence();
@@ -207,42 +222,45 @@ public class UpdateActivityTest extends StravaTest {
 		update.setTrainer(trainer);
 		update.setType(type);
 
-		response = service().updateActivity(response.getId(), update);
-		StravaActivityTest.validateActivity(response);
-		assertEquals(description, response.getDescription());
+		// Do all the interaction with the Strava API at once
+		final StravaActivity updateResponse = createUpdateAndDelete(activity, update);
 
-		assertEquals(commute, response.getCommute());
-		assertEquals(gearId, response.getGearId());
-		assertEquals(name, response.getName());
-		assertEquals(privateActivity, response.getPrivateActivity());
-		assertEquals(trainer, response.getTrainer());
-		assertEquals(type, response.getType());
+		// Validate the results
+		StravaActivityTest.validateActivity(updateResponse);
+		assertEquals(description, updateResponse.getDescription());
 
-		service().deleteActivity(response.getId());
+		assertEquals(commute, updateResponse.getCommute());
+		assertEquals(gearId, updateResponse.getGearId());
+		assertEquals(name, updateResponse.getName());
+		assertEquals(privateActivity, updateResponse.getPrivateActivity());
+		assertEquals(trainer, updateResponse.getTrainer());
+		assertEquals(type, updateResponse.getType());
+
 	}
 
 	@Test
 	public void testUpdateActivity_tooManyActivityAttributes() {
+		// Set up the test data
 		final StravaActivity activity = TestUtils.createDefaultActivity();
-		activity.setName("testUpdateActivity_tooManyActivityAttributes");
-		StravaActivity stravaResponse = service().createManualActivity(activity);
+		final StravaActivity update = new StravaActivity();
+		update.setName("testUpdateActivity_tooManyActivityAttributes");
 
-		final Float cadence = new Float(67.2);
-		activity.setAverageCadence(cadence);
-		activity.setId(stravaResponse.getId());
+		final Float cadence = Float.valueOf(67.2f);
+		update.setAverageCadence(cadence);
 
-		stravaResponse = service().updateActivity(stravaResponse.getId(), new StravaActivityUpdate(activity));
+		// Do all the interaction with the Strava API at once
+		final StravaActivity stravaResponse = createUpdateAndDelete(activity, new StravaActivityUpdate(update));
 
+		// Test the results
 		assertNull(stravaResponse.getAverageCadence());
 		StravaActivityTest.validateActivity(stravaResponse);
 
-		service().deleteActivity(stravaResponse.getId());
 	}
 
 	@Test
 	public void testUpdateActivity_nullUpdate() {
 		final StravaActivity activity = service().updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
-		assertEquals(activity,service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
+		assertEquals(activity, service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
 	}
 
 	@Test

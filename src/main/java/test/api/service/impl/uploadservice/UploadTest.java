@@ -44,7 +44,7 @@ public class UploadTest extends StravaTest {
 			loop = true;
 			while (loop) {
 				final StravaActivity activity = service().getActivity(localResponse.getActivityId());
-				if (activity != null && activity.getResourceState() != StravaResourceState.UPDATING) {
+				if ((activity != null) && (activity.getResourceState() != StravaResourceState.UPDATING)) {
 					loop = false;
 				} else {
 					try {
@@ -62,13 +62,17 @@ public class UploadTest extends StravaTest {
 	@Test
 	public void testUpload_noWriteAccess() throws BadRequestException, UnauthorizedException, InterruptedException, NotFoundException {
 		final File file = new File("hyperdrive.gpx");
+		StravaUploadResponse response = null;
 		try {
-			serviceWithoutWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null, Boolean.TRUE, null, "gpx",
-					"testUpload_noWriteAccess", file);
+			response = serviceWithoutWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null, Boolean.TRUE, null,
+					"gpx", "testUpload_noWriteAccess", file);
 		} catch (final UnauthorizedException e) {
 			// Expected
 			return;
 		}
+
+		// Delete the activity again (if we get there, it's been created in error)
+		service().deleteActivity(response.getActivityId());
 
 		// Fail
 		fail("Uploaded an activity without write access!");
@@ -78,52 +82,61 @@ public class UploadTest extends StravaTest {
 	@Test
 	public void testUpload_badActivityType() {
 		final File file = new File("hyperdrive.gpx");
-		final StravaUploadResponse response = service().upload(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null, null,
-				"gpx", "ABC", file);
+		final StravaUploadResponse response = service().upload(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null,
+				null, "gpx", "ABC", file);
 		waitForCompletionAndDelete(response);
 	}
 
 	@Test
 	public void testUpload_badDataType() {
 		final File file = new File("hyperdrive.gpx");
+		StravaUploadResponse response = null;
 		try {
-			service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null, "UNKNOWN", "ABC", file);
+			response = service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null, "UNKNOWN", "ABC", file);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
+
+		service().deleteActivity(response.getActivityId());
 		fail("Uploaded a file with a bad data type!");
 	}
 
 	@Test
 	public void testUpload_noName() throws UnauthorizedException, BadRequestException {
 		final File file = new File("hyperdrive.gpx");
-		final StravaUploadResponse response = service().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", null, null, "gpx", "ABC",
-				file);
+		final StravaUploadResponse response = service().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", null, null, "gpx",
+				"ABC", file);
 		waitForCompletionAndDelete(response);
 	}
 
 	@Test
 	public void testUpload_noFile() {
 		final File file = null;
+		StravaUploadResponse response = null;
 		try {
-			service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", file);
+			response = service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", file);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
+
+		service().deleteActivity(response.getActivityId());
 		fail("Uploaded a file with no actual file!");
 	}
 
 	@Test
 	public void testUpload_badFileContent() {
 		final File file = new File("Plan");
+		StravaUploadResponse response = null;
 		try {
-			service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", file);
+			response = service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", file);
 		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
+
+		service().deleteActivity(response.getActivityId());
 		fail("Uploaded a file with an invalid file!");
 	}
 
