@@ -41,7 +41,7 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listFriendsActivities(null);
+				final List<StravaActivity> activities = service().listFriendsActivities();
 
 				assertNotNull("Returned null array for latest friends' activities", activities);
 

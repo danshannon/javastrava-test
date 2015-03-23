@@ -130,6 +130,25 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			}
 		});
 	}
+	
+	@Test
+	public void testListAuthenticatedAthleteActivities_beforeAfterPaging() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
+			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
+			final Paging pagingInstruction = new Paging(1,1);
+			
+			final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after, pagingInstruction);
+			assertNotNull(activities);
+			assertEquals(1,activities.size());
+			for (final StravaActivity activity : activities) {
+				assertTrue(activity.getStartDateLocal().isBefore(before));
+				assertTrue(activity.getStartDateLocal().isAfter(after));
+				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				StravaActivityTest.validateActivity(activity);
+			}			
+		});
+	}
 
 	/**
 	 * <p>

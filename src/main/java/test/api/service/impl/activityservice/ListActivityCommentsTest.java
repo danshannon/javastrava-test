@@ -64,6 +64,16 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			}
 		});
 	}
+	
+	@Test
+	public void testListActivityComments_activityMarkdownPaging() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE, new Paging(1,1));
+			assertNotNull(comments);
+			assertEquals(1,comments.size());
+		}
+		);
+	}
 
 	/**
 	 * <p>
