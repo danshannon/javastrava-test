@@ -12,7 +12,15 @@ import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
  *
  */
 public class RateLimitedTestRunner {
-	private final static Strava strava = TestUtils.strava();
+	private static Strava strava = null;
+
+	static {
+		try {
+			strava = TestUtils.strava();
+		} catch (final StravaServiceUnavailableException e) {
+			waitForServiceRestoration();
+		}
+	}
 
 	public static void run(final TestCallback t) throws Exception {
 		boolean loop = true;
@@ -41,6 +49,7 @@ public class RateLimitedTestRunner {
 				// ignore
 			}
 			try {
+				strava = TestUtils.strava();
 				strava.getAuthenticatedAthlete();
 				// If the call works, then we didn't get a service unavailable exception so we're good to go
 				loop = false;
