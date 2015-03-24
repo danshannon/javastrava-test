@@ -3,7 +3,6 @@
  */
 package test.utils;
 
-import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
 import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
 
@@ -12,16 +11,6 @@ import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
  *
  */
 public class RateLimitedTestRunner {
-	private static Strava strava = null;
-
-	static {
-		try {
-			strava = TestUtils.strava();
-		} catch (final StravaServiceUnavailableException e) {
-			waitForServiceRestoration();
-		}
-	}
-
 	public static void run(final TestCallback t) throws Exception {
 		boolean loop = true;
 		while (loop) {
@@ -49,8 +38,7 @@ public class RateLimitedTestRunner {
 				// ignore
 			}
 			try {
-				strava = TestUtils.strava();
-				strava.getAuthenticatedAthlete();
+				TestUtils.strava().getAuthenticatedAthlete();
 				// If the call works, then we didn't get a service unavailable exception so we're good to go
 				loop = false;
 			} catch (final StravaServiceUnavailableException e) {
@@ -70,7 +58,7 @@ public class RateLimitedTestRunner {
 				// ignore
 			}
 			try {
-				strava.getAuthenticatedAthlete();
+				TestUtils.strava().getAuthenticatedAthlete();
 				// If the call to Strava works then we didn't get a rate limit exception so we're good to go
 				loop = false;
 			} catch (final StravaAPIRateLimitException e) {
