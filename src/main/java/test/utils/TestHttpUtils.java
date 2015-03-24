@@ -11,6 +11,7 @@ import javastrava.api.v3.auth.ref.AuthorisationApprovalPrompt;
 import javastrava.api.v3.auth.ref.AuthorisationResponseType;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.service.exception.BadRequestException;
+import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.StravaConfig;
 
@@ -56,6 +57,10 @@ public class TestHttpUtils {
 			get = RequestBuilder.get(uri).addParameters(parameters).build();
 		}
 		CloseableHttpResponse response = this.httpClient.execute(get);
+		int status = response.getStatusLine().getStatusCode();
+		if (status != 200 ){
+			throw new StravaInternalServerErrorException("GET " + uri + " returned status " + Integer.valueOf(status).toString(), null, null);
+		}
 		try {
 			HttpEntity entity = response.getEntity();
 			page = Jsoup.parse(EntityUtils.toString(entity));
@@ -95,6 +100,10 @@ public class TestHttpUtils {
 			HttpUriRequest login = RequestBuilder.post().setUri(new URI(StravaConfig.AUTH_ENDPOINT + "/session")).addParameter("email", email)
 					.addParameter("password", password).addParameter("authenticity_token", authenticityToken).addParameter("utf8", "✓").build();
 			CloseableHttpResponse response2 = this.httpClient.execute(login);
+			int status = response2.getStatusLine().getStatusCode();
+			if (status != 302) {
+				throw new StravaInternalServerErrorException("POST " + login.getURI() + " returned status " + Integer.valueOf(status).toString(), null, null);
+			}
 			try {
 				HttpEntity entity = response2.getEntity();
 				location = response2.getFirstHeader("Location").getValue();
@@ -138,6 +147,10 @@ public class TestHttpUtils {
 					.addParameter("response_type", DEFAULT_RESPONSE_TYPE.toString()).addParameter("authenticity_token", authenticityToken)
 					.addParameter("scope", scopeString).build();
 			CloseableHttpResponse response2 = this.httpClient.execute(post);
+			int status = response2.getStatusLine().getStatusCode();
+			if (status != 302) {
+				throw new StravaInternalServerErrorException(post.getMethod() + " " + post.getURI() + " returned status code " + Integer.valueOf(status).toString(), null, null);
+			}
 			try {
 				HttpEntity entity = response2.getEntity();
 				location = response2.getFirstHeader("Location").getValue();
