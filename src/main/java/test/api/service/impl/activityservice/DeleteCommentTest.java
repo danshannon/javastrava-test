@@ -19,7 +19,7 @@ public class DeleteCommentTest extends StravaTest {
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			service().deleteComment(comment.getActivityId(), comment.getId());
+			serviceWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
@@ -27,7 +27,7 @@ public class DeleteCommentTest extends StravaTest {
 	public void testDeleteComment_byComment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			service().deleteComment(comment);
+			serviceWithWriteAccess().deleteComment(comment);
 		});
 	}
 
