@@ -155,6 +155,27 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		});
 	}
 
+	@Test
+	public void testListSegmentEfforts_filterByAll() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final LocalDateTime startDate = LocalDateTime.of(2009, Month.JANUARY, 1, 0, 0, 0);
+			final LocalDateTime endDate = LocalDateTime.of(2015, Month.JANUARY, 31, 23, 59, 59);
+
+			final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, startDate,
+					endDate, new Paging(1, 1));
+			assertNotNull(efforts);
+			assertFalse(efforts.isEmpty());
+			assertEquals(1, efforts.size());
+			for (final StravaSegmentEffort effort : efforts) {
+				assertTrue(effort.getStartDateLocal().isAfter(startDate));
+				assertTrue(effort.getStartDateLocal().isBefore(endDate));
+				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, effort.getAthlete().getId());
+				assertEquals(TestUtils.SEGMENT_VALID_ID, effort.getSegment().getId());
+				validate(effort);
+			}
+		});
+	}
+
 	@Override
 	protected void validate(final StravaSegmentEffort effort, final Long id, final StravaResourceState state) {
 		StravaSegmentEffortTest.validateSegmentEffort(effort, id, state);
