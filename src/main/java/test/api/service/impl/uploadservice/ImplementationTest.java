@@ -95,7 +95,7 @@ public class ImplementationTest implements InstanceTestSpec {
 			@Override
 			public void test() throws Exception {
 				final UploadService service = UploadServiceImpl.instance(TestUtils.getValidToken());
-				final UploadService service2 = UploadServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				final UploadService service2 = UploadServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 				assertFalse(service == service2);
 			}
 		});

@@ -12,8 +12,8 @@ public class StravaTest {
 		return TestUtils.strava();
 	}
 
-	protected Strava serviceWithoutWriteAccess() {
-		return TestUtils.stravaWithoutWriteAccess();
+	protected Strava serviceWithWriteAccess() {
+		return TestUtils.stravaWithWriteAccess();
 	}
 
 }

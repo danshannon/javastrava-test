@@ -20,7 +20,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test we get a {@link ClubServiceImpl service implementation} successfully with a valid token
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -42,7 +42,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link ClubServiceImpl service implementation} if the token isn't valid
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link ClubServiceImpl service implementation} if the token has been revoked by the user
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -96,7 +96,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
 	 * strategy is working)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -116,7 +116,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -129,7 +129,7 @@ public class ImplementationTest implements InstanceTestSpec {
 			@Override
 			public void test() throws Exception {
 				final ClubService service = service();
-				final ClubService service2 = ClubServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				final ClubService service2 = ClubServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 				assertFalse(service == service2);
 			}
 		});

@@ -21,7 +21,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test we get a {@link GearServiceImpl service implementation} successfully with a valid token
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -43,7 +43,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link GearServiceImpl service implementation} if the token isn't valid
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -71,7 +71,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link GearServiceImpl service implementation} if the token has been revoked by the user
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -101,7 +101,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
 	 * strategy is working)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -121,7 +121,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -149,7 +149,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	}
 
 	private GearService getGearServiceWithoutWriteAccess() {
-		return GearServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+		return GearServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 	}
 
 }

@@ -16,7 +16,7 @@ import test.utils.TestUtils;
 public class Issue36 {
 	@Test
 	public void testIssue() throws NotFoundException, BadRequestException {
-		final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
+		final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithWriteAccess());
 		StravaActivity activity = api.createManualActivity(TestUtils.createDefaultActivity());
 		final StravaActivityUpdate update = new StravaActivityUpdate();
 		update.setCommute(Boolean.TRUE);

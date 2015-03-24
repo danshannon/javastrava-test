@@ -88,7 +88,7 @@ public class ImplementationTest implements InstanceTestSpec {
 				final Token token1 = TestUtils.getValidToken();
 				final AthleteService service1 = AthleteServiceImpl.instance(token1);
 
-				final Token token2 = TestUtils.getValidTokenWithoutWriteAccess();
+				final Token token2 = TestUtils.getValidTokenWithWriteAccess();
 				assertFalse(token1.equals(token2));
 				final AthleteService service2 = AthleteServiceImpl.instance(token2);
 				assertFalse(service1 == service2);

@@ -21,7 +21,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test we get a {@link ActivityServiceImpl service implementation} successfully with a valid token
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -43,7 +43,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link ActivityServiceImpl service implementation} if the token isn't valid
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link ActivityServiceImpl service implementation} if the token has been revoked by the user
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -101,7 +101,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * Test that when we ask for a {@link ActivityServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
 	 * strategy is working)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -121,7 +121,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that when we ask for a {@link ActivityServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -136,7 +136,7 @@ public class ImplementationTest implements InstanceTestSpec {
 				final Token token = TestUtils.getValidToken();
 				@SuppressWarnings("unused")
 				final ActivityService service = ActivityServiceImpl.instance(token);
-				final Token token2 = TestUtils.getValidTokenWithoutWriteAccess();
+				final Token token2 = TestUtils.getValidTokenWithWriteAccess();
 				@SuppressWarnings("unused")
 				final ActivityService service2 = ActivityServiceImpl.instance(token2);
 				assertNotEquals("Different tokens returned the same service implementation", token, token2);

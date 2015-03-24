@@ -93,7 +93,7 @@ public class TestUtils {
 		// VALID_TOKEN = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		// VALID_TOKEN_WITHOUT_WRITE_ACCESS = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD);
 
-		INVALID_TOKEN = createToken(properties.getString("test.activityServicesImplTest.invalidToken"),USERNAME);
+		INVALID_TOKEN = createToken(properties.getString("test.activityServicesImplTest.invalidToken"), USERNAME);
 		ACTIVITY_WITH_EFFORTS = new Integer(properties.getString("test.activityServicesImplTest.activityWithEfforts"));
 		ACTIVITY_WITH_PHOTOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithPhotos"));
 		ACTIVITY_WITHOUT_PHOTOS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutPhotos"));
@@ -165,7 +165,7 @@ public class TestUtils {
 		token.setScopes(new ArrayList<AuthorisationScope>());
 		token.setAthlete(new StravaAthlete());
 		token.getAthlete().setEmail(username);
-		token.setServices(new HashMap<Class<? extends StravaService>,StravaService>());
+		token.setServices(new HashMap<Class<? extends StravaService>, StravaService>());
 		return token;
 	}
 
@@ -190,19 +190,6 @@ public class TestUtils {
 	}
 
 	public static Token getValidToken() {
-		Token token = TokenManager.instance().retrieveTokenWithScope(USERNAME, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
-		if (token == null) {
-			try {
-				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
-				TokenManager.instance().storeToken(token);
-			} catch (BadRequestException | UnauthorizedException e) {
-				return null;
-			}
-		}
-		return token;
-	}
-
-	public static Token getValidTokenWithoutWriteAccess() {
 		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
 		if (token == null) {
 			try {
@@ -215,19 +202,50 @@ public class TestUtils {
 		return token;
 	}
 
+	public static Token getValidTokenWithWriteAccess() {
+		Token token = TokenManager.instance().retrieveTokenWithScope(USERNAME, AuthorisationScope.WRITE);
+		if (token == null) {
+			try {
+				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.WRITE);
+				TokenManager.instance().storeToken(token);
+			} catch (BadRequestException | UnauthorizedException e) {
+				return null;
+			}
+		}
+		return token;
+
+	}
+
+	// public static Token getValidTokenWithoutWriteAccess() {
+	// Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
+	// if (token == null) {
+	// try {
+	// token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD);
+	// TokenManager.instance().storeToken(token);
+	// } catch (BadRequestException | UnauthorizedException e) {
+	// return null;
+	// }
+	// }
+	// return token;
+	// }
+
 	public static Token getRevokedToken() throws UnauthorizedException {
 		final Token token = getValidToken();
 		final TokenService service = TokenServiceImpl.instance(token);
 		service.deauthorise(token);
 		return token;
 	}
-	
+
 	public static Strava strava() {
 		return new Strava(getValidToken());
 	}
-	
-	public static Strava stravaWithoutWriteAccess() {
-		return new Strava(getValidTokenWithoutWriteAccess());
+
+	public static Strava stravaWithWriteAccess() {
+		return new Strava(getValidTokenWithWriteAccess());
 	}
+
+	// public static Strava stravaWithoutWriteAccess() {
+	// return new Strava(getValidTokenWithoutWriteAccess());
+	// }
 
 }

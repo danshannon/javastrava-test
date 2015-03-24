@@ -36,17 +36,17 @@ public class CreateManualActivityTest extends StravaTest {
 			public void test() throws Exception {
 				StravaActivity activity = TestUtils.createDefaultActivity();
 				activity.setName("testCreateManualActivity_validActivity");
-				activity = service().createManualActivity(TestUtils.createDefaultActivity());
+				activity = serviceWithWriteAccess().createManualActivity(TestUtils.createDefaultActivity());
 
 				assertNotNull(activity);
 
 				// Load it from Strava
-				final StravaActivity stravaActivity = service().getActivity(activity.getId());
+				final StravaActivity stravaActivity = serviceWithWriteAccess().getActivity(activity.getId());
 				assertNotNull(stravaActivity);
 				StravaActivityTest.validateActivity(stravaActivity, stravaActivity.getId(), stravaActivity.getResourceState());
 
 				// And delete it
-				service().deleteActivity(activity.getId());
+				serviceWithWriteAccess().deleteActivity(activity.getId());
 			}
 		});
 	}
@@ -74,15 +74,15 @@ public class CreateManualActivityTest extends StravaTest {
 				try {
 					activity = TestUtils.createDefaultActivity();
 					activity.setName("testCreateManualActivity_accessTokenDoesNotHaveWriteAccess");
-					activity = serviceWithoutWriteAccess().createManualActivity(activity);
+					activity = service().createManualActivity(activity);
 				} catch (final UnauthorizedException e) {
 					// This is the expected behaviour - creation has failed because there's no write access
 					return;
 				} catch (final Throwable e) {
-					service().deleteActivity(activity.getId());
+					serviceWithWriteAccess().deleteActivity(activity.getId());
 				}
 
-				service().deleteActivity(activity.getId());
+				serviceWithWriteAccess().deleteActivity(activity.getId());
 				fail("Created a manual activity but should have failed and thrown an UnauthorizedException!");
 			}
 		});
@@ -112,7 +112,7 @@ public class CreateManualActivityTest extends StravaTest {
 				activity.setName(null);
 				activity.setDescription("testCreateManualActivity_noName");
 				try {
-					stravaResponse = service().createManualActivity(activity);
+					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -122,7 +122,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					service().deleteActivity(stravaResponse.getId());
+					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
 				}
 
 				fail("Created an activity with no type in error" + stravaResponse);
@@ -141,7 +141,7 @@ public class CreateManualActivityTest extends StravaTest {
 				activity.setType(null);
 				activity.setName("testCreateManualActivity_noType");
 				try {
-					stravaResponse = service().createManualActivity(activity);
+					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -151,7 +151,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					service().deleteActivity(stravaResponse.getId());
+					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
 				}
 
 				fail("Created an activity with no type in error" + stravaResponse);
@@ -170,7 +170,7 @@ public class CreateManualActivityTest extends StravaTest {
 				activity.setName("testCreateManualActivity_invalidType");
 				activity.setType(StravaActivityType.UNKNOWN);
 				try {
-					stravaResponse = service().createManualActivity(activity);
+					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -180,7 +180,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					service().deleteActivity(stravaResponse.getId());
+					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
 				}
 
 				fail("Created an activity with invalid type in error");
@@ -199,7 +199,7 @@ public class CreateManualActivityTest extends StravaTest {
 				activity.setName("testCreateManualActivity_noStartDate");
 				activity.setStartDateLocal(null);
 				try {
-					stravaResponse = service().createManualActivity(activity);
+					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -209,7 +209,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					service().deleteActivity(stravaResponse.getId());
+					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
 				}
 
 				fail("Created an activity with no start date in error" + stravaResponse);
@@ -228,7 +228,7 @@ public class CreateManualActivityTest extends StravaTest {
 				activity.setName("testCreateManualActivity_noElapsedTime");
 				activity.setElapsedTime(null);
 				try {
-					stravaResponse = service().createManualActivity(activity);
+					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -238,7 +238,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					service().deleteActivity(stravaResponse.getId());
+					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
 				}
 
 				fail("Created an activity with no elapsed time in error" + stravaResponse);

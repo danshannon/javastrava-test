@@ -19,9 +19,9 @@ public class CreateCommentTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaComment comment = service().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+				final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 				StravaCommentTest.validateComment(comment);
-				service().deleteComment(comment.getActivityId(), comment.getId());
+				serviceWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 
 			}
 		});
@@ -34,7 +34,7 @@ public class CreateCommentTest extends StravaTest {
 			public void test() throws Exception {
 				StravaComment comment = null;
 				try {
-					comment = service().createComment(TestUtils.ACTIVITY_INVALID, "Test - ignore");
+					comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_INVALID, "Test - ignore");
 				} catch (final NotFoundException e) {
 					// Expected behaviour
 					return;
@@ -42,7 +42,7 @@ public class CreateCommentTest extends StravaTest {
 
 				// If it got added in error, delete it again
 				try {
-					service().deleteComment(comment);
+					serviceWithWriteAccess().deleteComment(comment);
 				} catch (final NotFoundException e) {
 					// Ignore
 				}
@@ -58,7 +58,7 @@ public class CreateCommentTest extends StravaTest {
 			public void test() throws Exception {
 				StravaComment comment = null;
 				try {
-					comment = service().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "");
+					comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "");
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -66,7 +66,7 @@ public class CreateCommentTest extends StravaTest {
 
 				// If it got added in error, delete it again
 				try {
-					service().deleteComment(comment);
+					serviceWithWriteAccess().deleteComment(comment);
 				} catch (final NotFoundException e) {
 					// Ignore
 				}
@@ -82,7 +82,7 @@ public class CreateCommentTest extends StravaTest {
 			public void test() throws Exception {
 				StravaComment comment = null;
 				try {
-					comment = service().createComment(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, "Test - ignore");
+					comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, "Test - ignore");
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;
@@ -90,7 +90,7 @@ public class CreateCommentTest extends StravaTest {
 
 				// If it got added in error, delete it again
 				try {
-					service().deleteComment(comment);
+					serviceWithWriteAccess().deleteComment(comment);
 				} catch (final NotFoundException e) {
 					// Ignore
 				}
@@ -107,12 +107,12 @@ public class CreateCommentTest extends StravaTest {
 
 				StravaComment comment = null;
 				try {
-					comment = serviceWithoutWriteAccess().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
+					comment = service().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;
 				}
-				service().deleteComment(comment);
+				serviceWithWriteAccess().deleteComment(comment);
 				fail("Created a comment despite not having write access");
 
 			}

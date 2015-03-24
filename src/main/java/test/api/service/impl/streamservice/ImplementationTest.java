@@ -23,7 +23,7 @@ public class ImplementationTest implements InstanceTestSpec {
 
 	/**
 	 * Test method for {@link javastrava.api.v3.service.impl.StreamServiceImpl#instance(java.lang.String)}.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -78,7 +78,7 @@ public class ImplementationTest implements InstanceTestSpec {
 			@Override
 			public void test() throws Exception {
 				final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
-				final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				final StreamService service2 = StreamServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 				assertFalse(service == service2);
 			}
 		});

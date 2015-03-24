@@ -21,7 +21,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test we get a {@link SegmentServiceImpl service implementation} successfully with a valid token
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -40,7 +40,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link SegmentServiceImpl service implementation} if the token isn't valid
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -65,7 +65,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that we don't get a {@link SegmentServiceImpl service implementation} if the token has been revoked by the user
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -91,7 +91,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
 	 * strategy is working)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -111,7 +111,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * <p>
 	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Override
@@ -121,7 +121,7 @@ public class ImplementationTest implements InstanceTestSpec {
 			@Override
 			public void test() throws Exception {
 				final SegmentService service = SegmentServiceImpl.instance(TestUtils.getValidToken());
-				final SegmentService service2 = SegmentServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+				final SegmentService service2 = SegmentServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 				assertFalse(service == service2);
 			}
 		});

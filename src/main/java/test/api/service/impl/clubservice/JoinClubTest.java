@@ -26,14 +26,14 @@ public class JoinClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
-				final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = serviceWithWriteAccess().joinClub(id);
 
 				// Make sure the athlete now a member
 				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
 				final boolean member = checkIsMember(clubs, id);
 
 				// Leave the club again, just to be sure
-				service().leaveClub(id);
+				serviceWithWriteAccess().leaveClub(id);
 
 				assertNotNull(response);
 				assertTrue(response.getSuccess());
@@ -51,7 +51,7 @@ public class JoinClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-				final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = serviceWithWriteAccess().joinClub(id);
 
 				// Make sure the athlete now (still) a member
 				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
@@ -73,7 +73,7 @@ public class JoinClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_INVALID_ID;
 
-				final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = serviceWithWriteAccess().joinClub(id);
 				assertEquals(Boolean.FALSE, response.getSuccess());
 			}
 		});
@@ -87,7 +87,7 @@ public class JoinClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
-				final StravaClubMembershipResponse response = service().joinClub(id);
+				final StravaClubMembershipResponse response = serviceWithWriteAccess().joinClub(id);
 				assertNotNull(response);
 				assertEquals(Boolean.FALSE, response.getSuccess());
 			}
@@ -102,7 +102,7 @@ public class JoinClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-				final StravaClubMembershipResponse response = serviceWithoutWriteAccess().joinClub(id);
+				final StravaClubMembershipResponse response = service().joinClub(id);
 				assertNotNull(response);
 				assertEquals(Boolean.FALSE, response.getSuccess());
 			}

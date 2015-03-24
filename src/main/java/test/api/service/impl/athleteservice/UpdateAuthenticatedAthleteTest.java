@@ -1,5 +1,6 @@
 package test.api.service.impl.athleteservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaGender;
@@ -26,9 +27,10 @@ public class UpdateAuthenticatedAthleteTest extends StravaTest {
 				final StravaGender sex = athlete.getSex();
 				final String country = athlete.getCountry();
 				athlete.setWeight(92.0f);
-				StravaAthlete returnedAthlete = service().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+				StravaAthlete returnedAthlete = serviceWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
 				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
-				returnedAthlete = service().updateAuthenticatedAthlete(city, state, country, sex, null);
+				returnedAthlete = serviceWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
+				assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
 				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 			}
 		});
@@ -40,7 +42,7 @@ public class UpdateAuthenticatedAthleteTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					serviceWithoutWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+					service().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
 				} catch (final UnauthorizedException e) {
 					// Expected behaviour
 					return;

@@ -139,15 +139,15 @@ public class UpdateActivityTest extends StravaTest {
 	 * @return The activity as it was created on Strava (although it is ALWAYS deleted again)
 	 */
 	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) {
-		final StravaActivity response = service().createManualActivity(activity);
+		final StravaActivity response = serviceWithWriteAccess().createManualActivity(activity);
 		StravaActivity updateResponse = null;
 		try {
-			updateResponse = service().updateActivity(response.getId(), update);
+			updateResponse = serviceWithWriteAccess().updateActivity(response.getId(), update);
 		} catch (final Throwable e) {
-			service().deleteActivity(response.getId());
+			serviceWithWriteAccess().deleteActivity(response.getId());
 			throw e;
 		}
-		service().deleteActivity(response.getId());
+		serviceWithWriteAccess().deleteActivity(response.getId());
 		return updateResponse;
 	}
 
@@ -311,8 +311,8 @@ public class UpdateActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
-				assertEquals(activity, service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
+				final StravaActivity activity = serviceWithWriteAccess().updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
+				assertEquals(activity, serviceWithWriteAccess().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
 			}
 		});
 	}
@@ -325,7 +325,7 @@ public class UpdateActivityTest extends StravaTest {
 				final StravaActivity activity = TestUtils.createDefaultActivity();
 				activity.setId(TestUtils.ACTIVITY_INVALID);
 
-				final StravaActivity response = service().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+				final StravaActivity response = serviceWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 				assertNull("Updated an activity which doesn't exist?", response);
 			}
 		});
@@ -336,10 +336,10 @@ public class UpdateActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				final StravaActivity activity = serviceWithWriteAccess().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 				try {
-					service().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+					serviceWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 				} catch (final UnauthorizedException e) {
 					// Expected behaviour
 					return;
@@ -362,11 +362,11 @@ public class UpdateActivityTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final TextProducer text = Fairy.create().textProducer();
-				final StravaActivity activity = serviceWithoutWriteAccess().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				activity.setDescription(text.paragraph(1));
 
 				try {
-					serviceWithoutWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+					service().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 				} catch (final UnauthorizedException e) {
 					// Expected behaviour
 					return;

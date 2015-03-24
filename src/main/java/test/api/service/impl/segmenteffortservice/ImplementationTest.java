@@ -117,7 +117,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * Test that when we ask for a {@link SegmentEffortServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT
 	 * implementation
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -145,6 +145,6 @@ public class ImplementationTest implements InstanceTestSpec {
 	}
 
 	private SegmentEffortService getServiceWithoutWriteAccess() {
-		return SegmentEffortServiceImpl.instance(TestUtils.getValidTokenWithoutWriteAccess());
+		return SegmentEffortServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 	}
 }
