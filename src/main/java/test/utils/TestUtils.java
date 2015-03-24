@@ -27,8 +27,6 @@ public class TestUtils {
 	public static String USERNAME;
 	public static String PASSWORD;
 
-	public static TestHttpUtils HTTP_UTILS;
-
 	public static Integer STRAVA_APPLICATION_ID;
 	public static String STRAVA_CLIENT_SECRET;
 
@@ -48,6 +46,7 @@ public class TestUtils {
 	public static Integer ACTIVITY_WITH_ZONES;
 	public static Integer ACTIVITY_WITHOUT_ZONES;
 	public static Integer ACTIVITY_PRIVATE_OTHER_USER;
+	public static Integer ACTIVITY_RUN_OTHER_USER;
 
 	public static Integer ATHLETE_AUTHENTICATED_ID;
 	public static Integer ATHLETE_VALID_ID;
@@ -87,7 +86,6 @@ public class TestUtils {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		HTTP_UTILS = new TestHttpUtils();
 		USERNAME = properties.getString("username");
 		PASSWORD = properties.getString("password");
 		STRAVA_APPLICATION_ID = new Integer(properties.getString("strava_application_id"));
@@ -111,6 +109,7 @@ public class TestUtils {
 		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
 		ACTIVITY_INVALID = new Integer(properties.getString("test.activityServicesImplTest.activityInvalid"));
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityServicesImplTest.activityPrivateOtherUser");
+		ACTIVITY_RUN_OTHER_USER = integerProperty("test.activityServicesImplTest.activityRunOtherUser");
 
 		ATHLETE_AUTHENTICATED_ID = integerProperty("test.athleteServicesImplTest.authenticatedAthleteId");
 		ATHLETE_VALID_ID = integerProperty("test.athleteServicesImplTest.athleteId");
@@ -194,7 +193,7 @@ public class TestUtils {
 		Token token = TokenManager.instance().retrieveTokenWithScope(USERNAME, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		if (token == null) {
 			try {
-				token = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
+				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 				TokenManager.instance().storeToken(token);
 			} catch (BadRequestException | UnauthorizedException e) {
 				return null;
@@ -207,7 +206,7 @@ public class TestUtils {
 		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
 		if (token == null) {
 			try {
-				token = HTTP_UTILS.getStravaAccessToken(USERNAME, PASSWORD);
+				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD);
 				TokenManager.instance().storeToken(token);
 			} catch (BadRequestException | UnauthorizedException e) {
 				return null;

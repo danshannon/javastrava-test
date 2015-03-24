@@ -7,33 +7,13 @@ import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.AthleteServiceImpl;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestCallback;
-import test.utils.TestHttpUtils;
 import test.utils.TestUtils;
 
 public class TokenServiceImplTest {
-	private static TestHttpUtils HTTP_UTILITIES;
-
-	/**
-	 * <p>
-	 * Loads the properties from the test configuration file
-	 * </p>
-	 *
-	 * @throws java.lang.Exception
-	 * @throws UnauthorizedException
-	 *             Cannot log in successfully to Strava
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception, UnauthorizedException {
-		// Set up an HTTP utility session, this will maintain a single session / session cookies etc. for you
-		HTTP_UTILITIES = TestUtils.HTTP_UTILS;
-		HTTP_UTILITIES.loginToSession(TestUtils.USERNAME, TestUtils.PASSWORD);
-	}
-
 	/**
 	 * <p>
 	 * Test deauthorisation of a valid token

@@ -160,4 +160,13 @@ public class GetActivityTest extends StravaTest {
 			}
 		});
 	}
+	
+	@Test
+	public void testGetActivity_run() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER);
+			assertNotNull(activity);
+			StravaActivityTest.validateActivity(activity);
+		});
+	}
 }
