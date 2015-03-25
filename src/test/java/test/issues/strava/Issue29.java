@@ -2,10 +2,10 @@ package test.issues.strava;
 
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.rest.ActivityAPI;
-import javastrava.api.v3.service.exception.NotFoundException;
 
 import org.junit.Test;
 
+import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -19,9 +19,11 @@ import test.utils.TestUtils;
  */
 public class Issue29 {
 	@Test
-	public void testIssue() throws NotFoundException {
-		final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-		retrofit.giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+	public void testIssue() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
+			retrofit.giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+		});
 	}
 
 }

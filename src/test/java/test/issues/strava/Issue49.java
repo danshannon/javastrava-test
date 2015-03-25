@@ -10,6 +10,7 @@ import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 
 import org.junit.Test;
 
+import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -23,18 +24,20 @@ import test.utils.TestUtils;
  */
 public class Issue49 {
 	@Test
-	public void testIssue() {
-		final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithWriteAccess());
-		final StravaActivity activity = TestUtils.createDefaultActivity("Issue49.testIssue");
-		activity.setType(StravaActivityType.UNKNOWN);
-		try {
-			retrofit.createManualActivity(activity);
-		} catch (final StravaInternalServerErrorException e) {
-			// Expected
-			return;
-		} catch (final BadRequestException e) {
-			fail("Issue 49 appears to be fixed - now throwing 400 Bad Request Exception");
-		}
-		fail("Didn't throw the expected 500 Internal Server Error");
+	public void testIssue() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithWriteAccess());
+			final StravaActivity activity = TestUtils.createDefaultActivity("Issue49.testIssue");
+			activity.setType(StravaActivityType.UNKNOWN);
+			try {
+				retrofit.createManualActivity(activity);
+			} catch (final StravaInternalServerErrorException e) {
+				// Expected
+				return;
+			} catch (final BadRequestException e) {
+				fail("Issue 49 appears to be fixed - now throwing 400 Bad Request Exception");
+			}
+			fail("Didn't throw the expected 500 Internal Server Error");
+		});
 	}
 }

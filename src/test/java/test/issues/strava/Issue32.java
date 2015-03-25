@@ -16,6 +16,7 @@ import javastrava.api.v3.service.impl.SegmentServiceImpl;
 import org.junit.Test;
 
 import test.api.model.StravaSegmentEffortTest;
+import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -24,23 +25,23 @@ import test.utils.TestUtils;
  */
 public class Issue32 {
 	@Test
-	public void testIssue() {
-		final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(200384);
-		assertNotNull(efforts);
-		boolean issue = false;
-		for (final StravaSegmentEffort effort : efforts) {
-			StravaSegmentEffortTest.validateSegmentEffort(effort);
-			if (!isKom(effort.getSegment(), 200384)) {
-				issue = true;
+	public void testIssue() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(200384);
+			assertNotNull(efforts);
+			boolean issue = false;
+			for (final StravaSegmentEffort effort : efforts) {
+				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				if (!isKom(effort.getSegment(), 200384)) {
+					issue = true;
+				}
 			}
-		}
-		assertTrue(issue);
-
+			assertTrue(issue);
+		});
 	}
 
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken())
-				.getSegmentLeaderboard(segment.getId());
+		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken()).getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			if (entry.getAthleteId().equals(athleteId) && entry.getRank().equals(1)) {

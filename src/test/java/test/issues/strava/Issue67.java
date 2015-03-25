@@ -12,12 +12,11 @@ import java.util.List;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.rest.ActivityAPI;
-import javastrava.api.v3.service.exception.BadRequestException;
-import javastrava.api.v3.service.exception.NotFoundException;
 
 import org.junit.Test;
 
 import test.api.service.impl.util.ActivityServiceUtils;
+import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -30,12 +29,13 @@ import test.utils.TestUtils;
  */
 public class Issue67 {
 	@Test
-	public void testIssue() throws NotFoundException, BadRequestException {
-		final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-		final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
-		final List<StravaComment> comments = Arrays.asList(api.listActivityComments(comment.getActivityId(), null, null, null));
-		assertNotNull(comments);
-		assertFalse(comments.isEmpty());
-
+	public void testIssue() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
+			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
+			final List<StravaComment> comments = Arrays.asList(api.listActivityComments(comment.getActivityId(), null, null, null));
+			assertNotNull(comments);
+			assertFalse(comments.isEmpty());
+		});
 	}
 }
