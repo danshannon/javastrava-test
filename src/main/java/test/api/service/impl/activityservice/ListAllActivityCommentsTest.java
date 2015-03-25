@@ -27,7 +27,7 @@ public class ListAllActivityCommentsTest extends StravaTest {
 	@Test
 	public void testListAllActivityComments_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listAllActivityComments(TestUtils.ACTIVITY_INVALID);
+			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_INVALID);
 			assertNull(comments);
 		});
 	}
@@ -35,7 +35,7 @@ public class ListAllActivityCommentsTest extends StravaTest {
 	@Test
 	public void testListAllActivityComments_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listAllActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 			assertNotNull(comments);
 			assertEquals(0, comments.size());
 		});
@@ -44,7 +44,7 @@ public class ListAllActivityCommentsTest extends StravaTest {
 	@Test
 	public void testListAllActivityComments_validActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listAllActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS);
+			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS);
 			assertNotNull(comments);
 			assertTrue(0 < comments.size());
 			for (final StravaComment comment : comments) {

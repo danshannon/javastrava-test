@@ -33,7 +33,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE);
 
 				assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity);
 				assertNotNull("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is null", activity.getSegmentEfforts());
@@ -60,7 +60,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 				assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, activity);
 				assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), StravaResourceState.DETAILED,
@@ -86,7 +86,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 				assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, activity);
 				assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), StravaResourceState.SUMMARY,
@@ -108,7 +108,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE);
 
 				assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity);
 				assertNotNull("Returned null segment efforts for known activity, when they were expected", activity.getSegmentEfforts());
@@ -136,7 +136,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_INVALID);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_INVALID);
 
 				assertNull("Got an activity for an invalid activity id " + TestUtils.ACTIVITY_INVALID, activity);
 			}
@@ -148,7 +148,7 @@ public class GetActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
 				// Should get an activity which only has an id
 				assertNotNull(activity);
@@ -164,7 +164,7 @@ public class GetActivityTest extends StravaTest {
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaActivity activity = service().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER);
+			StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
 		});

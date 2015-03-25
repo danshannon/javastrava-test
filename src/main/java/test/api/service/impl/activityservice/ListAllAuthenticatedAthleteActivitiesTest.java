@@ -22,7 +22,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllAuthenticatedAthleteActivities();
+				final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities();
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
@@ -37,7 +37,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final LocalDateTime before = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0);
-				final List<StravaActivity> activities = service().listAllAuthenticatedAthleteActivities(before, null);
+				final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(before, null);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
 					assertTrue(activity.getStartDateLocal().isBefore(before));
@@ -52,7 +52,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
-				final List<StravaActivity> activities = service().listAllAuthenticatedAthleteActivities(null, after);
+				final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(null, after);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
 					assertTrue(activity.getStartDateLocal().isAfter(after));
@@ -68,7 +68,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			public void test() throws Exception {
 				final LocalDateTime before = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0);
 				final LocalDateTime after = LocalDateTime.of(2009, Month.JULY, 1, 0, 0);
-				final List<StravaActivity> activities = service().listAllAuthenticatedAthleteActivities(before, after);
+				final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(before, after);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
 					assertTrue(activity.getStartDateLocal().isBefore(before));
@@ -85,7 +85,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			public void test() throws Exception {
 				final LocalDateTime before = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0);
 				final LocalDateTime after = LocalDateTime.of(2010, Month.JULY, 1, 0, 0);
-				final List<StravaActivity> activities = service().listAllAuthenticatedAthleteActivities(before, after);
+				final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(before, after);
 				assertNotNull(activities);
 				assertTrue(activities.isEmpty());
 			}

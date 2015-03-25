@@ -21,7 +21,7 @@ public class GetSegmentTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegment segment = service().getSegment(TestUtils.SEGMENT_VALID_ID);
+				final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_VALID_ID);
 				assertNotNull(segment);
 			}
 		});
@@ -33,7 +33,7 @@ public class GetSegmentTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegment segment = service().getSegment(TestUtils.SEGMENT_INVALID_ID);
+				final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_INVALID_ID);
 				assertNull(segment);
 			}
 		});
@@ -45,7 +45,7 @@ public class GetSegmentTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegment segment = service().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
+				final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
 				assertEquals(StravaResourceState.META, segment.getResourceState());
 			}
 		});
@@ -57,9 +57,10 @@ public class GetSegmentTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegment segment = service().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
+				final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
 				assertNotNull(segment);
 				assertEquals(TestUtils.SEGMENT_PRIVATE_ID, segment.getId());
+				assertEquals(Boolean.TRUE,segment.getPrivateSegment());
 			}
 		});
 	}

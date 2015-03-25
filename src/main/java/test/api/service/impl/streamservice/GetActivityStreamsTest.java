@@ -35,7 +35,7 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				assertNotNull(streams);
 				validateList(streams);
 			}
@@ -48,7 +48,7 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_INVALID);
+				final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_INVALID);
 				assertNull(streams);
 			}
 		});
@@ -61,7 +61,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getActivityStreams(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+					strava().getActivityStreams(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;
@@ -77,7 +77,7 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				assertNotNull(streams);
 				int size = 0;
 				for (final StravaStream stream : streams) {
@@ -104,7 +104,7 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null,
+				final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null,
 						StravaStreamType.DISTANCE);
 				assertNotNull(streams);
 				assertEquals(1, streams.size());
@@ -123,7 +123,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			public void test() throws Exception {
 				for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 					if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-						final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+						final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
 								StravaStreamSeriesDownsamplingType.TIME);
 						assertNotNull(streams);
 						validateList(streams);
@@ -141,7 +141,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			public void test() throws Exception {
 				for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 					if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-						final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+						final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
 								StravaStreamSeriesDownsamplingType.DISTANCE);
 						assertNotNull(streams);
 						for (final StravaStream stream : streams) {
@@ -161,7 +161,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.UNKNOWN);
+					strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.UNKNOWN);
 				} catch (final IllegalArgumentException e) {
 					// Expected
 					return;
@@ -178,7 +178,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.UNKNOWN, null);
+					strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.UNKNOWN, null);
 				} catch (final IllegalArgumentException e) {
 					// Expected
 					return;
@@ -195,7 +195,7 @@ public class GetActivityStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
+					strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
 							StravaStreamSeriesDownsamplingType.UNKNOWN);
 				} catch (final IllegalArgumentException e) {
 					// Expected

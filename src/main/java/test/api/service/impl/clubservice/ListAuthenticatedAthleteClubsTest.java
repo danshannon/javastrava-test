@@ -22,7 +22,7 @@ public class ListAuthenticatedAthleteClubsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
+				final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
 				assertNotNull(clubs);
 				assertFalse(clubs.size() == 0);
 				for (final StravaClub club : clubs) {

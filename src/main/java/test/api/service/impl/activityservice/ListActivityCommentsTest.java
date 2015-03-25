@@ -24,13 +24,13 @@ import test.utils.TestUtils;
 public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment, Integer> {
 	@Override
 	protected ListCallback<StravaComment> callback() {
-		return (paging -> service().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, paging));
+		return (paging -> strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, paging));
 	}
 
 	@Test
 	public void testListActivityComments_activityMarkdownPaging() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE, new Paging(1, 1));
+			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE, new Paging(1, 1));
 			assertNotNull(comments);
 			assertEquals(1, comments.size());
 		});
@@ -53,12 +53,12 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_hasComments() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE);
+			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE);
 
 			assertNotNull("Returned null list of comments (with markdown) when some were expected");
 			assertNotEquals("Returned empty list of comments when some were expected", 0, comments.size());
 
-			final List<StravaComment> commentsWithoutMarkdown = service().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE);
+			final List<StravaComment> commentsWithoutMarkdown = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE);
 
 			// Check that the lists are the same length!!
 				assertNotNull("Returned null list of comments (without markdown) when some were expected");
@@ -92,7 +92,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_hasNoComments() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_WITHOUT_COMMENTS, Boolean.TRUE);
+			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_WITHOUT_COMMENTS, Boolean.TRUE);
 
 			assertNotNull("Returned null list of comments when an empty array was expected", comments);
 			assertEquals("Returned a non-empty list of comments when none were expected", 0, comments.size());
@@ -121,7 +121,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	public void testListActivityComments_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			List<StravaComment> comments;
-			comments = service().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE);
+			comments = strava().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE);
 
 			assertNull("Expected null response when retrieving comments for an invalid activity", comments);
 		});
@@ -130,7 +130,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = service().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 			assertNotNull(comments);
 			assertEquals(0, comments.size());
 		});

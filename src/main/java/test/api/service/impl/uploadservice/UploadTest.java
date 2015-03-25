@@ -20,7 +20,7 @@ public class UploadTest extends StravaTest {
 	public void testUpload_badActivityType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
-			final StravaUploadResponse response = serviceWithWriteAccess().upload(StravaActivityType.UNKNOWN,
+			final StravaUploadResponse response = stravaWithWriteAccess().upload(StravaActivityType.UNKNOWN,
 					"UploadServicesImplTest,testUpload_badActivityType", null, null, null, "gpx", "ABC", file);
 			waitForCompletionAndDelete(response);
 		});
@@ -32,14 +32,14 @@ public class UploadTest extends StravaTest {
 			final File file = new File("hyperdrive.gpx");
 			StravaUploadResponse response = null;
 			try {
-				response = serviceWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null,
+				response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null,
 						"UNKNOWN", "ABC", file);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
 			}
 
-			serviceWithWriteAccess().deleteActivity(response.getActivityId());
+			stravaWithWriteAccess().deleteActivity(response.getActivityId());
 			fail("Uploaded a file with a bad data type!");
 		});
 	}
@@ -50,14 +50,14 @@ public class UploadTest extends StravaTest {
 			final File file = new File("Plan");
 			StravaUploadResponse response = null;
 			try {
-				response = serviceWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC",
+				response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC",
 						file);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
 			}
 
-			serviceWithWriteAccess().deleteActivity(response.getActivityId());
+			stravaWithWriteAccess().deleteActivity(response.getActivityId());
 			fail("Uploaded a file with an invalid file!");
 		});
 	}
@@ -68,14 +68,14 @@ public class UploadTest extends StravaTest {
 			final File file = null;
 			StravaUploadResponse response = null;
 			try {
-				response = serviceWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC",
+				response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC",
 						file);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
 			}
 
-			serviceWithWriteAccess().deleteActivity(response.getActivityId());
+			stravaWithWriteAccess().deleteActivity(response.getActivityId());
 			fail("Uploaded a file with no actual file!");
 		});
 	}
@@ -84,7 +84,7 @@ public class UploadTest extends StravaTest {
 	public void testUpload_noName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
-			final StravaUploadResponse response = serviceWithWriteAccess().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName",
+			final StravaUploadResponse response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName",
 					null, null, "gpx", "ABC", file);
 			waitForCompletionAndDelete(response);
 		});
@@ -96,7 +96,7 @@ public class UploadTest extends StravaTest {
 			final File file = new File("hyperdrive.gpx");
 			StravaUploadResponse response = null;
 			try {
-				response = service().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null, Boolean.TRUE, null, "gpx",
+				response = strava().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null, Boolean.TRUE, null, "gpx",
 						"testUpload_noWriteAccess", file);
 			} catch (final UnauthorizedException e) {
 				// Expected
@@ -104,7 +104,7 @@ public class UploadTest extends StravaTest {
 			}
 
 			// Delete the activity again (if we get there, it's been created in error)
-			serviceWithWriteAccess().deleteActivity(response.getActivityId());
+			stravaWithWriteAccess().deleteActivity(response.getActivityId());
 
 			// Fail
 			fail("Uploaded an activity without write access!");
@@ -116,7 +116,7 @@ public class UploadTest extends StravaTest {
 	public void testUpload_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
-			final StravaUploadResponse response = serviceWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest", null, null, null, "gpx",
+			final StravaUploadResponse response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest", null, null, null, "gpx",
 					"ABC", file);
 			waitForCompletionAndDelete(response);
 		});
@@ -127,7 +127,7 @@ public class UploadTest extends StravaTest {
 		StravaUploadResponse localResponse = null;
 		boolean loop = true;
 		while (loop) {
-			localResponse = service().checkUploadStatus(id);
+			localResponse = strava().checkUploadStatus(id);
 			if (!localResponse.getStatus().equals("Your activity is still being processed.")) {
 				loop = false;
 			} else {
@@ -141,7 +141,7 @@ public class UploadTest extends StravaTest {
 		if (localResponse.getStatus().equals("Your activity is ready.")) {
 			loop = true;
 			while (loop) {
-				final StravaActivity activity = service().getActivity(localResponse.getActivityId());
+				final StravaActivity activity = strava().getActivity(localResponse.getActivityId());
 				if ((activity != null) && (activity.getResourceState() != StravaResourceState.UPDATING)) {
 					loop = false;
 				} else {
@@ -152,7 +152,7 @@ public class UploadTest extends StravaTest {
 					}
 				}
 			}
-			serviceWithWriteAccess().deleteActivity(localResponse.getActivityId());
+			stravaWithWriteAccess().deleteActivity(localResponse.getActivityId());
 		}
 
 	}

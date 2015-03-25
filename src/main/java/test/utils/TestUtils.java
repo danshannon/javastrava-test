@@ -144,9 +144,9 @@ public class TestUtils {
 	/**
 	 * @return
 	 */
-	public static StravaActivity createDefaultActivity() {
+	public static StravaActivity createDefaultActivity(String name) {
 		final StravaActivity activity = new StravaActivity();
-		activity.setName("TO BE DELETED");
+		activity.setName(name);
 		activity.setType(StravaActivityType.RIDE);
 		activity.setStartDateLocal(LocalDateTime.now());
 		activity.setElapsedTime(1000);
@@ -190,44 +190,34 @@ public class TestUtils {
 	}
 
 	public static Token getValidToken() {
-		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
+		return tokenWithExactScope();
+	}
+	
+	private static Token tokenWithExactScope(AuthorisationScope... scopes) {
+		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME, scopes);
 		if (token == null) {
 			try {
-				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD);
+				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD, scopes);
 				TokenManager.instance().storeToken(token);
 			} catch (BadRequestException | UnauthorizedException e) {
 				return null;
 			}
 		}
 		return token;
+		
 	}
 
 	public static Token getValidTokenWithWriteAccess() {
-		Token token = TokenManager.instance().retrieveTokenWithScope(USERNAME, AuthorisationScope.WRITE);
-		if (token == null) {
-			try {
-				token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD, AuthorisationScope.WRITE);
-				TokenManager.instance().storeToken(token);
-			} catch (BadRequestException | UnauthorizedException e) {
-				return null;
-			}
-		}
-		return token;
-
+		return tokenWithExactScope(AuthorisationScope.WRITE);
 	}
-
-	// public static Token getValidTokenWithoutWriteAccess() {
-	// Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME);
-	// if (token == null) {
-	// try {
-	// token = TestHttpUtils.getStravaAccessToken(USERNAME, PASSWORD);
-	// TokenManager.instance().storeToken(token);
-	// } catch (BadRequestException | UnauthorizedException e) {
-	// return null;
-	// }
-	// }
-	// return token;
-	// }
+	
+	public static Token getValidTokenWithViewPrivate() {
+		return tokenWithExactScope(AuthorisationScope.VIEW_PRIVATE);
+	}
+	
+	public static Token getValidTokenWithFullAccess() {
+		return tokenWithExactScope(AuthorisationScope.WRITE, AuthorisationScope.VIEW_PRIVATE);
+	}
 
 	public static Token getRevokedToken() throws UnauthorizedException {
 		final Token token = getValidToken();
@@ -242,6 +232,17 @@ public class TestUtils {
 
 	public static Strava stravaWithWriteAccess() {
 		return new Strava(getValidTokenWithWriteAccess());
+	}
+
+	/**
+	 * @return
+	 */
+	public static Strava stravaWithViewPrivate() {
+		return new Strava(getValidTokenWithViewPrivate());
+	}
+	
+	public static Strava stravaWithFullAccess() {
+		return new Strava(getValidTokenWithFullAccess());
 	}
 
 	// public static Strava stravaWithoutWriteAccess() {

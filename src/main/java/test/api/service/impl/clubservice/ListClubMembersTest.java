@@ -28,7 +28,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_VALID_ID);
+				final List<StravaAthlete> members = strava().listClubMembers(TestUtils.CLUB_VALID_ID);
 				assertNotNull(members);
 				assertFalse(members.size() == 0);
 				for (final StravaAthlete athlete : members) {
@@ -46,7 +46,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 			public void test() throws Exception {
 				List<StravaAthlete> members;
 
-				members = service().listClubMembers(TestUtils.CLUB_INVALID_ID);
+				members = strava().listClubMembers(TestUtils.CLUB_INVALID_ID);
 				assertNull("Returned a list of members for a non-existent club", members);
 			}
 		});
@@ -58,7 +58,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				final List<StravaAthlete> members = strava().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 				assertNotNull(members);
 				assertEquals(0, members.size());
 			}
@@ -71,7 +71,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> members = service().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+				final List<StravaAthlete> members = strava().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
 				assertNotNull(members);
 				assertFalse(members.size() == 0);
 				for (final StravaAthlete athlete : members) {
@@ -100,7 +100,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 
 			@Override
 			public List<StravaAthlete> getList(final Paging paging) {
-				return service().listClubMembers(TestUtils.CLUB_VALID_ID, paging);
+				return strava().listClubMembers(TestUtils.CLUB_VALID_ID, paging);
 			}
 
 		});

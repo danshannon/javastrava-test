@@ -22,7 +22,7 @@ public class ListAllClubMembersTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_VALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllClubMembers(TestUtils.CLUB_VALID_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);
@@ -36,7 +36,7 @@ public class ListAllClubMembersTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_INVALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllClubMembers(TestUtils.CLUB_INVALID_ID);
 				assertNull(athletes);
 			}
 		});
@@ -47,7 +47,7 @@ public class ListAllClubMembersTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+				final List<StravaAthlete> athletes = strava().listAllClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);
@@ -61,7 +61,7 @@ public class ListAllClubMembersTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				final List<StravaAthlete> athletes = strava().listAllClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 				assertNotNull(athletes);
 				assertEquals(0, athletes.size());
 			}
@@ -73,7 +73,7 @@ public class ListAllClubMembersTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllClubMembers(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+				final List<StravaAthlete> athletes = strava().listAllClubMembers(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);

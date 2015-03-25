@@ -26,9 +26,9 @@ public class LeaveClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
-				serviceWithWriteAccess().leaveClub(id);
+				stravaWithWriteAccess().leaveClub(id);
 
-				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
+				final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
 				final boolean member = checkIsMember(clubs, id);
 
 				assertFalse(member);
@@ -44,13 +44,13 @@ public class LeaveClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-				serviceWithWriteAccess().leaveClub(id);
+				stravaWithWriteAccess().leaveClub(id);
 
-				final List<StravaClub> clubs = service().listAuthenticatedAthleteClubs();
+				final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
 				final boolean member = checkIsMember(clubs, id);
 
 				// Join the club again
-				serviceWithWriteAccess().joinClub(id);
+				stravaWithWriteAccess().joinClub(id);
 
 				assertFalse(member);
 			}
@@ -65,7 +65,7 @@ public class LeaveClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_INVALID_ID;
 
-				final StravaClubMembershipResponse response = serviceWithWriteAccess().leaveClub(id);
+				final StravaClubMembershipResponse response = stravaWithWriteAccess().leaveClub(id);
 				assertEquals(Boolean.FALSE, response.getSuccess());
 			}
 		});
@@ -101,7 +101,7 @@ public class LeaveClubTest extends StravaTest {
 			public void test() throws Exception {
 				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-				final StravaClubMembershipResponse response = service().leaveClub(id);
+				final StravaClubMembershipResponse response = strava().leaveClub(id);
 				assertNotNull(response);
 				assertEquals(Boolean.FALSE, response.getSuccess());
 			}

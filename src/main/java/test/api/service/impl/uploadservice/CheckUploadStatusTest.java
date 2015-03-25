@@ -17,7 +17,7 @@ public class CheckUploadStatusTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaUploadResponse response = service().checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final StravaUploadResponse response = strava().checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				assertNotNull(response);
 				StravaUploadResponseTest.validate(response);
 			}

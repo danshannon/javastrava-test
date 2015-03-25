@@ -1,5 +1,6 @@
 package test.api.service.impl.activityservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
@@ -34,11 +35,18 @@ public class DeleteActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				StravaActivity activity = TestUtils.createDefaultActivity();
-				activity.setName("testDeleteActivity_validActivity");
-				final StravaActivity stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
-				activity = serviceWithWriteAccess().getActivity(stravaResponse.getId());
-				serviceWithWriteAccess().deleteActivity(activity.getId());
+				final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_validActivity");
+				final StravaActivity createResponse = stravaWithWriteAccess().createManualActivity(activity);
+				StravaActivity deleteResponse = null;
+				try {
+					deleteResponse = stravaWithWriteAccess().deleteActivity(createResponse.getId());
+				} catch (Exception e) {
+					deleteResponse = forceDeleteActivity(createResponse);
+				}
+				final StravaActivity getResponse = strava().getActivity(createResponse.getId());
+				assertNull(deleteResponse);
+				assertNull(getResponse);
+				
 
 			}
 		});
@@ -61,21 +69,19 @@ public class DeleteActivityTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				// Create the activity using a service which DOES have write access
-				StravaActivity activity = TestUtils.createDefaultActivity();
-				activity.setName("testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
-				final StravaActivity stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
-				activity = service().getActivity(stravaResponse.getId());
+				StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
+				final StravaActivity stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 
 				// Now get a token without write access and attempt to delete
 				try {
-					service().deleteActivity(activity.getId());
+					strava().deleteActivity(stravaResponse.getId());
 					fail("Succeeded in deleting an activity despite not having write access");
 				} catch (final UnauthorizedException e) {
 					// Expected behaviour
 				}
 
 				// Delete the activity using a token with write access
-				serviceWithWriteAccess().deleteActivity(activity.getId());
+				forceDeleteActivity(stravaResponse);
 			}
 		});
 	}
@@ -94,9 +100,47 @@ public class DeleteActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity stravaResponse = serviceWithWriteAccess().deleteActivity(TestUtils.ACTIVITY_INVALID);
+				final StravaActivity stravaResponse = stravaWithWriteAccess().deleteActivity(TestUtils.ACTIVITY_INVALID);
 				assertNull("deleted an activity that doesn't exist", stravaResponse);
 			}
+		});
+	}
+	
+	@Test
+	public void testDeleteActivity_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivity");
+			activity.setPrivateActivity(Boolean.TRUE);
+			final StravaActivity createResponse = stravaWithWriteAccess().createManualActivity(activity);
+			assertEquals(Boolean.TRUE, createResponse.getPrivateActivity());
+			StravaActivity deleteResponse = null;
+			try {
+				deleteResponse = stravaWithFullAccess().deleteActivity(createResponse.getId());
+				assertNull(deleteResponse);
+			} catch (Exception e) {
+				forceDeleteActivity(createResponse);
+				fail("Could not delete private activity");
+			}
+		});
+	}
+	
+	@Test
+	public void testDeleteActivity_privateActivityNoViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivityNoViewPrivate");
+			activity.setPrivateActivity(Boolean.TRUE);
+			final StravaActivity createResponse = stravaWithWriteAccess().createManualActivity(activity);
+			try {
+				stravaWithWriteAccess().deleteActivity(createResponse.getId());
+			} catch (UnauthorizedException e) {
+				// Expected
+				forceDeleteActivity(createResponse);
+				return;
+			} catch (Exception e) {
+				// Do nothing (just carry on and fail)
+			}
+			forceDeleteActivity(createResponse);
+			fail("Deleted private activity despite not having view_private access");
 		});
 	}
 

@@ -25,7 +25,7 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(efforts);
 				for (final StravaSegmentEffort effort : efforts) {
 					StravaSegmentEffortTest.validateSegmentEffort(effort);
@@ -41,7 +41,7 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(efforts);
 				// TODO workaround for issue javastrava-api #32 - see https://github.com/danshannon/javastravav3api/issues/32
 				// for (final StravaSegmentEffort effort : efforts) {
@@ -58,14 +58,14 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listAllAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(efforts);
 			}
 		});
 	}
 
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = service().getSegmentLeaderboard(segment.getId());
+		final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			if (entry.getAthleteId().equals(athleteId) && entry.getRank().equals(1)) {

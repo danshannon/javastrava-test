@@ -21,7 +21,7 @@ public class ListAllRelatedActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final List<StravaActivity> activities = strava().listAllRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
@@ -35,7 +35,7 @@ public class ListAllRelatedActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRelatedActivities(TestUtils.ACTIVITY_INVALID);
+				final List<StravaActivity> activities = strava().listAllRelatedActivities(TestUtils.ACTIVITY_INVALID);
 				assertNull(activities);
 			}
 		});
@@ -46,7 +46,7 @@ public class ListAllRelatedActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRelatedActivities(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				final List<StravaActivity> activities = strava().listAllRelatedActivities(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);

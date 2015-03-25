@@ -23,7 +23,7 @@ public class SegmentExploreTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegmentExplorerResponse response = service().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
+				final StravaSegmentExplorerResponse response = strava().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
 						null, null);
 				assertNotNull(response);
 				StravaSegmentExplorerResponseTest.validate(response);
@@ -37,7 +37,7 @@ public class SegmentExploreTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegmentExplorerResponse response = service().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f),
+				final StravaSegmentExplorerResponse response = strava().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f),
 						StravaSegmentExplorerActivityType.RUNNING, null, null);
 				assertNotNull(response);
 				StravaSegmentExplorerResponseTest.validate(response);
@@ -51,7 +51,7 @@ public class SegmentExploreTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegmentExplorerResponse response = service().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
+				final StravaSegmentExplorerResponse response = strava().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
 						StravaClimbCategory.HORS_CATEGORIE, null);
 				assertNotNull(response);
 				for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
@@ -68,7 +68,7 @@ public class SegmentExploreTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegmentExplorerResponse response = service().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
+				final StravaSegmentExplorerResponse response = strava().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
 						null, StravaClimbCategory.CATEGORY1);
 				assertNotNull(response);
 				for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
@@ -86,7 +86,7 @@ public class SegmentExploreTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaSegmentExplorerResponse response = service().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
+				final StravaSegmentExplorerResponse response = strava().segmentExplore(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f), null,
 						null, null);
 				assertNotNull(response);
 				StravaSegmentExplorerResponseTest.validate(response);

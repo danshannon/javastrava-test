@@ -22,7 +22,7 @@ public class ListAllAthletesBothFollowingTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);
@@ -36,7 +36,7 @@ public class ListAllAthletesBothFollowingTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(athletes);
 			}
 		});
@@ -47,11 +47,11 @@ public class ListAllAthletesBothFollowingTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthletesBothFollowing(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthletesBothFollowing(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(athletes);
 
 				// Will have returned all the athletes that the authenticated user is following
-				final List<StravaAthlete> friends = service().listAllAuthenticatedAthleteFriends();
+				final List<StravaAthlete> friends = strava().listAllAuthenticatedAthleteFriends();
 				assertEquals(friends.size(), athletes.size());
 			}
 		});
@@ -62,7 +62,7 @@ public class ListAllAthletesBothFollowingTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthletesBothFollowing(TestUtils.ATHLETE_WITHOUT_FRIENDS);
+				final List<StravaAthlete> athletes = strava().listAllAthletesBothFollowing(TestUtils.ATHLETE_WITHOUT_FRIENDS);
 				assertNotNull(athletes);
 				assertEquals(0, athletes.size());
 			}

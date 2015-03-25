@@ -31,7 +31,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID);
 				assertNotNull(efforts);
 				assertFalse(efforts.size() == 0);
 				validateList(efforts);
@@ -45,7 +45,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID);
 				assertNull(efforts);
 			}
 		});
@@ -57,7 +57,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null,
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null,
 						null);
 				assertNotNull(efforts);
 				assertFalse(0 == efforts.size());
@@ -75,7 +75,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null);
 				assertNull(efforts);
 			}
 		});
@@ -89,7 +89,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			public void test() throws Exception {
 				final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
 				assertNotNull(efforts);
 				assertFalse(0 == efforts.size());
 				for (final StravaSegmentEffort effort : efforts) {
@@ -109,7 +109,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			public void test() throws Exception {
 				final LocalDateTime endDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 23, 59, 59);
 
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate);
 				assertNotNull(efforts);
 				assertFalse(0 == efforts.size());
 				for (final StravaSegmentEffort effort : efforts) {
@@ -130,7 +130,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 				final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
 				final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
 
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
 				assertNotNull(efforts);
 				assertFalse(0 == efforts.size());
 				for (final StravaSegmentEffort effort : efforts) {
@@ -148,7 +148,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID);
+				final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID);
 				assertNotNull(efforts);
 				assertEquals(0, efforts.size());
 			}
@@ -161,7 +161,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			final LocalDateTime startDate = LocalDateTime.of(2009, Month.JANUARY, 1, 0, 0, 0);
 			final LocalDateTime endDate = LocalDateTime.of(2015, Month.JANUARY, 31, 23, 59, 59);
 
-			final List<StravaSegmentEffort> efforts = service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, startDate,
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, startDate,
 					endDate, new Paging(1, 1));
 			assertNotNull(efforts);
 			assertFalse(efforts.isEmpty());
@@ -194,7 +194,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 
 			@Override
 			public List<StravaSegmentEffort> getList(final Paging paging) {
-				return service().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, paging);
+				return strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, paging);
 			}
 
 		});

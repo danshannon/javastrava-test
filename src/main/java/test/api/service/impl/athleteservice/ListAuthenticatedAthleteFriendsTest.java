@@ -23,7 +23,7 @@ public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<St
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> friends = service().listAuthenticatedAthleteFriends();
+				final List<StravaAthlete> friends = strava().listAuthenticatedAthleteFriends();
 				assertNotNull(friends);
 				assertFalse(friends.isEmpty());
 				for (final StravaAthlete athlete : friends) {
@@ -51,7 +51,7 @@ public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<St
 
 			@Override
 			public List<StravaAthlete> getList(final Paging paging) {
-				return service().listAuthenticatedAthleteFriends(paging);
+				return strava().listAuthenticatedAthleteFriends(paging);
 			}
 
 		});

@@ -28,7 +28,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRecentClubActivities(TestUtils.CLUB_VALID_ID);
+				final List<StravaActivity> activities = strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID);
 
 				assertNotNull(activities);
 			}
@@ -41,7 +41,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRecentClubActivities(TestUtils.CLUB_INVALID_ID);
+				final List<StravaActivity> activities = strava().listRecentClubActivities(TestUtils.CLUB_INVALID_ID);
 
 				assertNotNull(activities);
 				assertEquals(0, activities.size());
@@ -56,7 +56,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+				final List<StravaActivity> activities = strava().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 
 				assertTrue(activities.isEmpty());
 			}
@@ -69,10 +69,10 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				List<StravaActivity> activities = service().listRecentClubActivities(TestUtils.CLUB_VALID_ID, new Paging(2, 200));
+				List<StravaActivity> activities = strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID, new Paging(2, 200));
 				assertNotNull(activities);
 				assertEquals(0, activities.size());
-				activities = service().listRecentClubActivities(TestUtils.CLUB_VALID_ID, new Paging(1, 200));
+				activities = strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID, new Paging(1, 200));
 				assertNotNull(activities);
 				assertFalse(0 == activities.size());
 				validateList(activities);
@@ -98,7 +98,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 			@Override
 			public List<StravaActivity> getList(final Paging paging) {
-				return service().listRecentClubActivities(TestUtils.CLUB_VALID_ID, paging);
+				return strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID, paging);
 			}
 
 		});

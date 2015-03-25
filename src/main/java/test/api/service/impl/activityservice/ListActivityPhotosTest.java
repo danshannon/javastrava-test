@@ -35,7 +35,7 @@ public class ListActivityPhotosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaPhoto> photos = service().listActivityPhotos(TestUtils.ACTIVITY_WITH_PHOTOS);
+				final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_WITH_PHOTOS);
 
 				assertNotNull("Null list of photos returned for activity", photos);
 				assertNotEquals("No photos returned although some were expected", 0, photos.size());
@@ -66,7 +66,7 @@ public class ListActivityPhotosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaPhoto> photos = service().listActivityPhotos(TestUtils.ACTIVITY_INVALID);
+				final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_INVALID);
 
 				assertNull("Photos returned for an invalid activity", photos);
 			}
@@ -89,7 +89,7 @@ public class ListActivityPhotosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaPhoto> photos = service().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 				assertNotNull(photos);
 				assertEquals(0, photos.size());
 			}
@@ -115,7 +115,7 @@ public class ListActivityPhotosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaPhoto> photos = service().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
+				final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
 
 				assertNotNull("Photos returned as null for a valid activity without photos", photos);
 				assertEquals("Photos were returned for an activity which has no photos", 0, photos.size());

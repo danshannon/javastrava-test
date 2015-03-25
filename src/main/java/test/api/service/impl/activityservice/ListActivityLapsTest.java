@@ -37,7 +37,7 @@ public class ListActivityLapsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
+				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
 
 				assertNotNull("Laps not returned for an activity which should have them", laps);
 				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
@@ -70,7 +70,7 @@ public class ListActivityLapsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
+				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
 
 				assertNotNull("Laps not returned for an activity which should have them", laps);
 				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
@@ -103,7 +103,7 @@ public class ListActivityLapsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_INVALID);
+				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_INVALID);
 
 				assertNull("Laps returned for an invalid activity", laps);
 			}
@@ -115,7 +115,7 @@ public class ListActivityLapsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaLap> laps = service().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
 				assertNotNull(laps);
 				assertEquals(0, laps.size());

@@ -25,7 +25,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaSegment> segments = strava().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(segments);
 			}
 		});
@@ -36,7 +36,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaSegment> segments = strava().listStarredSegments(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(segments);
 			}
 		});
@@ -47,7 +47,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaSegment> segments = strava().listStarredSegments(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(segments);
 			}
 		});
@@ -58,7 +58,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
+				final List<StravaSegment> segments = strava().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID);
 				assertNotNull(segments);
 				assertEquals(0, segments.size());
 			}
@@ -82,7 +82,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 
 			@Override
 			public List<StravaSegment> getList(final Paging paging) {
-				return service().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging);
+				return strava().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging);
 			}
 
 		});

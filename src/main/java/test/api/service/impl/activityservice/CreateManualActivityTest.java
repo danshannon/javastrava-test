@@ -34,19 +34,18 @@ public class CreateManualActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				StravaActivity activity = TestUtils.createDefaultActivity();
-				activity.setName("testCreateManualActivity_validActivity");
-				activity = serviceWithWriteAccess().createManualActivity(TestUtils.createDefaultActivity());
+				StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_validActivity");
+				StravaActivity response = stravaWithWriteAccess().createManualActivity(activity);
 
-				assertNotNull(activity);
+				assertNotNull(response);
 
 				// Load it from Strava
-				final StravaActivity stravaActivity = serviceWithWriteAccess().getActivity(activity.getId());
+				final StravaActivity stravaActivity = strava().getActivity(response.getId());
 				assertNotNull(stravaActivity);
-				StravaActivityTest.validateActivity(stravaActivity, stravaActivity.getId(), stravaActivity.getResourceState());
+				StravaActivityTest.validateActivity(stravaActivity);
 
 				// And delete it
-				serviceWithWriteAccess().deleteActivity(activity.getId());
+				forceDeleteActivity(response);
 			}
 		});
 	}
@@ -70,19 +69,15 @@ public class CreateManualActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				StravaActivity activity = null;
+				StravaActivity response = null;
 				try {
-					activity = TestUtils.createDefaultActivity();
-					activity.setName("testCreateManualActivity_accessTokenDoesNotHaveWriteAccess");
-					activity = service().createManualActivity(activity);
+					StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_accessTokenDoesNotHaveWriteAccess");
+					response = strava().createManualActivity(activity);
 				} catch (final UnauthorizedException e) {
 					// This is the expected behaviour - creation has failed because there's no write access
 					return;
-				} catch (final Throwable e) {
-					serviceWithWriteAccess().deleteActivity(activity.getId());
-				}
-
-				serviceWithWriteAccess().deleteActivity(activity.getId());
+				} 
+				forceDeleteActivity(response);
 				fail("Created a manual activity but should have failed and thrown an UnauthorizedException!");
 			}
 		});
@@ -107,12 +102,12 @@ public class CreateManualActivityTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				// Name is required
-				final StravaActivity activity = TestUtils.createDefaultActivity();
+				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName");
 				StravaActivity stravaResponse = null;
+				activity.setDescription(activity.getName());
 				activity.setName(null);
-				activity.setDescription("testCreateManualActivity_noName");
 				try {
-					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
+					stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -122,7 +117,7 @@ public class CreateManualActivityTest extends StravaTest {
 
 				// If it did get created, delete it again
 				if (stravaResponse != null) {
-					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
+					forceDeleteActivity(stravaResponse);
 				}
 
 				fail("Created an activity with no type in error" + stravaResponse);
@@ -136,12 +131,11 @@ public class CreateManualActivityTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				// Type is required
-				final StravaActivity activity = TestUtils.createDefaultActivity();
+				final StravaActivity activity = TestUtils.createDefaultActivity("CreateMannualActivityTest.testCreateManualActivity_noType");
 				StravaActivity stravaResponse = null;
 				activity.setType(null);
-				activity.setName("testCreateManualActivity_noType");
 				try {
-					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
+					stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -150,9 +144,7 @@ public class CreateManualActivityTest extends StravaTest {
 				}
 
 				// If it did get created, delete it again
-				if (stravaResponse != null) {
-					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
-				}
+				forceDeleteActivity(stravaResponse);
 
 				fail("Created an activity with no type in error" + stravaResponse);
 			}
@@ -165,12 +157,11 @@ public class CreateManualActivityTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				// Type must be one of the specified values
-				final StravaActivity activity = TestUtils.createDefaultActivity();
+				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType");
 				StravaActivity stravaResponse = null;
-				activity.setName("testCreateManualActivity_invalidType");
 				activity.setType(StravaActivityType.UNKNOWN);
 				try {
-					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
+					stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -179,9 +170,7 @@ public class CreateManualActivityTest extends StravaTest {
 				}
 
 				// If it did get created, delete it again
-				if (stravaResponse != null) {
-					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
-				}
+				forceDeleteActivity(stravaResponse);
 
 				fail("Created an activity with invalid type in error");
 			}
@@ -193,13 +182,12 @@ public class CreateManualActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = TestUtils.createDefaultActivity();
+				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate");
 				StravaActivity stravaResponse = null;
 				// Start date is required
-				activity.setName("testCreateManualActivity_noStartDate");
 				activity.setStartDateLocal(null);
 				try {
-					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
+					stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -208,9 +196,7 @@ public class CreateManualActivityTest extends StravaTest {
 				}
 
 				// If it did get created, delete it again
-				if (stravaResponse != null) {
-					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
-				}
+				forceDeleteActivity(stravaResponse);
 
 				fail("Created an activity with no start date in error" + stravaResponse);
 			}
@@ -222,13 +208,12 @@ public class CreateManualActivityTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaActivity activity = TestUtils.createDefaultActivity();
+				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime");
 				StravaActivity stravaResponse = null;
 				// Elapsed time is required
-				activity.setName("testCreateManualActivity_noElapsedTime");
 				activity.setElapsedTime(null);
 				try {
-					stravaResponse = serviceWithWriteAccess().createManualActivity(activity);
+					stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
 				} catch (final IllegalArgumentException e) {
 					// Expected behaviour
 					return;
@@ -237,9 +222,7 @@ public class CreateManualActivityTest extends StravaTest {
 				}
 
 				// If it did get created, delete it again
-				if (stravaResponse != null) {
-					serviceWithWriteAccess().deleteActivity(stravaResponse.getId());
-				}
+				forceDeleteActivity(stravaResponse);
 
 				fail("Created an activity with no elapsed time in error" + stravaResponse);
 			}

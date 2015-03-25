@@ -28,7 +28,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaSegmentEffort> koms = strava().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(koms);
 				assertFalse(koms.size() == 0);
 				for (final StravaSegmentEffort effort : koms) {
@@ -44,7 +44,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS);
+				final List<StravaSegmentEffort> koms = strava().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS);
 				assertNotNull(koms);
 				assertTrue(koms.size() == 0);
 			}
@@ -58,7 +58,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 			@Override
 			public void test() throws Exception {
 				List<StravaSegmentEffort> koms = null;
-				koms = service().listAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
+				koms = strava().listAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
 
 				assertNull(koms);
 			}
@@ -70,7 +70,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegmentEffort> koms = service().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID);
+				final List<StravaSegmentEffort> koms = strava().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID);
 				assertNotNull(koms);
 				assertTrue(koms.isEmpty());
 			}
@@ -95,7 +95,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 
 			@Override
 			public List<StravaSegmentEffort> getList(final Paging paging) {
-				return service().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging);
+				return strava().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging);
 			}
 
 		});

@@ -39,7 +39,7 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS);
 
 				assertNotNull("Returned null kudos array for activity with kudos", kudoers);
 				assertNotEquals("Returned empty kudos array for activity with kudos", 0, kudoers.size());
@@ -70,7 +70,7 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_WITHOUT_KUDOS);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_WITHOUT_KUDOS);
 
 				assertNotNull("Returned null kudos array for activity without kudos", kudoers);
 				assertEquals("Did not return empty kudos array for activity with no kudos", 0, kudoers.size());
@@ -97,7 +97,7 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_INVALID);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_INVALID);
 
 				assertNull("Returned a non-null array of kudoers for an invalid activity", kudoers);
 			}
@@ -109,7 +109,7 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 				assertNotNull(kudoers);
 				assertEquals(0, kudoers.size());
 			}
@@ -134,7 +134,7 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 
 			@Override
 			public List<StravaAthlete> getList(final Paging paging) {
-				return service().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, paging);
+				return strava().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, paging);
 			}
 
 		});

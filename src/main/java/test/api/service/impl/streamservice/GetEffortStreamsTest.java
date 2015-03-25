@@ -35,7 +35,7 @@ public class GetEffortStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
+				final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
 				validateList(streams);
 			}
 		});
@@ -47,7 +47,7 @@ public class GetEffortStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID);
+				final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID);
 				assertNull(streams);
 			}
 		});
@@ -60,7 +60,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
+					strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;
@@ -76,7 +76,7 @@ public class GetEffortStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
+				final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
 				validateList(streams);
 			}
 		});
@@ -88,7 +88,7 @@ public class GetEffortStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.DISTANCE);
+				final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.DISTANCE);
 				assertNotNull(streams);
 				assertEquals(1, streams.size());
 				assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -105,7 +105,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			public void test() throws Exception {
 				for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 					if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-						final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
+						final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
 								StravaStreamSeriesDownsamplingType.TIME);
 						validateList(streams);
 					}
@@ -122,7 +122,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			public void test() throws Exception {
 				for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 					if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-						final List<StravaStream> streams = service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
+						final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, resolutionType,
 								StravaStreamSeriesDownsamplingType.DISTANCE);
 						validateList(streams);
 					}
@@ -138,7 +138,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
+					strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
 				} catch (final IllegalArgumentException e) {
 					// Expected
 					return;
@@ -155,7 +155,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
+					strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
 				} catch (final IllegalArgumentException e) {
 					// Expected
 					return;
@@ -172,7 +172,7 @@ public class GetEffortStreamsTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
+					strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 				} catch (final IllegalArgumentException e) {
 					// Expected
 					return;

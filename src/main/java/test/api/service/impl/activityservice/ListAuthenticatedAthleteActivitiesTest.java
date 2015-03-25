@@ -39,7 +39,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities();
+				final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities();
 
 				assertNotNull("Authenticated athlete's activities returned as null", activities);
 				assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size());
@@ -67,7 +67,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			public void test() throws Exception {
 				final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-				final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(calendar, null);
+				final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(calendar, null);
 				for (final StravaActivity activity : activities) {
 					assertTrue(activity.getStartDateLocal().isBefore(calendar));
 					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -93,7 +93,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			public void test() throws Exception {
 				final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-				final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(null, calendar);
+				final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(null, calendar);
 				for (final StravaActivity activity : activities) {
 					assertTrue(activity.getStartDateLocal().isAfter(calendar));
 					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -120,7 +120,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 				final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-				final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after);
+				final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after);
 				for (final StravaActivity activity : activities) {
 					assertTrue(activity.getStartDateLocal().isBefore(before));
 					assertTrue(activity.getStartDateLocal().isAfter(after));
@@ -138,7 +138,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 			final Paging pagingInstruction = new Paging(1,1);
 			
-			final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after, pagingInstruction);
+			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after, pagingInstruction);
 			assertNotNull(activities);
 			assertEquals(1,activities.size());
 			for (final StravaActivity activity : activities) {
@@ -168,7 +168,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				final LocalDateTime before = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 				final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-				final List<StravaActivity> activities = service().listAuthenticatedAthleteActivities(before, after);
+				final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after);
 				assertNotNull("Returned null collection of activities", activities);
 				assertEquals(0, activities.size());
 			}
@@ -193,7 +193,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 			@Override
 			public List<StravaActivity> getList(final Paging paging) {
-				return service().listAuthenticatedAthleteActivities(paging);
+				return strava().listAuthenticatedAthleteActivities(paging);
 			}
 
 		});

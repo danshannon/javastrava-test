@@ -22,7 +22,7 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_VALID_ID);
+				final List<StravaActivity> activities = strava().listAllRecentClubActivities(TestUtils.CLUB_VALID_ID);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
@@ -36,7 +36,7 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_INVALID_ID);
+				final List<StravaActivity> activities = strava().listAllRecentClubActivities(TestUtils.CLUB_INVALID_ID);
 				assertNull(activities);
 			}
 		});
@@ -47,7 +47,7 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+				final List<StravaActivity> activities = strava().listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_MEMBER_ID);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);
@@ -61,7 +61,7 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				final List<StravaActivity> activities = strava().listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 				assertNotNull(activities);
 				assertEquals(0, activities.size());
 			}
@@ -73,7 +73,7 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listAllRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+				final List<StravaActivity> activities = strava().listAllRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity);

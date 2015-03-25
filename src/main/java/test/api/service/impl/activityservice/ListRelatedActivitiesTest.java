@@ -25,7 +25,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 				assertNotNull(activities);
 				for (final StravaActivity activity : activities) {
 					StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
@@ -40,7 +40,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_INVALID);
+				final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_INVALID);
 				assertNull(activities);
 			}
 		});
@@ -51,7 +51,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivity> activities = service().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 				assertNotNull(activities);
 				assertEquals(0, activities.size());
 			}
@@ -76,7 +76,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 			@Override
 			public List<StravaActivity> getList(final Paging paging) {
-				return service().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, paging);
+				return strava().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, paging);
 			}
 
 		});

@@ -25,10 +25,10 @@ public class GiveKudosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				serviceWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 				// Check that kudos is now given
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 				boolean found = false;
 				for (final StravaAthlete athlete : kudoers) {
@@ -47,10 +47,10 @@ public class GiveKudosTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				serviceWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 				// Check that kudos was NOT given
-				final List<StravaAthlete> kudoers = service().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 				boolean found = false;
 				for (final StravaAthlete athlete : kudoers) {
@@ -70,7 +70,7 @@ public class GiveKudosTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					serviceWithWriteAccess().giveKudos(TestUtils.ACTIVITY_INVALID);
+					stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_INVALID);
 				} catch (final NotFoundException e) {
 					// Expected behaviour
 					return;
@@ -88,7 +88,7 @@ public class GiveKudosTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					serviceWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+					stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;
@@ -104,7 +104,7 @@ public class GiveKudosTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+					strava().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 				} catch (final UnauthorizedException e) {
 					// Expected
 					return;

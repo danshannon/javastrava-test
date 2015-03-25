@@ -223,8 +223,7 @@ public class AuthorisationServiceImplTest {
 				
 				// test case to prove we've got write access
 				Strava strava = new Strava(token);
-				final StravaActivity activity = TestUtils.createDefaultActivity();
-				activity.setName("AuthorisationServiceImplTest.testTokenExchange_writeScope");
+				final StravaActivity activity = TestUtils.createDefaultActivity("AuthorisationServiceImplTest.testTokenExchange_writeScope");
 				final StravaActivity response = strava.createManualActivity(activity);
 				strava.deleteActivity(response.getId());
 			}

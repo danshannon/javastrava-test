@@ -35,7 +35,7 @@ public class ListActivityZonesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITH_ZONES);
+				final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_WITH_ZONES);
 
 				assertNotNull("Returned null activity zones for an activity with zones", zones);
 				assertNotEquals("Returned an empty array of activity zones for an activity with zones", 0, zones.size());
@@ -65,7 +65,7 @@ public class ListActivityZonesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_WITHOUT_ZONES);
+				final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_WITHOUT_ZONES);
 
 				assertNotNull("Returned null activity zones for an activity without zones (should return an empty array)", zones);
 				assertEquals("Returned an non-empty array of activity zones for an activity without zones", 0, zones.size());
@@ -92,7 +92,7 @@ public class ListActivityZonesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_INVALID);
+				final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_INVALID);
 
 				assertNull("Returned non-null activity zones for an activity which doesn't exist", zones);
 			}
@@ -104,7 +104,7 @@ public class ListActivityZonesTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaActivityZone> zones = service().listActivityZones(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 				assertNotNull(zones);
 				assertEquals(0, zones.size());
 			}

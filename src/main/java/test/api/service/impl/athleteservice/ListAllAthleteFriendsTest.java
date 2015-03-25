@@ -23,7 +23,7 @@ public class ListAllAthleteFriendsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					assertNotNull(athlete.getFriend());
@@ -39,7 +39,7 @@ public class ListAllAthleteFriendsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthleteFriends(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(athletes);
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);
@@ -53,7 +53,7 @@ public class ListAllAthleteFriendsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(athletes);
 			}
 		});

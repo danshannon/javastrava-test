@@ -26,7 +26,7 @@ public class GetSegmentEffortTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final Long id = TestUtils.SEGMENT_EFFORT_VALID_ID;
-				final StravaSegmentEffort effort = service().getSegmentEffort(id);
+				final StravaSegmentEffort effort = strava().getSegmentEffort(id);
 				assertNotNull(effort);
 				StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
 			}
@@ -39,7 +39,7 @@ public class GetSegmentEffortTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final Long id = TestUtils.SEGMENT_EFFORT_INVALID_ID;
-				final StravaSegmentEffort effort = service().getSegmentEffort(id);
+				final StravaSegmentEffort effort = strava().getSegmentEffort(id);
 				assertNull(effort);
 			}
 		});
@@ -51,7 +51,7 @@ public class GetSegmentEffortTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final Long id = TestUtils.SEGMENT_EFFORT_PRIVATE_ID;
-				final StravaSegmentEffort effort = service().getSegmentEffort(id);
+				final StravaSegmentEffort effort = strava().getSegmentEffort(id);
 				assertNotNull(effort);
 				StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
 			}
@@ -64,7 +64,7 @@ public class GetSegmentEffortTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				final Long id = TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
-				final StravaSegmentEffort effort = service().getSegmentEffort(id);
+				final StravaSegmentEffort effort = strava().getSegmentEffort(id);
 				assertNotNull(effort);
 				StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
 				final StravaSegmentEffort comparison = new StravaSegmentEffort();

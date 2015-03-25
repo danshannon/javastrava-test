@@ -27,7 +27,7 @@ public class ListAllActivityKudoersTest extends StravaTest {
 	@Test
 	public void testListAllActivityKudoers_validActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = service().listAllActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			assertNotNull(athletes);
 			assertFalse(athletes.isEmpty());
 			for (final StravaAthlete athlete : athletes) {
@@ -39,7 +39,7 @@ public class ListAllActivityKudoersTest extends StravaTest {
 	@Test
 	public void testListAllActivityKudoers_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = service().listAllActivityKudoers(TestUtils.ACTIVITY_INVALID);
+			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_INVALID);
 			assertNull(athletes);
 		});
 	}
@@ -47,7 +47,7 @@ public class ListAllActivityKudoersTest extends StravaTest {
 	@Test
 	public void testListAllActivityKudoers_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = service().listAllActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
 			assertNotNull(athletes);
 			assertTrue(athletes.isEmpty());
 		});

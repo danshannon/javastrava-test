@@ -19,7 +19,7 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listAllAuthenticatedAthleteStarredSegments();
+				final List<StravaSegment> segments = strava().listAllAuthenticatedAthleteStarredSegments();
 				assertNotNull(segments);
 				for (final StravaSegment segment : segments) {
 					StravaSegmentTest.validateSegment(segment);

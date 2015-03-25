@@ -22,7 +22,7 @@ public class ListAllStarredSegmentsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(segments);
 				for (final StravaSegment segment : segments) {
 					StravaSegmentTest.validateSegment(segment);
@@ -36,7 +36,7 @@ public class ListAllStarredSegmentsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(segments);
 			}
 		});
@@ -47,10 +47,10 @@ public class ListAllStarredSegmentsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listAllStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(segments);
 
-				final List<StravaSegment> starredSegments = service().listAllAuthenticatedAthleteStarredSegments();
+				final List<StravaSegment> starredSegments = strava().listAllAuthenticatedAthleteStarredSegments();
 				assertNotNull(starredSegments);
 				assertEquals(starredSegments.size(), segments.size());
 			}

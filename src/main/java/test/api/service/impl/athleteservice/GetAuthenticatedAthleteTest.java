@@ -20,7 +20,7 @@ public class GetAuthenticatedAthleteTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaAthlete athlete = service().getAuthenticatedAthlete();
+				final StravaAthlete athlete = strava().getAuthenticatedAthlete();
 				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_AUTHENTICATED_ID, StravaResourceState.DETAILED);
 			}
 		});
@@ -31,7 +31,7 @@ public class GetAuthenticatedAthleteTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaAthlete athlete = service().getAthlete(TestUtils.ATHLETE_VALID_ID);
+				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_VALID_ID);
 				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_VALID_ID, StravaResourceState.SUMMARY);
 			}
 		});
@@ -42,7 +42,7 @@ public class GetAuthenticatedAthleteTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaAthlete athlete = service().getAthlete(TestUtils.ATHLETE_INVALID_ID);
+				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(athlete);
 			}
 		});
@@ -53,7 +53,7 @@ public class GetAuthenticatedAthleteTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaAthlete athlete = service().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
+				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
 				assertNotNull(athlete);
 				assertEquals(TestUtils.ATHLETE_PRIVATE_ID, athlete.getId());
 				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_PRIVATE_ID, StravaResourceState.SUMMARY);

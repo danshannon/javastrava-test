@@ -18,31 +18,30 @@ public class DeleteCommentTest extends StravaTest {
 	@Test
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			serviceWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
+			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
 	@Test
 	public void testDeleteComment_byComment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			serviceWithWriteAccess().deleteComment(comment);
+			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			stravaWithWriteAccess().deleteComment(comment);
 		});
 	}
 
 	@Test
 	public void testDeleteComment_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = serviceWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 			try {
-				service().deleteComment(comment);
+				strava().deleteComment(comment);
 			} catch (final UnauthorizedException e) {
 				// Expected - delete the comment anyway
-				serviceWithWriteAccess().deleteComment(comment);
+				forceDeleteComment(comment);
 				return;
 			}
-			serviceWithWriteAccess().deleteComment(comment);
 			fail("Deleted a comment using a token without write access");
 		});
 	}

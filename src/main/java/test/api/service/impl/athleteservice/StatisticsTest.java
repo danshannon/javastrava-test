@@ -18,7 +18,7 @@ public class StatisticsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
+				final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
 				StravaStatisticsTest.validate(stats);
 			}
 		});
@@ -29,7 +29,7 @@ public class StatisticsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_VALID_ID);
+				final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(stats);
 			}
 		});
@@ -40,7 +40,7 @@ public class StatisticsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_INVALID_ID);
+				final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_INVALID_ID);
 				assertNull(stats);
 			}
 		});
@@ -51,7 +51,7 @@ public class StatisticsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaStatistics stats = service().statistics(TestUtils.ATHLETE_PRIVATE_ID);
+				final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_PRIVATE_ID);
 				StravaStatisticsTest.validate(stats);
 			}
 		});

@@ -31,6 +31,12 @@ public class ActivityAPITest {
 	}
 	
 	@Test
+	public void testAPI_getActivityRun() throws NotFoundException, JsonSerialisationException, IOException {
+		Response response = api().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER, Boolean.FALSE);
+		ResponseValidator.validate(response, StravaActivity.class, "getActivityRun");
+	}
+	
+	@Test
 	public void testAPI_listActivityComments() throws NotFoundException, IOException, JsonSerialisationException {
 		Response response = api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null, null, null);
 		ResponseValidator.validate(response, StravaComment.class, "listActivityComments");

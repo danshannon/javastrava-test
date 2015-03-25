@@ -25,7 +25,7 @@ public class Issue49 {
 	@Test
 	public void testIssue() {
 		final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithWriteAccess());
-		final StravaActivity activity = TestUtils.createDefaultActivity();
+		final StravaActivity activity = TestUtils.createDefaultActivity("Issue49.testIssue");
 		activity.setType(StravaActivityType.UNKNOWN);
 		try {
 			retrofit.createManualActivity(activity);

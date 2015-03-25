@@ -20,9 +20,9 @@ public class ListAllAuthenticatedAthleteFriendsTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> athletes = service().listAllAuthenticatedAthleteFriends();
+				final List<StravaAthlete> athletes = strava().listAllAuthenticatedAthleteFriends();
 				assertNotNull(athletes);
-				assertEquals(service().getAuthenticatedAthlete().getFriendCount().intValue(), athletes.size());
+				assertEquals(strava().getAuthenticatedAthlete().getFriendCount().intValue(), athletes.size());
 				for (final StravaAthlete athlete : athletes) {
 					StravaAthleteTest.validateAthlete(athlete);
 				}

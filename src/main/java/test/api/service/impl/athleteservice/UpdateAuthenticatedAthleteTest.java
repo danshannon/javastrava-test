@@ -20,16 +20,16 @@ public class UpdateAuthenticatedAthleteTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaAthlete athlete = service().getAuthenticatedAthlete();
+				final StravaAthlete athlete = strava().getAuthenticatedAthlete();
 
 				final String city = athlete.getCity();
 				final String state = athlete.getState();
 				final StravaGender sex = athlete.getSex();
 				final String country = athlete.getCountry();
 				athlete.setWeight(92.0f);
-				StravaAthlete returnedAthlete = serviceWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+				StravaAthlete returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
 				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
-				returnedAthlete = serviceWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
+				returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
 				assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
 				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 			}
@@ -42,7 +42,7 @@ public class UpdateAuthenticatedAthleteTest extends StravaTest {
 			@Override
 			public void test() throws Exception {
 				try {
-					service().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+					strava().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
 				} catch (final UnauthorizedException e) {
 					// Expected behaviour
 					return;

@@ -22,7 +22,7 @@ public class GetGearTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaGear gear = service().getGear(TestUtils.GEAR_VALID_ID);
+				final StravaGear gear = strava().getGear(TestUtils.GEAR_VALID_ID);
 
 				assertNotNull(gear);
 				StravaGearTest.validateGear(gear, TestUtils.GEAR_VALID_ID, gear.getResourceState());
@@ -35,7 +35,7 @@ public class GetGearTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaGear gear = service().getGear(TestUtils.GEAR_INVALID_ID);
+				final StravaGear gear = strava().getGear(TestUtils.GEAR_INVALID_ID);
 
 				assertNull(gear);
 			}
@@ -47,7 +47,7 @@ public class GetGearTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaGear gear = service().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
+				final StravaGear gear = strava().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
 
 				assertNull(gear);
 			}
@@ -59,7 +59,7 @@ public class GetGearTest extends StravaTest {
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final StravaGear gear = service().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
+				final StravaGear gear = strava().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
 				assertNull(gear);
 			}
 		});

@@ -25,7 +25,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaSegment> segments = service().listAuthenticatedAthleteStarredSegments();
+				final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
 				assertNotNull(segments);
 				assertFalse(segments.size() == 0);
 				validateList(segments);
@@ -51,7 +51,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 
 			@Override
 			public List<StravaSegment> getList(final Paging paging) {
-				return service().listAuthenticatedAthleteStarredSegments(paging);
+				return strava().listAuthenticatedAthleteStarredSegments(paging);
 			}
 
 		});

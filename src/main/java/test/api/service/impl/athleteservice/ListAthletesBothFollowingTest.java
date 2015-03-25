@@ -28,7 +28,7 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
+				final List<StravaAthlete> friends = strava().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID);
 				assertNotNull(friends);
 				assertFalse(friends.size() == 0);
 				for (final StravaAthlete athlete : friends) {
@@ -44,7 +44,7 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
+				final List<StravaAthlete> friends = strava().listAthletesBothFollowing(TestUtils.ATHLETE_INVALID_ID);
 				assertNull("Returned list of athletes being followed by invalid athlete", friends);
 			}
 		});
@@ -56,7 +56,7 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 		RateLimitedTestRunner.run(new TestCallback() {
 			@Override
 			public void test() throws Exception {
-				final List<StravaAthlete> friends = service().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID);
+				final List<StravaAthlete> friends = strava().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID);
 				assertNotNull(friends);
 				assertTrue(friends.isEmpty());
 			}
@@ -80,7 +80,7 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 
 			@Override
 			public List<StravaAthlete> getList(final Paging paging) {
-				return service().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID, paging);
+				return strava().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID, paging);
 			}
 
 		});
