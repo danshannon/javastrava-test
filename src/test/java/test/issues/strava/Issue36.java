@@ -23,7 +23,6 @@ public class Issue36 {
 		update.setPrivateActivity(Boolean.TRUE);
 		update.setDescription("Blah");
 		update.setGearId(TestUtils.GEAR_VALID_ID);
-		update.setName("Blah");
 		update.setTrainer(Boolean.TRUE);
 		update.setType(StravaActivityType.RIDE);
 		try {
