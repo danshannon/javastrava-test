@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -168,5 +169,23 @@ public class GetActivityTest extends StravaTest {
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
 		});
+	}
+	
+	/**
+	 * Can we get a private activity with VIEW_PRIVATE scope
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetActivity_privateAuthenticatedUser() throws Exception {
+		fail("Not yet implemented!");
+	}
+	
+	/**
+	 * Can we get a private activity belonging to the authenticated user, without VIEW_PRIVATE scope?
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetActivity_privateNoViewPrivateScope() throws Exception {
+		fail("Not yet implemented!");
 	}
 }

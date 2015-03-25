@@ -45,4 +45,22 @@ public class DeleteCommentTest extends StravaTest {
 			fail("Deleted a comment using a token without write access");
 		});
 	}
+	
+	/**
+	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make activity private, try to delete comment)
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteComment_privateActivityAuthenticatedUser() throws Exception {
+		fail("Not yet implemented!");
+	}
+	
+	/**
+	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE scope (create activity, create comment, make activity private, try to delete comment)
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteComment_privateActivityNoViewPrivate() throws Exception {
+		fail("Not yet implemented!");
+	}
 }
