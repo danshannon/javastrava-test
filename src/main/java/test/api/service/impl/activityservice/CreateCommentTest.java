@@ -98,6 +98,24 @@ public class CreateCommentTest extends StravaTest {
 			}
 		});
 	}
+	
+	/**
+	 * Can we create a comment on an activity flagged by the authenticated user as private, with view_private scope?
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateComment_privateActivityAuthenticatedUser() throws Exception {
+		fail("Not yet implemented!");
+	}
+	
+	/**
+	 * Can we create a comment on an activity flagged by the authenticated user as private, without view_private scope?
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateComment_privateActivityNoViewPrivate() throws Exception {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testCreateComment_noWriteAccess() throws Exception {
