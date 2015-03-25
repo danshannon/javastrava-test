@@ -1,9 +1,11 @@
 package test.api.service.impl.activityservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Attempt to list the {@link StravaLap laps} in an {@link StravaActivity} which has laps
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -59,7 +61,7 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Should return an empty array of {@link StravaLap}
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -92,7 +94,7 @@ public class ListActivityLapsTest extends StravaTest {
 	 * <p>
 	 * Should return <code>null</code>
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -120,6 +122,24 @@ public class ListActivityLapsTest extends StravaTest {
 				assertNotNull(laps);
 				assertEquals(0, laps.size());
 			}
+		});
+	}
+
+	@Test
+	public void testListActivityLaps_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = stravaWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			assertNotNull(laps);
+			assertFalse(laps.isEmpty());
+		});
+	}
+
+	@Test
+	public void testListActivityLaps_privateActivityWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			assertNotNull(laps);
+			assertTrue(laps.isEmpty());
 		});
 	}
 

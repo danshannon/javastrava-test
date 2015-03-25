@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ListActivityPhotosTest extends StravaTest {
 	 * <p>
 	 * List {@link StravaPhoto photos}, with an {@link StravaActivity activity} that has a known non-zero number of photos
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -55,7 +56,7 @@ public class ListActivityPhotosTest extends StravaTest {
 	 * <p>
 	 * Should return <code>null</code> because the {@link StravaActivity} doesn't exist
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -81,7 +82,7 @@ public class ListActivityPhotosTest extends StravaTest {
 	 * <p>
 	 * Should return an empty list
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -104,7 +105,7 @@ public class ListActivityPhotosTest extends StravaTest {
 	 * <p>
 	 * Should return an empty list
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -123,4 +124,17 @@ public class ListActivityPhotosTest extends StravaTest {
 		});
 	}
 
+	@Test
+	public void testListActivityPhotos_privateWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			fail("Not yet implemented!");
+		});
+	}
+
+	@Test
+	public void testListActivityPhotos_privateWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			fail("Not yet implemented!");
+		});
+	}
 }

@@ -46,6 +46,7 @@ public class TestUtils {
 	public static Integer ACTIVITY_WITH_ZONES;
 	public static Integer ACTIVITY_WITHOUT_ZONES;
 	public static Integer ACTIVITY_PRIVATE_OTHER_USER;
+	public static Integer ACTIVITY_PRIVATE;
 	public static Integer ACTIVITY_RUN_OTHER_USER;
 
 	public static Integer ATHLETE_AUTHENTICATED_ID;
@@ -109,6 +110,7 @@ public class TestUtils {
 		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
 		ACTIVITY_INVALID = new Integer(properties.getString("test.activityServicesImplTest.activityInvalid"));
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityServicesImplTest.activityPrivateOtherUser");
+		ACTIVITY_PRIVATE = integerProperty("test.activityServicesImplTest.activityPrivateAuthenticatedUser");
 		ACTIVITY_RUN_OTHER_USER = integerProperty("test.activityServicesImplTest.activityRunOtherUser");
 
 		ATHLETE_AUTHENTICATED_ID = integerProperty("test.athleteServicesImplTest.authenticatedAthleteId");
@@ -144,7 +146,7 @@ public class TestUtils {
 	/**
 	 * @return
 	 */
-	public static StravaActivity createDefaultActivity(String name) {
+	public static StravaActivity createDefaultActivity(final String name) {
 		final StravaActivity activity = new StravaActivity();
 		activity.setName(name);
 		activity.setType(StravaActivityType.RIDE);
@@ -192,8 +194,8 @@ public class TestUtils {
 	public static Token getValidToken() {
 		return tokenWithExactScope();
 	}
-	
-	private static Token tokenWithExactScope(AuthorisationScope... scopes) {
+
+	private static Token tokenWithExactScope(final AuthorisationScope... scopes) {
 		Token token = TokenManager.instance().retrieveTokenWithExactScope(USERNAME, scopes);
 		if (token == null) {
 			try {
@@ -204,17 +206,17 @@ public class TestUtils {
 			}
 		}
 		return token;
-		
+
 	}
 
 	public static Token getValidTokenWithWriteAccess() {
 		return tokenWithExactScope(AuthorisationScope.WRITE);
 	}
-	
+
 	public static Token getValidTokenWithViewPrivate() {
 		return tokenWithExactScope(AuthorisationScope.VIEW_PRIVATE);
 	}
-	
+
 	public static Token getValidTokenWithFullAccess() {
 		return tokenWithExactScope(AuthorisationScope.WRITE, AuthorisationScope.VIEW_PRIVATE);
 	}
@@ -240,7 +242,7 @@ public class TestUtils {
 	public static Strava stravaWithViewPrivate() {
 		return new Strava(getValidTokenWithViewPrivate());
 	}
-	
+
 	public static Strava stravaWithFullAccess() {
 		return new Strava(getValidTokenWithFullAccess());
 	}
