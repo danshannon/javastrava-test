@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -14,6 +13,7 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.service.StravaTest;
+import test.api.service.impl.util.ActivityServiceUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestCallback;
 import test.utils.TestUtils;
@@ -23,7 +23,7 @@ public class GetActivityTest extends StravaTest {
 	 * <p>
 	 * Test retrieval of a known {@link StravaActivity}, complete with all {@link StravaSegmentEffort efforts}
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -50,7 +50,7 @@ public class GetActivityTest extends StravaTest {
 	 * Test retrieval of a known {@link StravaActivity} that belongs to the authenticated user; it should be a detailed {@link StravaResourceState
 	 * representation}
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -76,7 +76,7 @@ public class GetActivityTest extends StravaTest {
 	 * Test retrieval of a known {@link StravaActivity} that DOES NOT belong to the authenticated user; it should be a summary {@link StravaResourceState
 	 * representation}
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -101,7 +101,7 @@ public class GetActivityTest extends StravaTest {
 	 * <p>
 	 * Test retrieval of a known {@link StravaActivity}, without the non-important/hidden efforts being returned (i.e. includeAllEfforts = false)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -126,7 +126,7 @@ public class GetActivityTest extends StravaTest {
 	 * <p>
 	 * Should return <code>null</code>
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -161,31 +161,52 @@ public class GetActivityTest extends StravaTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER);
+			final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
 		});
 	}
-	
+
 	/**
 	 * Can we get a private activity with VIEW_PRIVATE scope
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetActivity_privateAuthenticatedUser() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			StravaActivity response = null;
+			try {
+				response = stravaWithViewPrivate().getActivity(activity.getId());
+			} finally {
+				forceDeleteActivity(response);
+			}
+			StravaActivityTest.validateActivity(response);
+
+		});
 	}
-	
+
 	/**
 	 * Can we get a private activity belonging to the authenticated user, without VIEW_PRIVATE scope?
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetActivity_privateNoViewPrivateScope() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			StravaActivity response = null;
+			try {
+				response = strava().getActivity(activity.getId());
+			} finally {
+				forceDeleteActivity(response);
+			}
+			StravaActivityTest.validateActivity(response, response.getId(), StravaResourceState.META);
+		});
 	}
 }

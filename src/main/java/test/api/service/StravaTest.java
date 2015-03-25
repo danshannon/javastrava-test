@@ -14,37 +14,41 @@ import test.utils.TestUtils;
  */
 public class StravaTest {
 	protected Strava strava() {
-		Strava strava = TestUtils.strava();
+		final Strava strava = TestUtils.strava();
 		assertTrue(strava.hasExactAuthorisationScopes());
 		return strava;
 	}
 
 	protected Strava stravaWithWriteAccess() {
-		Strava strava = TestUtils.stravaWithWriteAccess();
+		final Strava strava = TestUtils.stravaWithWriteAccess();
 		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.WRITE));
 		return strava;
 	}
-	
+
 	protected Strava stravaWithViewPrivate() {
-		Strava strava = TestUtils.stravaWithViewPrivate();
+		final Strava strava = TestUtils.stravaWithViewPrivate();
 		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.VIEW_PRIVATE));
 		return strava;
 	}
-	
+
 	protected Strava stravaWithFullAccess() {
-		Strava strava = TestUtils.stravaWithFullAccess();
+		final Strava strava = TestUtils.stravaWithFullAccess();
 		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.WRITE, AuthorisationScope.VIEW_PRIVATE));
 		return strava;
 	}
-	
-	protected StravaActivity forceDeleteActivity(StravaActivity activity) {
+
+	protected StravaActivity forceDeleteActivity(final StravaActivity activity) {
 		return stravaWithFullAccess().deleteActivity(activity.getId());
 	}
-	
-	protected void forceDeleteComment(StravaComment comment) {
+
+	protected void forceDeleteActivity(final Integer activityId) {
+		stravaWithFullAccess().deleteActivity(activityId);
+	}
+
+	protected void forceDeleteComment(final StravaComment comment) {
 		try {
 			stravaWithFullAccess().deleteComment(comment);
-		} catch (NotFoundException e) {
+		} catch (final NotFoundException e) {
 			// Ignore
 		}
 	}
