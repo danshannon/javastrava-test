@@ -8,33 +8,32 @@ import org.junit.Test;
 
 public class BadRequestExceptionTest {
 
-	
 	/**
 	 * Test constructor
 	 */
 	@Test
 	public void testConstructor_normal() {
-		BadRequestException e = new BadRequestException("Test",new StravaResponse(),new IllegalArgumentException());
+		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), new IllegalArgumentException());
 		try {
 			throw e;
-		} catch (BadRequestException ex) {
+		} catch (final BadRequestException ex) {
 			// Expected
 			return;
 		}
 	}
-	
+
 	@Test
 	public void testConstructor_nullSafety() {
 		new BadRequestException(null, null, null);
 	}
-	
+
 	@Test
 	public void testGetSetResponse() {
-		StravaResponse response = new StravaResponse();
+		final StravaResponse response = new StravaResponse();
 		response.setMessage("Test");
-		BadRequestException e = new BadRequestException("Test",new StravaResponse(),null);
+		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), null);
 		e.setResponse(response);
-		StravaResponse testResponse = e.getResponse();
-		assertEquals(response,testResponse);
+		final StravaResponse testResponse = e.getResponse();
+		assertEquals(response, testResponse);
 	}
 }

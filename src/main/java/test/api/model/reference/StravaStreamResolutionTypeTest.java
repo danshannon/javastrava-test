@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaStreamResolutionTypeTest {
 	@Test
-	public void testGetId() {
-		for (StravaStreamResolutionType type : StravaStreamResolutionType.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaStreamResolutionType.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaStreamResolutionType type : StravaStreamResolutionType.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaStreamResolutionType type : StravaStreamResolutionType.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaStreamResolutionType type : StravaStreamResolutionType.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaStreamResolutionType.create(type.getId()));
 		}
 	}
 

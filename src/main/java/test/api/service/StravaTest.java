@@ -13,21 +13,25 @@ import test.utils.TestUtils;
  *
  */
 public class StravaTest {
+	protected void forceDeleteActivity(final Integer activityId) {
+		stravaWithFullAccess().deleteActivity(activityId);
+	}
+
+	protected StravaActivity forceDeleteActivity(final StravaActivity activity) {
+		return stravaWithFullAccess().deleteActivity(activity.getId());
+	}
+
+	protected void forceDeleteComment(final StravaComment comment) {
+		try {
+			stravaWithFullAccess().deleteComment(comment);
+		} catch (final NotFoundException e) {
+			// Ignore
+		}
+	}
+
 	protected Strava strava() {
 		final Strava strava = TestUtils.strava();
 		assertTrue(strava.hasExactAuthorisationScopes());
-		return strava;
-	}
-
-	protected Strava stravaWithWriteAccess() {
-		final Strava strava = TestUtils.stravaWithWriteAccess();
-		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.WRITE));
-		return strava;
-	}
-
-	protected Strava stravaWithViewPrivate() {
-		final Strava strava = TestUtils.stravaWithViewPrivate();
-		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.VIEW_PRIVATE));
 		return strava;
 	}
 
@@ -37,20 +41,16 @@ public class StravaTest {
 		return strava;
 	}
 
-	protected StravaActivity forceDeleteActivity(final StravaActivity activity) {
-		return stravaWithFullAccess().deleteActivity(activity.getId());
+	protected Strava stravaWithViewPrivate() {
+		final Strava strava = TestUtils.stravaWithViewPrivate();
+		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.VIEW_PRIVATE));
+		return strava;
 	}
 
-	protected void forceDeleteActivity(final Integer activityId) {
-		stravaWithFullAccess().deleteActivity(activityId);
-	}
-
-	protected void forceDeleteComment(final StravaComment comment) {
-		try {
-			stravaWithFullAccess().deleteComment(comment);
-		} catch (final NotFoundException e) {
-			// Ignore
-		}
+	protected Strava stravaWithWriteAccess() {
+		final Strava strava = TestUtils.stravaWithWriteAccess();
+		assertTrue(strava.hasExactAuthorisationScopes(AuthorisationScope.WRITE));
+		return strava;
 	}
 
 }

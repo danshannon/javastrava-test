@@ -13,11 +13,6 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentLeaderboardEntryTest extends BeanTest<StravaSegmentLeaderboardEntry> {
 
-	@Override
-	protected Class<StravaSegmentLeaderboardEntry> getClassUnderTest() {
-		return StravaSegmentLeaderboardEntry.class;
-	}
-
 	public static void validate(final StravaSegmentLeaderboardEntry entry) {
 		assertNotNull(entry);
 		assertNotNull(entry.getActivityId());
@@ -44,5 +39,10 @@ public class StravaSegmentLeaderboardEntryTest extends BeanTest<StravaSegmentLea
 		assertTrue(entry.getRank() > 0);
 		assertNotNull(entry.getStartDate());
 		assertNotNull(entry.getStartDateLocal());
+	}
+
+	@Override
+	protected Class<StravaSegmentLeaderboardEntry> getClassUnderTest() {
+		return StravaSegmentLeaderboardEntry.class;
 	}
 }

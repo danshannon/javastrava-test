@@ -9,15 +9,15 @@ import test.utils.BeanTest;
  */
 public class StravaPhotoUrlsTest extends BeanTest<StravaPhotoUrls> {
 
+	public static void validate(final StravaPhotoUrls urls) {
+		// assertNotNull(urls.getUrl0());
+	}
+
 	/**
 	 * @see test.utils.BeanTest#getClassUnderTest()
 	 */
 	@Override
 	protected Class<StravaPhotoUrls> getClassUnderTest() {
 		return StravaPhotoUrls.class;
-	}
-
-	public static void validate(StravaPhotoUrls urls) {
-		//assertNotNull(urls.getUrl0());
 	}
 }

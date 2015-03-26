@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaPhotoType;
 public class PhotoTypeSerializerTest extends EnumSerializerTest<StravaPhotoType> {
 
 	@Override
-	protected StravaPhotoType getUnknownValue() {
-		return StravaPhotoType.UNKNOWN;
+	public Class<StravaPhotoType> getClassUnderTest() {
+		return StravaPhotoType.class;
 	}
 
 	@Override
-	public Class<StravaPhotoType> getClassUnderTest() {
-		return StravaPhotoType.class;
+	protected StravaPhotoType getUnknownValue() {
+		return StravaPhotoType.UNKNOWN;
 	}
 }

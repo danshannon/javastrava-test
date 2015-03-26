@@ -11,11 +11,6 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentLeaderboardTest extends BeanTest<StravaSegmentLeaderboard> {
 
-	@Override
-	protected Class<StravaSegmentLeaderboard> getClassUnderTest() {
-		return StravaSegmentLeaderboard.class;
-	}
-
 	public static void validate(final StravaSegmentLeaderboard leaderboard) {
 		assertNotNull(leaderboard);
 		assertNotNull(leaderboard.getAthleteEntries());
@@ -31,5 +26,10 @@ public class StravaSegmentLeaderboardTest extends BeanTest<StravaSegmentLeaderbo
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			StravaSegmentLeaderboardEntryTest.validate(entry);
 		}
+	}
+
+	@Override
+	protected Class<StravaSegmentLeaderboard> getClassUnderTest() {
+		return StravaSegmentLeaderboard.class;
 	}
 }

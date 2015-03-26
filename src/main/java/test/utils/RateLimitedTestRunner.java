@@ -25,6 +25,25 @@ public class RateLimitedTestRunner {
 		}
 	}
 
+	private static void waitForRateLimit() {
+		boolean loop = true;
+		while (loop) {
+			try {
+				System.out.println("WARN - Rate limit exceeded - pausing test execution for 15 seconds");
+				Thread.sleep(15000l);
+			} catch (final InterruptedException e) {
+				// ignore
+			}
+			try {
+				TestUtils.strava().getAuthenticatedAthlete();
+				// If the call to Strava works then we didn't get a rate limit exception so we're good to go
+				loop = false;
+			} catch (final StravaAPIRateLimitException e) {
+				loop = true;
+			}
+		}
+	}
+
 	/**
 	 *
 	 */
@@ -46,24 +65,5 @@ public class RateLimitedTestRunner {
 			}
 		}
 
-	}
-
-	private static void waitForRateLimit() {
-		boolean loop = true;
-		while (loop) {
-			try {
-				System.out.println("WARN - Rate limit exceeded - pausing test execution for 15 seconds");
-				Thread.sleep(15000l);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-			try {
-				TestUtils.strava().getAuthenticatedAthlete();
-				// If the call to Strava works then we didn't get a rate limit exception so we're good to go
-				loop = false;
-			} catch (final StravaAPIRateLimitException e) {
-				loop = true;
-			}
-		}
 	}
 }

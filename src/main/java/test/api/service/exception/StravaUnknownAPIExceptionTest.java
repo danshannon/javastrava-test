@@ -13,28 +13,29 @@ public class StravaUnknownAPIExceptionTest {
 	 */
 	@Test
 	public void testConstructor_normal() {
-		StravaUnknownAPIException e = new StravaUnknownAPIException("Test",new StravaResponse(),new IllegalArgumentException());
+		final StravaUnknownAPIException e = new StravaUnknownAPIException("Test", new StravaResponse(),
+				new IllegalArgumentException());
 		try {
 			throw e;
-		} catch (StravaUnknownAPIException ex) {
+		} catch (final StravaUnknownAPIException ex) {
 			// Expected
 			return;
 		}
 	}
-	
+
 	@Test
 	public void testConstructor_nullSafety() {
 		new StravaUnknownAPIException(null, null, null);
 	}
-	
+
 	@Test
 	public void testGetSetResponse() {
-		StravaResponse response = new StravaResponse();
+		final StravaResponse response = new StravaResponse();
 		response.setMessage("Test");
-		StravaUnknownAPIException e = new StravaUnknownAPIException("Test",new StravaResponse(),null);
+		final StravaUnknownAPIException e = new StravaUnknownAPIException("Test", new StravaResponse(), null);
 		e.setResponse(response);
-		StravaResponse testResponse = e.getResponse();
-		assertEquals(response,testResponse);
+		final StravaResponse testResponse = e.getResponse();
+		assertEquals(response, testResponse);
 	}
-	
+
 }

@@ -13,11 +13,6 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentExplorerResponseSegmentTest extends BeanTest<StravaSegmentExplorerResponseSegment> {
 
-	@Override
-	protected Class<StravaSegmentExplorerResponseSegment> getClassUnderTest() {
-		return StravaSegmentExplorerResponseSegment.class;
-	}
-
 	public static void validate(final StravaSegmentExplorerResponseSegment segment) {
 		assertNotNull(segment);
 		assertNotNull(segment.getAvgGrade());
@@ -37,5 +32,10 @@ public class StravaSegmentExplorerResponseSegmentTest extends BeanTest<StravaSeg
 		assertNotNull(segment.getStartLatlng());
 		StravaMapPointTest.validate(segment.getStartLatlng());
 
+	}
+
+	@Override
+	protected Class<StravaSegmentExplorerResponseSegment> getClassUnderTest() {
+		return StravaSegmentExplorerResponseSegment.class;
 	}
 }

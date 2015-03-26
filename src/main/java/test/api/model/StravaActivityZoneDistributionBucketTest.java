@@ -10,16 +10,16 @@ import test.utils.BeanTest;
  */
 public class StravaActivityZoneDistributionBucketTest extends BeanTest<StravaActivityZoneDistributionBucket> {
 
-	@Override
-	protected Class<StravaActivityZoneDistributionBucket> getClassUnderTest() {
-		return StravaActivityZoneDistributionBucket.class;
-	}
-
-	public static void validateBucket(StravaActivityZoneDistributionBucket bucket) {
+	public static void validateBucket(final StravaActivityZoneDistributionBucket bucket) {
 		assertNotNull(bucket);
 		assertNotNull(bucket.getMax());
 		assertNotNull(bucket.getMin());
 		assertNotNull(bucket.getTime());
+	}
+
+	@Override
+	protected Class<StravaActivityZoneDistributionBucket> getClassUnderTest() {
+		return StravaActivityZoneDistributionBucket.class;
 	}
 
 }

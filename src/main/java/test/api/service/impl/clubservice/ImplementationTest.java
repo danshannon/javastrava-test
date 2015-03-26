@@ -12,29 +12,53 @@ import org.junit.Test;
 
 import test.api.service.impl.util.InstanceTestSpec;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ImplementationTest implements InstanceTestSpec {
+	private ClubService getRevokedTokenService() {
+		return ClubServiceImpl.instance(TestUtils.getRevokedToken());
+	}
+
+	private ClubService service() {
+		return ClubServiceImpl.instance(TestUtils.getValidToken());
+	}
+
 	/**
 	 * <p>
-	 * Test we get a {@link ClubServiceImpl service implementation} successfully with a valid token
+	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second, valid, different token, we get a
+	 * DIFFERENT implementation
 	 * </p>
 	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
-	 *             If token is not valid
+	 *             Thrown when security token is invalid
 	 */
 	@Override
 	@Test
-	public void testImplementation_validToken() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final ClubService service = service();
-				assertNotNull("Got a NULL service for a valid token", service);
-			}
+	public void testImplementation_differentImplementationIsNotCached() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ClubService service = service();
+			final ClubService service2 = ClubServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
+			assertFalse(service == service2);
+		});
+	}
+
+	/**
+	 * <p>
+	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second time, we get the SAME ONE as the
+	 * first time (i.e. the caching strategy is working)
+	 * </p>
+	 *
+	 * @throws Exception
+	 */
+	@Override
+	@Test
+	public void testImplementation_implementationIsCached() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ClubService service = service();
+			final ClubService service2 = service();
+			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
 		});
 	}
 
@@ -48,19 +72,16 @@ public class ImplementationTest implements InstanceTestSpec {
 	@Override
 	@Test
 	public void testImplementation_invalidToken() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				ClubService service = null;
-				try {
-					service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
-					service.getClub(TestUtils.CLUB_VALID_ID);
-				} catch (final UnauthorizedException e) {
-					// This is the expected behaviour
-					return;
-				}
-				fail("Got a service for an invalid token!");
+		RateLimitedTestRunner.run(() -> {
+			ClubService service = null;
+			try {
+				service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
+				service.getClub(TestUtils.CLUB_VALID_ID);
+			} catch (final UnauthorizedException e) {
+				// This is the expected behaviour
+				return;
 			}
+			fail("Got a service for an invalid token!");
 		});
 	}
 
@@ -76,71 +97,35 @@ public class ImplementationTest implements InstanceTestSpec {
 	@Override
 	@Test
 	public void testImplementation_revokedToken() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final ClubService service = getRevokedTokenService();
-				try {
-					service.getClub(TestUtils.CLUB_VALID_ID);
-				} catch (final UnauthorizedException e) {
-					// Expected behaviour
-					return;
-				}
-				fail("Got a usable service implementation despite using a revoked token");
+		RateLimitedTestRunner.run(() -> {
+			final ClubService service = getRevokedTokenService();
+			try {
+				service.getClub(TestUtils.CLUB_VALID_ID);
+			} catch (final UnauthorizedException e) {
+				// Expected behaviour
+				return;
 			}
+			fail("Got a usable service implementation despite using a revoked token");
 		});
 	}
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
-	 * strategy is working)
-	 * </p>
-	 *
-	 * @throws Exception
-	 */
-	@Override
-	@Test
-	public void testImplementation_implementationIsCached() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final ClubService service = service();
-				final ClubService service2 = service();
-				assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
-			}
-		});
-	}
-
-	/**
-	 * <p>
-	 * Test that when we ask for a {@link ClubServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
+	 * Test we get a {@link ClubServiceImpl service implementation} successfully with a valid token
 	 * </p>
 	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             If token is not valid
 	 */
 	@Override
 	@Test
-	public void testImplementation_differentImplementationIsNotCached() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final ClubService service = service();
-				final ClubService service2 = ClubServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
-				assertFalse(service == service2);
-			}
+	public void testImplementation_validToken() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final ClubService service = service();
+			assertNotNull("Got a NULL service for a valid token", service);
 		});
-	}
-
-	private ClubService service() {
-		return ClubServiceImpl.instance(TestUtils.getValidToken());
-	}
-
-	private ClubService getRevokedTokenService() {
-		return ClubServiceImpl.instance(TestUtils.getRevokedToken());
 	}
 
 }

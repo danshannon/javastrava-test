@@ -13,17 +13,17 @@ import org.junit.Test;
 public class StravaActivityZoneTypeTest {
 
 	@Test
-	public void testGetId() {
-		for (StravaActivityZoneType type : StravaActivityZoneType.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaActivityZoneType.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaActivityZoneType type : StravaActivityZoneType.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaActivityZoneType type : StravaActivityZoneType.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaActivityZoneType type : StravaActivityZoneType.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaActivityZoneType.create(type.getId()));
 		}
 	}
 

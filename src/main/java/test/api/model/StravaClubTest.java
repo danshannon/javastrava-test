@@ -17,9 +17,9 @@ import test.utils.BeanTest;
  */
 public class StravaClubTest extends BeanTest<StravaClub> {
 
-	@Override
-	protected Class<StravaClub> getClassUnderTest() {
-		return StravaClub.class;
+	public static void validate(final StravaClub club) {
+		assertNotNull(club);
+		validate(club, club.getId(), club.getResourceState());
 	}
 
 	public static void validate(final StravaClub club, final Integer id, final StravaResourceState state) {
@@ -67,8 +67,8 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 		fail("Unexpected state " + state + " for club " + club);
 	}
 
-	public static void validate(final StravaClub club) {
-		assertNotNull(club);
-		validate(club, club.getId(), club.getResourceState());
+	@Override
+	protected Class<StravaClub> getClassUnderTest() {
+		return StravaClub.class;
 	}
 }

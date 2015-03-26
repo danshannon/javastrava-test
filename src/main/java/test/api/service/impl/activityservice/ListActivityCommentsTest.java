@@ -31,7 +31,8 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_activityMarkdownPaging() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE, new Paging(1, 1));
+			final List<StravaComment> comments = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.TRUE,
+					new Paging(1, 1));
 			assertNotNull(comments);
 			assertEquals(1, comments.size());
 		});
@@ -43,7 +44,8 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	 * </p>
 	 *
 	 * <p>
-	 * Expectation is that at least one of the comments contains Markdown; this is tested by checking that at least one comment is different
+	 * Expectation is that at least one of the comments contains Markdown; this is tested by checking that at least one comment is
+	 * different
 	 * </p>
 	 *
 	 * @throws Exception
@@ -59,21 +61,22 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			assertNotNull("Returned null list of comments (with markdown) when some were expected");
 			assertNotEquals("Returned empty list of comments when some were expected", 0, comments.size());
 
-			final List<StravaComment> commentsWithoutMarkdown = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE);
+			final List<StravaComment> commentsWithoutMarkdown = strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS,
+					Boolean.FALSE);
 
 			// Check that the lists are the same length!!
-			assertNotNull("Returned null list of comments (without markdown) when some were expected");
-			assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!",
-					comments.size(), commentsWithoutMarkdown.size());
-			for (final StravaComment comment1 : comments) {
-				assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
-				StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());
-			}
-			for (final StravaComment comment2 : commentsWithoutMarkdown) {
-				assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment2.getActivityId());
-				StravaCommentTest.validateComment(comment2, comment2.getId(), comment2.getResourceState());
-			}
-		});
+				assertNotNull("Returned null list of comments (without markdown) when some were expected");
+				assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS
+						+ " is not same length with/without markdown!", comments.size(), commentsWithoutMarkdown.size());
+				for (final StravaComment comment1 : comments) {
+					assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
+					StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());
+				}
+				for (final StravaComment comment2 : commentsWithoutMarkdown) {
+					assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment2.getActivityId());
+					StravaCommentTest.validateComment(comment2, comment2.getId(), comment2.getResourceState());
+				}
+			});
 	}
 
 	/**
@@ -138,22 +141,22 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	}
 
 	@Test
-	public void testListActivityComments_privateWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
-			final List<StravaComment> comments = stravaWithViewPrivate().listActivityComments(comment.getActivityId());
-			assertNotNull(comments);
-			assertEquals(1, comments.size());
-		});
-	}
-
-	@Test
 	public void testListActivityComments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
 			final List<StravaComment> comments = strava().listActivityComments(comment.getActivityId());
 			assertNotNull(comments);
 			assertEquals(0, comments.size());
+		});
+	}
+
+	@Test
+	public void testListActivityComments_privateWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
+			final List<StravaComment> comments = stravaWithViewPrivate().listActivityComments(comment.getActivityId());
+			assertNotNull(comments);
+			assertEquals(1, comments.size());
 		});
 	}
 

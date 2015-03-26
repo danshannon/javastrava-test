@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaPhotoTypeTest {
 	@Test
-	public void testGetId() {
-		for (StravaPhotoType type : StravaPhotoType.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaPhotoType.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaPhotoType type : StravaPhotoType.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaPhotoType type : StravaPhotoType.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaPhotoType type : StravaPhotoType.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaPhotoType.create(type.getId()));
 		}
 	}
 

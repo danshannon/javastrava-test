@@ -9,13 +9,13 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 public class StreamTypeSerializerTest extends EnumSerializerTest<StravaStreamType> {
 
 	@Override
-	protected StravaStreamType getUnknownValue() {
-		return StravaStreamType.UNKNOWN;
+	public Class<StravaStreamType> getClassUnderTest() {
+		return StravaStreamType.class;
 	}
 
 	@Override
-	public Class<StravaStreamType> getClassUnderTest() {
-		return StravaStreamType.class;
+	protected StravaStreamType getUnknownValue() {
+		return StravaStreamType.UNKNOWN;
 	}
 
 }

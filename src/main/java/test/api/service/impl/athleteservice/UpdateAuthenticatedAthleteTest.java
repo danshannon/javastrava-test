@@ -12,43 +12,37 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 
 public class UpdateAuthenticatedAthleteTest extends StravaTest {
 	@Test
 	public void testUpdateAuthenticatedAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaAthlete athlete = strava().getAuthenticatedAthlete();
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete athlete = strava().getAuthenticatedAthlete();
 
-				final String city = athlete.getCity();
-				final String state = athlete.getState();
-				final StravaGender sex = athlete.getSex();
-				final String country = athlete.getCountry();
-				athlete.setWeight(92.0f);
-				StravaAthlete returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
-				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
-				returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
-				assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
-				StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
-			}
+			final String city = athlete.getCity();
+			final String state = athlete.getState();
+			final StravaGender sex = athlete.getSex();
+			final String country = athlete.getCountry();
+			athlete.setWeight(92.0f);
+			StravaAthlete returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null,
+					new Float(92));
+			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
+			returnedAthlete = stravaWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
+			assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
+			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 		});
 	}
 
 	@Test
 	public void testUpdateAuthenticatedAthlete_noWriteAccess() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				try {
-					strava().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
-				} catch (final UnauthorizedException e) {
-					// Expected behaviour
-					return;
-				}
-				fail("Succesfully updated authenticated athlete despite not having write access");
+		RateLimitedTestRunner.run(() -> {
+			try {
+				strava().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
+			} catch (final UnauthorizedException e) {
+				// Expected behaviour
+				return;
 			}
+			fail("Succesfully updated authenticated athlete despite not having write access");
 		});
 	}
 

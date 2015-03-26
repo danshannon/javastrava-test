@@ -7,7 +7,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.util.Paging;
 
 import org.junit.Test;
 
@@ -15,28 +14,23 @@ import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 
 public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, Integer> {
-	@Test
-	public void testListAuthenticatedAthleteFriends_friends() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> friends = strava().listAuthenticatedAthleteFriends();
-				assertNotNull(friends);
-				assertFalse(friends.isEmpty());
-				for (final StravaAthlete athlete : friends) {
-					StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
-				}
-			}
-		});
+	@Override
+	protected ListCallback<StravaAthlete> callback() {
+		return (paging -> strava().listAuthenticatedAthleteFriends(paging));
 	}
 
-	@Override
-	protected void validate(final StravaAthlete athlete, final Integer id, final StravaResourceState state) {
-		StravaAthleteTest.validateAthlete(athlete, id, state);
-
+	@Test
+	public void testListAuthenticatedAthleteFriends_friends() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> friends = strava().listAuthenticatedAthleteFriends();
+			assertNotNull(friends);
+			assertFalse(friends.isEmpty());
+			for (final StravaAthlete athlete : friends) {
+				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+			}
+		});
 	}
 
 	@Override
@@ -46,15 +40,9 @@ public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<St
 	}
 
 	@Override
-	protected ListCallback<StravaAthlete> callback() {
-		return (new ListCallback<StravaAthlete>() {
+	protected void validate(final StravaAthlete athlete, final Integer id, final StravaResourceState state) {
+		StravaAthleteTest.validateAthlete(athlete, id, state);
 
-			@Override
-			public List<StravaAthlete> getList(final Paging paging) {
-				return strava().listAuthenticatedAthleteFriends(paging);
-			}
-
-		});
 	}
 
 }

@@ -16,34 +16,34 @@ import org.junit.Test;
  */
 public class StravaWeightClassTest {
 	@Test
-	public void testListByMeasurementMethod() {
-		for (StravaMeasurementMethod method : StravaMeasurementMethod.values()) {
-			List<StravaWeightClass> classes = StravaWeightClass.listByMeasurementMethod(method);
-			for (StravaWeightClass weightClass : classes) {
-				assertEquals(method, weightClass.getMeasurementMethod());
-			}
+	public void testGetDescription() {
+		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
+			assertNotNull(weightClass.getDescription());
 		}
 	}
 
 	@Test
 	public void testGetId() {
-		for (StravaWeightClass weightClass : StravaWeightClass.values()) {
+		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
 			assertNotNull(weightClass.getId());
 			assertEquals(weightClass, StravaWeightClass.create(weightClass.getId()));
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaWeightClass weightClass : StravaWeightClass.values()) {
-			assertNotNull(weightClass.getDescription());
+	public void testGetMeasurementMethod() {
+		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
+			assertNotNull(weightClass.getMeasurementMethod());
 		}
 	}
 
 	@Test
-	public void testGetMeasurementMethod() {
-		for (StravaWeightClass weightClass : StravaWeightClass.values()) {
-			assertNotNull(weightClass.getMeasurementMethod());
+	public void testListByMeasurementMethod() {
+		for (final StravaMeasurementMethod method : StravaMeasurementMethod.values()) {
+			final List<StravaWeightClass> classes = StravaWeightClass.listByMeasurementMethod(method);
+			for (final StravaWeightClass weightClass : classes) {
+				assertEquals(method, weightClass.getMeasurementMethod());
+			}
 		}
 	}
 }

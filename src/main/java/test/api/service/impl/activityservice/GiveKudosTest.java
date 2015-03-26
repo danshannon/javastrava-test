@@ -15,41 +15,16 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class GiveKudosTest extends StravaTest {
 
 	@Test
-	public void testGiveKudos_activityOtherUser() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-
-				// Check that kudos is now given
-				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-
-				boolean found = false;
-				for (final StravaAthlete athlete : kudoers) {
-					StravaAthleteTest.validateAthlete(athlete);
-					if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
-						found = true;
-					}
-				}
-				assertTrue(found);
-			}
-		});
-	}
-
-	@Test
 	public void testGiveKudos_activityAuthenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+		RateLimitedTestRunner.run(() -> {
+			stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
-				// Check that kudos was NOT given
+			// Check that kudos was NOT given
 				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 				boolean found = false;
@@ -60,58 +35,67 @@ public class GiveKudosTest extends StravaTest {
 					}
 				}
 				assertFalse(found);
-			}
-		});
+			});
 	}
 
 	@Test
 	public void testGiveKudos_activityInvalid() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				try {
-					stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_INVALID);
-				} catch (final NotFoundException e) {
-					// Expected behaviour
-					return;
-				}
-
-				fail("Gave kudos to a non-existent activity");
-
+		RateLimitedTestRunner.run(() -> {
+			try {
+				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_INVALID);
+			} catch (final NotFoundException e) {
+				// Expected behaviour
+				return;
 			}
+
+			fail("Gave kudos to a non-existent activity");
+
 		});
 	}
 
 	@Test
-	public void testGiveKudos_activityPrivateOtherUser() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				try {
-					stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-				} catch (final UnauthorizedException e) {
-					// Expected
-					return;
+	public void testGiveKudos_activityOtherUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+
+			// Check that kudos is now given
+				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+
+				boolean found = false;
+				for (final StravaAthlete athlete : kudoers) {
+					StravaAthleteTest.validateAthlete(athlete);
+					if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+						found = true;
+					}
 				}
-				fail("Gave kudos to a private activity that belongs to another user");
+				assertTrue(found);
+			});
+	}
+
+	@Test
+	public void testGiveKudos_activityPrivateOtherUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			try {
+				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
 			}
+			fail("Gave kudos to a private activity that belongs to another user");
 		});
 	}
 
 	@Test
 	public void testGiveKudos_noWriteAccess() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				try {
-					strava().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-				} catch (final UnauthorizedException e) {
-					// Expected
-					return;
-				}
-				// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
-				// fail("Gave kudos without write access");
+		RateLimitedTestRunner.run(() -> {
+			try {
+				strava().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
 			}
+			// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
+			// fail("Gave kudos without write access");
 		});
 	}
 

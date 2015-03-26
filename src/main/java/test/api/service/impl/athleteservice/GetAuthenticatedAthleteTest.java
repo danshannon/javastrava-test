@@ -11,53 +11,40 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class GetAuthenticatedAthleteTest extends StravaTest {
 	@Test
-	public void testGetAuthenticatedAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaAthlete athlete = strava().getAuthenticatedAthlete();
-				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_AUTHENTICATED_ID, StravaResourceState.DETAILED);
-			}
-		});
-	}
-
-	@Test
-	public void testGetAthlete_validAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_VALID_ID);
-				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_VALID_ID, StravaResourceState.SUMMARY);
-			}
-		});
-	}
-
-	@Test
 	public void testGetAthlete_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_INVALID_ID);
-				assertNull(athlete);
-			}
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_INVALID_ID);
+			assertNull(athlete);
 		});
 	}
 
 	@Test
 	public void testGetAthlete_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
-				assertNotNull(athlete);
-				assertEquals(TestUtils.ATHLETE_PRIVATE_ID, athlete.getId());
-				StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_PRIVATE_ID, StravaResourceState.SUMMARY);
-			}
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
+			assertNotNull(athlete);
+			assertEquals(TestUtils.ATHLETE_PRIVATE_ID, athlete.getId());
+			StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_PRIVATE_ID, StravaResourceState.SUMMARY);
+		});
+	}
+
+	@Test
+	public void testGetAthlete_validAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_VALID_ID);
+			StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_VALID_ID, StravaResourceState.SUMMARY);
+		});
+	}
+
+	@Test
+	public void testGetAuthenticatedAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete athlete = strava().getAuthenticatedAthlete();
+			StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_AUTHENTICATED_ID, StravaResourceState.DETAILED);
 		});
 	}
 

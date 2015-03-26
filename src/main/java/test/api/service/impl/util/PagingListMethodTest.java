@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 
 /**
  * <p>
@@ -34,7 +33,7 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 * <p>
 	 * Test paging (page size only)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -42,18 +41,15 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 */
 	@Test
 	public void testPageSize() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				// Get a list with only one entry
+		RateLimitedTestRunner.run(() -> {
+			// Get a list with only one entry
 				final List<T> list = callback().getList(new Paging(1, 1));
 				assertNotNull(list);
 				assertEquals(1, list.size());
 
 				// Validate all the entries in the list
 				validateList(list);
-			}
-		});
+			});
 	}
 
 	/**
@@ -62,10 +58,10 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 * </p>
 	 *
 	 * <p>
-	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first entity, then ask for the
-	 * second page and check that it's the same as the second entity
+	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first
+	 * entity, then ask for the second page and check that it's the same as the second entity
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -73,97 +69,85 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 */
 	@Test
 	public void testPageNumberAndSize() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<T> bothPages = callback().getList(new Paging(1, 2));
-				assertNotNull(bothPages);
-				assertEquals(2, bothPages.size());
-				validateList(bothPages);
-				final List<T> firstPage = callback().getList(new Paging(1, 1));
-				assertNotNull(firstPage);
-				assertEquals(1, firstPage.size());
-				validateList(firstPage);
-				final List<T> secondPage = callback().getList(new Paging(2, 1));
-				assertNotNull(secondPage);
-				assertEquals(1, secondPage.size());
-				validateList(secondPage);
+		RateLimitedTestRunner.run(() -> {
+			final List<T> bothPages = callback().getList(new Paging(1, 2));
+			assertNotNull(bothPages);
+			assertEquals(2, bothPages.size());
+			validateList(bothPages);
+			final List<T> firstPage = callback().getList(new Paging(1, 1));
+			assertNotNull(firstPage);
+			assertEquals(1, firstPage.size());
+			validateList(firstPage);
+			final List<T> secondPage = callback().getList(new Paging(2, 1));
+			assertNotNull(secondPage);
+			assertEquals(1, secondPage.size());
+			validateList(secondPage);
 
-				// The first entry in bothPages should be the same as the first entry in firstPage
+			// The first entry in bothPages should be the same as the first entry in firstPage
 				assertEquals(bothPages.get(0), firstPage.get(0));
 
 				// The second entry in bothPages should be the same as the first entry in secondPage
 				assertEquals(bothPages.get(1), secondPage.get(0));
 
-			}
-		});
+			});
 	}
 
 	@Test
 	public void testPageSizeTooLargeForStrava() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				// Get a list with too many entries for Strava to cope with in a single paging instruction
+		RateLimitedTestRunner.run(() -> {
+			// Get a list with too many entries for Strava to cope with in a single paging instruction
 				final List<T> list = callback().getList(new Paging(2, 201));
 				assertNotNull(list);
 				assertTrue(list.size() <= 201);
 
 				// Validate all the entries in the list
 				validateList(list);
-			}
-		});
+			});
 	}
 
 	@Test
 	public void testPagingIgnoreFirstN() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<T> bigList = callback().getList(new Paging(1, 2, 0, 0));
-				assertNotNull(bigList);
-				assertEquals(2, bigList.size());
+		RateLimitedTestRunner.run(() -> {
+			final List<T> bigList = callback().getList(new Paging(1, 2, 0, 0));
+			assertNotNull(bigList);
+			assertEquals(2, bigList.size());
 
-				final List<T> list = callback().getList(new Paging(1, 2, 1, 0));
-				assertNotNull(list);
-				assertEquals(1, list.size());
+			final List<T> list = callback().getList(new Paging(1, 2, 1, 0));
+			assertNotNull(list);
+			assertEquals(1, list.size());
 
-				// The first entry in the list should be the second entry in bigList
+			// The first entry in the list should be the second entry in bigList
 				assertEquals(bigList.get(1), list.get(0));
 
 				// Validate all the entries in the list
 				validateList(bigList);
-			}
-		});
+			});
 	}
 
 	@Test
 	public void testPagingIgnoreLastN() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<T> bigList = callback().getList(new Paging(1, 2, 0, 0));
-				assertNotNull(bigList);
-				assertEquals(2, bigList.size());
+		RateLimitedTestRunner.run(() -> {
+			final List<T> bigList = callback().getList(new Paging(1, 2, 0, 0));
+			assertNotNull(bigList);
+			assertEquals(2, bigList.size());
 
-				final List<T> list = callback().getList(new Paging(1, 2, 0, 1));
-				assertNotNull(list);
-				assertEquals(1, list.size());
+			final List<T> list = callback().getList(new Paging(1, 2, 0, 1));
+			assertNotNull(list);
+			assertEquals(1, list.size());
 
-				// The first entry in the list should be the first entry in bigList
+			// The first entry in the list should be the first entry in bigList
 				assertEquals(bigList.get(0), list.get(0));
 
 				// Validate all the entries in the list
 				validateList(bigList);
-			}
-		});
+			});
 	}
 
 	/**
 	 * <p>
 	 * Test paging for paging parameters that can't return values (i.e. are out of range - too low)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -171,17 +155,14 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 */
 	@Test
 	public void testPagingOutOfRangeLow() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				try {
-					callback().getList(new Paging(-1, -1));
-				} catch (final IllegalArgumentException e) {
-					// This is the expected behaviour
-					return;
-				}
-				fail("Allowed paging instruction for page -1 of size -1!");
+		RateLimitedTestRunner.run(() -> {
+			try {
+				callback().getList(new Paging(-1, -1));
+			} catch (final IllegalArgumentException e) {
+				// This is the expected behaviour
+				return;
 			}
+			fail("Allowed paging instruction for page -1 of size -1!");
 		});
 	}
 
@@ -189,7 +170,7 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 * <p>
 	 * Test paging for paging parameters that can't return values (i.e. are out of range - too high)
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -197,16 +178,13 @@ public abstract class PagingListMethodTest<T, U> extends StravaTest {
 	 */
 	@Test
 	public void testPagingOutOfRangeHigh() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				// Get the 200,000,000th entry in the list - this is pretty unlikely to return anything!
+		RateLimitedTestRunner.run(() -> {
+			// Get the 200,000,000th entry in the list - this is pretty unlikely to return anything!
 				final List<T> list = callback().getList(new Paging(1000000, 200));
 
 				assertNotNull(list);
 				assertEquals(0, list.size());
-			}
-		});
+			});
 	}
 
 	protected abstract void validate(final T object, final U id, final StravaResourceState state);

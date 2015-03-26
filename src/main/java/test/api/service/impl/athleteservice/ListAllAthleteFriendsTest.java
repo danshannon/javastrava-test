@@ -14,47 +14,37 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListAllAthleteFriendsTest extends StravaTest {
 	@Test
 	public void testListAllAthleteFriends_authenticatedAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID);
-				assertNotNull(athletes);
-				for (final StravaAthlete athlete : athletes) {
-					assertNotNull(athlete.getFriend());
-					assertEquals(StravaFollowerState.ACCEPTED, athlete.getFriend());
-					StravaAthleteTest.validateAthlete(athlete);
-				}
-			}
-		});
-	}
-
-	@Test
-	public void testListAllAthleteFriends_otherAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_VALID_ID);
-				assertNotNull(athletes);
-				for (final StravaAthlete athlete : athletes) {
-					StravaAthleteTest.validateAthlete(athlete);
-				}
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			assertNotNull(athletes);
+			for (final StravaAthlete athlete : athletes) {
+				assertNotNull(athlete.getFriend());
+				assertEquals(StravaFollowerState.ACCEPTED, athlete.getFriend());
+				StravaAthleteTest.validateAthlete(athlete);
 			}
 		});
 	}
 
 	@Test
 	public void testListAllAthleteFriends_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
-				assertNull(athletes);
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
+			assertNull(athletes);
+		});
+	}
+
+	@Test
+	public void testListAllAthleteFriends_otherAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> athletes = strava().listAllAthleteFriends(TestUtils.ATHLETE_VALID_ID);
+			assertNotNull(athletes);
+			for (final StravaAthlete athlete : athletes) {
+				StravaAthleteTest.validateAthlete(athlete);
 			}
 		});
 	}

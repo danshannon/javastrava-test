@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 public class StreamSeriesDownsamplingTypeSerializerTest extends EnumSerializerTest<StravaStreamSeriesDownsamplingType> {
 
 	@Override
-	protected StravaStreamSeriesDownsamplingType getUnknownValue() {
-		return StravaStreamSeriesDownsamplingType.UNKNOWN;
+	public Class<StravaStreamSeriesDownsamplingType> getClassUnderTest() {
+		return StravaStreamSeriesDownsamplingType.class;
 	}
 
 	@Override
-	public Class<StravaStreamSeriesDownsamplingType> getClassUnderTest() {
-		return StravaStreamSeriesDownsamplingType.class;
+	protected StravaStreamSeriesDownsamplingType getUnknownValue() {
+		return StravaStreamSeriesDownsamplingType.UNKNOWN;
 	}
 }

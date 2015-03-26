@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 public class MeasurementMethodSerializerTest extends EnumSerializerTest<StravaMeasurementMethod> {
 
 	@Override
-	protected StravaMeasurementMethod getUnknownValue() {
-		return StravaMeasurementMethod.UNKNOWN;
+	public Class<StravaMeasurementMethod> getClassUnderTest() {
+		return StravaMeasurementMethod.class;
 	}
 
 	@Override
-	public Class<StravaMeasurementMethod> getClassUnderTest() {
-		return StravaMeasurementMethod.class;
+	protected StravaMeasurementMethod getUnknownValue() {
+		return StravaMeasurementMethod.UNKNOWN;
 	}
 }

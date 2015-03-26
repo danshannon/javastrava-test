@@ -14,7 +14,7 @@ import org.jfairy.Fairy;
 import org.junit.Test;
 
 public abstract class SerializerTest<T> {
-	protected JsonUtil util = new JsonUtilImpl();
+	protected JsonUtil	util	= new JsonUtilImpl();
 
 	@Test
 	public abstract void testRoundTrip() throws JsonSerialisationException;
@@ -29,8 +29,8 @@ public abstract class SerializerTest<T> {
 
 	@Test
 	public void testDeserialiseNullString() throws JsonSerialisationException {
-		String nullString = null;
-		T value = this.util.deserialise(nullString, getClassUnderTest());
+		final String nullString = null;
+		final T value = this.util.deserialise(nullString, getClassUnderTest());
 		assertNull(value);
 	}
 
@@ -38,28 +38,29 @@ public abstract class SerializerTest<T> {
 	public void testDeserialiseNullInputStream() throws JsonSerialisationException {
 		InputStream is = new ByteArrayInputStream("".getBytes());
 		is = null;
-		T value = this.util.deserialise(is, getClassUnderTest());
+		final T value = this.util.deserialise(is, getClassUnderTest());
 		assertNull(value);
 	}
 
 	@Test
 	public void testSerialiseNull() throws JsonSerialisationException {
-		T value = null;
-		String stringValue = this.util.serialise(value);
-		T comparison = this.util.deserialise(stringValue, getClassUnderTest());
+		final T value = null;
+		final String stringValue = this.util.serialise(value);
+		final T comparison = this.util.deserialise(stringValue, getClassUnderTest());
 		assertNull(comparison);
 	}
 
 	@Test
 	public void testDeserialisationOfBadData() throws JsonSerialisationException {
-		String badData = Fairy.create().textProducer().paragraph();
+		final String badData = Fairy.create().textProducer().paragraph();
 		try {
 			this.util.deserialise(badData, getClassUnderTest());
-		} catch (JsonSerialisationException e) {
+		} catch (final JsonSerialisationException e) {
 			// Expected
 			return;
 		}
-		fail("Should have thrown a JsonSerialisationException when deserialising string '" + badData + "' to " + getClassUnderTest().getName());
+		fail("Should have thrown a JsonSerialisationException when deserialising string '" + badData + "' to "
+				+ getClassUnderTest().getName());
 
 	}
 

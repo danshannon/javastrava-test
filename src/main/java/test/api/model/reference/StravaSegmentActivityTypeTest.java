@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaSegmentActivityTypeTest {
 	@Test
-	public void testGetId() {
-		for (StravaSegmentActivityType type : StravaSegmentActivityType.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaSegmentActivityType.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaSegmentActivityType type : StravaSegmentActivityType.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaSegmentActivityType type : StravaSegmentActivityType.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaSegmentActivityType type : StravaSegmentActivityType.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaSegmentActivityType.create(type.getId()));
 		}
 	}
 

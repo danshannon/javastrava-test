@@ -15,9 +15,9 @@ import org.junit.Test;
  */
 public class StravaServiceImplTest {
 	@Test
-	public void testRequestRatePercentageWarning() {
-		StravaServiceImpl.requestRate = StravaConfig.RATE_LIMIT;
-		assertTrue(100f == StravaServiceImpl.requestRatePercentage());
+	public void testRequestRateDailyPercentageExceeded() {
+		StravaServiceImpl.requestRateDaily = StravaConfig.RATE_LIMIT_DAILY + 1;
+		assertTrue(100f < StravaServiceImpl.requestRateDailyPercentage());
 	}
 
 	@Test
@@ -33,8 +33,8 @@ public class StravaServiceImplTest {
 	}
 
 	@Test
-	public void testRequestRateDailyPercentageExceeded() {
-		StravaServiceImpl.requestRateDaily = StravaConfig.RATE_LIMIT_DAILY + 1;
-		assertTrue(100f < StravaServiceImpl.requestRateDailyPercentage());
+	public void testRequestRatePercentageWarning() {
+		StravaServiceImpl.requestRate = StravaConfig.RATE_LIMIT;
+		assertTrue(100f == StravaServiceImpl.requestRatePercentage());
 	}
 }

@@ -17,11 +17,6 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 
-	@Override
-	protected Class<StravaSegmentEffort> getClassUnderTest() {
-		return StravaSegmentEffort.class;
-	}
-
 	public static void validateSegmentEffort(final StravaSegmentEffort effort) {
 		validateSegmentEffort(effort, effort.getId(), effort.getResourceState());
 	}
@@ -33,24 +28,26 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 	 */
 	public static void validateSegmentEffort(final StravaSegmentEffort effort, final Long id, final StravaResourceState state) {
 		assertNotNull(effort);
-		assertEquals(id,effort.getId());
-		assertEquals(state,effort.getResourceState());
+		assertEquals(id, effort.getId());
+		assertEquals(state, effort.getResourceState());
 
 		if (state == StravaResourceState.DETAILED || state == StravaResourceState.SUMMARY) {
 			if (effort.getActivity() != null) {
-				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(), effort.getActivity().getResourceState());
+				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(), effort.getActivity()
+						.getResourceState());
 			}
 			if (effort.getAthlete() != null) {
-				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete()
+						.getResourceState());
 			}
 			if (effort.getActivity() != null && effort.getActivity().getAthlete() != null) {
-				assertEquals(effort.getActivity().getAthlete().getId(),effort.getAthlete().getId());
+				assertEquals(effort.getActivity().getAthlete().getId(), effort.getAthlete().getId());
 			}
 			// Only returned for rides, and then only if it was measured
 			if (effort.getActivity() != null) {
 				if (effort.getActivity().getType() == StravaActivityType.RIDE) {
 					if (effort.getAverageCadence() != null) {
-						assertTrue(effort.getAverageCadence() >=0);
+						assertTrue(effort.getAverageCadence() >= 0);
 					}
 					if (effort.getAverageWatts() != null) {
 						assertTrue(effort.getAverageWatts() >= 0);
@@ -165,5 +162,10 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 			return;
 		}
 		fail("Unexpected state for segment effort " + state + " " + effort);
+	}
+
+	@Override
+	protected Class<StravaSegmentEffort> getClassUnderTest() {
+		return StravaSegmentEffort.class;
 	}
 }

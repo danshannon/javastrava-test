@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaWeightClass;
 public class WeightClassSerializerTest extends EnumSerializerTest<StravaWeightClass> {
 
 	@Override
-	protected StravaWeightClass getUnknownValue() {
-		return StravaWeightClass.UNKNOWN;
+	public Class<StravaWeightClass> getClassUnderTest() {
+		return StravaWeightClass.class;
 	}
 
 	@Override
-	public Class<StravaWeightClass> getClassUnderTest() {
-		return StravaWeightClass.class;
+	protected StravaWeightClass getUnknownValue() {
+		return StravaWeightClass.UNKNOWN;
 	}
 }

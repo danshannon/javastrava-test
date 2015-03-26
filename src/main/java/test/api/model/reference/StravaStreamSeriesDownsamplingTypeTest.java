@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaStreamSeriesDownsamplingTypeTest {
 	@Test
-	public void testGetId() {
-		for (StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaStreamSeriesDownsamplingType.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaStreamSeriesDownsamplingType.create(type.getId()));
 		}
 	}
 

@@ -17,9 +17,9 @@ import test.utils.BeanTest;
  */
 public class StravaGearTest extends BeanTest<StravaGear> {
 
-	@Override
-	protected Class<StravaGear> getClassUnderTest() {
-		return StravaGear.class;
+	public static void validateGear(final StravaGear gear) {
+		assertNotNull(gear);
+		validateGear(gear, gear.getId(), gear.getResourceState());
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class StravaGearTest extends BeanTest<StravaGear> {
 		}
 	}
 
-	public static void validateGear(final StravaGear gear) {
-		assertNotNull(gear);
-		validateGear(gear, gear.getId(), gear.getResourceState());
+	@Override
+	protected Class<StravaGear> getClassUnderTest() {
+		return StravaGear.class;
 	}
 
 }

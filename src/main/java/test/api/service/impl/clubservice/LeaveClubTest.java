@@ -13,101 +13,9 @@ import org.junit.Test;
 
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class LeaveClubTest extends StravaTest {
-	// Test cases
-	// 1. Valid club which authenticated user is not already a member of
-	@Test
-	public void testLeaveClub_nonMember() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
-
-				stravaWithWriteAccess().leaveClub(id);
-
-				final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
-				final boolean member = checkIsMember(clubs, id);
-
-				assertFalse(member);
-			}
-		});
-	}
-
-	// 2. Valid club which authenticated user is already a member of
-	@Test
-	public void testLeaveClub_member() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
-
-				stravaWithWriteAccess().leaveClub(id);
-
-				final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
-				final boolean member = checkIsMember(clubs, id);
-
-				// Join the club again
-				stravaWithWriteAccess().joinClub(id);
-
-				assertFalse(member);
-			}
-		});
-	}
-
-	// 3. Invalid club
-	@Test
-	public void testLeaveClub_invalidClub() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final Integer id = TestUtils.CLUB_INVALID_ID;
-
-				final StravaClubMembershipResponse response = stravaWithWriteAccess().leaveClub(id);
-				assertEquals(Boolean.FALSE, response.getSuccess());
-			}
-		});
-	}
-
-	// 4. Private club which authenticated user is a member of
-	// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
-	@Test
-	public void testLeaveClub_privateClubMember() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				// ClubService service = getClubService();
-				// Integer id = TestUtils.CLUB_PRIVATE_MEMBER_ID;
-				//
-				// serviceWithWriteAccess.leaveClub(id);
-				//
-				// List<StravaClub> clubs = service.listAuthenticatedAthleteClubs();
-				// boolean member = checkIsMember(clubs, id);
-				//
-				// // Join the club again
-				// serviceWithWriteAccess.joinClub(id);
-				// assertFalse(member);
-			}
-		});
-	}
-
-	// 5. Leave a club using a token with no write access
-	@Test
-	public void testLeaveClub_noWriteAccess() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
-
-				final StravaClubMembershipResponse response = strava().leaveClub(id);
-				assertNotNull(response);
-				assertEquals(Boolean.FALSE, response.getSuccess());
-			}
-		});
-	}
-
 	/**
 	 * @param clubs
 	 *            List of clubs to check
@@ -122,6 +30,82 @@ public class LeaveClubTest extends StravaTest {
 			}
 		}
 		return false;
+	}
+
+	// 3. Invalid club
+	@Test
+	public void testLeaveClub_invalidClub() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final Integer id = TestUtils.CLUB_INVALID_ID;
+
+			final StravaClubMembershipResponse response = stravaWithWriteAccess().leaveClub(id);
+			assertEquals(Boolean.FALSE, response.getSuccess());
+		});
+	}
+
+	// 2. Valid club which authenticated user is already a member of
+	@Test
+	public void testLeaveClub_member() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+
+			stravaWithWriteAccess().leaveClub(id);
+
+			final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
+			final boolean member = checkIsMember(clubs, id);
+
+			// Join the club again
+				stravaWithWriteAccess().joinClub(id);
+
+				assertFalse(member);
+			});
+	}
+
+	// Test cases
+	// 1. Valid club which authenticated user is not already a member of
+	@Test
+	public void testLeaveClub_nonMember() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
+
+			stravaWithWriteAccess().leaveClub(id);
+
+			final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
+			final boolean member = checkIsMember(clubs, id);
+
+			assertFalse(member);
+		});
+	}
+
+	// 5. Leave a club using a token with no write access
+	@Test
+	public void testLeaveClub_noWriteAccess() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+
+			final StravaClubMembershipResponse response = strava().leaveClub(id);
+			assertNotNull(response);
+			assertEquals(Boolean.FALSE, response.getSuccess());
+		});
+	}
+
+	// 4. Private club which authenticated user is a member of
+	// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
+	@Test
+	public void testLeaveClub_privateClubMember() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// ClubService service = getClubService();
+			// Integer id = TestUtils.CLUB_PRIVATE_MEMBER_ID;
+			//
+			// serviceWithWriteAccess.leaveClub(id);
+			//
+			// List<StravaClub> clubs = service.listAuthenticatedAthleteClubs();
+			// boolean member = checkIsMember(clubs, id);
+			//
+			// // Join the club again
+			// serviceWithWriteAccess.joinClub(id);
+			// assertFalse(member);
+			});
 	}
 
 }

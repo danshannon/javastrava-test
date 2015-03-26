@@ -19,39 +19,28 @@ import org.junit.Test;
 import test.utils.TestUtils;
 
 public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
-	@Test
 	@Override
-	public void testRoundTrip() throws UnauthorizedException, JsonSerialisationException {
-		// Get a stream
-		List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
-				StravaStreamSeriesDownsamplingType.DISTANCE);
-		assertNotNull(streams);
-		assertTrue(streams.size() > 0);
-		for (StravaStream stream : streams) {
-			// Serialize
-			String element = this.util.serialise(stream);
-			// Then de-serialize
-			StravaStream returned = this.util.deserialise(element, StravaStream.class);
-			// Then make sure they are the same
-			assertNotNull(returned);
-			assertTrue(returned.equals(stream));
-		}
+	public Class<StravaStream> getClassUnderTest() {
+		return StravaStream.class;
+	}
 
+	private Strava service() {
+		return TestUtils.strava();
 	}
 
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
 		// Get a stream
-		List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
-				StravaStreamSeriesDownsamplingType.DISTANCE);
+		final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+				StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.DISTANCE);
 		assertNotNull(streams);
 		assertTrue(streams.size() > 0);
-		for (StravaStream stream : streams) {
+		for (final StravaStream stream : streams) {
 			// Serialize
-			String element = this.util.serialise(stream);
-			InputStream is = new ByteArrayInputStream(element.getBytes());
+			final String element = this.util.serialise(stream);
+			final InputStream is = new ByteArrayInputStream(element.getBytes());
 			// Then de-serialize
-			StravaStream returned = this.util.deserialise(is, StravaStream.class);
+			final StravaStream returned = this.util.deserialise(is, StravaStream.class);
 			// Then make sure they are the same
 			assertNotNull(returned);
 			assertTrue(returned.equals(stream));
@@ -59,13 +48,24 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 
 	}
 
+	@Test
 	@Override
-	public Class<StravaStream> getClassUnderTest() {
-		return StravaStream.class;
-	}
-	
-	private Strava service() {
-		return TestUtils.strava();
+	public void testRoundTrip() throws UnauthorizedException, JsonSerialisationException {
+		// Get a stream
+		final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+				StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.DISTANCE);
+		assertNotNull(streams);
+		assertTrue(streams.size() > 0);
+		for (final StravaStream stream : streams) {
+			// Serialize
+			final String element = this.util.serialise(stream);
+			// Then de-serialize
+			final StravaStream returned = this.util.deserialise(element, StravaStream.class);
+			// Then make sure they are the same
+			assertNotNull(returned);
+			assertTrue(returned.equals(stream));
+		}
+
 	}
 
 }

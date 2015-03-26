@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 public class ResourceStateSerializerTest extends EnumSerializerTest<StravaResourceState> {
 
 	@Override
-	protected StravaResourceState getUnknownValue() {
-		return StravaResourceState.UNKNOWN;
+	public Class<StravaResourceState> getClassUnderTest() {
+		return StravaResourceState.class;
 	}
 
 	@Override
-	public Class<StravaResourceState> getClassUnderTest() {
-		return StravaResourceState.class;
+	protected StravaResourceState getUnknownValue() {
+		return StravaResourceState.UNKNOWN;
 	}
 }

@@ -14,25 +14,20 @@ import test.utils.BeanTest;
  */
 public class StravaLapTest extends BeanTest<StravaLap> {
 
-	@Override
-	protected Class<StravaLap> getClassUnderTest() {
-		return StravaLap.class;
-	}
-
-	public static void validateLap(StravaLap lap, Integer id, StravaResourceState state) {
+	public static void validateLap(final StravaLap lap, final Integer id, final StravaResourceState state) {
 		assertNotNull(lap);
-		assertEquals(id,lap.getId());
-		assertEquals(state,lap.getResourceState());
-		
+		assertEquals(id, lap.getId());
+		assertEquals(state, lap.getResourceState());
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(lap.getActivity());
 			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(),lap.getAthlete().getId(),lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}
-			if (lap.getAverageHeartrate() != null) { 
+			if (lap.getAverageHeartrate() != null) {
 				assertTrue(lap.getAverageHeartrate() >= 0);
 				assertNotNull(lap.getMaxHeartrate());
 				assertTrue(lap.getMaxHeartrate() >= lap.getAverageHeartrate());
@@ -64,17 +59,17 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 			assertNotNull(lap.getTotalElevationGain());
 			assertTrue(lap.getTotalElevationGain() >= 0);
 			return;
-			
+
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(lap.getActivity());
 			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(),lap.getAthlete().getId(),lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}
-			if (lap.getAverageHeartrate() != null) { 
+			if (lap.getAverageHeartrate() != null) {
 				assertTrue(lap.getAverageHeartrate() >= 0);
 				assertNotNull(lap.getMaxHeartrate());
 				assertTrue(lap.getMaxHeartrate() >= lap.getAverageHeartrate());
@@ -106,7 +101,7 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 			assertNotNull(lap.getTotalElevationGain());
 			assertTrue(lap.getTotalElevationGain() >= 0);
 			return;
-			
+
 		}
 		if (state == StravaResourceState.META) {
 			assertNull(lap.getActivity());
@@ -129,7 +124,12 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 			assertNull(lap.getStartIndex());
 			assertNull(lap.getTotalElevationGain());
 			return;
-			
+
 		}
+	}
+
+	@Override
+	protected Class<StravaLap> getClassUnderTest() {
+		return StravaLap.class;
 	}
 }

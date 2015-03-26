@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaFollowerStateTest {
 	@Test
-	public void testGetId() {
-		for (StravaFollowerState type : StravaFollowerState.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaFollowerState.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaFollowerState type : StravaFollowerState.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaFollowerState type : StravaFollowerState.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaFollowerState type : StravaFollowerState.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaFollowerState.create(type.getId()));
 		}
 	}
 

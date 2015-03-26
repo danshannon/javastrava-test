@@ -16,16 +16,11 @@ import test.utils.BeanTest;
  */
 public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 
-	@Override
-	protected Class<StravaPhoto> getClassUnderTest() {
-		return StravaPhoto.class;
-	}
-
-	public static void validatePhoto(StravaPhoto photo, Integer id, StravaResourceState state) {
+	public static void validatePhoto(final StravaPhoto photo, final Integer id, final StravaResourceState state) {
 		assertNotNull(photo);
-		assertEquals(id,photo.getId());
-		assertEquals(state,photo.getResourceState());
-		
+		assertEquals(id, photo.getId());
+		assertEquals(state, photo.getResourceState());
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(photo.getCaption());
 			assertNotNull(photo.getCreatedAt());
@@ -68,5 +63,10 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			return;
 		}
 		fail("Unexpected resource state " + state + " for photo " + photo);
+	}
+
+	@Override
+	protected Class<StravaPhoto> getClassUnderTest() {
+		return StravaPhoto.class;
 	}
 }

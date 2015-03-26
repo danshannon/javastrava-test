@@ -17,11 +17,6 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
-	@Override
-	protected Class<StravaSegment> getClassUnderTest() {
-		return StravaSegment.class;
-	}
-
 	public static void validateSegment(final StravaSegment segment) {
 		assertNotNull(segment);
 		validateSegment(segment, segment.getId(), segment.getResourceState());
@@ -39,7 +34,8 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
 		if (state == StravaResourceState.DETAILED || state == StravaResourceState.SUMMARY) {
 			assertNotNull(segment.getActivityType());
-			assertFalse("Segment " + segment.getId() + " has an unknown activity type",segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
+			assertFalse("Segment " + segment.getId() + " has an unknown activity type",
+					segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
 			assertNull(segment.getAthleteCount());
 
 			// Can be null, if the athlete's never done the segment (and it's only returned with starred segments anyway)
@@ -62,9 +58,9 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNotNull(segment.getElevationLow());
 			assertNotNull(segment.getEndLatlng());
 			assertNotNull(segment.getMaximumGrade());
-			
+
 			// Optional assertNotNull("Segment " + segment.getId() + " has no name!", segment.getName());
-			
+
 			assertNotNull(segment.getPrivateSegment());
 			assertNotNull(segment.getStarred());
 			assertNotNull(segment.getStartLatlng());
@@ -120,5 +116,10 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			return;
 		}
 		fail("Unexpected segment state " + state + " for segment " + segment);
+	}
+
+	@Override
+	protected Class<StravaSegment> getClassUnderTest() {
+		return StravaSegment.class;
 	}
 }

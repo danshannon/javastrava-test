@@ -20,15 +20,14 @@ import test.utils.TestUtils;
  */
 public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 
-	@Override
-	protected Class<StravaAthlete> getClassUnderTest() {
-		return StravaAthlete.class;
+	public static void validateAthlete(final StravaAthlete athlete) {
+		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
 	}
 
 	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId, final StravaResourceState state) {
 		assertNotNull(athlete);
 		assertEquals(expectedId, athlete.getId());
-		assertEquals(state,athlete.getResourceState());
+		assertEquals(state, athlete.getResourceState());
 
 		if (athlete.getResourceState() == StravaResourceState.DETAILED) {
 			// Not returned because it's not part of the API for detailed athlete returns
@@ -55,7 +54,7 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			assertNotNull(athlete.getMeasurementPreference());
 			assertFalse(StravaMeasurementMethod.UNKNOWN == athlete.getMeasurementPreference());
 			assertNotNull(athlete.getMutualFriendCount());
-			assertEquals(new Integer(0),athlete.getMutualFriendCount());
+			assertEquals(new Integer(0), athlete.getMutualFriendCount());
 			assertNotNull(athlete.getPremium());
 			assertNotNull(athlete.getProfile());
 			assertNotNull(athlete.getProfileMedium());
@@ -154,7 +153,8 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 		fail("Athlete returned with unexpected resource state " + state + " : " + athlete);
 	}
 
-	public static void validateAthlete(final StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
+	@Override
+	protected Class<StravaAthlete> getClassUnderTest() {
+		return StravaAthlete.class;
 	}
 }

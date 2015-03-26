@@ -18,11 +18,6 @@ import test.utils.BeanTest;
  */
 public class StravaStreamTest extends BeanTest<StravaStream> {
 
-	@Override
-	protected Class<StravaStream> getClassUnderTest() {
-		return StravaStream.class;
-	}
-
 	public static void validate(final StravaStream stream) {
 		assertNotNull(stream);
 		assertNotNull(stream.getOriginalSize());
@@ -58,7 +53,7 @@ public class StravaStreamTest extends BeanTest<StravaStream> {
 				assertTrue(stream.getResolution().getSize() >= stream.getMapPoints().size());
 				assertTrue(stream.getOriginalSize().intValue() >= stream.getMapPoints().size());
 			} else {
-				assertEquals(stream.getOriginalSize().intValue(),stream.getMapPoints().size());
+				assertEquals(stream.getOriginalSize().intValue(), stream.getMapPoints().size());
 			}
 			for (final StravaMapPoint point : stream.getMapPoints()) {
 				StravaMapPointTest.validate(point);
@@ -69,15 +64,21 @@ public class StravaStreamTest extends BeanTest<StravaStream> {
 			assertNull(stream.getMoving());
 			assertNotNull(stream.getData());
 			if (stream.getResolution() != null) {
-				assertTrue("Resolution restricted to " + stream.getResolution().getSize() + " but returned " + stream.getData().size() + " data points",stream.getResolution().getSize() >= stream.getData().size());
+				assertTrue("Resolution restricted to " + stream.getResolution().getSize() + " but returned "
+						+ stream.getData().size() + " data points", stream.getResolution().getSize() >= stream.getData().size());
 				assertTrue(stream.getOriginalSize().intValue() >= stream.getData().size());
 			} else {
-				assertEquals(stream.getOriginalSize().intValue(),stream.getData().size());
+				assertEquals(stream.getOriginalSize().intValue(), stream.getData().size());
 			}
 			for (final Float data : stream.getData()) {
 				assertNotNull(data);
 			}
 		}
+	}
+
+	@Override
+	protected Class<StravaStream> getClassUnderTest() {
+		return StravaStream.class;
 	}
 
 }

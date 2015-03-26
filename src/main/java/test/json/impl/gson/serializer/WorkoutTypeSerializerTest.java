@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaWorkoutType;
 public class WorkoutTypeSerializerTest extends EnumSerializerTest<StravaWorkoutType> {
 
 	@Override
-	protected StravaWorkoutType getUnknownValue() {
-		return StravaWorkoutType.UNKNOWN;
+	public Class<StravaWorkoutType> getClassUnderTest() {
+		return StravaWorkoutType.class;
 	}
 
 	@Override
-	public Class<StravaWorkoutType> getClassUnderTest() {
-		return StravaWorkoutType.class;
+	protected StravaWorkoutType getUnknownValue() {
+		return StravaWorkoutType.UNKNOWN;
 	}
 }

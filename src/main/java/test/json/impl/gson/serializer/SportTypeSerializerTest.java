@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaSportType;
 public class SportTypeSerializerTest extends EnumSerializerTest<StravaSportType> {
 
 	@Override
-	protected StravaSportType getUnknownValue() {
-		return StravaSportType.UNKNOWN;
+	public Class<StravaSportType> getClassUnderTest() {
+		return StravaSportType.class;
 	}
 
 	@Override
-	public Class<StravaSportType> getClassUnderTest() {
-		return StravaSportType.class;
+	protected StravaSportType getUnknownValue() {
+		return StravaSportType.UNKNOWN;
 	}
 }

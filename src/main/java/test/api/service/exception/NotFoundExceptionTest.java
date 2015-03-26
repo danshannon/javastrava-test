@@ -13,28 +13,28 @@ public class NotFoundExceptionTest {
 	 */
 	@Test
 	public void testConstructor_normal() {
-		NotFoundException e = new NotFoundException(new StravaResponse(),new IllegalArgumentException());
+		final NotFoundException e = new NotFoundException(new StravaResponse(), new IllegalArgumentException());
 		try {
 			throw e;
-		} catch (NotFoundException ex) {
+		} catch (final NotFoundException ex) {
 			// Expected
 			return;
 		}
 	}
-	
+
 	@Test
 	public void testConstructor_nullSafety() {
 		new NotFoundException(null, null);
 	}
-	
+
 	@Test
 	public void testGetSetResponse() {
-		StravaResponse response = new StravaResponse();
+		final StravaResponse response = new StravaResponse();
 		response.setMessage("Test");
-		NotFoundException e = new NotFoundException(new StravaResponse(),null);
+		final NotFoundException e = new NotFoundException(new StravaResponse(), null);
 		e.setResponse(response);
-		StravaResponse testResponse = e.getResponse();
-		assertEquals(response,testResponse);
+		final StravaResponse testResponse = e.getResponse();
+		assertEquals(response, testResponse);
 	}
 
 }

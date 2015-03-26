@@ -10,19 +10,19 @@ import test.utils.BeanTest;
  */
 public class StravaActivityPhotosTest extends BeanTest<StravaActivityPhotos> {
 
+	public static void validate(final StravaActivityPhotos photos) {
+		assertNotNull(photos.getCount());
+		if (photos.getPrimary() != null) {
+			StravaPhotoTest.validatePhoto(photos.getPrimary(), photos.getPrimary().getId(), photos.getPrimary().getResourceState());
+		}
+	}
+
 	/**
 	 * @see test.utils.BeanTest#getClassUnderTest()
 	 */
 	@Override
 	protected Class<StravaActivityPhotos> getClassUnderTest() {
 		return StravaActivityPhotos.class;
-	}
-	
-	public static void validate(StravaActivityPhotos photos) {
-		assertNotNull(photos.getCount());
-		if (photos.getPrimary() != null) {
-			StravaPhotoTest.validatePhoto(photos.getPrimary(), photos.getPrimary().getId(), photos.getPrimary().getResourceState());
-		}
 	}
 
 }

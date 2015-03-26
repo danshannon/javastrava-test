@@ -11,7 +11,7 @@ public class StravaSegmentFactory implements Factory<StravaSegment> {
 
 	@Override
 	public StravaSegment create() {
-		StravaSegment segment = new StravaSegment();
+		final StravaSegment segment = new StravaSegment();
 		segment.setActivityType(StravaSegmentActivityType.RIDE);
 		segment.setAthleteCount(1);
 		segment.setAthletePrEffort(null);

@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class AuthorisationScopeTest {
 	@Test
-	public void testGetId() {
-		for (AuthorisationScope type : AuthorisationScope.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, AuthorisationScope.create(type.getId()));
+	public void testGetDescription() {
+		for (final AuthorisationScope type : AuthorisationScope.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (AuthorisationScope type : AuthorisationScope.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final AuthorisationScope type : AuthorisationScope.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, AuthorisationScope.create(type.getId()));
 		}
 	}
 

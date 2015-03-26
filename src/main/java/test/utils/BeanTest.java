@@ -9,12 +9,12 @@ public abstract class BeanTest<T> {
 	protected abstract Class<T> getClassUnderTest();
 
 	@Test
-	public void testGettersAndSetters() {
-		MeanBean.testBean(getClassUnderTest());
+	public void testEqualsMethod() {
+		EqualsVerifierUtil.testSubclass(getClassUnderTest());
 	}
 
 	@Test
-	public void testEqualsMethod() {
-		EqualsVerifierUtil.testSubclass(getClassUnderTest());
+	public void testGettersAndSetters() {
+		MeanBean.testBean(getClassUnderTest());
 	}
 }

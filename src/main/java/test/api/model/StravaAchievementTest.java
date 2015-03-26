@@ -7,16 +7,16 @@ import test.utils.BeanTest;
 
 public class StravaAchievementTest extends BeanTest<StravaAchievement> {
 
-	@Override
-	protected Class<StravaAchievement> getClassUnderTest() {
-		return StravaAchievement.class;
-	}
-
 	public static void validate(final StravaAchievement achievement) {
 		assertNotNull(achievement.getTypeId());
 		assertNotNull(achievement.getType());
 		assertNotNull(achievement.getRank());
 		assertTrue(achievement.getRank() > 0);
+	}
+
+	@Override
+	protected Class<StravaAchievement> getClassUnderTest() {
+		return StravaAchievement.class;
 	}
 
 }

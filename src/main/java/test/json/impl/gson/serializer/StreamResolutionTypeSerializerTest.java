@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 public class StreamResolutionTypeSerializerTest extends EnumSerializerTest<StravaStreamResolutionType> {
 
 	@Override
-	protected StravaStreamResolutionType getUnknownValue() {
-		return StravaStreamResolutionType.UNKNOWN;
+	public Class<StravaStreamResolutionType> getClassUnderTest() {
+		return StravaStreamResolutionType.class;
 	}
 
 	@Override
-	public Class<StravaStreamResolutionType> getClassUnderTest() {
-		return StravaStreamResolutionType.class;
+	protected StravaStreamResolutionType getUnknownValue() {
+		return StravaStreamResolutionType.UNKNOWN;
 	}
 }

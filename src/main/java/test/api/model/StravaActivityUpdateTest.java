@@ -11,18 +11,18 @@ import test.utils.BeanTest;
  */
 public class StravaActivityUpdateTest extends BeanTest<StravaActivityUpdate> {
 
+	public static void validate(final StravaActivityUpdate update) {
+		if (update.getType() != null) {
+			assertFalse(StravaActivityType.UNKNOWN == update.getType());
+		}
+	}
+
 	/**
 	 * @see test.utils.BeanTest#getClassUnderTest()
 	 */
 	@Override
 	protected Class<StravaActivityUpdate> getClassUnderTest() {
 		return StravaActivityUpdate.class;
-	}
-	
-	public static void validate(StravaActivityUpdate update) {
-		if (update.getType() != null) {
-			assertFalse(StravaActivityType.UNKNOWN == update.getType());
-		}
 	}
 
 }

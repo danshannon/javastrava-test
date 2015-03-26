@@ -9,12 +9,12 @@ import javastrava.api.v3.model.reference.StravaSegmentActivityType;
 public class SegmentActivityTypeSerializerTest extends EnumSerializerTest<StravaSegmentActivityType> {
 
 	@Override
-	protected StravaSegmentActivityType getUnknownValue() {
-		return StravaSegmentActivityType.UNKNOWN;
+	public Class<StravaSegmentActivityType> getClassUnderTest() {
+		return StravaSegmentActivityType.class;
 	}
 
 	@Override
-	public Class<StravaSegmentActivityType> getClassUnderTest() {
-		return StravaSegmentActivityType.class;
+	protected StravaSegmentActivityType getUnknownValue() {
+		return StravaSegmentActivityType.UNKNOWN;
 	}
 }

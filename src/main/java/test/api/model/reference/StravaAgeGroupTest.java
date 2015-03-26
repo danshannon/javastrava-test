@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaAgeGroupTest {
 	@Test
-	public void testGetId() {
-		for (StravaAgeGroup type : StravaAgeGroup.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaAgeGroup.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaAgeGroup type : StravaAgeGroup.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaAgeGroup type : StravaAgeGroup.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaAgeGroup type : StravaAgeGroup.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaAgeGroup.create(type.getId()));
 		}
 	}
 

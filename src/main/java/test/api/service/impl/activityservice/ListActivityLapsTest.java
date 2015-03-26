@@ -19,7 +19,6 @@ import org.junit.Test;
 import test.api.model.StravaLapTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListActivityLapsTest extends StravaTest {
@@ -36,19 +35,16 @@ public class ListActivityLapsTest extends StravaTest {
 	 */
 	@Test
 	public void testListActivityLaps_hasLaps() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITH_LAPS);
 
-				assertNotNull("Laps not returned for an activity which should have them", laps);
-				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
-				for (final StravaLap lap : laps) {
-					if (lap.getResourceState() != StravaResourceState.META) {
-						assertEquals(TestUtils.ACTIVITY_WITH_LAPS, lap.getActivity().getId());
-					}
-					StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
+			assertNotNull("Laps not returned for an activity which should have them", laps);
+			assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+			for (final StravaLap lap : laps) {
+				if (lap.getResourceState() != StravaResourceState.META) {
+					assertEquals(TestUtils.ACTIVITY_WITH_LAPS, lap.getActivity().getId());
 				}
+				StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
 			}
 		});
 	}
@@ -69,19 +65,16 @@ public class ListActivityLapsTest extends StravaTest {
 	 */
 	@Test
 	public void testListActivityLaps_hasNoLaps() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_WITHOUT_LAPS);
 
-				assertNotNull("Laps not returned for an activity which should have them", laps);
-				assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
-				for (final StravaLap lap : laps) {
-					if (lap.getResourceState() != StravaResourceState.META) {
-						assertEquals(TestUtils.ACTIVITY_WITHOUT_LAPS, lap.getActivity().getId());
-					}
-					StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
+			assertNotNull("Laps not returned for an activity which should have them", laps);
+			assertNotEquals("No laps returned for an activity which should have them", 0, laps.size());
+			for (final StravaLap lap : laps) {
+				if (lap.getResourceState() != StravaResourceState.META) {
+					assertEquals(TestUtils.ACTIVITY_WITHOUT_LAPS, lap.getActivity().getId());
 				}
+				StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
 			}
 		});
 	}
@@ -102,35 +95,20 @@ public class ListActivityLapsTest extends StravaTest {
 	 */
 	@Test
 	public void testListActivityLaps_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_INVALID);
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_INVALID);
 
-				assertNull("Laps returned for an invalid activity", laps);
-			}
+			assertNull("Laps returned for an invalid activity", laps);
 		});
 	}
 
 	@Test
 	public void testListActivityLaps_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-
-				assertNotNull(laps);
-				assertEquals(0, laps.size());
-			}
-		});
-	}
-
-	@Test
-	public void testListActivityLaps_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaLap> laps = stravaWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+
 			assertNotNull(laps);
-			assertFalse(laps.isEmpty());
+			assertEquals(0, laps.size());
 		});
 	}
 
@@ -140,6 +118,15 @@ public class ListActivityLapsTest extends StravaTest {
 			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
 			assertNotNull(laps);
 			assertTrue(laps.isEmpty());
+		});
+	}
+
+	@Test
+	public void testListActivityLaps_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaLap> laps = stravaWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			assertNotNull(laps);
+			assertFalse(laps.isEmpty());
 		});
 	}
 

@@ -11,63 +11,50 @@ import org.junit.Test;
 import test.api.model.StravaClubTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class GetClubTest extends StravaTest {
-	// Test cases
-	// 1. Valid club
-	@Test
-	public void testGetClub_validClub() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaClub club = strava().getClub(TestUtils.CLUB_VALID_ID);
-				assertNotNull(club);
-				StravaClubTest.validate(club, TestUtils.CLUB_VALID_ID, club.getResourceState());
-			}
-		});
-	}
-
 	// 2. Invalid club
 	@Test
 	public void testGetClub_invalidClub() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaClub club = strava().getClub(TestUtils.CLUB_INVALID_ID);
-				assertNull("Got club result despite club being invalid", club);
-			}
+		RateLimitedTestRunner.run(() -> {
+			final StravaClub club = strava().getClub(TestUtils.CLUB_INVALID_ID);
+			assertNull("Got club result despite club being invalid", club);
 		});
 	}
 
 	// 3. Private club of which current authenticated athlete is a member
 	@Test
 	public void testGetClub_privateClubIsMember() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaClub club = strava().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
-				assertNotNull(club);
-				StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
-			}
+		RateLimitedTestRunner.run(() -> {
+			final StravaClub club = strava().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			assertNotNull(club);
+			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
 	// 4. Private club of which current authenticated athlete is NOT a member
 	@Test
 	public void testGetClub_privateClubIsNotMember() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final StravaClub club = strava().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-				final StravaClub comparison = new StravaClub();
-				comparison.setId(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-				comparison.setResourceState(StravaResourceState.META);
-				assertNotNull(club);
-				assertEquals(comparison, club);
-				StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
-			}
+		RateLimitedTestRunner.run(() -> {
+			final StravaClub club = strava().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final StravaClub comparison = new StravaClub();
+			comparison.setId(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			comparison.setResourceState(StravaResourceState.META);
+			assertNotNull(club);
+			assertEquals(comparison, club);
+			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
+		});
+	}
+
+	// Test cases
+	// 1. Valid club
+	@Test
+	public void testGetClub_validClub() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaClub club = strava().getClub(TestUtils.CLUB_VALID_ID);
+			assertNotNull(club);
+			StravaClubTest.validate(club, TestUtils.CLUB_VALID_ID, club.getResourceState());
 		});
 	}
 

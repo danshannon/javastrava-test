@@ -8,7 +8,6 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.util.Paging;
 
 import org.junit.Test;
 
@@ -16,57 +15,46 @@ import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 import test.utils.TestUtils;
 
 public class ListAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, Integer> {
-	@Test
-	public void testListAthleteFriends_validAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_VALID_ID);
-				assertNotNull(friends);
-				assertFalse(friends.size() == 0);
-				for (final StravaAthlete athlete : friends) {
-					StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
-				}
-			}
-		});
+	@Override
+	protected ListCallback<StravaAthlete> callback() {
+		return (paging -> strava().listAthleteFriends(TestUtils.ATHLETE_VALID_ID, paging));
 	}
 
 	// Test cases
 	// 2. Invalid athlete
 	@Test
 	public void testListAthleteFriends_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_INVALID_ID);
 
-				assertNull("Listed friends despite athlete id being invalid", friends);
-			}
+			assertNull("Listed friends despite athlete id being invalid", friends);
 		});
 	}
 
 	@Test
 	public void testListAthleteFriends_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
-				assertNotNull(friends);
-				for (final StravaAthlete athlete : friends) {
-					StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
-				}
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
+			assertNotNull(friends);
+			for (final StravaAthlete athlete : friends) {
+				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
 			}
 		});
 	}
 
-	@Override
-	protected void validate(final StravaAthlete athlete, final Integer id, final StravaResourceState state) {
-		StravaAthleteTest.validateAthlete(athlete, id, state);
-
+	@Test
+	public void testListAthleteFriends_validAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_VALID_ID);
+			assertNotNull(friends);
+			assertFalse(friends.size() == 0);
+			for (final StravaAthlete athlete : friends) {
+				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+			}
+		});
 	}
 
 	@Override
@@ -76,15 +64,9 @@ public class ListAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, 
 	}
 
 	@Override
-	protected ListCallback<StravaAthlete> callback() {
-		return (new ListCallback<StravaAthlete>() {
+	protected void validate(final StravaAthlete athlete, final Integer id, final StravaResourceState state) {
+		StravaAthleteTest.validateAthlete(athlete, id, state);
 
-			@Override
-			public List<StravaAthlete> getList(final Paging paging) {
-				return strava().listAthleteFriends(TestUtils.ATHLETE_VALID_ID, paging);
-			}
-
-		});
 	}
 
 }

@@ -11,11 +11,6 @@ import test.utils.BeanTest;
  */
 public class StravaMapPointTest extends BeanTest<StravaMapPoint> {
 
-	@Override
-	protected Class<StravaMapPoint> getClassUnderTest() {
-		return StravaMapPoint.class;
-	}
-
 	public static void validate(final StravaMapPoint point) {
 		assertNotNull(point);
 		assertNotNull(point.getLatitude());
@@ -23,6 +18,11 @@ public class StravaMapPointTest extends BeanTest<StravaMapPoint> {
 		assertNotNull(point.getLongitude());
 		assertTrue(point.getLongitude() <= 180 && point.getLongitude() >= -180);
 
+	}
+
+	@Override
+	protected Class<StravaMapPoint> getClassUnderTest() {
+		return StravaMapPoint.class;
 	}
 
 }

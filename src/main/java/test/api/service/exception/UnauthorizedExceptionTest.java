@@ -13,34 +13,34 @@ public class UnauthorizedExceptionTest {
 	 */
 	@Test
 	public void testConstructor_normal() {
-		UnauthorizedException e = new UnauthorizedException("Test",new StravaResponse(),new IllegalArgumentException());
+		final UnauthorizedException e = new UnauthorizedException("Test", new StravaResponse(), new IllegalArgumentException());
 		try {
 			throw e;
-		} catch (UnauthorizedException ex) {
+		} catch (final UnauthorizedException ex) {
 			// Expected
 			return;
 		}
 	}
-	
-	@Test
-	public void testConstructor_string() {
-		new UnauthorizedException("Test");
-		
-	}
-	
+
 	@Test
 	public void testConstructor_nullSafety() {
 		new UnauthorizedException(null, null, null);
 	}
-	
+
+	@Test
+	public void testConstructor_string() {
+		new UnauthorizedException("Test");
+
+	}
+
 	@Test
 	public void testGetSetResponse() {
-		StravaResponse response = new StravaResponse();
+		final StravaResponse response = new StravaResponse();
 		response.setMessage("Test");
-		UnauthorizedException e = new UnauthorizedException("Test",new StravaResponse(),null);
+		final UnauthorizedException e = new UnauthorizedException("Test", new StravaResponse(), null);
 		e.setResponse(response);
-		StravaResponse testResponse = e.getResponse();
-		assertEquals(response,testResponse);
+		final StravaResponse testResponse = e.getResponse();
+		assertEquals(response, testResponse);
 	}
 
 }

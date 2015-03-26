@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package test.api.service.impl.util;
 
@@ -17,6 +17,14 @@ import test.utils.TestUtils;
  */
 public class ActivityServiceUtils {
 
+	public static StravaActivity createPrivateActivity() {
+		final StravaActivity activity = TestUtils.createDefaultActivity("GetActivityTest.createPrivateActivity");
+		activity.setPrivateActivity(Boolean.TRUE);
+		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
+		assertEquals(Boolean.TRUE, response.getPrivateActivity());
+		return response;
+	}
+
 	/**
 	 * @return
 	 * @throws BadRequestException
@@ -27,17 +35,10 @@ public class ActivityServiceUtils {
 		activity.setPrivateActivity(Boolean.TRUE);
 		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
-		final StravaComment comment = TestUtils.stravaWithFullAccess().createComment(response.getId(), "DeleteCommentTest.createPrivateActivityWithComments");
+		final StravaComment comment = TestUtils.stravaWithFullAccess().createComment(response.getId(),
+				"DeleteCommentTest.createPrivateActivityWithComments");
 		StravaCommentTest.validateComment(comment);
 		return comment;
-	}
-
-	public static StravaActivity createPrivateActivity() {
-		final StravaActivity activity = TestUtils.createDefaultActivity("GetActivityTest.createPrivateActivity");
-		activity.setPrivateActivity(Boolean.TRUE);
-		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
-		assertEquals(Boolean.TRUE, response.getPrivateActivity());
-		return response;
 	}
 
 }

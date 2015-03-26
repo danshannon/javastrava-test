@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaResourceStateTest {
 	@Test
-	public void testGetId() {
-		for (StravaResourceState type : StravaResourceState.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaResourceState.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaResourceState type : StravaResourceState.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaResourceState type : StravaResourceState.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaResourceState type : StravaResourceState.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaResourceState.create(type.getId()));
 		}
 	}
 

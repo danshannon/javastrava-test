@@ -7,11 +7,6 @@ import test.utils.BeanTest;
 
 public class StravaAthleteSegmentStatsTest extends BeanTest<StravaAthleteSegmentStats> {
 
-	@Override
-	protected Class<StravaAthleteSegmentStats> getClassUnderTest() {
-		return StravaAthleteSegmentStats.class;
-	}
-
 	public static void validate(final StravaAthleteSegmentStats stats) {
 		assertNotNull(stats);
 		assertNotNull(stats.getEffortCount());
@@ -19,6 +14,11 @@ public class StravaAthleteSegmentStatsTest extends BeanTest<StravaAthleteSegment
 		assertNotNull(stats.getPrElapsedTime());
 		assertTrue(stats.getPrElapsedTime() > 0);
 		assertNotNull(stats.getPrDate());
+	}
+
+	@Override
+	protected Class<StravaAthleteSegmentStats> getClassUnderTest() {
+		return StravaAthleteSegmentStats.class;
 	}
 
 }

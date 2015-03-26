@@ -17,18 +17,18 @@ import test.utils.TestUtils;
  */
 public class DeleteCommentTest extends StravaTest {
 	@Test
-	public void testDeleteComment_byIds() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
-		});
-	}
-
-	@Test
 	public void testDeleteComment_byComment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 			stravaWithWriteAccess().deleteComment(comment);
+		});
+	}
+
+	@Test
+	public void testDeleteComment_byIds() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
@@ -48,8 +48,8 @@ public class DeleteCommentTest extends StravaTest {
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make activity private, try to delete
-	 * comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make
+	 * activity private, try to delete comment)
 	 *
 	 * @throws Exception
 	 */
@@ -59,19 +59,19 @@ public class DeleteCommentTest extends StravaTest {
 			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
 
 			// Attempt to delete with full access
-				try {
-					stravaWithFullAccess().deleteComment(comment);
-					return;
-				} catch (final Exception e) {
-					forceDeleteActivity(comment.getActivityId());
-					throw e;
-				}
-			});
+			try {
+				stravaWithFullAccess().deleteComment(comment);
+				return;
+			} catch (final Exception e) {
+				forceDeleteActivity(comment.getActivityId());
+				throw e;
+			}
+		});
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE scope (create activity,
-	 * create comment, make activity private, try to delete comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE
+	 * scope (create activity, create comment, make activity private, try to delete comment)
 	 *
 	 * @throws Exception
 	 */
@@ -81,18 +81,18 @@ public class DeleteCommentTest extends StravaTest {
 			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
 
 			// Attempt to delete with full access
-				try {
-					stravaWithWriteAccess().deleteComment(comment);
-					forceDeleteActivity(comment.getActivityId());
-					fail("Deleted a comment on a private activity, but don't have VIEW_PRIVATE scope");
-				} catch (final UnauthorizedException e) {
-					// Expected
-					forceDeleteActivity(comment.getActivityId());
-					return;
-				} catch (final Exception e) {
-					forceDeleteActivity(comment.getActivityId());
-					throw e;
-				}
-			});
+			try {
+				stravaWithWriteAccess().deleteComment(comment);
+				forceDeleteActivity(comment.getActivityId());
+				fail("Deleted a comment on a private activity, but don't have VIEW_PRIVATE scope");
+			} catch (final UnauthorizedException e) {
+				// Expected
+				forceDeleteActivity(comment.getActivityId());
+				return;
+			} catch (final Exception e) {
+				forceDeleteActivity(comment.getActivityId());
+				throw e;
+			}
+		});
 	}
 }

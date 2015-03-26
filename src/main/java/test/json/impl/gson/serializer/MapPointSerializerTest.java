@@ -16,18 +16,12 @@ import org.junit.Test;
  *
  */
 public class MapPointSerializerTest extends SerializerTest<StravaMapPoint> {
-	@Test
-	public void testRoundTrip() throws JsonSerialisationException {
-		StravaMapPoint point = new StravaMapPoint(135.4f, -40f);
-		String serialised = this.util.serialise(point);
-		StravaMapPoint deserialised = this.util.deserialise(serialised, StravaMapPoint.class);
-		assertEquals(point, deserialised);
-	}
-
-	@Test
-	public void testNullDeserialisationSafety() throws JsonSerialisationException {
-		StravaMapPoint prompt = this.util.deserialise("", StravaMapPoint.class);
-		assertNull(prompt);
+	/**
+	 * @see test.json.impl.gson.serializer.SerializerTest#getClassUnderTest()
+	 */
+	@Override
+	public Class<StravaMapPoint> getClassUnderTest() {
+		return StravaMapPoint.class;
 	}
 
 	/**
@@ -35,20 +29,28 @@ public class MapPointSerializerTest extends SerializerTest<StravaMapPoint> {
 	 */
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
-		StravaMapPoint point = new StravaMapPoint(111.11f, -43f);
-		String serialised = this.util.serialise(point);
-		InputStream is = new ByteArrayInputStream(serialised.getBytes());
-		StravaMapPoint deserialised = this.util.deserialise(is, StravaMapPoint.class);
+		final StravaMapPoint point = new StravaMapPoint(111.11f, -43f);
+		final String serialised = this.util.serialise(point);
+		final InputStream is = new ByteArrayInputStream(serialised.getBytes());
+		final StravaMapPoint deserialised = this.util.deserialise(is, StravaMapPoint.class);
 		assertEquals(point, deserialised);
 
 	}
 
-	/**
-	 * @see test.json.impl.gson.serializer.SerializerTest#getClassUnderTest()
-	 */
 	@Override
-	public Class<StravaMapPoint> getClassUnderTest() {
-		return StravaMapPoint.class;
+	@Test
+	public void testNullDeserialisationSafety() throws JsonSerialisationException {
+		final StravaMapPoint prompt = this.util.deserialise("", StravaMapPoint.class);
+		assertNull(prompt);
+	}
+
+	@Override
+	@Test
+	public void testRoundTrip() throws JsonSerialisationException {
+		final StravaMapPoint point = new StravaMapPoint(135.4f, -40f);
+		final String serialised = this.util.serialise(point);
+		final StravaMapPoint deserialised = this.util.deserialise(serialised, StravaMapPoint.class);
+		assertEquals(point, deserialised);
 	}
 
 }

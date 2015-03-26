@@ -19,54 +19,194 @@ import org.junit.Test;
  *
  */
 public class TokenManagerTest {
+	private List<AuthorisationScope> getAllScopes() {
+		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE });
+	}
+
+	private List<AuthorisationScope> getNoScope() {
+		return Arrays.asList(new AuthorisationScope[] {});
+	}
+
+	private List<AuthorisationScope> getPrivateScope() {
+		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE });
+	}
+
+	/**
+	 * @return
+	 */
+	private Token getValidToken() {
+		final Token token = new Token();
+		token.setAthlete(new StravaAthlete());
+		token.getAthlete().setEmail("a@example.com");
+		token.setScopes(getNoScope());
+		return token;
+	}
+
 	@Test
-	public void testStoreToken_normal() {
-		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.instance();
+	public void testRemoveToken_nullToken() {
+		final Token token = getValidToken();
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.revokeToken(token);
+	}
+
+	@Test
+	public void testRemoveToken_tokenNotInCache() {
+		final Token token = getValidToken();
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+
+		manager.revokeToken(token);
+	}
+
+	@Test
+	public void testRemoveToken_validToken() {
+		final Token token = getValidToken();
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.storeToken(token);
+		manager.revokeToken(token);
+		manager.retrieveTokenWithScope(token.getAthlete().getEmail(), getNoScope());
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_normal() {
+		final Token token = getValidToken();
+		token.setScopes(getAllScopes());
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		tokenManager.storeToken(token);
-		Token retrieved = tokenManager.retrieveTokenWithScope(token.getAthlete().getEmail());
+
+		final String username = token.getAthlete().getEmail();
+		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE,
+				AuthorisationScope.WRITE);
+		assertEquals(token, retrieved);
+
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_noTokenRetrieved() {
+		final String username = "b@example.com";
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		final Token token = manager.retrieveTokenWithExactScope(username, getAllScopes());
+		assertNull(token);
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_nullScope() {
+		final Token token = getValidToken();
+		token.setScopes(getPrivateScope());
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.storeToken(token);
+
+		final String username = token.getAthlete().getEmail();
+		final List<AuthorisationScope> listOfScopes = null;
+		final Token retrieved = manager.retrieveTokenWithExactScope(username, listOfScopes);
+		assertNull(retrieved);
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_nullUsername() {
+		final Token token = getValidToken();
+		token.setScopes(getPrivateScope());
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.storeToken(token);
+
+		final String username = null;
+		final Token retrieved = manager.retrieveTokenWithExactScope(username, getPrivateScope());
+		assertNull(retrieved);
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_tokenHasTooLittleScope() {
+		final Token token = getValidToken();
+		token.setScopes(getPrivateScope());
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.storeToken(token);
+
+		final String username = token.getAthlete().getEmail();
+		final Token retrieved = manager.retrieveTokenWithExactScope(username, getAllScopes());
+		assertNull(retrieved);
+	}
+
+	@Test
+	public void testRetrieveTokenWithExactScope_tokenHasTooMuchScope() {
+		final Token token = getValidToken();
+		token.setScopes(getAllScopes());
+		final TokenManager manager = TokenManager.instance();
+		manager.clearTokenCache();
+		manager.storeToken(token);
+
+		final String username = token.getAthlete().getEmail();
+		final Token retrieved = manager.retrieveTokenWithExactScope(username, getPrivateScope());
+		assertNull(retrieved);
+	}
+
+	@Test
+	public void testRetrieveTokenWithScope_normal() {
+		final Token token = getValidToken();
+		final TokenManager tokenManager = TokenManager.instance();
+		token.setScopes(getAllScopes());
+		tokenManager.clearTokenCache();
+		tokenManager.storeToken(token);
+
+		final String username = token.getAthlete().getEmail();
+		final Token retrieved = tokenManager.retrieveTokenWithScope(username, AuthorisationScope.WRITE);
 		assertEquals(token, retrieved);
 	}
 
 	@Test
-	public void testStoreToken_nullToken() {
-		Token token = null;
-		TokenManager tokenManager = TokenManager.instance();
+	public void testRetrieveTokenWithScope_nullScopes() {
+		final Token token = getValidToken();
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
-		try {
-			tokenManager.storeToken(token);
-		} catch (IllegalArgumentException e) {
-			// Expected
-			return;
-		}
-		fail("Successfully saved a null token, that shouldn't work!");
+		tokenManager.storeToken(token);
+
+		final String username = token.getAthlete().getEmail();
+		final Token retrieved = tokenManager.retrieveTokenWithScope(username, (AuthorisationScope[]) null);
+		assertEquals(token, retrieved);
 	}
 
 	@Test
-	public void testStoreToken_nullScopes() {
-		Token token = getValidToken();
-		token.setScopes(null);
-		TokenManager tokenManager = TokenManager.instance();
+	public void testRetrieveTokenWithScope_nullUsername() {
+		final Token token = getValidToken();
+		final TokenManager tokenManager = TokenManager.instance();
+		tokenManager.clearTokenCache();
+		tokenManager.storeToken(token);
+
+		final String username = null;
+		final Token retrieved = tokenManager.retrieveTokenWithScope(username, AuthorisationScope.WRITE);
+		assertNull(retrieved);
+	}
+
+	@Test
+	public void testStoreToken_noAthleteEmailInToken() {
+		final Token token = getValidToken();
+		token.getAthlete().setEmail(null);
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
-		fail("Stored a null token which had null scopes");
+		fail("Stored a null token which had no athlete email");
 	}
 
 	@Test
 	public void testStoreToken_noAthleteInToken() {
-		Token token = getValidToken();
+		final Token token = getValidToken();
 		token.setAthlete(null);
-		TokenManager tokenManager = TokenManager.instance();
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
@@ -75,181 +215,42 @@ public class TokenManagerTest {
 	}
 
 	@Test
-	public void testStoreToken_noAthleteEmailInToken() {
-		Token token = getValidToken();
-		token.getAthlete().setEmail(null);
-		TokenManager tokenManager = TokenManager.instance();
+	public void testStoreToken_normal() {
+		final Token token = getValidToken();
+		final TokenManager tokenManager = TokenManager.instance();
+		tokenManager.clearTokenCache();
+		tokenManager.storeToken(token);
+		final Token retrieved = tokenManager.retrieveTokenWithScope(token.getAthlete().getEmail());
+		assertEquals(token, retrieved);
+	}
+
+	@Test
+	public void testStoreToken_nullScopes() {
+		final Token token = getValidToken();
+		token.setScopes(null);
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
 		try {
 			tokenManager.storeToken(token);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			// Expected
 			return;
 		}
-		fail("Stored a null token which had no athlete email");
+		fail("Stored a null token which had null scopes");
 	}
 
 	@Test
-	public void testRetrieveTokenWithScope_normal() {
-		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.instance();
-		token.setScopes(getAllScopes());
+	public void testStoreToken_nullToken() {
+		final Token token = null;
+		final TokenManager tokenManager = TokenManager.instance();
 		tokenManager.clearTokenCache();
-		tokenManager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		Token retrieved = tokenManager.retrieveTokenWithScope(username, AuthorisationScope.WRITE);
-		assertEquals(token, retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithScope_nullUsername() {
-		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.instance();
-		tokenManager.clearTokenCache();
-		tokenManager.storeToken(token);
-
-		String username = null;
-		Token retrieved = tokenManager.retrieveTokenWithScope(username, AuthorisationScope.WRITE);
-		assertNull(retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithScope_nullScopes() {
-		Token token = getValidToken();
-		TokenManager tokenManager = TokenManager.instance();
-		tokenManager.clearTokenCache();
-		tokenManager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		Token retrieved = tokenManager.retrieveTokenWithScope(username, (AuthorisationScope[]) null);
-		assertEquals(token, retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_normal() {
-		Token token = getValidToken();
-		token.setScopes(getAllScopes());
-		TokenManager tokenManager = TokenManager.instance();
-		tokenManager.clearTokenCache();
-		tokenManager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
-		assertEquals(token, retrieved);
-
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_tokenHasTooLittleScope() {
-		Token token = getValidToken();
-		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		Token retrieved = manager.retrieveTokenWithExactScope(username, getAllScopes());
-		assertNull(retrieved);
-	}
-
-	/**
-	 * @return
-	 */
-	private Token getValidToken() {
-		Token token = new Token();
-		token.setAthlete(new StravaAthlete());
-		token.getAthlete().setEmail("a@example.com");
-		token.setScopes(getNoScope());
-		return token;
-	}
-
-	private List<AuthorisationScope> getAllScopes() {
-		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE });
-	}
-
-	private List<AuthorisationScope> getPrivateScope() {
-		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE });
-	}
-
-	private List<AuthorisationScope> getNoScope() {
-		return Arrays.asList(new AuthorisationScope[] {});
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_tokenHasTooMuchScope() {
-		Token token = getValidToken();
-		token.setScopes(getAllScopes());
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		Token retrieved = manager.retrieveTokenWithExactScope(username, getPrivateScope());
-		assertNull(retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_nullUsername() {
-		Token token = getValidToken();
-		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.storeToken(token);
-
-		String username = null;
-		Token retrieved = manager.retrieveTokenWithExactScope(username, getPrivateScope());
-		assertNull(retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_nullScope() {
-		Token token = getValidToken();
-		token.setScopes(getPrivateScope());
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.storeToken(token);
-
-		String username = token.getAthlete().getEmail();
-		List<AuthorisationScope> listOfScopes = null;
-		Token retrieved = manager.retrieveTokenWithExactScope(username, listOfScopes);
-		assertNull(retrieved);
-	}
-
-	@Test
-	public void testRetrieveTokenWithExactScope_noTokenRetrieved() {
-		String username = "b@example.com";
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		Token token = manager.retrieveTokenWithExactScope(username, getAllScopes());
-		assertNull(token);
-	}
-
-	@Test
-	public void testRemoveToken_validToken() {
-		Token token = getValidToken();
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.storeToken(token);
-		manager.revokeToken(token);
-		manager.retrieveTokenWithScope(token.getAthlete().getEmail(), getNoScope());
-	}
-
-	@Test
-	public void testRemoveToken_tokenNotInCache() {
-		Token token = getValidToken();
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-
-		manager.revokeToken(token);
-	}
-
-	@Test
-	public void testRemoveToken_nullToken() {
-		Token token = getValidToken();
-		TokenManager manager = TokenManager.instance();
-		manager.clearTokenCache();
-		manager.revokeToken(token);
+		try {
+			tokenManager.storeToken(token);
+		} catch (final IllegalArgumentException e) {
+			// Expected
+			return;
+		}
+		fail("Successfully saved a null token, that shouldn't work!");
 	}
 
 }

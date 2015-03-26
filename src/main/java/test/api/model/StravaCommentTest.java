@@ -14,24 +14,20 @@ import test.utils.BeanTest;
  */
 public class StravaCommentTest extends BeanTest<StravaComment> {
 
-	@Override
-	protected Class<StravaComment> getClassUnderTest() {
-		return StravaComment.class;
-	}
-
-	public static void validateComment(StravaComment comment) {
+	public static void validateComment(final StravaComment comment) {
 		validateComment(comment, comment.getId(), comment.getResourceState());
 	}
 
-	public static void validateComment(StravaComment comment, Integer id, StravaResourceState state) {
+	public static void validateComment(final StravaComment comment, final Integer id, final StravaResourceState state) {
 		assertNotNull(comment);
 		assertEquals(id, comment.getId());
 		assertEquals(state, comment.getResourceState());
-		
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete()
+					.getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -39,7 +35,8 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete()
+					.getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -52,5 +49,10 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 			return;
 		}
 		fail("Unexpected resource state " + state + " for comment " + comment);
+	}
+
+	@Override
+	protected Class<StravaComment> getClassUnderTest() {
+		return StravaComment.class;
 	}
 }

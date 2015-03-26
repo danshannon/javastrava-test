@@ -10,16 +10,16 @@ import test.utils.BeanTest;
  */
 public class StravaUploadResponseTest extends BeanTest<StravaUploadResponse> {
 
-	@Override
-	protected Class<StravaUploadResponse> getClassUnderTest() {
-		return StravaUploadResponse.class;
-	}
-
 	public static void validate(final StravaUploadResponse response) {
 		assertNotNull(response);
 		assertNotNull(response.getActivityId());
 		assertNotNull(response.getId());
 		assertNotNull(response.getStatus());
 
+	}
+
+	@Override
+	protected Class<StravaUploadResponse> getClassUnderTest() {
+		return StravaUploadResponse.class;
 	}
 }

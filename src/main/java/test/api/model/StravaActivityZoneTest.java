@@ -18,19 +18,14 @@ import test.utils.BeanTest;
  */
 public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 
-	@Override
-	protected Class<StravaActivityZone> getClassUnderTest() {
-		return StravaActivityZone.class;
-	}
-
-	public static void validateActivityZone(StravaActivityZone zone, StravaResourceState state) {
+	public static void validateActivityZone(final StravaActivityZone zone, final StravaResourceState state) {
 		assertNotNull(zone);
 		assertEquals(state, zone.getResourceState());
-		
+
 		if (state == StravaResourceState.DETAILED) {
 			// Optional assertNotNull(zone.getCustomZones());
 			assertNotNull(zone.getDistributionBuckets());
-			for (StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
+			for (final StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
 				StravaActivityZoneDistributionBucketTest.validateBucket(bucket);
 			}
 			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
@@ -53,7 +48,7 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 		if (state == StravaResourceState.SUMMARY) {
 			// Optional assertNotNull(zone.getCustomZones());
 			assertNotNull(zone.getDistributionBuckets());
-			for (StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
+			for (final StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
 				StravaActivityZoneDistributionBucketTest.validateBucket(bucket);
 			}
 			if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
@@ -84,5 +79,10 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 			return;
 		}
 		fail("unexpected state " + state + " for activity zone " + zone);
+	}
+
+	@Override
+	protected Class<StravaActivityZone> getClassUnderTest() {
+		return StravaActivityZone.class;
 	}
 }

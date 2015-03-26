@@ -19,9 +19,13 @@ import test.api.model.StravaActivityTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestCallback;
 
 public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
+	@Override
+	protected ListCallback<StravaActivity> callback() {
+		return (paging -> strava().listFriendsActivities(paging));
+	}
+
 	/**
 	 * <p>
 	 * List latest {@link StravaActivity activities} for {@link StravaAthlete athletes} the currently authorised user is following
@@ -30,7 +34,7 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 	 * <p>
 	 * Should return a list of rides in descending order of start date
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *
 	 * @throws UnauthorizedException
@@ -38,14 +42,12 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 	 */
 	@Test
 	public void testListFriendsActivities_hasFriends() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaActivity> activities = strava().listFriendsActivities();
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = strava().listFriendsActivities();
 
-				assertNotNull("Returned null array for latest friends' activities", activities);
+			assertNotNull("Returned null array for latest friends' activities", activities);
 
-				// Check that the activities are returned in descending order of start date
+			// Check that the activities are returned in descending order of start date
 				ZonedDateTime lastStartDate = null;
 				for (final StravaActivity activity : activities) {
 					if (lastStartDate == null) {
@@ -57,14 +59,41 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 					}
 					StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
 				}
-			}
-		});
+			});
 	}
 
 	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
+	@Test
+	// TODO This is only here as a TEST workaround for issue #18 (https://github.com/danshannon/javastravav3api/issues/18). When the
+	// issue is fixed, remove this
+	// override altogether!
+	public void testPageNumberAndSize() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> bothPages = callback().getList(new Paging(1, 3));
+			assertNotNull(bothPages);
+			assertEquals(3, bothPages.size());
+			validateList(bothPages);
+			final List<StravaActivity> firstPage = callback().getList(new Paging(1, 1));
+			assertNotNull(firstPage);
+			assertEquals(1, firstPage.size());
+			validateList(firstPage);
+			final List<StravaActivity> secondPage = callback().getList(new Paging(2, 1));
+			assertNotNull(secondPage);
+			assertEquals(1, secondPage.size());
+			validateList(secondPage);
+			final List<StravaActivity> thirdPage = callback().getList(new Paging(3, 1));
+			assertNotNull(thirdPage);
+			assertEquals(1, thirdPage.size());
 
+			// assertTrue(firstPage.get(0).getStartDate().after(secondPage.get(0).getStartDate()));
+			// assertTrue(secondPage.get(0).getStartDate().after(thirdPage.get(0).getStartDate()));
+
+				// The first entry in bothPages should be the same as the first entry in firstPage
+				// assertEquals(bothPages.get(0),firstPage.get(0));
+
+				// The second entry in bothPages should be the same as the first entry in secondPage
+				// assertEquals(bothPages.get(1),secondPage.get(0));
+			});
 	}
 
 	@Override
@@ -74,51 +103,9 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 	}
 
 	@Override
-	protected ListCallback<StravaActivity> callback() {
-		return (new ListCallback<StravaActivity>() {
+	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
+		StravaActivityTest.validateActivity(activity, id, state);
 
-			@Override
-			public List<StravaActivity> getList(final Paging paging) {
-				return strava().listFriendsActivities(paging);
-			}
-
-		});
-	}
-
-	@Override
-	@Test
-	// TODO This is only here as a TEST workaround for issue #18 (https://github.com/danshannon/javastravav3api/issues/18). When the issue is fixed, remove this
-	// override altogether!
-	public void testPageNumberAndSize() throws Exception {
-		RateLimitedTestRunner.run(new TestCallback() {
-			@Override
-			public void test() throws Exception {
-				final List<StravaActivity> bothPages = callback().getList(new Paging(1, 3));
-				assertNotNull(bothPages);
-				assertEquals(3, bothPages.size());
-				validateList(bothPages);
-				final List<StravaActivity> firstPage = callback().getList(new Paging(1, 1));
-				assertNotNull(firstPage);
-				assertEquals(1, firstPage.size());
-				validateList(firstPage);
-				final List<StravaActivity> secondPage = callback().getList(new Paging(2, 1));
-				assertNotNull(secondPage);
-				assertEquals(1, secondPage.size());
-				validateList(secondPage);
-				final List<StravaActivity> thirdPage = callback().getList(new Paging(3, 1));
-				assertNotNull(thirdPage);
-				assertEquals(1, thirdPage.size());
-
-				// assertTrue(firstPage.get(0).getStartDate().after(secondPage.get(0).getStartDate()));
-				// assertTrue(secondPage.get(0).getStartDate().after(thirdPage.get(0).getStartDate()));
-
-				// The first entry in bothPages should be the same as the first entry in firstPage
-				// assertEquals(bothPages.get(0),firstPage.get(0));
-
-				// The second entry in bothPages should be the same as the first entry in secondPage
-				// assertEquals(bothPages.get(1),secondPage.get(0));
-			}
-		});
 	}
 
 }

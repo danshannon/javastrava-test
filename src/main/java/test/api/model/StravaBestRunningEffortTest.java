@@ -14,26 +14,22 @@ import test.utils.BeanTest;
  */
 public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffort> {
 
-	@Override
-	protected Class<StravaBestRunningEffort> getClassUnderTest() {
-		return StravaBestRunningEffort.class;
-	}
-
 	/**
 	 * @param effort
 	 * @param id
 	 * @param resourceState
 	 */
-	public static void validateBestEffort(StravaBestRunningEffort effort, Integer id, StravaResourceState state) {
+	public static void validateBestEffort(final StravaBestRunningEffort effort, final Integer id, final StravaResourceState state) {
 		assertNotNull(effort);
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
-		
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(effort.getActivity());
 			// NB Don't validate the activity - that way lies 1 Infinite Loop
 			assertNotNull(effort.getAthlete());
-			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete()
+					.getResourceState());
 			assertNotNull(effort.getDistance());
 			assertNotNull(effort.getElapsedTime());
 			assertNotNull(effort.getKomRank());
@@ -41,7 +37,8 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNotNull(effort.getName());
 			assertNotNull(effort.getPrRank());
 			assertNotNull(effort.getSegment());
-			StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
+			StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment()
+					.getResourceState());
 			assertNotNull(effort.getStartDate());
 			assertNotNull(effort.getStartDateLocal());
 			return;
@@ -50,7 +47,8 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNotNull(effort.getActivity());
 			// NB Don't validate the activity - that way lies 1 Infinite Loop
 			assertNotNull(effort.getAthlete());
-			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete()
+					.getResourceState());
 			assertNotNull(effort.getDistance());
 			assertNotNull(effort.getElapsedTime());
 			assertNotNull(effort.getKomRank());
@@ -58,7 +56,8 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNotNull(effort.getName());
 			assertNotNull(effort.getPrRank());
 			assertNotNull(effort.getSegment());
-			StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
+			StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment()
+					.getResourceState());
 			assertNotNull(effort.getStartDate());
 			assertNotNull(effort.getStartDateLocal());
 			return;
@@ -79,7 +78,12 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			return;
 		}
 		fail("Unexpected state " + state + " for best effort " + effort);
-	
+
+	}
+
+	@Override
+	protected Class<StravaBestRunningEffort> getClassUnderTest() {
+		return StravaBestRunningEffort.class;
 	}
 
 }

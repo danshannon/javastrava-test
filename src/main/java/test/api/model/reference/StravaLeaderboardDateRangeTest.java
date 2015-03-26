@@ -12,17 +12,17 @@ import org.junit.Test;
  */
 public class StravaLeaderboardDateRangeTest {
 	@Test
-	public void testGetId() {
-		for (StravaLeaderboardDateRange type : StravaLeaderboardDateRange.values()) {
-			assertNotNull(type.getId());
-			assertEquals(type, StravaLeaderboardDateRange.create(type.getId()));
+	public void testGetDescription() {
+		for (final StravaLeaderboardDateRange type : StravaLeaderboardDateRange.values()) {
+			assertNotNull(type.getDescription());
 		}
 	}
 
 	@Test
-	public void testGetDescription() {
-		for (StravaLeaderboardDateRange type : StravaLeaderboardDateRange.values()) {
-			assertNotNull(type.getDescription());
+	public void testGetId() {
+		for (final StravaLeaderboardDateRange type : StravaLeaderboardDateRange.values()) {
+			assertNotNull(type.getId());
+			assertEquals(type, StravaLeaderboardDateRange.create(type.getId()));
 		}
 	}
 
