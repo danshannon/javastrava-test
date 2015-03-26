@@ -1,10 +1,11 @@
 package test.api.service.impl.activityservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -114,14 +115,18 @@ public class ListActivityPhotosTest extends StravaTest {
 	@Test
 	public void testListActivityPhotos_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			fail("Not yet implemented!");
+			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
+			assertNotNull(photos);
+			assertTrue(photos.size() == 0);
 		});
 	}
 
 	@Test
 	public void testListActivityPhotos_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			fail("Not yet implemented!");
+			final List<StravaPhoto> photos = stravaWithViewPrivate().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
+			assertNotNull(photos);
+			assertFalse(photos.size() == 0);
 		});
 	}
 }

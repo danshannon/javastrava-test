@@ -1,10 +1,11 @@
 package test.api.service.impl.activityservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -102,14 +103,18 @@ public class ListActivityZonesTest extends StravaTest {
 	@Test
 	public void testListActivityZones_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			fail("Not yet implemented!");
+			final List<StravaActivityZone> zones = stravaWithViewPrivate().listActivityZones(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
+			assertNotNull(zones);
+			assertFalse(zones.isEmpty());
 		});
 	}
 
 	@Test
 	public void testListActivityZones_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			fail("Not yet implemented!");
+			final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
+			assertNotNull(zones);
+			assertTrue(zones.isEmpty());
 		});
 	}
 }

@@ -1,19 +1,23 @@
 package test.api.service.impl.activityservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.rest.API;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
+import test.utils.TestUtils;
 
 public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 	@Test
@@ -72,6 +76,37 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 				StravaActivityTest.validateActivity(activity);
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
+			}
+		});
+	}
+	
+	@Test
+	public void testListAllAuthenticatedAthleteActivities_withViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = stravaWithViewPrivate().listAllAuthenticatedAthleteActivities();
+			boolean pass = false;
+			for (StravaActivity activity : activities) {
+				if (activity.getPrivateActivity() == Boolean.TRUE) {
+					pass = true;
+					break;
+				}
+			}
+			if (!pass) {
+				fail("Didn't return private activities");
+			}
+		});
+	}
+
+	@Test
+	public void testListAllAuthenticatedAthleteActivities_withoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities();
+			for (StravaActivity activity : activities) {
+				if (activity.getPrivateActivity() == Boolean.TRUE) {
+					StravaActivity get = new API(TestUtils.getValidTokenWithViewPrivate()).getActivity(activity.getId(), null);
+					assertEquals(activity, get);
+					fail("Returned private activity" + activity);
+				}
 			}
 		});
 	}
