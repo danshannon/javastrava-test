@@ -159,6 +159,16 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 			assertNull(leaderboard);
 		});
 	}
+	
+	@Test
+	public void testGetSegmentLeaderboard_privateWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentLeaderboard leaderboard = stravaWithViewPrivate().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
+			assertNotNull(leaderboard);
+			assertFalse(leaderboard.getEntries().isEmpty());
+			StravaSegmentLeaderboardTest.validate(leaderboard);
+		});	
+	}
 
 	// Test cases
 	// 1. Valid segment, no filtering

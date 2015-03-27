@@ -8,6 +8,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 
 import org.junit.Test;
 
+import test.api.model.StravaSegmentTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -33,12 +34,21 @@ public class GetSegmentTest extends StravaTest {
 
 	// 4. Private segment belonging to the authenticated user
 	@Test
-	public void testGetSegment_private() throws Exception {
+	public void testGetSegment_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
 			assertNotNull(segment);
-			assertEquals(TestUtils.SEGMENT_PRIVATE_ID, segment.getId());
+			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.META);
+		});
+	}
+	
+	@Test
+	public void testGetSegment_privateWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegment segment = stravaWithViewPrivate().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
+			assertNotNull(segment);
 			assertEquals(Boolean.TRUE, segment.getPrivateSegment());
+			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.DETAILED);
 		});
 	}
 
