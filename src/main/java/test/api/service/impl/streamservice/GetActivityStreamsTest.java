@@ -1,8 +1,10 @@
 package test.api.service.impl.streamservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -51,8 +53,8 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
-							resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
+					final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+							StravaStreamSeriesDownsamplingType.DISTANCE);
 					assertNotNull(streams);
 					for (final StravaStream stream : streams) {
 						assertEquals(resolutionType, stream.getResolution());
@@ -69,8 +71,8 @@ public class GetActivityStreamsTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-					final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
-							resolutionType, StravaStreamSeriesDownsamplingType.TIME);
+					final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+							StravaStreamSeriesDownsamplingType.TIME);
 					assertNotNull(streams);
 					validateList(streams);
 				}
@@ -134,8 +136,7 @@ public class GetActivityStreamsTest extends StravaTest {
 	@Test
 	public void testGetActivityStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null,
-					StravaStreamType.DISTANCE);
+			final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
 			assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -172,6 +173,24 @@ public class GetActivityStreamsTest extends StravaTest {
 				return;
 			}
 			fail("Shouldn't be able to return activity streams for activities that don't belong to the authenticated user");
+		});
+	}
+
+	@Test
+	public void testGetActivityStreams_privateActivityWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = strava().getActivityStreams(TestUtils.ACTIVITY_PRIVATE);
+			assertNotNull(streams);
+			assertTrue(streams.isEmpty());
+		});
+	}
+
+	@Test
+	public void testGetActivityStreams_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = stravaWithViewPrivate().getActivityStreams(TestUtils.ACTIVITY_PRIVATE);
+			assertNotNull(streams);
+			assertFalse(streams.isEmpty());
 		});
 	}
 
