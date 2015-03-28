@@ -51,16 +51,15 @@ public class GetSegmentStreamsTest extends StravaTest {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
-						strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, resolutionType,
-								StravaStreamSeriesDownsamplingType.TIME);
+						strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final IllegalArgumentException e) {
 						// expected
-				return;
+						return;
+					}
+					fail("Can't return a segment stream which is downsampled by TIME!");
+				}
 			}
-			fail("Can't return a segment stream which is downsampled by TIME!");
-		}
-	}
-})		;
+		})	  ;
 	}
 
 	// 9. Invalid downsample resolution
@@ -82,8 +81,7 @@ public class GetSegmentStreamsTest extends StravaTest {
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamResolutionType.LOW,
-						StravaStreamSeriesDownsamplingType.UNKNOWN);
+				strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -119,8 +117,7 @@ public class GetSegmentStreamsTest extends StravaTest {
 	@Test
 	public void testGetSegmentStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, null,
-					StravaStreamType.DISTANCE);
+			final List<StravaStream> streams = strava().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, null, StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
 			assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -156,6 +153,16 @@ public class GetSegmentStreamsTest extends StravaTest {
 			}
 			fail("Shouldn't be able to return activity streams for private segments that don't belong to the authenticated user");
 		});
+	}
+
+	@Test
+	public void testGetSegmentStreams_privateSegmentWithViewPrivate() throws Exception {
+		fail("Not yet implemented!");
+	}
+
+	@Test
+	public void testGetSegmentStreams_privateSegmentWithoutViewPrivate() throws Exception {
+		fail("Not yet implemented!");
 	}
 
 	private void validateList(final List<StravaStream> streams) {
