@@ -36,7 +36,7 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNotNull(segment.getActivityType());
 			assertFalse("Segment " + segment.getId() + " has an unknown activity type",
 					segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
-			assertNull(segment.getAthleteCount());
+			// Optional sassertNull(segment.getAthleteCount());
 
 			// Can be null, if the athlete's never done the segment (and it's only returned with starred segments anyway)
 			if (segment.getAthletePrEffort() != null) {
