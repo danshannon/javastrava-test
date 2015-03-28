@@ -30,8 +30,9 @@ public class ActivityServiceUtils {
 	 * @throws BadRequestException
 	 * @throws NotFoundException
 	 */
-	public static StravaComment createPrivateActivityWithComment() throws NotFoundException, BadRequestException {
+	public static StravaComment createPrivateActivityWithComment(final String name) throws NotFoundException, BadRequestException {
 		final StravaActivity activity = TestUtils.createDefaultActivity("DeleteCommentTest.createPrivateActivityWithComments");
+		activity.setName(name);
 		activity.setPrivateActivity(Boolean.TRUE);
 		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
