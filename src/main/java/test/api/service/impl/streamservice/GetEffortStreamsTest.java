@@ -77,8 +77,7 @@ public class GetEffortStreamsTest extends StravaTest {
 	public void testGetEffortStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW,
-						StravaStreamSeriesDownsamplingType.UNKNOWN);
+				strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -114,8 +113,7 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null,
-					StravaStreamType.DISTANCE);
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
 			assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -151,6 +149,26 @@ public class GetEffortStreamsTest extends StravaTest {
 			}
 			fail("Shouldn't be able to return effort streams for activities that don't belong to the authenticated user");
 		});
+	}
+
+	@Test
+	public void testGetEffortStreams_privateActivityWithoutViewPrivate() throws Exception {
+		fail("Not yet implemented!");
+	}
+
+	@Test
+	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
+		fail("Not yet implemented!");
+	}
+
+	@Test
+	public void testGetEffortStreams_privateSegmentWithoutViewPrivate() throws Exception {
+		fail("Not yet implemented!");
+	}
+
+	@Test
+	public void testGetEffortStreams_privateSegmentWithViewPrivate() throws Exception {
+		fail("Not yet implemented!");
 	}
 
 	private void validateList(final List<StravaStream> streams) {
