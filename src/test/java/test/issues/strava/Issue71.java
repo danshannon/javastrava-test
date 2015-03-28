@@ -9,6 +9,7 @@ import javastrava.api.v3.rest.API;
 
 import org.junit.Test;
 
+import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -25,16 +26,18 @@ import test.utils.TestUtils;
  */
 public class Issue71 {
 	@Test
-	public void testIssue() {
-		final API api = new API(TestUtils.getValidToken());
-		final StravaSegment[] segments = api.listAuthenticatedAthleteStarredSegments(null, null);
-		boolean issue = false;
-		for (final StravaSegment segment : segments) {
-			if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
-				issue = true;
+	public void testIssue() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final API api = new API(TestUtils.getValidToken());
+			final StravaSegment[] segments = api.listAuthenticatedAthleteStarredSegments(null, null);
+			boolean issue = false;
+			for (final StravaSegment segment : segments) {
+				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+					issue = true;
+				}
 			}
-		}
-		assertTrue(issue);
+			assertTrue(issue);
+		});
 	}
 
 }
