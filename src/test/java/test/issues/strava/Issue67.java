@@ -32,7 +32,7 @@ public class Issue67 {
 	public void testIssue() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
+			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment("Issue67.testIssue()");
 			final List<StravaComment> comments = Arrays.asList(api.listActivityComments(comment.getActivityId(), null, null, null));
 			assertNotNull(comments);
 			assertFalse(comments.isEmpty());
