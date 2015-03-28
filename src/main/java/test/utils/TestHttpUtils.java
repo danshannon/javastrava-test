@@ -29,7 +29,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 

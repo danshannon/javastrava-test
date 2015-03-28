@@ -15,7 +15,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import org.junit.Test;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class TokenManagerTest {

@@ -4,7 +4,7 @@ import javastrava.api.v3.auth.model.TokenResponse;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class TokenResponseTest extends BeanTest<TokenResponse> {

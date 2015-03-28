@@ -13,7 +13,7 @@ import test.utils.TestUtils;
 /**
  * Issue test for javastrava-api #69
  * 
- * @author dshannon
+ * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/69">https://github.com/danshannon/javastravav3api/issues/69</a>
  */
 public class Issue69 {

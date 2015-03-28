@@ -4,7 +4,7 @@ import javastrava.model.SegmentEffort;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class SegmentEffortTest extends BeanTest<SegmentEffort> {

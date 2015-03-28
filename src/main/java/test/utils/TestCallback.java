@@ -4,7 +4,7 @@
 package test.utils;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public interface TestCallback {

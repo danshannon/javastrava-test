@@ -3,7 +3,7 @@ package test.json.impl.gson.serializer;
 import javastrava.api.v3.model.reference.StravaStreamType;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StreamTypeSerializerTest extends EnumSerializerTest<StravaStreamType> {

@@ -7,7 +7,7 @@ import javastrava.api.v3.model.reference.StravaGender;
 import org.junit.Test;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaGenderTest {

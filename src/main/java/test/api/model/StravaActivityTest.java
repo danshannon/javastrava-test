@@ -17,7 +17,7 @@ import test.utils.BeanTest;
 import test.utils.TestUtils;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaActivityTest extends BeanTest<StravaActivity> {

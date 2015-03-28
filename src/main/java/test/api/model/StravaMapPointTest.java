@@ -6,7 +6,7 @@ import javastrava.api.v3.model.StravaMapPoint;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaMapPointTest extends BeanTest<StravaMapPoint> {

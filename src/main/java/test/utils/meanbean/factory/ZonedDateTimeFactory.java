@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 import org.meanbean.lang.Factory;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class ZonedDateTimeFactory implements Factory<ZonedDateTime> {

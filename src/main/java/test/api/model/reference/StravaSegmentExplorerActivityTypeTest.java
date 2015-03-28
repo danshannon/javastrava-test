@@ -7,7 +7,7 @@ import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
 import org.junit.Test;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaSegmentExplorerActivityTypeTest {

@@ -15,7 +15,7 @@ import test.apicheck.api.ResponseValidator;
 import test.utils.TestUtils;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class GearAPITest {

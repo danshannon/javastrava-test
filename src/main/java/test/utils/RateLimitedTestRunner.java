@@ -7,7 +7,7 @@ import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
 import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public class RateLimitedTestRunner {

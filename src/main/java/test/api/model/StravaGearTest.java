@@ -12,7 +12,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaGearTest extends BeanTest<StravaGear> {

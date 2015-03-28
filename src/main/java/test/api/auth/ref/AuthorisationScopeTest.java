@@ -7,7 +7,7 @@ import javastrava.api.v3.auth.ref.AuthorisationScope;
 import org.junit.Test;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class AuthorisationScopeTest {

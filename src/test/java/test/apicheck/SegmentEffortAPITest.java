@@ -15,7 +15,7 @@ import test.apicheck.api.SegmentEffortAPI;
 import test.utils.TestUtils;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class SegmentEffortAPITest {

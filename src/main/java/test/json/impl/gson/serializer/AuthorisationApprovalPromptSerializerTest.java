@@ -3,7 +3,7 @@ package test.json.impl.gson.serializer;
 import javastrava.api.v3.auth.ref.AuthorisationApprovalPrompt;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class AuthorisationApprovalPromptSerializerTest extends EnumSerializerTest<AuthorisationApprovalPrompt> {

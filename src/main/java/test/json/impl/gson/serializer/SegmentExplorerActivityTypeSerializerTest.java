@@ -3,7 +3,7 @@ package test.json.impl.gson.serializer;
 import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class SegmentExplorerActivityTypeSerializerTest extends EnumSerializerTest<StravaSegmentExplorerActivityType> {

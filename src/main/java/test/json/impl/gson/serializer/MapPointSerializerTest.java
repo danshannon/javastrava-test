@@ -12,7 +12,7 @@ import javastrava.json.exception.JsonSerialisationException;
 import org.junit.Test;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class MapPointSerializerTest extends SerializerTest<StravaMapPoint> {

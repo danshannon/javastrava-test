@@ -5,7 +5,7 @@ import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
 import test.utils.BeanTest;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class StravaActivityZoneDistributionBucketTest extends BeanTest<StravaActivityZoneDistributionBucket> {

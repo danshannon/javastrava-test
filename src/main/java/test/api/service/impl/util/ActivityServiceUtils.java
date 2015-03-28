@@ -12,7 +12,7 @@ import test.api.model.StravaCommentTest;
 import test.utils.TestUtils;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public class ActivityServiceUtils {
@@ -35,8 +35,7 @@ public class ActivityServiceUtils {
 		activity.setPrivateActivity(Boolean.TRUE);
 		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
-		final StravaComment comment = TestUtils.stravaWithFullAccess().createComment(response.getId(),
-				"DeleteCommentTest.createPrivateActivityWithComments");
+		final StravaComment comment = TestUtils.stravaWithFullAccess().createComment(response.getId(), "DeleteCommentTest.createPrivateActivityWithComments");
 		StravaCommentTest.validateComment(comment);
 		return comment;
 	}

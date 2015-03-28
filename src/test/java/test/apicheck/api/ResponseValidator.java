@@ -41,7 +41,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class ResponseValidator {

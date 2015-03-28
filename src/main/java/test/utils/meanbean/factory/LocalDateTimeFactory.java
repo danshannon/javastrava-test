@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.meanbean.lang.Factory;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class LocalDateTimeFactory implements Factory<LocalDateTime> {

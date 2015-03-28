@@ -3,7 +3,7 @@ package test.json.impl.gson.serializer;
 import javastrava.api.v3.model.reference.StravaFollowerState;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class FollowerStateSerializerTest extends EnumSerializerTest<StravaFollowerState> {

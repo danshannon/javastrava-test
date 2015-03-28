@@ -3,7 +3,7 @@ package test.json.impl.gson.serializer;
 import javastrava.api.v3.auth.ref.AuthorisationResponseType;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class AuthorisationResponseTypeSerializerTest extends EnumSerializerTest<AuthorisationResponseType> {
