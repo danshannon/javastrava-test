@@ -1,6 +1,8 @@
 package test.api.service.impl.segmentservice;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -21,6 +23,32 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends StravaTest {
 			for (final StravaSegment segment : segments) {
 				StravaSegmentTest.validateSegment(segment);
 			}
+		});
+	}
+
+	@Test
+	public void testListAllAuthenticatedAthleteStarredSegments_privateWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegment> segments = strava().listAllAuthenticatedAthleteStarredSegments();
+			for (final StravaSegment segment : segments) {
+				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+					fail("Returned at least one private starred segment");
+				}
+			}
+		});
+	}
+
+	@Test
+	public void testListAllAuthenticatedAthleteStarredSegments_privateWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegment> segments = stravaWithViewPrivate().listAllAuthenticatedAthleteStarredSegments();
+			boolean pass = false;
+			for (final StravaSegment segment : segments) {
+				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+					pass = true;
+				}
+			}
+			assertTrue(pass);
 		});
 	}
 }

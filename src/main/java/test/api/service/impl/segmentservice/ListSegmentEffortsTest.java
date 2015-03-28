@@ -34,8 +34,8 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			final LocalDateTime startDate = LocalDateTime.of(2009, Month.JANUARY, 1, 0, 0, 0);
 			final LocalDateTime endDate = LocalDateTime.of(2015, Month.JANUARY, 31, 23, 59, 59);
 
-			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID,
-					TestUtils.ATHLETE_AUTHENTICATED_ID, startDate, endDate, new Paging(1, 1));
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, startDate,
+					endDate, new Paging(1, 1));
 			assertNotNull(efforts);
 			assertFalse(efforts.isEmpty());
 			assertEquals(1, efforts.size());
@@ -56,8 +56,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
 			final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
 
-			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate,
-					endDate);
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, endDate);
 			assertNotNull(efforts);
 			assertFalse(0 == efforts.size());
 			for (final StravaSegmentEffort effort : efforts) {
@@ -90,8 +89,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	@Test
 	public void testListSegmentEfforts_filterByInvalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID,
-					TestUtils.ATHLETE_INVALID_ID, null, null);
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null);
 			assertNull(efforts);
 		});
 	}
@@ -102,8 +100,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-			final List<StravaSegmentEffort> efforts = strava()
-					.listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate, null);
 			assertNotNull(efforts);
 			assertFalse(0 == efforts.size());
 			for (final StravaSegmentEffort effort : efforts) {
@@ -118,8 +115,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	@Test
 	public void testListSegmentEfforts_filterByValidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID,
-					TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
 			assertNotNull(efforts);
 			assertFalse(0 == efforts.size());
 			for (final StravaSegmentEffort effort : efforts) {
@@ -157,6 +153,26 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 			assertFalse(efforts.size() == 0);
 			validateList(efforts);
 		});
+	}
+
+	@Test
+	public void testListSegmentEfforts_privateSegmentWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID);
+			// Should return an empty list
+				assertNotNull(efforts);
+				assertEquals(0, efforts.size());
+			});
+	}
+
+	@Test
+	public void testListSegmentEfforts_privateSegmentWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegmentEffort> efforts = stravaWithViewPrivate().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID);
+			// Should not return an empty list
+				assertNotNull(efforts);
+				assertFalse(efforts.isEmpty());
+			});
 	}
 
 	@Override

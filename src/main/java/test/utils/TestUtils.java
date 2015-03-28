@@ -128,77 +128,79 @@ public class TestUtils {
 
 	}
 
-	public static String			USERNAME;
-	public static String			PASSWORD;
-	public static Integer			STRAVA_APPLICATION_ID;
-	public static String			STRAVA_CLIENT_SECRET;
-	public static Token				INVALID_TOKEN;
-	public static Integer			ACTIVITY_WITH_EFFORTS;
-	public static Integer			ACTIVITY_WITH_PHOTOS;
+	public static String USERNAME;
+	public static String PASSWORD;
+	public static Integer STRAVA_APPLICATION_ID;
+	public static String STRAVA_CLIENT_SECRET;
+	public static Token INVALID_TOKEN;
+	public static Integer ACTIVITY_WITH_EFFORTS;
+	public static Integer ACTIVITY_WITH_PHOTOS;
 
-	public static Integer			ACTIVITY_WITHOUT_PHOTOS;
-	public static Integer			ACTIVITY_FOR_AUTHENTICATED_USER;
-	public static Integer			ACTIVITY_FOR_UNAUTHENTICATED_USER;
-	public static Integer			ACTIVITY_INVALID;
-	public static Integer			ACTIVITY_WITH_COMMENTS;
-	public static Integer			ACTIVITY_WITHOUT_COMMENTS;
+	public static Integer ACTIVITY_WITHOUT_PHOTOS;
+	public static Integer ACTIVITY_FOR_AUTHENTICATED_USER;
+	public static Integer ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	public static Integer ACTIVITY_INVALID;
+	public static Integer ACTIVITY_WITH_COMMENTS;
+	public static Integer ACTIVITY_WITHOUT_COMMENTS;
 
-	public static Integer			ACTIVITY_WITH_KUDOS;
-	public static Integer			ACTIVITY_WITHOUT_KUDOS;
-	public static Integer			ACTIVITY_WITH_LAPS;
-	public static Integer			ACTIVITY_WITHOUT_LAPS;
-	public static Integer			ACTIVITY_WITH_ZONES;
-	public static Integer			ACTIVITY_WITHOUT_ZONES;
+	public static Integer ACTIVITY_WITH_KUDOS;
+	public static Integer ACTIVITY_WITHOUT_KUDOS;
+	public static Integer ACTIVITY_WITH_LAPS;
+	public static Integer ACTIVITY_WITHOUT_LAPS;
+	public static Integer ACTIVITY_WITH_ZONES;
+	public static Integer ACTIVITY_WITHOUT_ZONES;
 
-	public static Integer			ACTIVITY_PRIVATE_OTHER_USER;
-	public static Integer			ACTIVITY_PRIVATE;
-	public static Integer			ACTIVITY_PRIVATE_WITH_PHOTOS;
-	
-	public static Integer			ACTIVITY_RUN_OTHER_USER;
+	public static Integer ACTIVITY_PRIVATE_OTHER_USER;
+	public static Integer ACTIVITY_PRIVATE;
+	public static Integer ACTIVITY_PRIVATE_WITH_PHOTOS;
 
-	public static Integer			ATHLETE_AUTHENTICATED_ID;
-	public static Integer			ATHLETE_VALID_ID;
-	public static Integer			ATHLETE_INVALID_ID;
-	public static Integer			ATHLETE_WITHOUT_KOMS;
+	public static Integer ACTIVITY_RUN_OTHER_USER;
 
-	public static Integer			ATHLETE_WITHOUT_FRIENDS;
-	public static Integer			ATHLETE_PRIVATE_ID;
-	public static Integer			CLUB_VALID_ID;
-	public static Integer			CLUB_INVALID_ID;
-	public static Integer			CLUB_PUBLIC_MEMBER_ID;
+	public static Integer ATHLETE_AUTHENTICATED_ID;
+	public static Integer ATHLETE_VALID_ID;
+	public static Integer ATHLETE_INVALID_ID;
+	public static Integer ATHLETE_WITHOUT_KOMS;
 
-	public static Integer			CLUB_PUBLIC_NON_MEMBER_ID;
-	public static Integer			CLUB_PRIVATE_MEMBER_ID;
+	public static Integer ATHLETE_WITHOUT_FRIENDS;
+	public static Integer ATHLETE_PRIVATE_ID;
+	public static Integer CLUB_VALID_ID;
+	public static Integer CLUB_INVALID_ID;
+	public static Integer CLUB_PUBLIC_MEMBER_ID;
 
-	public static Integer			CLUB_PRIVATE_NON_MEMBER_ID;
+	public static Integer CLUB_PUBLIC_NON_MEMBER_ID;
+	public static Integer CLUB_PRIVATE_MEMBER_ID;
 
-	public static String			GEAR_VALID_ID;
+	public static Integer CLUB_PRIVATE_NON_MEMBER_ID;
 
-	public static String			GEAR_INVALID_ID;
+	public static String GEAR_VALID_ID;
 
-	public static String			GEAR_OTHER_ATHLETE_ID;
+	public static String GEAR_INVALID_ID;
 
-	public static Long				SEGMENT_EFFORT_VALID_ID;
+	public static String GEAR_OTHER_ATHLETE_ID;
 
-	public static Long				SEGMENT_EFFORT_INVALID_ID;
+	public static Long SEGMENT_EFFORT_VALID_ID;
 
-	public static Long				SEGMENT_EFFORT_PRIVATE_ID;
+	public static Long SEGMENT_EFFORT_INVALID_ID;
 
-	public static Long				SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+	public static Long SEGMENT_EFFORT_PRIVATE_ID;
 
-	public static Integer			SEGMENT_VALID_ID;
+	public static Long SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 
-	public static Integer			SEGMENT_INVALID_ID;
+	public static Integer SEGMENT_VALID_ID;
 
-	public static Integer			SEGMENT_PRIVATE_ID;
+	public static Integer SEGMENT_INVALID_ID;
 
-	public static Integer			SEGMENT_OTHER_USER_PRIVATE_ID;
+	public static Integer SEGMENT_PRIVATE_ID;
 
-	public static Integer			SEGMENT_HAZARDOUS_ID;
+	public static Integer SEGMENT_OTHER_USER_PRIVATE_ID;
 
-	private static final String		PROPERTIES_FILE	= "test-config";
+	public static Integer SEGMENT_HAZARDOUS_ID;
 
-	private static ResourceBundle	properties;
+	public static Integer SEGMENT_PRIVATE_STARRED_ID;
+
+	private static final String PROPERTIES_FILE = "test-config";
+
+	private static ResourceBundle properties;
 
 	static {
 		try {
@@ -226,10 +228,8 @@ public class TestUtils {
 		ACTIVITY_WITHOUT_LAPS = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutLaps"));
 		ACTIVITY_WITH_ZONES = new Integer(properties.getString("test.activityServicesImplTest.activityWithZones"));
 		ACTIVITY_WITHOUT_ZONES = new Integer(properties.getString("test.activityServicesImplTest.activityWithoutZones"));
-		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(
-				properties.getString("test.activityServicesImplTest.activityBelongingToAuthenticatedUser"));
-		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(
-				properties.getString("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
+		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToAuthenticatedUser"));
+		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityServicesImplTest.activityBelongingToUnauthenticatedUser"));
 		ACTIVITY_INVALID = new Integer(properties.getString("test.activityServicesImplTest.activityInvalid"));
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityServicesImplTest.activityPrivateOtherUser");
 		ACTIVITY_PRIVATE = integerProperty("test.activityServicesImplTest.activityPrivateAuthenticatedUser");
@@ -264,6 +264,7 @@ public class TestUtils {
 		SEGMENT_PRIVATE_ID = integerProperty("test.segmentServicesImplTest.segmentPrivateId");
 		SEGMENT_OTHER_USER_PRIVATE_ID = integerProperty("test.segmentServicesImplTest.segmentOtherUserPrivateId");
 		SEGMENT_HAZARDOUS_ID = integerProperty("test.segmentServicesImplTest.segmentHazardousId");
+		SEGMENT_PRIVATE_STARRED_ID = integerProperty("test.segmentServicesImplTest.segmentPrivateStarredId");
 	}
 
 }

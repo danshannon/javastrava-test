@@ -48,15 +48,16 @@ public class DeleteCommentTest extends StravaTest {
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make
-	 * activity private, try to delete comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make activity private, try to delete
+	 * comment)
 	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testDeleteComment_privateActivityAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
+			final StravaComment comment = ActivityServiceUtils
+					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityAuthenticatedUser");
 
 			// Attempt to delete with full access
 			try {
@@ -70,17 +71,18 @@ public class DeleteCommentTest extends StravaTest {
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE
-	 * scope (create activity, create comment, make activity private, try to delete comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE scope (create activity,
+	 * create comment, make activity private, try to delete comment)
 	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testDeleteComment_privateActivityNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment();
+			final StravaComment comment = ActivityServiceUtils
+					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityNoViewPrivate");
 
-			// Attempt to delete with full access
+			// Attempt to delete with write access (but not view_private)
 			try {
 				stravaWithWriteAccess().deleteComment(comment);
 				forceDeleteActivity(comment.getActivityId());

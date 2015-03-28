@@ -95,22 +95,42 @@ public class CreateCommentTest extends StravaTest {
 
 	/**
 	 * Can we create a comment on an activity flagged by the authenticated user as private, with view_private scope?
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testCreateComment_privateActivityAuthenticatedUser() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			StravaComment comment = null;
+			try {
+				comment = stravaWithViewPrivate().createComment(TestUtils.ACTIVITY_PRIVATE, "Test - ignore");
+			} catch (final UnauthorizedException e) {
+				// expected behaviour
+				return;
+			}
+			stravaWithFullAccess().deleteComment(comment);
+			fail("Created a comment with view_private, but not write scope");
+		});
 	}
 
 	/**
 	 * Can we create a comment on an activity flagged by the authenticated user as private, without view_private scope?
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testCreateComment_privateActivityNoViewPrivate() throws Exception {
-		fail("Not yet implemented");
+		RateLimitedTestRunner.run(() -> {
+			StravaComment comment = null;
+			try {
+				comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_PRIVATE, "Test - ignore");
+			} catch (final UnauthorizedException e) {
+				// expected behaviour
+				return;
+			}
+			stravaWithFullAccess().deleteComment(comment);
+			fail("Created a comment without view_private scope");
+		});
 	}
 
 	@Test
