@@ -279,7 +279,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getMovingTime());
 			assertNull(activity.getName());
 			assertNull(activity.getPhotoCount());
-			assertNull(activity.getPrivateActivity());
+			// assertNull(activity.getPrivateActivity());
 			assertNull(activity.getSegmentEfforts());
 			assertNull(activity.getSplitsMetric());
 			assertNull(activity.getSplitsStandard());

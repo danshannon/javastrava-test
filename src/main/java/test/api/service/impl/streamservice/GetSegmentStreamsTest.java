@@ -1,8 +1,10 @@
 package test.api.service.impl.streamservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -157,12 +159,20 @@ public class GetSegmentStreamsTest extends StravaTest {
 
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			List<StravaStream> streams = stravaWithViewPrivate().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID);
+			assertNotNull(streams);
+			assertFalse(streams.isEmpty());
+		});
 	}
 
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithoutViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			List<StravaStream> streams = strava().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID);
+			assertNotNull(streams);
+			assertTrue(streams.isEmpty());
+		});
 	}
 
 	private void validateList(final List<StravaStream> streams) {

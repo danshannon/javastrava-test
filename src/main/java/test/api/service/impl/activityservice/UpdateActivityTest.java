@@ -25,13 +25,14 @@ public class UpdateActivityTest extends StravaTest {
 	 * @param update
 	 *            The update to apply
 	 * @return The activity as it was created on Strava (although it is ALWAYS deleted again)
+	 * @throws Exception if not found
 	 */
-	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) {
+	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception  {
 		final StravaActivity response = stravaWithWriteAccess().createManualActivity(activity);
 		StravaActivity updateResponse = null;
 		try {
 			updateResponse = stravaWithWriteAccess().updateActivity(response.getId(), update);
-		} catch (final Throwable e) {
+		} catch (final Exception e) {
 			forceDeleteActivity(response);
 			throw e;
 		}
