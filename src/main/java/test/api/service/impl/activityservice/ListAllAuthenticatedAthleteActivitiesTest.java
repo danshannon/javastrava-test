@@ -9,6 +9,7 @@ import java.time.Month;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
@@ -38,7 +39,9 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(null, after);
 			for (final StravaActivity activity : activities) {
 				StravaActivityTest.validateActivity(activity);
-				assertTrue(activity.getStartDateLocal().isAfter(after));
+				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
+					assertTrue(activity.getStartDateLocal().isAfter(after));
+				}
 			}
 		});
 	}
@@ -50,7 +53,9 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			final List<StravaActivity> activities = strava().listAllAuthenticatedAthleteActivities(before, null);
 			for (final StravaActivity activity : activities) {
 				StravaActivityTest.validateActivity(activity);
-				assertTrue(activity.getStartDateLocal().isBefore(before));
+				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
+					assertTrue(activity.getStartDateLocal().isBefore(before));
+				}
 			}
 		});
 	}
@@ -79,7 +84,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testListAllAuthenticatedAthleteActivities_withViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -107,13 +112,13 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends StravaTest {
 						new API(TestUtils.getValidToken()).getActivity(activity.getId(), null);
 					} catch (UnauthorizedException e) {
 						// expected
-					}
-					// TODO Workaround for issue #68
-					// fail("Returned private activity" + activity);
-					// End of workaround
-				}
 			}
-		});
+			// TODO Workaround for issue #68
+			// fail("Returned private activity" + activity);
+			// End of workaround
+		}
+	}
+})		;
 	}
 
 }

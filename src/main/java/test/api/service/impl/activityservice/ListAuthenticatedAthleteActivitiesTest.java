@@ -44,8 +44,10 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(null, calendar);
 			for (final StravaActivity activity : activities) {
+				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				}
 				StravaActivityTest.validateActivity(activity);
 			}
 		});
@@ -159,7 +161,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			assertNotNull("Authenticated athlete's activities returned as null", activities);
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size());
 			for (final StravaActivity activity : activities) {
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
+					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				}
 				StravaActivityTest.validateActivity(activity);
 			}
 		});

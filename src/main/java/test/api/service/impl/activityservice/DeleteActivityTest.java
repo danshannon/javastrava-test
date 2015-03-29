@@ -69,7 +69,7 @@ public class DeleteActivityTest extends StravaTest {
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivity");
 			activity.setPrivateActivity(Boolean.TRUE);
-			final StravaActivity createResponse = stravaWithWriteAccess().createManualActivity(activity);
+			final StravaActivity createResponse = stravaWithFullAccess().createManualActivity(activity);
 			assertEquals(Boolean.TRUE, createResponse.getPrivateActivity());
 			StravaActivity deleteResponse = null;
 			try {
@@ -88,7 +88,7 @@ public class DeleteActivityTest extends StravaTest {
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivityNoViewPrivate");
 			activity.setPrivateActivity(Boolean.TRUE);
-			final StravaActivity createResponse = stravaWithWriteAccess().createManualActivity(activity);
+			final StravaActivity createResponse = stravaWithFullAccess().createManualActivity(activity);
 			try {
 				stravaWithWriteAccess().deleteActivity(createResponse.getId());
 			} catch (final UnauthorizedException e) {

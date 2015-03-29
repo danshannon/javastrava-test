@@ -143,7 +143,7 @@ public class GetActivityTest extends StravaTest {
 				assertNotNull(activity);
 				final StravaActivity comparisonActivity = new StravaActivity();
 				comparisonActivity.setId(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-				comparisonActivity.setResourceState(StravaResourceState.META);
+				comparisonActivity.setResourceState(StravaResourceState.PRIVATE);
 				assertEquals(comparisonActivity, activity);
 				StravaActivityTest.validateActivity(activity);
 			});
@@ -164,7 +164,7 @@ public class GetActivityTest extends StravaTest {
 			} finally {
 				forceDeleteActivity(response);
 			}
-			StravaActivityTest.validateActivity(response, response.getId(), StravaResourceState.META);
+			StravaActivityTest.validateActivity(response, response.getId(), StravaResourceState.PRIVATE);
 		});
 	}
 
