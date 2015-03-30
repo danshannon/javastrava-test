@@ -31,16 +31,14 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
 
-		if (state == StravaResourceState.DETAILED || state == StravaResourceState.SUMMARY) {
+		if ((state == StravaResourceState.DETAILED) || (state == StravaResourceState.SUMMARY)) {
 			if (effort.getActivity() != null) {
-				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(), effort.getActivity()
-						.getResourceState());
+				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(), effort.getActivity().getResourceState());
 			}
 			if (effort.getAthlete() != null) {
-				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete()
-						.getResourceState());
+				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
 			}
-			if (effort.getActivity() != null && effort.getActivity().getAthlete() != null) {
+			if ((effort.getActivity() != null) && (effort.getActivity().getAthlete() != null)) {
 				assertEquals(effort.getActivity().getAthlete().getId(), effort.getAthlete().getId());
 			}
 			// Only returned for rides, and then only if it was measured
@@ -138,7 +136,7 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 			// assertNotNull(effort.getStartIndex());
 			return;
 		}
-		if (state == StravaResourceState.META) {
+		if ((state == StravaResourceState.META) || (state == StravaResourceState.PRIVATE)) {
 			assertNotNull(effort.getId());
 			assertNull(effort.getActivity());
 			assertNull(effort.getAthlete());

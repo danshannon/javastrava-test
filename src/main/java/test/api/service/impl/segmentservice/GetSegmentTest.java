@@ -28,8 +28,7 @@ public class GetSegmentTest extends StravaTest {
 	public void testGetSegment_otherUserPrivateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-			assertEquals(StravaResourceState.PRIVATE, segment.getResourceState());
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, StravaResourceState.META);
+			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, StravaResourceState.PRIVATE);
 		});
 	}
 
@@ -39,7 +38,7 @@ public class GetSegmentTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
 			assertNotNull(segment);
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.META);
+			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.PRIVATE);
 		});
 	}
 

@@ -20,19 +20,18 @@ public class StravaMapTest extends BeanTest<StravaMap> {
 	 * @param id
 	 * @param state
 	 */
-	public static void validateMap(final StravaMap map, final String id, final StravaResourceState state,
-			final StravaActivity activity) {
+	public static void validateMap(final StravaMap map, final String id, final StravaResourceState state, final StravaActivity activity) {
 		assertNotNull(map);
 		assertEquals(id, map.getId());
 		assertEquals(state, map.getResourceState());
 
-		if (activity != null && (activity.getManual() || activity.getTrainer())) {
+		if ((activity != null) && (activity.getManual() || activity.getTrainer())) {
 			return;
 		}
 
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(map.getPolyline());
-			assertNotNull(map.getSummaryPolyline());
+			// Optional ßassertNotNull(map.getSummaryPolyline());
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNull(map.getPolyline());
@@ -42,7 +41,7 @@ public class StravaMapTest extends BeanTest<StravaMap> {
 			assertNotNull(map.getPolyline());
 			assertNotNull(map.getSummaryPolyline());
 		}
-		if (state == StravaResourceState.UNKNOWN || state == StravaResourceState.UPDATING) {
+		if ((state == StravaResourceState.UNKNOWN) || (state == StravaResourceState.UPDATING)) {
 			fail("Unexpected state " + state + " for map " + map);
 		}
 

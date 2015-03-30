@@ -40,7 +40,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
 			for (final StravaSegment segment : segments) {
-				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
 					fail("Returned at least one private starred segment");
 				}
 			}
@@ -53,7 +53,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
-				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
 					pass = true;
 				}
 			}

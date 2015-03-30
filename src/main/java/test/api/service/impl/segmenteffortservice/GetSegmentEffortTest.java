@@ -42,7 +42,7 @@ public class GetSegmentEffortTest extends StravaTest {
 			StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
 			final StravaSegmentEffort comparison = new StravaSegmentEffort();
 			comparison.setId(id);
-			comparison.setResourceState(StravaResourceState.META);
+			comparison.setResourceState(StravaResourceState.PRIVATE);
 			assertEquals(comparison, effort);
 		});
 	}
