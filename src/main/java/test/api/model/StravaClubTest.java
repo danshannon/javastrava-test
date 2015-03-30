@@ -61,7 +61,7 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			assertNull(club.getState());
 			return;
 		}
-		if (state == StravaResourceState.META) {
+		if (state == StravaResourceState.META || state == StravaResourceState.PRIVATE) {
 			return;
 		}
 		fail("Unexpected state " + state + " for club " + club);

@@ -40,7 +40,7 @@ public class GetClubTest extends StravaTest {
 			final StravaClub club = strava().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			final StravaClub comparison = new StravaClub();
 			comparison.setId(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			comparison.setResourceState(StravaResourceState.META);
+			comparison.setResourceState(StravaResourceState.PRIVATE);
 			assertNotNull(club);
 			assertEquals(comparison, club);
 			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());

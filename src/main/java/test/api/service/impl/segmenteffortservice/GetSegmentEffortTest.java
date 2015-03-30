@@ -46,7 +46,46 @@ public class GetSegmentEffortTest extends StravaTest {
 			assertEquals(comparison, effort);
 		});
 	}
-
+	
+	/**
+	 * Check that an effort on a private activity is not returned
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetSegmentEffort_privateActivity() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			StravaSegmentEffort effort = strava().getSegmentEffort(5735858255L);
+			assertNotNull(effort);
+			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
+		});
+	}
+	
+	/**
+	 * Check that an effort on a private activity is  returned with view_private scope
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			StravaSegmentEffort effort = stravaWithViewPrivate().getSegmentEffort(5735858255L);
+			assertNotNull(effort);
+			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
+		});
+	}
+	
+	/**
+	 * Check that an effort on a private segment is not returned
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetSegmentEffort_privateSegment() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			StravaSegmentEffort effort = strava().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			assertNotNull(effort);
+			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
+		});		
+	}
+	
 	// Test cases
 	// 1. Valid effort
 	// 2. Invalid effort

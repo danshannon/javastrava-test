@@ -53,7 +53,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
-				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
+				if (segment.getResourceState() == StravaResourceState.PRIVATE) {
 					pass = true;
 				}
 			}

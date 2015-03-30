@@ -2,20 +2,18 @@ package test.utils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javastrava.api.v3.auth.TokenManager;
 import javastrava.api.v3.auth.TokenService;
 import javastrava.api.v3.auth.impl.retrofit.TokenServiceImpl;
 import javastrava.api.v3.auth.model.Token;
+import javastrava.api.v3.auth.model.TokenResponse;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.StravaService;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
@@ -43,12 +41,13 @@ public class TestUtils {
 	 * @return
 	 */
 	private static Token createToken(final String accessToken, final String username) {
-		final Token token = new Token();
-		token.setToken(accessToken);
-		token.setScopes(new ArrayList<AuthorisationScope>());
-		token.setAthlete(new StravaAthlete());
-		token.getAthlete().setEmail(username);
-		token.setServices(new HashMap<Class<? extends StravaService>, StravaService>());
+		final TokenResponse tokenResponse = new TokenResponse();
+		tokenResponse.setAccessToken(accessToken);
+		StravaAthlete athlete = new StravaAthlete();
+		athlete.setEmail(username);
+		tokenResponse.setAthlete(athlete);
+		tokenResponse.setTokenType("Bearer");
+		final Token token = new Token(tokenResponse);
 		return token;
 	}
 
@@ -185,6 +184,8 @@ public class TestUtils {
 	public static Long SEGMENT_EFFORT_PRIVATE_ID;
 
 	public static Long SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+	
+	public static Long SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
 
 	public static Integer SEGMENT_VALID_ID;
 
@@ -258,6 +259,7 @@ public class TestUtils {
 		SEGMENT_EFFORT_VALID_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortId");
 		SEGMENT_EFFORT_PRIVATE_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortPrivateId");
 		SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortOtherUserPrivateId");
+		SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID = longProperty("test.segmentEffortServicesImplTest.segmentEffortPrivateActivityId");
 
 		SEGMENT_VALID_ID = integerProperty("test.segmentServicesImplTest.segmentId");
 		SEGMENT_INVALID_ID = integerProperty("test.segmentServicesImplTest.segmentInvalidId");
