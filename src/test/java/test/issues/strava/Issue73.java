@@ -3,10 +3,9 @@
  */
 package test.issues.strava;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.rest.API;
 
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class Issue73 {
 			final API api = new API(TestUtils.getValidToken());
 			final StravaSegmentLeaderboard leaderboard = api.getSegmentLeaderboard(1190741, null, null, null, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
-			assertEquals(StravaResourceState.PRIVATE, leaderboard.getResourceState());
+			assertNotEquals(0, leaderboard.getEntries());
 		});
 	}
 }
