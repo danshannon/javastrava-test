@@ -142,7 +142,7 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_validEffortUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
 			assertNotNull(streams);
 			assertTrue(streams.isEmpty());
 		});
@@ -151,16 +151,16 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaStream> streams = strava().getEffortStreams(5735858255L);
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			assertNotNull(streams);
-			assertFalse(streams.isEmpty());
+			assertTrue(streams.isEmpty());
 		});
 	}
 
 	@Test
 	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(5735858255L);
+			final List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			assertNotNull(streams);
 			assertFalse(streams.isEmpty());
 		});
@@ -169,7 +169,7 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
 			assertNotNull(streams);
 			assertTrue(streams.isEmpty());
 		});
@@ -178,7 +178,7 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_privateSegmentWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			final List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
 			assertNotNull(streams);
 			assertFalse(streams.isEmpty());
 		});
