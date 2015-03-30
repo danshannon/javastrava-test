@@ -31,7 +31,7 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegment> segments = strava().listAllAuthenticatedAthleteStarredSegments();
 			for (final StravaSegment segment : segments) {
-				if (segment.getPrivateSegment().equals(Boolean.TRUE)) {
+				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
 					fail("Returned at least one private starred segment");
 				}
 			}

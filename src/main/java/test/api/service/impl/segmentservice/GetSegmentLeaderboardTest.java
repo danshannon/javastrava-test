@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.model.reference.StravaAgeGroup;
@@ -158,7 +159,9 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	public void testGetSegmentLeaderboard_privateSegmentOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-			assertNull(leaderboard);
+			assertNotNull(leaderboard);
+			assertTrue(leaderboard.getEntries().isEmpty());
+			assertTrue(leaderboard.getAthleteEntries().isEmpty());
 		});
 	}
 

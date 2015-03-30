@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.jfairy.Fairy;
@@ -70,7 +71,13 @@ public class UpdateActivityTest extends StravaTest {
 			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_invalidActivity");
 			activity.setId(TestUtils.ACTIVITY_INVALID);
 
-			final StravaActivity response = stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+			StravaActivity response = null;
+			try {
+				response = stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+			} catch (NotFoundException e) {
+				// Expected
+				return;
+			}
 			assertNull("Updated an activity which doesn't exist?", response);
 		});
 	}

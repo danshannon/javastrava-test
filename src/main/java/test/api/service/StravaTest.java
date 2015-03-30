@@ -14,11 +14,20 @@ import test.utils.TestUtils;
  */
 public class StravaTest {
 	protected void forceDeleteActivity(final Integer activityId) {
-		stravaWithFullAccess().deleteActivity(activityId);
+		try {
+			stravaWithFullAccess().deleteActivity(activityId);
+		} catch (NotFoundException e) {
+			// ignore
+		}
 	}
 
 	protected StravaActivity forceDeleteActivity(final StravaActivity activity) {
-		return stravaWithFullAccess().deleteActivity(activity.getId());
+		try {
+			return stravaWithFullAccess().deleteActivity(activity.getId());
+		} catch (NotFoundException e) {
+			// Ignore
+			return null;
+		}
 	}
 
 	protected void forceDeleteComment(final StravaComment comment) {

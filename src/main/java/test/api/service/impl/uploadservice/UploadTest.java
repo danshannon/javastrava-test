@@ -8,6 +8,7 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaUploadResponse;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
@@ -122,7 +123,7 @@ public class UploadTest extends StravaTest {
 		});
 	}
 
-	private void waitForCompletionAndDelete(final StravaUploadResponse response) {
+	private void waitForCompletionAndDelete(final StravaUploadResponse response) throws NotFoundException {
 		final Integer id = response.getId();
 		StravaUploadResponse localResponse = null;
 		boolean loop = true;

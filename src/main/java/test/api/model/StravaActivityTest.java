@@ -243,7 +243,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			}
 			return;
 		}
-		if (state == StravaResourceState.META) {
+		if (state == StravaResourceState.META || state == StravaResourceState.PRIVATE) {
 			assertNull(activity.getAchievementCount());
 			assertNull(activity.getAthlete());
 			assertNull(activity.getName());
@@ -279,7 +279,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getMovingTime());
 			assertNull(activity.getName());
 			assertNull(activity.getPhotoCount());
-			// assertNull(activity.getPrivateActivity());
+			assertNull(activity.getPrivateActivity());
 			assertNull(activity.getSegmentEfforts());
 			assertNull(activity.getSplitsMetric());
 			assertNull(activity.getSplitsStandard());

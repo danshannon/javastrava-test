@@ -3,8 +3,9 @@ package test.api.service.impl.gearservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import javastrava.api.v3.auth.model.Token;
+import javastrava.api.v3.model.StravaGear;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.GearService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.GearServiceImpl;
@@ -30,8 +31,7 @@ public class ImplementationTest implements InstanceTestSpec {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second, valid, different token, we get a
-	 * DIFFERENT implementation
+	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
 	 *
 	 * @throws Exception
@@ -51,8 +51,8 @@ public class ImplementationTest implements InstanceTestSpec {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second time, we get the SAME ONE as the
-	 * first time (i.e. the caching strategy is working)
+	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
+	 * strategy is working)
 	 * </p>
 	 *
 	 * @throws Exception
@@ -81,14 +81,9 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			GearService service = null;
-			try {
-				service = GearServiceImpl.instance(TestUtils.INVALID_TOKEN);
-				service.getGear(TestUtils.GEAR_VALID_ID);
-			} catch (final UnauthorizedException e) {
-				// This is the expected behaviour
-				return;
-			}
-			fail("Have access despite having an invalid token!");
+			service = GearServiceImpl.instance(TestUtils.INVALID_TOKEN);
+			final StravaGear gear = service.getGear(TestUtils.GEAR_VALID_ID);
+			assertEquals(StravaResourceState.PRIVATE, gear.getResourceState());
 		});
 	}
 
@@ -108,13 +103,8 @@ public class ImplementationTest implements InstanceTestSpec {
 			final Token token = getRevokedToken();
 			final GearService service = GearServiceImpl.instance(token);
 
-			try {
-				service.getGear(TestUtils.GEAR_VALID_ID);
-			} catch (final UnauthorizedException e) {
-				// This is the expected behaviour
-				return;
-			}
-			fail("Have access despite having an invalid token!");
+			final StravaGear gear = service.getGear(TestUtils.GEAR_VALID_ID);
+			assertEquals(StravaResourceState.PRIVATE, gear.getResourceState());
 		});
 	}
 

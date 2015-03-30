@@ -53,11 +53,11 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 					if (lastStartDate == null) {
 						lastStartDate = activity.getStartDate();
 					} else {
-						if (activity.getStartDate().isAfter(lastStartDate)) {
+						if (activity.getResourceState() != StravaResourceState.PRIVATE && activity.getStartDate().isAfter(lastStartDate)) {
 							fail("Activities not returned in descending start date order");
 						}
 					}
-					StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
+					StravaActivityTest.validateActivity(activity);
 				}
 			});
 	}

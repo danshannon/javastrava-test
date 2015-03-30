@@ -3,8 +3,10 @@ package test.api.service.impl.activityservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.auth.model.Token;
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.ActivityServiceImpl;
@@ -72,14 +74,9 @@ public class ImplementationTest implements InstanceTestSpec {
 	@Test
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				final ActivityService service = ActivityServiceImpl.instance(TestUtils.INVALID_TOKEN);
-				service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			} catch (final UnauthorizedException e) {
-				// This is the expected behaviour
-				return;
-			}
-			fail("Got a service for an invalid token!");
+			final ActivityService service = ActivityServiceImpl.instance(TestUtils.INVALID_TOKEN);
+			StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			assertEquals(StravaResourceState.PRIVATE, activity.getResourceState());
 		});
 	}
 
@@ -100,15 +97,9 @@ public class ImplementationTest implements InstanceTestSpec {
 				final ActivityService activityServices = ActivityServiceImpl.instance(TestUtils.getRevokedToken());
 
 				// Check that it can't be used
-				try {
-					activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-				} catch (final UnauthorizedException e) {
-					// Expected behaviour
-					return;
-				}
+				final StravaActivity activity = activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				assertTrue(activity.getResourceState() == StravaResourceState.PRIVATE);
 
-				// If we get here, then the service is working despite the token being revoked
-				fail("Got a usable service implementation using a revoked token");
 			});
 	}
 

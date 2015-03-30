@@ -1,8 +1,10 @@
 package test.api.service.impl.streamservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -11,7 +13,6 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -141,34 +142,46 @@ public class GetEffortStreamsTest extends StravaTest {
 	@Test
 	public void testGetEffortStreams_validEffortUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Shouldn't be able to return effort streams for activities that don't belong to the authenticated user");
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID);
+			assertNotNull(streams);
+			assertTrue(streams.isEmpty());
 		});
 	}
 
 	@Test
 	public void testGetEffortStreams_privateActivityWithoutViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
+			assertNotNull(streams);
+			assertTrue(streams.isEmpty());
+		});
 	}
 
 	@Test
 	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
+			assertNotNull(streams);
+			assertFalse(streams.isEmpty());
+		});
 	}
 
 	@Test
 	public void testGetEffortStreams_privateSegmentWithoutViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			assertNotNull(streams);
+			assertTrue(streams.isEmpty());
+		});
 	}
 
 	@Test
 	public void testGetEffortStreams_privateSegmentWithViewPrivate() throws Exception {
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaStream> streams = stravaWithViewPrivate().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			assertNotNull(streams);
+			assertFalse(streams.isEmpty());
+		});
 	}
 
 	private void validateList(final List<StravaStream> streams) {
