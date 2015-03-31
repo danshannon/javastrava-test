@@ -1,4 +1,4 @@
-package test.api.service.impl.activityservice;
+package test.api.rest.activityapi;
 
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaComment;
@@ -6,7 +6,7 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
-import test.api.service.StravaTest;
+import test.api.rest.APITest;
 import test.api.service.impl.util.ActivityServiceUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -15,29 +15,29 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class DeleteCommentTest extends StravaTest {
+public class DeleteCommentTest extends APITest {
 	@Test
 	public void testDeleteComment_byComment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			stravaWithWriteAccess().deleteComment(comment);
+			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			apiWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
 	@Test
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
+			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			apiWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
 	@Test
 	public void testDeleteComment_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 			try {
-				strava().deleteComment(comment);
+				api().deleteComment(comment.getActivityId(), comment.getId());
 			} catch (final UnauthorizedException e) {
 				// Expected - delete the comment anyway
 				forceDeleteComment(comment);
@@ -61,7 +61,7 @@ public class DeleteCommentTest extends StravaTest {
 
 			// Attempt to delete with full access
 				try {
-					stravaWithFullAccess().deleteComment(comment);
+					apiWithFullAccess().deleteComment(comment.getActivityId(), comment.getId());
 					forceDeleteActivity(comment.getActivityId());
 					return;
 				} catch (final Exception e) {
@@ -85,7 +85,7 @@ public class DeleteCommentTest extends StravaTest {
 
 			// Attempt to delete with write access (but not view_private)
 				try {
-					stravaWithWriteAccess().deleteComment(comment);
+					apiWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 					forceDeleteActivity(comment.getActivityId());
 					fail("Deleted a comment on a private activity, but don't have VIEW_PRIVATE scope");
 				} catch (final UnauthorizedException e) {
