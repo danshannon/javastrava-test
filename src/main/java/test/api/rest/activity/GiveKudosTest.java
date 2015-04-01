@@ -1,4 +1,4 @@
-package test.api.rest.activityapi;
+package test.api.rest.activity;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
