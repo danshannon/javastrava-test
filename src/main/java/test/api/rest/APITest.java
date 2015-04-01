@@ -20,6 +20,9 @@ public class APITest {
 	}
 
 	protected StravaActivity forceDeleteActivity(final StravaActivity activity) {
+		if (activity == null) {
+			return null;
+		}
 		try {
 			return apiWithFullAccess().deleteActivity(activity.getId());
 		} catch (final NotFoundException e) {

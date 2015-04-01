@@ -3,7 +3,7 @@ package test.api.rest.activityapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -89,18 +89,26 @@ public class ListActivityKudoersTest extends PagingArrayMethodTest<StravaAthlete
 	@Test
 	public void testListActivityKudoers_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete[] kudoers = api().listActivityKudoers(TestUtils.ACTIVITY_INVALID, null, null);
-
-			assertNull("Returned a non-null array of kudoers for an invalid activity", kudoers);
+			try {
+				api().listActivityKudoers(TestUtils.ACTIVITY_INVALID, null, null);
+			} catch (final NotFoundException e) {
+				// Expected
+				return;
+			}
+			fail("Returned a non-null array of kudoers for an invalid activity");
 		});
 	}
 
 	@Test
 	public void testListActivityKudoers_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete[] kudoers = api().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null);
-			assertNotNull(kudoers);
-			assertEquals(0, kudoers.length);
+			try {
+				api().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned kudoers for a private activity belonging to other user");
 		});
 	}
 

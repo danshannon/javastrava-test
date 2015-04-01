@@ -29,20 +29,20 @@ public class DeleteActivityTest extends APITest {
 	public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Create the activity using a service which DOES have write access
-				final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
-				final StravaActivity stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
+			final StravaActivity stravaResponse = apiWithWriteAccess().createManualActivity(activity);
 
-				// Now get a token without write access and attempt to delete
-				try {
-					api().deleteActivity(stravaResponse.getId());
-					fail("Succeeded in deleting an activity despite not having write access");
-				} catch (final UnauthorizedException e) {
-					// Expected behaviour
-				}
+			// Now get a token without write access and attempt to delete
+			try {
+				api().deleteActivity(stravaResponse.getId());
+				fail("Succeeded in deleting an activity despite not having write access");
+			} catch (final UnauthorizedException e) {
+				// Expected behaviour
+			}
 
-				// Delete the activity using a token with write access
-				forceDeleteActivity(stravaResponse);
-			});
+			// Delete the activity using a token with write access
+			forceDeleteActivity(stravaResponse);
+		});
 	}
 
 	/**
@@ -132,9 +132,12 @@ public class DeleteActivityTest extends APITest {
 			} catch (final Exception e) {
 				deleteResponse = forceDeleteActivity(createResponse);
 			}
-			final StravaActivity getResponse = api().getActivity(createResponse.getId(), null);
+			try {
+				api().getActivity(createResponse.getId(), null);
+			} catch (final NotFoundException e) {
+				// Expected
+			}
 			assertNull(deleteResponse);
-			assertNull(getResponse);
 
 		});
 	}

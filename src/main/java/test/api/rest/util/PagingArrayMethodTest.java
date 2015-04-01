@@ -2,10 +2,11 @@ package test.api.rest.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.StravaConfig;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -40,13 +41,13 @@ public abstract class PagingArrayMethodTest<T, U> extends APITest {
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-				final T[] list = callback().getArray(new Paging(1, 1));
-				assertNotNull(list);
-				assertEquals(1, list.length);
+			final T[] list = callback().getArray(new Paging(1, 1));
+			assertNotNull(list);
+			assertEquals(1, list.length);
 
-				// Validate all the entries in the list
-				validateList(list);
-			});
+			// Validate all the entries in the list
+			validateList(list);
+		});
 	}
 
 	/**
@@ -81,24 +82,25 @@ public abstract class PagingArrayMethodTest<T, U> extends APITest {
 			validateList(secondPage);
 
 			// The first entry in bothPages should be the same as the first entry in firstPage
-				assertEquals(bothPages[0], firstPage[0]);
+			assertEquals(bothPages[0], firstPage[0]);
 
-				// The second entry in bothPages should be the same as the first entry in secondPage
-				assertEquals(bothPages[1], secondPage[0]);
+			// The second entry in bothPages should be the same as the first entry in secondPage
+			assertEquals(bothPages[1], secondPage[0]);
 
-			});
+		});
 	}
 
 	@Test
 	public void testPageSizeTooLargeForStrava() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with too many entries for Strava to cope with in a single paging instruction
-				final T[] list = callback().getArray(new Paging(2, 201));
-				assertNotNull(list);
-				assertTrue(list.length <= 201);
-
-				// Validate all the entries in the list
-				validateList(list);
+				try {
+					callback().getArray(new Paging(2, StravaConfig.MAX_PAGE_SIZE.intValue() + 1));
+				} catch (final BadRequestException e) {
+					// Expected
+					return;
+				}
+				fail("Strava is coping with more elements per page than expected");
 			});
 	}
 
@@ -117,7 +119,7 @@ public abstract class PagingArrayMethodTest<T, U> extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				callback().getArray(new Paging(-1, -1));
-			} catch (final IllegalArgumentException e) {
+			} catch (final BadRequestException e) {
 				// This is the expected behaviour
 				return;
 			}
@@ -139,11 +141,11 @@ public abstract class PagingArrayMethodTest<T, U> extends APITest {
 	public void testPagingOutOfRangeHigh() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely to return anything!
-				final T[] list = callback().getArray(new Paging(1000000, 200));
+			final T[] list = callback().getArray(new Paging(1000000, 200));
 
-				assertNotNull(list);
-				assertEquals(0, list.length);
-			});
+			assertNotNull(list);
+			assertEquals(0, list.length);
+		});
 	}
 
 	protected abstract void validate(final T object, final U id, final StravaResourceState state);
