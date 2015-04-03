@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.APITest;
-import test.api.service.impl.util.ActivityServiceUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -113,7 +112,7 @@ public class GetActivityTest extends APITest {
 	@Test
 	public void testGetActivity_privateAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateAuthenticatedUser");
 			StravaActivity response = null;
 			try {
 				response = apiWithViewPrivate().getActivity(activity.getId(), null);
@@ -148,7 +147,7 @@ public class GetActivityTest extends APITest {
 	@Test
 	public void testGetActivity_privateNoViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateNoViewPrivateScope");
 			StravaActivity response = null;
 			try {
 				response = api().getActivity(activity.getId(), null);
