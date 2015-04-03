@@ -168,7 +168,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 					assertNotNull(activity.getWeightedAverageWatts());
 				}
 			} else {
-				assertNull(activity.getAverageCadence());
+				assertNull("Activity " + activity.getId() + " has unexpected cadence", activity.getAverageCadence());
 				assertNull(activity.getAverageWatts());
 				assertNull(activity.getDeviceWatts());
 				assertNull(activity.getWeightedAverageWatts());

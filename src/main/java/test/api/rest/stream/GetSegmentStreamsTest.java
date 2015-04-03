@@ -10,6 +10,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.api.v3.service.exception.BadRequestException;
 
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), null, null);
 			validateArray(streams);
 		});
 	}
@@ -34,7 +35,7 @@ public class GetSegmentStreamsTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, resolutionType,
+					final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType,
 							StravaStreamSeriesDownsamplingType.DISTANCE);
 					validateArray(streams);
 				}
@@ -49,7 +50,7 @@ public class GetSegmentStreamsTest extends APITest {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
-						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, resolutionType, StravaStreamSeriesDownsamplingType.TIME);
+						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final IllegalArgumentException e) {
 						// expected
 				return;
@@ -65,7 +66,7 @@ public class GetSegmentStreamsTest extends APITest {
 	public void testGetSegmentStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, StravaStreamResolutionType.UNKNOWN, null);
+				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.UNKNOWN, null);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -79,7 +80,7 @@ public class GetSegmentStreamsTest extends APITest {
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
+				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -92,7 +93,7 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_INVALID_ID, null, null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_INVALID_ID, getAllStreamTypes(), null, null);
 			assertNull(streams);
 		});
 	}
@@ -103,11 +104,11 @@ public class GetSegmentStreamsTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamType.UNKNOWN.toString(), null, null);
-			} catch (final IllegalArgumentException e) {
+			} catch (final BadRequestException e) {
 				// Expected
 				return;
 			}
-			fail("Should have got an IllegalArgumentException, but didn't");
+			fail("Should have got a BadRequestException, but didn't");
 		});
 	}
 
@@ -134,7 +135,7 @@ public class GetSegmentStreamsTest extends APITest {
 	// 1. Valid segment for the authenticated user
 	public void testGetSegmentStreams_validSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, null, null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), null, null);
 			validateArray(streams);
 		});
 	}
@@ -143,7 +144,7 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_validSegmentUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, null, null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
 			assertEquals("Shouldn't be able to return segment streams for private segments that don't belong to the authenticated user", 0, streams.length);
 
@@ -153,7 +154,7 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = apiWithViewPrivate().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, null, null, null);
+			final StravaStream[] streams = apiWithViewPrivate().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
 			assertFalse(streams.length == 0);
 		});
@@ -162,7 +163,7 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, null, null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
 			assertTrue(streams.length == 0);
 		});
@@ -172,5 +173,20 @@ public class GetSegmentStreamsTest extends APITest {
 		for (final StravaStream stream : streams) {
 			StravaStreamTest.validate(stream);
 		}
+	}
+
+	/**
+	 * @return List of all valid stream types that can be requested
+	 */
+	private static String getAllStreamTypes() {
+		final StravaStreamType[] types = StravaStreamType.values();
+		String list = "";
+		
+		for (final StravaStreamType type : types) {
+			if (type != StravaStreamType.UNKNOWN) {
+				list = list + type.getValue() + ",";
+			}
+		}
+		return list;
 	}
 }

@@ -1,10 +1,10 @@
 package test.api.rest.club;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -35,8 +35,12 @@ public class LeaveClubTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_INVALID_ID;
 
-			final StravaClubMembershipResponse response = apiWithWriteAccess().leaveClub(id);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			try {
+				apiWithWriteAccess().leaveClub(id);
+			} catch (NotFoundException e) {
+				// expected
+			}
+			fail("Joined a non-existent club!");
 		});
 	}
 
@@ -80,9 +84,13 @@ public class LeaveClubTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-			final StravaClubMembershipResponse response = api().leaveClub(id);
-			assertNotNull(response);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			try {
+				api().leaveClub(id);
+			} catch (UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Left a club without write access");
 		});
 	}
 

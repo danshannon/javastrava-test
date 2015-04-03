@@ -3,10 +3,11 @@ package test.api.rest.activity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
@@ -15,6 +16,7 @@ import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue67;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -117,24 +119,39 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 	@Test
 	public void testListActivityComments_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment[] comments = api().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE, null, null);
-
-			assertNull("Expected null response when retrieving comments for an invalid activity", comments);
+			try {
+				api().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE, null, null);
+			} catch (NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned comments for a non-existent activity");
 		});
 	}
 
 	@Test
 	public void testListActivityComments_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment[] comments = api().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null, null);
-			assertNotNull(comments);
-			assertEquals(0, comments.length);
+			try {
+				api().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null, null);
+			} catch (UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned comments for a private activity belonging to another user");
 		});
 	}
 
 	@Test
 	public void testListActivityComments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#67
+			Issue67 issue67 = new Issue67();
+			if (issue67.isIssue()) {
+				return;
+			}
+			// End of workaround
+			
 			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
 			final StravaComment[] comments = api().listActivityComments(comment.getActivityId(), null, null, null);

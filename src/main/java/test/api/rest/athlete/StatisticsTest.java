@@ -1,6 +1,5 @@
 package test.api.rest.athlete;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.service.exception.NotFoundException;
@@ -38,9 +37,13 @@ public class StatisticsTest extends APITest {
 	@Test
 	public void testStatistics_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = api().statistics(TestUtils.ATHLETE_VALID_ID);
-			assertNotNull(stats);
-			StravaStatisticsTest.validate(stats);
+			try {
+				api().statistics(TestUtils.ATHLETE_VALID_ID);
+			} catch (UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned statistics for another athlete");
 		});
 	}
 

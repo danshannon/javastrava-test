@@ -3,20 +3,23 @@ package test.api.rest.segment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue33;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -67,46 +70,17 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 		});
 	}
 
-	// 6. Filter by end date, valid segment
-	@Test
-	public void testListSegmentEfforts_filterByEndDate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final LocalDateTime endDate = LocalDateTime.of(2013, Month.DECEMBER, 1, 23, 59, 59);
-
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, endDate.toString(), null, null);
-			assertNotNull(efforts);
-			assertFalse(0 == efforts.length);
-			for (final StravaSegmentEffort effort : efforts) {
-				assertNotNull(effort.getStartDateLocal());
-				assertTrue(effort.getStartDateLocal().isBefore(endDate));
-				validate(effort);
-			}
-		});
-	}
-
 	// 4. Filter by invalid athlete, valid segment
 	@Test
 	public void testListSegmentEfforts_filterByInvalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null, null, null);
-			assertNull(efforts);
-		});
-	}
-
-	// 5. Filter by start date, valid segment
-	@Test
-	public void testListSegmentEfforts_filterByStartDate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
-
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate.toString(), null, null, null);
-			assertNotNull(efforts);
-			assertFalse(0 == efforts.length);
-			for (final StravaSegmentEffort effort : efforts) {
-				assertNotNull(effort.getStartDateLocal());
-				assertTrue(effort.getStartDateLocal().isAfter(startDate));
-				validate(effort);
+			try {
+				api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null, null, null);
+			} catch (NotFoundException e) {
+				// expected
+				return;
 			}
+			fail("Returned segment efforts for a non-existent athlete");
 		});
 	}
 
@@ -128,6 +102,13 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 	@Test
 	public void testListSegmentEfforts_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#33
+			Issue33 issue33 = new Issue33();
+			if (issue33.isIssue()) {
+				return;
+			}
+			// End of workaround
+			
 			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
 			assertNotNull(efforts);
 			assertEquals(0, efforts.length);
@@ -138,8 +119,13 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 	@Test
 	public void testListSegmentEfforts_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID, null, null, null, null, null);
-			assertNull(efforts);
+			try {
+				api().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID, null, null, null, null, null);
+			} catch (NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment efforts for a non-existent segment");
 		});
 	}
 
@@ -158,10 +144,13 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 	@Test
 	public void testListSegmentEfforts_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null);
-			// Should return an empty list
-			assertNotNull(efforts);
-			assertEquals(0, efforts.length);
+			try {
+				api().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null);
+			} catch (UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment efforts for a private segment");
 		});
 	}
 

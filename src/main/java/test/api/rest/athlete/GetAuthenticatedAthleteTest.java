@@ -4,7 +4,6 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -30,13 +29,8 @@ public class GetAuthenticatedAthleteTest extends APITest {
 	@Test
 	public void testGetAthlete_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned a private athlete!");
+			StravaAthlete athlete = api().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
+			StravaAthleteTest.validateAthlete(athlete);
 		});
 	}
 

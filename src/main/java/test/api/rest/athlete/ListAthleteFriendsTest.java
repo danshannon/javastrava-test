@@ -13,6 +13,7 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue83;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -41,6 +42,13 @@ public class ListAthleteFriendsTest extends PagingArrayMethodTest<StravaAthlete,
 	@Test
 	public void testListAthleteFriends_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#83
+			Issue83 issue83 = new Issue83();
+			if (issue83.isIssue()) {
+				return;
+			}
+			// End of workaround
+			
 			try {
 				api().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID, null, null);
 			} catch (final UnauthorizedException e) {

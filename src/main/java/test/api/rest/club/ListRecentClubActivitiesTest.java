@@ -3,9 +3,11 @@ package test.api.rest.club;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
 
 import org.junit.Test;
@@ -26,11 +28,13 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 	@Test
 	public void testListRecentClubActivities_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_INVALID_ID, null, null);
-
-			assertNotNull(activities);
-			assertEquals(0, activities.length);
-			validateList(activities);
+			try {
+				api().listRecentClubActivities(TestUtils.CLUB_INVALID_ID, null, null);
+			} catch (NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned recent activities for a non-existent club");
 		});
 	}
 
@@ -52,9 +56,13 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 	@Test
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null);
-
-			assertTrue(activities.length == 0);
+			try {
+				api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null);
+			} catch (UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Got list of recent activities for a club the authenticated user is not a member of");
 		});
 	}
 
