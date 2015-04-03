@@ -22,8 +22,10 @@ import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue23;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
+
 
 public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegmentLeaderboardEntry, Integer> {
 	@Override
@@ -102,6 +104,13 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	@Test
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue 23
+			Issue23 issue23 = new Issue23();
+			if (issue23.isIssue()) {
+				return;
+			}
+			// End of workaround
+			
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
 					TestUtils.CLUB_INVALID_ID, null, null, null, null);
 			assertNull(leaderboard);

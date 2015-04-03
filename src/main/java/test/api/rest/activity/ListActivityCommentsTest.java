@@ -12,9 +12,9 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import org.junit.Test;
 
 import test.api.model.StravaCommentTest;
+import test.api.rest.APITest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
-import test.api.service.impl.util.ActivityServiceUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -135,7 +135,7 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 	@Test
 	public void testListActivityComments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils
+			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
 			final StravaComment[] comments = api().listActivityComments(comment.getActivityId(), null, null, null);
 			assertNotNull(comments);
@@ -146,7 +146,7 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 	@Test
 	public void testListActivityComments_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils
+			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithViewPrivate()");
 			final StravaComment[] comments = apiWithViewPrivate().listActivityComments(comment.getActivityId(), null, null, null);
 			assertNotNull(comments);

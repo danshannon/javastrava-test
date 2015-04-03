@@ -1,12 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.SegmentAPI;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.NotFoundException;
 
 /**
  * <p>
@@ -16,15 +10,25 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/23">https://github.com/danshannon/javastravav3api/issues/23</a>
  */
-public class Issue23 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
-			retrofit.getSegmentLeaderboard(966356, null, null, null, null, 2, null, null, null, null);
-			// Note - that's all for this test, because it should have thrown a NotFoundException
+public class Issue23 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.getSegmentLeaderboard(966356, null, null, null, null, 2, null, null, null, null);
+		} catch (NotFoundException e) {
+			return false;
+		}
+		return true;
+	}
 
-			});
-
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 23;
 	}
 }

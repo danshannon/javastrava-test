@@ -16,7 +16,7 @@ import javastrava.util.Paging;
 import org.junit.Test;
 
 import test.api.model.StravaCommentTest;
-import test.api.service.impl.util.ActivityServiceUtils;
+import test.api.rest.APITest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
 import test.utils.RateLimitedTestRunner;
@@ -140,7 +140,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils
+			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
 			final List<StravaComment> comments = strava().listActivityComments(comment.getActivityId());
 			assertNotNull(comments);
@@ -151,7 +151,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	@Test
 	public void testListActivityComments_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = ActivityServiceUtils
+			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithViewPrivate()");
 			final List<StravaComment> comments = stravaWithViewPrivate().listActivityComments(comment.getActivityId());
 			assertNotNull(comments);

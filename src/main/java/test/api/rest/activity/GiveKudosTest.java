@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue29;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -85,14 +86,20 @@ public class GiveKudosTest extends APITest {
 	@Test
 	public void testGiveKudos_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
+			Issue29 issue29 = new Issue29();
+			if (issue29.isIssue()) {
+				return;
+			}
+			// End of workaround
+
 			try {
 				api().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}
-			// TODO This is a workaround for issue javastrava-api #29 (https://github.com/danshannon/javastravav3api/issues/29)
-			// fail("Gave kudos without write access");
+			fail("Gave kudos without write access");
 		});
 	}
 

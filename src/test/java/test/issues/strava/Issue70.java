@@ -1,11 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.rest.API;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 /**
  * Issue test for javastrava-api #70
@@ -14,13 +9,25 @@ import test.utils.TestUtils;
  *
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/70">https://github.com/danshannon/javastravav3api/issues/70</a>
  */
-public class Issue70 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final API api = new API(TestUtils.getValidToken());
-			api.getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-			// This should NOT get here (API should throw a 401 Unauthorised), but it does, that's the test passed!
-		});
+public class Issue70 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.getSegment(1190741);
+		} catch (UnauthorizedException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 70;
 	}
 }

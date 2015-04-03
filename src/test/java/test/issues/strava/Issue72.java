@@ -3,15 +3,11 @@
  */
 package test.issues.strava;
 
-import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
+import test.api.rest.APITest;
 import test.utils.TestUtils;
 
 /**
@@ -27,25 +23,38 @@ import test.utils.TestUtils;
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/72">https://github.com/danshannon/javastravav3api/issues/72</a>
  *
  */
-public class Issue72 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.createDefaultActivity("Issue72.testIssue()");
-			activity.setPrivateActivity(Boolean.TRUE);
-			final API apiWithFullAccess = new API(TestUtils.getValidTokenWithFullAccess());
-			final StravaActivity response = apiWithFullAccess.createManualActivity(activity);
-			final API apiWithWriteAccess = new API(TestUtils.getValidTokenWithWriteAccess());
-			final StravaActivityUpdate activityUpdate = new StravaActivityUpdate();
-			activityUpdate.setDescription("Test");
-			// This should throw a 401 Unauthorised, but if the issue is current it won't have
-				try {
-					apiWithWriteAccess.updateActivity(response.getId(), activityUpdate);
-				} catch (final UnauthorizedException e) {
-					apiWithFullAccess.deleteActivity(response.getId());
-					fail("Appears to be fixed");
-				}
-				apiWithFullAccess.deleteActivity(response.getId());
-			});
+public class Issue72 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		// Create a private activity
+		final StravaActivity activity = APITest.createPrivateActivity("Issue72.testIssue()");
+		
+		// 2 instances of the API: one with and one without view_private
+		final API apiWithWriteAccess = new API(TestUtils.getValidTokenWithWriteAccess());
+
+		// Attempt to update the activity
+		final StravaActivityUpdate activityUpdate = new StravaActivityUpdate();
+		activityUpdate.setDescription("Test issue 72");
+		
+		// This should throw a 401 Unauthorised, but if the issue is current it won't have
+		try {
+			apiWithWriteAccess.updateActivity(activity.getId(), activityUpdate);
+		} catch (final UnauthorizedException e) {
+			APITest.forceDeleteActivity(activity.getId());
+			return false;
+		}
+		APITest.forceDeleteActivity(activity.getId());
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 72;
 	}
 }

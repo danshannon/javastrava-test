@@ -1,14 +1,7 @@
 package test.issues.strava;
 
-import static org.junit.Assert.fail;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.SegmentAPI;
 import javastrava.api.v3.service.exception.NotFoundException;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 /**
  * <p>
@@ -21,18 +14,28 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/45">https://github.com/danshannon/javastravav3api/issues/45</a>
  */
-public class Issue45 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
-			try {
-				retrofit.listSegmentEfforts(8857183, null, null, null, null, null);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			fail("Issue not behaving as expected");
-		});
+public class Issue45 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.listSegmentEfforts(8857183, null, null, null, null, null);
+		} catch (final NotFoundException e) {
+			return true;
+		} catch (final UnauthorizedException e) {
+			return false;
+		}
+		// Shouldn't be able to get here; if we do it's returning data, but shouldn't
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 45;
 	}
 }

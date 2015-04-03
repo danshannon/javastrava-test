@@ -1,13 +1,6 @@
 package test.issues.strava;
 
-import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.rest.API;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 
 /**
@@ -22,13 +15,25 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/78">https://github.com/danshannon/javastravav3api/issues/78</a>
  */
-public class Issue78 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final API api = new API(TestUtils.getValidToken());
-			StravaSegmentEffort effort = api.getSegmentEffort(120026887L);
-			assertNotNull(effort);
-		});
+public class Issue78 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.getSegmentEffort(120026887L);
+		} catch (UnauthorizedException e) {
+			return false;
+		} 
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 78;
 	}
 }
