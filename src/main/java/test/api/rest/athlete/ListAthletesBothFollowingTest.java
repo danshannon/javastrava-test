@@ -13,6 +13,7 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue83;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -40,14 +41,20 @@ public class ListAthletesBothFollowingTest extends PagingArrayMethodTest<StravaA
 	@Test
 	public void testListAthletesBothFollowing_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID, null, null);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned list of friends for a private athlete!");
-		});
+			// TODO This is a workaround for issue javastravav3api#83
+				if (new Issue83().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					api().listAthletesBothFollowing(TestUtils.ATHLETE_PRIVATE_ID, null, null);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+				fail("Returned list of friends for a private athlete!");
+			});
 	}
 
 	// Test cases

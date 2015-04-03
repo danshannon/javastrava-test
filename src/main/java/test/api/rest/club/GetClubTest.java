@@ -1,10 +1,10 @@
 package test.api.rest.club;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -18,8 +18,13 @@ public class GetClubTest extends APITest {
 	@Test
 	public void testGetClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = api().getClub(TestUtils.CLUB_INVALID_ID);
-			assertNull("Got club result despite club being invalid", club);
+			try {
+				api().getClub(TestUtils.CLUB_INVALID_ID);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Got club result despite club being invalid");
 		});
 	}
 
@@ -37,13 +42,13 @@ public class GetClubTest extends APITest {
 	@Test
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = api().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			final StravaClub comparison = new StravaClub();
-			comparison.setId(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			comparison.setResourceState(StravaResourceState.PRIVATE);
-			assertNotNull(club);
-			assertEquals(comparison, club);
-			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
+			try {
+				api().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned details of a private club of which the authenticated athlete is not a member");
 		});
 	}
 

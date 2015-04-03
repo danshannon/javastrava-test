@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue70;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -22,7 +23,7 @@ public class GetSegmentTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().getSegment(TestUtils.SEGMENT_INVALID_ID);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
 				return;
 			}
@@ -36,7 +37,7 @@ public class GetSegmentTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-			} catch (UnauthorizedException e) {
+			} catch (final UnauthorizedException e) {
 				// expected
 				return;
 			}
@@ -48,14 +49,20 @@ public class GetSegmentTest extends APITest {
 	@Test
 	public void testGetSegment_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-			} catch (UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned a private segment without view_private access");
-		});
+			// TODO This is a workaround for issue javastravav3api#70
+				if (new Issue70().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					api().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
+				} catch (final UnauthorizedException e) {
+					// expected
+					return;
+				}
+				fail("Returned a private segment without view_private access");
+			});
 	}
 
 	@Test

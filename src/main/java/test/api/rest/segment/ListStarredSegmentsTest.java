@@ -2,15 +2,17 @@ package test.api.rest.segment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue25;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -31,8 +33,13 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 	@Test
 	public void testListStarredSegments_invalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_INVALID_ID, null, null);
-			assertNull(segments);
+			try {
+				api().listStarredSegments(TestUtils.ATHLETE_INVALID_ID, null, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned starred segments for a non-existent athlete");
 		});
 	}
 
@@ -55,6 +62,15 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 
 	@Override
 	protected void validate(final StravaSegment segment) {
+		// This is a workaround for issue javastravav3api#25
+		try {
+			if (new Issue25().isIssue()) {
+				return;
+			}
+		} catch (final Exception e) {
+			// ignore
+		}
+		// End of workaround
 		StravaSegmentTest.validateSegment(segment);
 	}
 

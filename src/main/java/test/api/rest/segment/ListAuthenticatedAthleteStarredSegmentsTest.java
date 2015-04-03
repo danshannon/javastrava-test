@@ -13,6 +13,7 @@ import test.api.model.StravaSegmentTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
 import test.issues.strava.Issue71;
+import test.issues.strava.Issue81;
 import test.utils.RateLimitedTestRunner;
 
 public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
@@ -29,6 +30,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 			final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
 			assertNotNull(segments);
 			assertFalse(segments.length == 0);
+
 			validateList(segments);
 		});
 	}
@@ -37,19 +39,19 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 	public void testListAuthenticatedAthleteStarredSegments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#71
-			Issue71 issue71 = new Issue71();
-			if (issue71.isIssue()) {
-				return;
-			}
-			// End of workaround
-			
-			final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
-			for (final StravaSegment segment : segments) {
-				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
-					fail("Returned at least one private starred segment");
+				final Issue71 issue71 = new Issue71();
+				if (issue71.isIssue()) {
+					return;
 				}
-			}
-		});
+				// End of workaround
+
+				final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
+				for (final StravaSegment segment : segments) {
+					if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
+						fail("Returned at least one private starred segment");
+					}
+				}
+			});
 	}
 
 	@Test
@@ -68,12 +70,30 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 
 	@Override
 	protected void validate(final StravaSegment segment) {
+		// TODO This is a workaround for issue javastravav3api#81
+		try {
+			if (new Issue81().isIssue()) {
+				return;
+			}
+		} catch (final Exception e) {
+			// ignore
+		}
+		// End of workaround
 		StravaSegmentTest.validateSegment(segment);
 
 	}
 
 	@Override
 	protected void validate(final StravaSegment segment, final Integer id, final StravaResourceState state) {
+		// TODO This is a workaround for issue javastravav3api#81
+		try {
+			if (new Issue81().isIssue()) {
+				return;
+			}
+		} catch (final Exception e) {
+			// ignore
+		}
+		// End of workaround
 		StravaSegmentTest.validateSegment(segment, id, state);
 
 	}

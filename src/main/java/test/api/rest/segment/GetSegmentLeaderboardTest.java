@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -15,6 +15,8 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -26,14 +28,19 @@ import test.issues.strava.Issue23;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-
 public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegmentLeaderboardEntry, Integer> {
 	@Override
 	protected ArrayCallback<StravaSegmentLeaderboardEntry> callback() {
 		return (paging -> {
 			final List<StravaSegmentLeaderboardEntry> list = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, null,
 					paging.getPage(), paging.getPageSize(), null).getEntries();
-			return (StravaSegmentLeaderboardEntry[]) list.toArray();
+			final StravaSegmentLeaderboardEntry[] entries = new StravaSegmentLeaderboardEntry[list.size()];
+			int i = 0;
+			for (final StravaSegmentLeaderboardEntry entry : list) {
+				entries[i] = entry;
+				i++;
+			}
+			return entries;
 		});
 	}
 
@@ -105,12 +112,12 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue 23
-			Issue23 issue23 = new Issue23();
+			final Issue23 issue23 = new Issue23();
 			if (issue23.isIssue()) {
 				return;
 			}
 			// End of workaround
-			
+
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
 					TestUtils.CLUB_INVALID_ID, null, null, null, null);
 			assertNull(leaderboard);
@@ -144,9 +151,13 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	@Test
 	public void testGetSegmentLeaderboard_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null, null, null,
-					null, null);
-			assertNull(leaderboard);
+			try {
+				api().getSegmentLeaderboard(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null, null, null, null, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned leaderboard for a segment flagged as hazardous");
 		});
 	}
 
@@ -154,9 +165,13 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	@Test
 	public void testGetSegmentLeaderboard_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_INVALID_ID, null, null, null, null, null, null, null,
-					null, null);
-			assertNull(leaderboard);
+			try {
+				api().getSegmentLeaderboard(TestUtils.SEGMENT_INVALID_ID, null, null, null, null, null, null, null, null, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Got leaderboard for an invalid segment");
 		});
 	}
 
@@ -177,11 +192,13 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	@Test
 	public void testGetSegmentLeaderboard_privateSegmentOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, null, null, null, null, null,
-					null, null, null, null);
-			assertNotNull(leaderboard);
-			assertTrue(leaderboard.getEntries().isEmpty());
-			assertTrue(leaderboard.getAthleteEntries().isEmpty());
+			try {
+				api().getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, null, null, null, null, null, null, null, null, null);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Got segment leaderboard for a private segment belonging to another user");
 		});
 	}
 

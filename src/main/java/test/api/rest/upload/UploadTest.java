@@ -63,7 +63,7 @@ public class UploadTest extends APITest {
 				return;
 			}
 
-			apiWithWriteAccess().deleteActivity(response.getActivityId());
+			APITest.forceDeleteActivity(response.getActivityId());
 			fail("Uploaded a file with an invalid file!");
 		});
 	}
@@ -80,7 +80,7 @@ public class UploadTest extends APITest {
 				return;
 			}
 
-			apiWithWriteAccess().deleteActivity(response.getActivityId());
+			APITest.forceDeleteActivity(response.getActivityId());
 			fail("Uploaded a file with no actual file!");
 		});
 	}

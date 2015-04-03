@@ -3,7 +3,7 @@ package test.issues.strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public class Issue83 extends IssueTest {
@@ -14,8 +14,8 @@ public class Issue83 extends IssueTest {
 	@Override
 	public boolean isIssue() throws Exception {
 		try {
-			api.listAthleteFriends(7860165, null, null);
-		} catch (UnauthorizedException e) {
+			this.api.listAthleteFriends(7860165, null, null);
+		} catch (final UnauthorizedException e) {
 			return false;
 		}
 		return true;

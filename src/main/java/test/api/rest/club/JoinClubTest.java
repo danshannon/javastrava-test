@@ -1,10 +1,12 @@
 package test.api.rest.club;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -35,8 +37,13 @@ public class JoinClubTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_INVALID_ID;
 
-			final StravaClubMembershipResponse response = apiWithWriteAccess().joinClub(id);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			try {
+				apiWithWriteAccess().joinClub(id);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Joined a non-existent club!");
 		});
 	}
 
@@ -88,9 +95,13 @@ public class JoinClubTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-			final StravaClubMembershipResponse response = api().joinClub(id);
-			assertNotNull(response);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			try {
+				api().joinClub(id);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Joined a club successfully without write access");
 		});
 	}
 
@@ -100,9 +111,14 @@ public class JoinClubTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
-			final StravaClubMembershipResponse response = apiWithWriteAccess().joinClub(id);
-			assertNotNull(response);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			try {
+				apiWithWriteAccess().joinClub(id);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Joined a private club successfully");
+
 		});
 	}
 

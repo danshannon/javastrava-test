@@ -7,6 +7,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import org.junit.Test;
 
 import test.api.rest.APITest;
+import test.issues.strava.Issue63;
+import test.issues.strava.Issue74;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,16 +36,22 @@ public class DeleteCommentTest extends APITest {
 	@Test
 	public void testDeleteComment_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			try {
-				api().deleteComment(comment.getActivityId(), comment.getId());
-			} catch (final UnauthorizedException e) {
-				// Expected - delete the comment anyway
-				forceDeleteComment(comment);
-				return;
-			}
-			fail("Deleted a comment using a token without write access");
-		});
+			// TODO This is a workaround for issue javastravav3api#63
+				if (new Issue63().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+				try {
+					api().deleteComment(comment.getActivityId(), comment.getId());
+				} catch (final UnauthorizedException e) {
+					// Expected - delete the comment anyway
+					forceDeleteComment(comment);
+					return;
+				}
+				fail("Deleted a comment using a token without write access");
+			});
 	}
 
 	/**
@@ -55,8 +63,7 @@ public class DeleteCommentTest extends APITest {
 	@Test
 	public void testDeleteComment_privateActivityAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = APITest
-					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityAuthenticatedUser");
+			final StravaComment comment = APITest.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityAuthenticatedUser");
 
 			// Attempt to delete with full access
 				try {
@@ -79,8 +86,13 @@ public class DeleteCommentTest extends APITest {
 	@Test
 	public void testDeleteComment_privateActivityNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = APITest
-					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityNoViewPrivate");
+			// TODO This is a workaround for issue javastravaapiv3#74
+			if (new Issue74().isIssue()) {
+				return;
+			}
+			// End of workaround
+
+			final StravaComment comment = APITest.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityNoViewPrivate");
 
 			// Attempt to delete with write access (but not view_private)
 				try {

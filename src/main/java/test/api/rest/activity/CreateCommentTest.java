@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue30;
+import test.issues.strava.Issue74;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -51,18 +53,23 @@ public class CreateCommentTest extends APITest {
 	@Test
 	public void testCreateComment_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#30
+				if (new Issue30().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			StravaComment comment = null;
-			try {
-				comment = api().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			forceDeleteComment(comment);
-			fail("Created a comment despite not having write access");
+				StravaComment comment = null;
+				try {
+					comment = api().createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+				forceDeleteComment(comment);
+				fail("Created a comment despite not having write access");
 
-		});
+			});
 	}
 
 	@Test
@@ -90,6 +97,12 @@ public class CreateCommentTest extends APITest {
 	@Test
 	public void testCreateComment_privateActivityAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#30
+			if (new Issue30().isIssue()) {
+				return;
+			}
+			// End of workaround
+
 			StravaComment comment = null;
 			try {
 				comment = apiWithViewPrivate().createComment(TestUtils.ACTIVITY_PRIVATE, "Test - ignore");
@@ -110,6 +123,12 @@ public class CreateCommentTest extends APITest {
 	@Test
 	public void testCreateComment_privateActivityNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#74
+			if (new Issue74().isIssue()) {
+				return;
+			}
+			// End of workaround
+
 			StravaComment comment = null;
 			try {
 				comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_PRIVATE, "Test - ignore");

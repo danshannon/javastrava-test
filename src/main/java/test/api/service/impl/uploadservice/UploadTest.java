@@ -50,17 +50,31 @@ public class UploadTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("baddata.gpx");
 			StravaUploadResponse response = null;
-			try {
-				response = stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC",
-						file);
-			} catch (final IllegalArgumentException e) {
-				// Expected
+			response = stravaWithWriteAccess()
+					.upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", file);
+			response = waitForUploadCompletion(response);
+			if (response.getStatus().equals("There was an error processing your activity.")) {
 				return;
 			}
-
 			stravaWithWriteAccess().deleteActivity(response.getActivityId());
 			fail("Uploaded a file with an invalid file!");
 		});
+	}
+
+	/**
+	 * @param response
+	 * @return
+	 */
+	private StravaUploadResponse waitForUploadCompletion(StravaUploadResponse response) {
+		while (response.getStatus().equals("Your activity is still being processed.")) {
+			response = stravaWithWriteAccess().checkUploadStatus(response.getId());
+			try {
+				Thread.sleep(1000);
+			} catch (final InterruptedException e) {
+				// ignore
+			}
+		}
+		return response;
 	}
 
 	@Test

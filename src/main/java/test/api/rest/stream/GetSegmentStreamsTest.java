@@ -3,14 +3,14 @@ package test.api.rest.stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class GetSegmentStreamsTest extends APITest {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
 						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
-					} catch (final IllegalArgumentException e) {
+					} catch (final BadRequestException e) {
 						// expected
 				return;
 			}
@@ -67,7 +67,7 @@ public class GetSegmentStreamsTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.UNKNOWN, null);
-			} catch (final IllegalArgumentException e) {
+			} catch (final BadRequestException e) {
 				// Expected
 				return;
 			}
@@ -80,8 +80,9 @@ public class GetSegmentStreamsTest extends APITest {
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
-			} catch (final IllegalArgumentException e) {
+				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.LOW,
+						StravaStreamSeriesDownsamplingType.UNKNOWN);
+			} catch (final BadRequestException e) {
 				// Expected
 				return;
 			}
@@ -93,8 +94,13 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_INVALID_ID, getAllStreamTypes(), null, null);
-			assertNull(streams);
+			try {
+				api().getSegmentStreams(TestUtils.SEGMENT_INVALID_ID, getAllStreamTypes(), null, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment streams for an invalid segment");
 		});
 	}
 
@@ -144,10 +150,13 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_validSegmentUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, getAllStreamTypes(), null, null);
-			assertNotNull(streams);
-			assertEquals("Shouldn't be able to return segment streams for private segments that don't belong to the authenticated user", 0, streams.length);
-
+			try {
+				api().getSegmentStreams(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, getAllStreamTypes(), null, null);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment streams for a private segment belonging to another user");
 		});
 	}
 
@@ -163,9 +172,13 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
-			assertNotNull(streams);
-			assertTrue(streams.length == 0);
+			try {
+				api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment streams for a private segment, without view_private access");
 		});
 	}
 
@@ -181,7 +194,7 @@ public class GetSegmentStreamsTest extends APITest {
 	private static String getAllStreamTypes() {
 		final StravaStreamType[] types = StravaStreamType.values();
 		String list = "";
-		
+
 		for (final StravaStreamType type : types) {
 			if (type != StravaStreamType.UNKNOWN) {
 				list = list + type.getValue() + ",";

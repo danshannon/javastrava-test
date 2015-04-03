@@ -2,14 +2,17 @@ package test.api.rest.segmenteffort;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue78;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -18,8 +21,13 @@ public class GetSegmentEffortTest extends APITest {
 	public void testGetSegmentEffort_invalid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Long id = TestUtils.SEGMENT_EFFORT_INVALID_ID;
-			final StravaSegmentEffort effort = api().getSegmentEffort(id);
-			assertNull(effort);
+			try {
+				api().getSegmentEffort(id);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned a non-existent segment effort");
 		});
 	}
 
@@ -37,33 +45,37 @@ public class GetSegmentEffortTest extends APITest {
 	public void testGetSegmentEffort_privateOtherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Long id = TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
-			final StravaSegmentEffort effort = api().getSegmentEffort(id);
-			assertNotNull(effort);
-			StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
-			final StravaSegmentEffort comparison = new StravaSegmentEffort();
-			comparison.setId(id);
-			comparison.setResourceState(StravaResourceState.PRIVATE);
-			assertEquals(comparison, effort);
+			try {
+				api().getSegmentEffort(id);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Got segment effort for a private segment belonging to another user");
 		});
 	}
 
 	/**
 	 * Check that an effort on a private activity is not returned
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetSegmentEffort_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = api().getSegmentEffort(5735858255L);
-			assertNotNull(effort);
-			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
+			try {
+				api().getSegmentEffort(5735858255L);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned segment effort for a private activity, without view_private");
 		});
 	}
 
 	/**
 	 * Check that an effort on a private activity is returned with view_private scope
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -77,15 +89,24 @@ public class GetSegmentEffortTest extends APITest {
 
 	/**
 	 * Check that an effort on a private segment is not returned
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetSegmentEffort_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
-			assertNotNull(effort);
-			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
+			// TODO This is a workaround for issue javastravav3api#78
+			if (new Issue78().isIssue()) {
+				return;
+			}
+			// End of workaround
+
+			try {
+				api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			} catch (final UnauthorizedException e) {
+				return;
+			}
+			fail("Returned segment effort for a segment flagged private");
 		});
 	}
 

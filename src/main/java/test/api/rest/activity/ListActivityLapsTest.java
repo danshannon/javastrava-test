@@ -1,12 +1,14 @@
 package test.api.rest.activity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
@@ -91,28 +93,38 @@ public class ListActivityLapsTest extends APITest {
 	@Test
 	public void testListActivityLaps_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaLap[] laps = api().listActivityLaps(TestUtils.ACTIVITY_INVALID);
-
-			assertNull("Laps returned for an invalid activity", laps);
+			try {
+				api().listActivityLaps(TestUtils.ACTIVITY_INVALID);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Laps returned for an invalid activity");
 		});
 	}
 
 	@Test
 	public void testListActivityLaps_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaLap[] laps = api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-
-			assertNotNull(laps);
-			assertEquals(0, laps.length);
+			try {
+				api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned activity laps for a private activity belonging to another user");
 		});
 	}
 
 	@Test
 	public void testListActivityLaps_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaLap[] laps = api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
-			assertNotNull(laps);
-			assertEquals(0, laps.length);
+			try {
+				api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			} catch (final UnauthorizedException e) {
+				return;
+			}
+			fail("Returned activity laps for a private activity, but token does not have view_private");
 		});
 	}
 
@@ -121,7 +133,10 @@ public class ListActivityLapsTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final StravaLap[] laps = apiWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
 			assertNotNull(laps);
-			assertEquals(0, laps.length);
+			assertFalse(0 == laps.length);
+			for (final StravaLap lap : laps) {
+				StravaLapTest.validateLap(lap, lap.getId(), lap.getResourceState());
+			}
 		});
 	}
 

@@ -13,6 +13,9 @@ import test.utils.TestUtils;
  */
 public class APITest {
 	public static void forceDeleteActivity(final Integer activityId) {
+		if (activityId == null) {
+			return;
+		}
 		try {
 			apiWithFullAccess().deleteActivity(activityId);
 		} catch (final NotFoundException e) {
@@ -65,7 +68,7 @@ public class APITest {
 	 * @param comment
 	 * @return
 	 */
-	public static StravaComment forceCreateComment(Integer activityId, String comment) throws Exception {
+	public static StravaComment forceCreateComment(final Integer activityId, final String comment) throws Exception {
 		return apiWithFullAccess().createComment(activityId, comment);
 	}
 
@@ -74,7 +77,7 @@ public class APITest {
 	 */
 	public static StravaComment createPrivateActivityWithComment(final String name) throws Exception {
 		final StravaActivity activity = createPrivateActivity(name);
-		StravaComment comment = forceCreateComment(activity.getId(),"name");
+		final StravaComment comment = forceCreateComment(activity.getId(), "name");
 		return comment;
 	}
 
@@ -85,5 +88,5 @@ public class APITest {
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
 		return response;
 	}
-	
+
 }

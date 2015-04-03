@@ -4,12 +4,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue49;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -48,24 +50,26 @@ public class CreateManualActivityTest extends APITest {
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// Type must be one of the specified values
+			// This is only a workaround for issue javastravav3api#49
+				if (new Issue49().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				// Type must be one of the specified values
 				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType");
 				StravaActivity stravaResponse = null;
 				activity.setType(StravaActivityType.UNKNOWN);
 				try {
 					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final IllegalArgumentException e1) {
+				} catch (final BadRequestException e1) {
 					// Expected behaviour
-				return;
-			} catch (final Exception e2) {
-				// Ignore ALL other exceptions
-			}
-
-			// If it did get created, delete it again
-			forceDeleteActivity(stravaResponse);
-
+					return;
+				}
+				// If it did get created, delete it again
+				forceDeleteActivity(stravaResponse);
 			fail("Created an activity with invalid type in error");
-		});
+			});
 	}
 
 	@Test
@@ -77,11 +81,9 @@ public class CreateManualActivityTest extends APITest {
 				activity.setElapsedTime(null);
 				try {
 					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final IllegalArgumentException e1) {
+				} catch (final BadRequestException e1) {
 					// Expected behaviour
 					return;
-				} catch (final Exception e2) {
-					// Ignore ALL other exceptions
 				}
 
 				// If it did get created, delete it again
@@ -114,11 +116,9 @@ public class CreateManualActivityTest extends APITest {
 				activity.setName(null);
 				try {
 					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final IllegalArgumentException e1) {
+				} catch (final BadRequestException e1) {
 					// Expected behaviour
 				return;
-			} catch (final Exception e2) {
-				// Ignore ALL other exceptions
 			}
 
 			// If it did get created, delete it again
@@ -139,11 +139,9 @@ public class CreateManualActivityTest extends APITest {
 				activity.setStartDateLocal(null);
 				try {
 					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final IllegalArgumentException e1) {
+				} catch (final BadRequestException e) {
 					// Expected behaviour
 					return;
-				} catch (final Exception e2) {
-					// Ignore ALL other exceptions
 				}
 
 				// If it did get created, delete it again
@@ -162,11 +160,9 @@ public class CreateManualActivityTest extends APITest {
 				activity.setType(null);
 				try {
 					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final IllegalArgumentException e1) {
+				} catch (final BadRequestException e1) {
 					// Expected behaviour
 				return;
-			} catch (final Exception e2) {
-				// Ignore ALL other exceptions
 			}
 
 			// If it did get created, delete it again

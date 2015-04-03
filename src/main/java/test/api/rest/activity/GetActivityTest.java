@@ -3,10 +3,11 @@ package test.api.rest.activity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
@@ -127,15 +128,13 @@ public class GetActivityTest extends APITest {
 	@Test
 	public void testGetActivity_privateBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null);
-
-			// Should get an activity which only has an id
-			assertNotNull(activity);
-			final StravaActivity comparisonActivity = new StravaActivity();
-			comparisonActivity.setId(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			comparisonActivity.setResourceState(StravaResourceState.PRIVATE);
-			assertEquals(comparisonActivity, activity);
-			StravaActivityTest.validateActivity(activity);
+			try {
+				api().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Returned private activity belonging to another user");
 		});
 	}
 
@@ -151,7 +150,7 @@ public class GetActivityTest extends APITest {
 			StravaActivity response = null;
 			try {
 				response = api().getActivity(activity.getId(), null);
-			} catch (UnauthorizedException e) {
+			} catch (final UnauthorizedException e) {
 				// expected
 				return;
 			} finally {
@@ -187,9 +186,13 @@ public class GetActivityTest extends APITest {
 	@Test
 	public void testGetActivity_unknownActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_INVALID, null);
-
-			assertNull("Got an activity for an invalid activity id " + TestUtils.ACTIVITY_INVALID, activity);
+			try {
+				api().getActivity(TestUtils.ACTIVITY_INVALID, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned a non-existent activity");
 		});
 	}
 }
