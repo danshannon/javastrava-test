@@ -12,6 +12,7 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APITest;
 import test.issues.strava.Issue29;
+import test.issues.strava.Issue82;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -106,6 +107,13 @@ public class GiveKudosTest extends APITest {
 	@Test
 	public void testGiveKudos_activityPrivateNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue #82
+			Issue82 issue = new Issue82();
+			if (issue.isIssue()) {
+				return;
+			}
+			// End of workaround
+			
 			try {
 				apiWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE);
 			} catch (final UnauthorizedException e) {
