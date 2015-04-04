@@ -143,6 +143,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
 			final List<StravaComment> comments = strava().listActivityComments(comment.getActivityId());
+			forceDeleteActivity(comment.getActivityId());
 			assertNotNull(comments);
 			assertEquals(0, comments.size());
 		});
@@ -154,6 +155,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithViewPrivate()");
 			final List<StravaComment> comments = stravaWithViewPrivate().listActivityComments(comment.getActivityId());
+			forceDeleteActivity(comment.getActivityId());
 			assertNotNull(comments);
 			assertEquals(1, comments.size());
 		});

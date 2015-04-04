@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import test.api.model.StravaStreamTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue87;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -53,12 +54,12 @@ public class GetSegmentStreamsTest extends APITest {
 						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final BadRequestException e) {
 						// expected
-				return;
+						return;
+					}
+					fail("Can't return a segment stream which is downsampled by TIME!");
+				}
 			}
-			fail("Can't return a segment stream which is downsampled by TIME!");
-		}
-	}
-})	  ;
+		})	  ;
 	}
 
 	// 9. Invalid downsample resolution
@@ -172,14 +173,20 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned segment streams for a private segment, without view_private access");
-		});
+			// TODO This is a workaround for issue javastravav3api#87
+				if (new Issue87().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					api().getSegmentStreams(TestUtils.SEGMENT_PRIVATE_ID, getAllStreamTypes(), null, null);
+				} catch (final UnauthorizedException e) {
+					// expected
+					return;
+				}
+				fail("Returned segment streams for a private segment, without view_private access");
+			});
 	}
 
 	private void validateArray(final StravaStream[] streams) {

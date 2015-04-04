@@ -51,25 +51,25 @@ public class CreateManualActivityTest extends APITest {
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// This is only a workaround for issue javastravav3api#49
-				if (new Issue49().isIssue()) {
-					return;
-				}
-				// End of workaround
+			if (new Issue49().isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				// Type must be one of the specified values
-				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType");
-				StravaActivity stravaResponse = null;
-				activity.setType(StravaActivityType.UNKNOWN);
-				try {
-					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final BadRequestException e1) {
-					// Expected behaviour
-					return;
-				}
-				// If it did get created, delete it again
-				forceDeleteActivity(stravaResponse);
-			fail("Created an activity with invalid type in error");
-			});
+			// Type must be one of the specified values
+			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType");
+			StravaActivity stravaResponse = null;
+			activity.setType(StravaActivityType.UNKNOWN);
+			try {
+				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			} catch (final BadRequestException e1) {
+				// Expected behaviour
+				return;
+			}
+			// If it did get created, delete it again
+			forceDeleteActivity(stravaResponse);
+				fail("Created an activity with invalid type in error (was " + StravaActivityType.UNKNOWN + ", is " + stravaResponse.getType() + ")");
+		});
 	}
 
 	@Test
@@ -78,19 +78,19 @@ public class CreateManualActivityTest extends APITest {
 			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime");
 			StravaActivity stravaResponse = null;
 			// Elapsed time is required
-				activity.setElapsedTime(null);
-				try {
-					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final BadRequestException e1) {
-					// Expected behaviour
-					return;
-				}
+			activity.setElapsedTime(null);
+			try {
+				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			} catch (final BadRequestException e1) {
+				// Expected behaviour
+				return;
+			}
 
-				// If it did get created, delete it again
-				forceDeleteActivity(stravaResponse);
+			// If it did get created, delete it again
+			forceDeleteActivity(stravaResponse);
 
-				fail("Created an activity with no elapsed time in error" + stravaResponse);
-			});
+			fail("Created an activity with no elapsed time in error" + stravaResponse);
+		});
 	}
 
 	/**
@@ -110,24 +110,24 @@ public class CreateManualActivityTest extends APITest {
 	public void testCreateManualActivity_noName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Name is required
-				final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName");
-				StravaActivity stravaResponse = null;
-				activity.setDescription(activity.getName());
-				activity.setName(null);
-				try {
-					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final BadRequestException e1) {
-					// Expected behaviour
-				return;
-			}
+			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName");
+			StravaActivity stravaResponse = null;
+			activity.setDescription(activity.getName());
+			activity.setName(null);
+			try {
+				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			} catch (final BadRequestException e1) {
+				// Expected behaviour
+					return;
+				}
 
-			// If it did get created, delete it again
-			if (stravaResponse != null) {
-				forceDeleteActivity(stravaResponse);
-			}
+				// If it did get created, delete it again
+				if (stravaResponse != null) {
+					forceDeleteActivity(stravaResponse);
+				}
 
-			fail("Created an activity with no name in error" + stravaResponse);
-		});
+				fail("Created an activity with no name in error" + stravaResponse);
+			});
 	}
 
 	@Test
@@ -136,40 +136,40 @@ public class CreateManualActivityTest extends APITest {
 			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate");
 			StravaActivity stravaResponse = null;
 			// Start date is required
-				activity.setStartDateLocal(null);
-				try {
-					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final BadRequestException e) {
-					// Expected behaviour
-					return;
-				}
-
-				// If it did get created, delete it again
-				forceDeleteActivity(stravaResponse);
-
-				fail("Created an activity with no start date in error" + stravaResponse);
-			});
-	}
-
-	@Test
-	public void testCreateManualActivity_noType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Type is required
-				final StravaActivity activity = TestUtils.createDefaultActivity("CreateMannualActivityTest.testCreateManualActivity_noType");
-				StravaActivity stravaResponse = null;
-				activity.setType(null);
-				try {
-					stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-				} catch (final BadRequestException e1) {
-					// Expected behaviour
+			activity.setStartDateLocal(null);
+			try {
+				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			} catch (final BadRequestException e) {
+				// Expected behaviour
 				return;
 			}
 
 			// If it did get created, delete it again
 			forceDeleteActivity(stravaResponse);
 
-			fail("Created an activity with no type in error" + stravaResponse);
+			fail("Created an activity with no start date in error" + stravaResponse);
 		});
+	}
+
+	@Test
+	public void testCreateManualActivity_noType() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Type is required
+			final StravaActivity activity = TestUtils.createDefaultActivity("CreateMannualActivityTest.testCreateManualActivity_noType");
+			StravaActivity stravaResponse = null;
+			activity.setType(null);
+			try {
+				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+			} catch (final BadRequestException e1) {
+				// Expected behaviour
+					return;
+				}
+
+				// If it did get created, delete it again
+				forceDeleteActivity(stravaResponse);
+
+				fail("Created an activity with no type in error" + stravaResponse);
+			});
 	}
 
 	/**
@@ -195,13 +195,13 @@ public class CreateManualActivityTest extends APITest {
 			assertNotNull(response);
 
 			// Load it from Strava
-				final StravaActivity stravaActivity = api().getActivity(response.getId(), null);
-				assertNotNull(stravaActivity);
-				StravaActivityTest.validateActivity(stravaActivity);
+			final StravaActivity stravaActivity = api().getActivity(response.getId(), null);
+			assertNotNull(stravaActivity);
+			StravaActivityTest.validateActivity(stravaActivity);
 
-				// And delete it
-				forceDeleteActivity(response);
-			});
+			// And delete it
+			forceDeleteActivity(response);
+		});
 	}
 
 }

@@ -60,18 +60,18 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 			final StravaComment[] commentsWithoutMarkdown = api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, Boolean.FALSE, null, null);
 
 			// Check that the lists are the same length!!
-			assertNotNull("Returned null list of comments (without markdown) when some were expected");
-			assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!",
-						comments.length, commentsWithoutMarkdown.length);
-			for (final StravaComment comment1 : comments) {
-				assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
-				StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());
-			}
-			for (final StravaComment comment2 : commentsWithoutMarkdown) {
-				assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment2.getActivityId());
-				StravaCommentTest.validateComment(comment2, comment2.getId(), comment2.getResourceState());
-			}
-		});
+				assertNotNull("Returned null list of comments (without markdown) when some were expected");
+				assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!",
+					comments.length, commentsWithoutMarkdown.length);
+				for (final StravaComment comment1 : comments) {
+					assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
+					StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());
+				}
+				for (final StravaComment comment2 : commentsWithoutMarkdown) {
+					assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment2.getActivityId());
+					StravaCommentTest.validateComment(comment2, comment2.getId(), comment2.getResourceState());
+				}
+			});
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listActivityComments(TestUtils.ACTIVITY_INVALID, Boolean.FALSE, null, null);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
 				return;
 			}
@@ -134,7 +134,7 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null, null);
-			} catch (UnauthorizedException e) {
+			} catch (final UnauthorizedException e) {
 				// expected
 				return;
 			}
@@ -146,18 +146,18 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 	public void testListActivityComments_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#67
-			Issue67 issue67 = new Issue67();
-			if (issue67.isIssue()) {
-				return;
-			}
-			// End of workaround
-			
-			final StravaComment comment = APITest
-					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
-			final StravaComment[] comments = api().listActivityComments(comment.getActivityId(), null, null, null);
-			assertNotNull(comments);
-			assertEquals(0, comments.length);
-		});
+				final Issue67 issue67 = new Issue67();
+				if (issue67.isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				final StravaComment comment = APITest
+						.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithoutViewPrivate()");
+				final StravaComment[] comments = api().listActivityComments(comment.getActivityId(), null, null, null);
+				assertNotNull(comments);
+				assertEquals(0, comments.length);
+			});
 	}
 
 	@Test
@@ -166,6 +166,7 @@ public class ListActivityCommentsTest extends PagingArrayMethodTest<StravaCommen
 			final StravaComment comment = APITest
 					.createPrivateActivityWithComment("ListActivityCommentsTest.testListActivityComments_privateWithViewPrivate()");
 			final StravaComment[] comments = apiWithViewPrivate().listActivityComments(comment.getActivityId(), null, null, null);
+			forceDeleteActivity(comment.getActivityId());
 			assertNotNull(comments);
 			assertEquals(1, comments.length);
 		});

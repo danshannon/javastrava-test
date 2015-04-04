@@ -152,10 +152,10 @@ public class GetActivityTest extends APITest {
 				response = api().getActivity(activity.getId(), null);
 			} catch (final UnauthorizedException e) {
 				// expected
-				return;
-			} finally {
 				forceDeleteActivity(response);
+				return;
 			}
+			forceDeleteActivity(response);
 			StravaActivityTest.validateActivity(response, response.getId(), StravaResourceState.PRIVATE);
 		});
 	}
