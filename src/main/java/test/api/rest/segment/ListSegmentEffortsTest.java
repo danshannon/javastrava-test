@@ -20,6 +20,7 @@ import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
 import test.issues.strava.Issue33;
+import test.issues.strava.Issue86;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -76,7 +77,7 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null, null, null);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
 				return;
 			}
@@ -103,16 +104,16 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 	public void testListSegmentEfforts_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#33
-			Issue33 issue33 = new Issue33();
-			if (issue33.isIssue()) {
-				return;
-			}
-			// End of workaround
-			
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
-			assertNotNull(efforts);
-			assertEquals(0, efforts.length);
-		});
+				final Issue33 issue33 = new Issue33();
+				if (issue33.isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
+				assertNotNull(efforts);
+				assertEquals(0, efforts.length);
+			});
 	}
 
 	// 2. No filtering, invalid segment
@@ -121,7 +122,7 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listSegmentEfforts(TestUtils.SEGMENT_INVALID_ID, null, null, null, null, null);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
 				return;
 			}
@@ -144,14 +145,20 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 	@Test
 	public void testListSegmentEfforts_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null);
-			} catch (UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned segment efforts for a private segment");
-		});
+			// TODO This is a workaround for issue javastravav3api#86
+				if (new Issue86().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					api().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null);
+				} catch (final UnauthorizedException e) {
+					// expected
+					return;
+				}
+				fail("Returned segment efforts for a private segment");
+			});
 	}
 
 	@Test
@@ -159,9 +166,9 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentEffort[] efforts = apiWithViewPrivate().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null);
 			// Should not return an empty list
-			assertNotNull(efforts);
-			assertFalse(efforts.length == 0);
-		});
+				assertNotNull(efforts);
+				assertFalse(efforts.length == 0);
+			});
 	}
 
 	@Override

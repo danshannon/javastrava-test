@@ -37,10 +37,11 @@ public class LeaveClubTest extends APITest {
 
 			try {
 				apiWithWriteAccess().leaveClub(id);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
+				return;
 			}
-			fail("Joined a non-existent club!");
+			fail("Left a non-existent club!");
 		});
 	}
 
@@ -86,7 +87,7 @@ public class LeaveClubTest extends APITest {
 
 			try {
 				api().leaveClub(id);
-			} catch (UnauthorizedException e) {
+			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}

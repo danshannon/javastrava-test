@@ -3,7 +3,6 @@ package test.api.rest.stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaStream;
@@ -11,6 +10,7 @@ import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
@@ -79,7 +79,7 @@ public class GetEffortStreamsTest extends APITest {
 			try {
 				api().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, getAllStreamTypes(), StravaStreamResolutionType.LOW,
 						StravaStreamSeriesDownsamplingType.UNKNOWN);
-			} catch (final IllegalArgumentException e) {
+			} catch (final BadRequestException e) {
 				// Expected
 				return;
 			}
@@ -91,8 +91,13 @@ public class GetEffortStreamsTest extends APITest {
 	@Test
 	public void testGetEffortStreams_invalidEffort() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID, getAllStreamTypes(), null, null);
-			assertNull(streams);
+			try {
+				api().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID, getAllStreamTypes(), null, null);
+			} catch (final NotFoundException e) {
+				// expected
+				return;
+			}
+			fail("Returned effort streams for a non-existent segment effort");
 		});
 	}
 
