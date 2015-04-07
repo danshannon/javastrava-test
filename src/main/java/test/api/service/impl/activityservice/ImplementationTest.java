@@ -3,11 +3,10 @@ package test.api.service.impl.activityservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.ActivityService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.ActivityServiceImpl;
 
@@ -75,8 +74,13 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final ActivityService service = ActivityServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			StravaActivity activity = service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertEquals(StravaResourceState.PRIVATE, activity.getResourceState());
+			try {
+				service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			} catch (InvalidTokenException e) {
+				// expected 
+				return;
+			}
+			fail("Used an invalid token but still got access to Strava!");
 		});
 	}
 
@@ -97,9 +101,13 @@ public class ImplementationTest implements InstanceTestSpec {
 				final ActivityService activityServices = ActivityServiceImpl.instance(TestUtils.getRevokedToken());
 
 				// Check that it can't be used
-				final StravaActivity activity = activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-				assertTrue(activity.getResourceState() == StravaResourceState.PRIVATE);
-
+				try {
+					activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				} catch (InvalidTokenException e) {
+					// expected
+					return;
+				}
+				fail("Used a revoked token but still got access to Strava!");
 			});
 	}
 

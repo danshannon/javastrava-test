@@ -3,9 +3,9 @@ package test.api.service.impl.clubservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.service.ClubService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.ClubServiceImpl;
 
@@ -73,10 +73,14 @@ public class ImplementationTest implements InstanceTestSpec {
 	@Test
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			ClubService service = null;
-			service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			final StravaClub club = service.getClub(TestUtils.CLUB_VALID_ID);
-			assertEquals("Got a usable service implementation despite using an invalid token", StravaResourceState.PRIVATE, club.getResourceState());
+			ClubService service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
+			try {
+				service.getClub(TestUtils.CLUB_VALID_ID);
+			} catch (InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used an invalid token but still got access to Strava!");
 		});
 	}
 
@@ -94,8 +98,13 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_revokedToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final ClubService service = getRevokedTokenService();
-			final StravaClub club = service.getClub(TestUtils.CLUB_VALID_ID);
-			assertEquals("Got a usable service implementation despite using a revoked token", StravaResourceState.PRIVATE, club.getResourceState());
+			try {
+				service.getClub(TestUtils.CLUB_VALID_ID);
+			} catch (InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used a revoked token but still got access to Strava!");
 		});
 	}
 

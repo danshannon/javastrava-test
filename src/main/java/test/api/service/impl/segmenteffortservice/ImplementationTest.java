@@ -3,10 +3,10 @@ package test.api.service.impl.segmenteffortservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.SegmentEffortService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.SegmentEffortServiceImpl;
 
@@ -82,9 +82,13 @@ public class ImplementationTest implements InstanceTestSpec {
 		RateLimitedTestRunner.run(() -> {
 			SegmentEffortService service = null;
 			service = SegmentEffortServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			final StravaSegmentEffort effort = service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
-			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
-
+			try {
+				service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
+			} catch (InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used an invalid token, but still got access!");
 		});
 	}
 
@@ -100,9 +104,13 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_revokedToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentEffortService service = SegmentEffortServiceImpl.instance(getRevokedToken());
-			final StravaSegmentEffort effort = service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
-			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
-
+			try {
+				service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
+			} catch (InvalidTokenException e) {
+				// Expected
+				return;
+			}
+			fail("Used an invalid token, still got access to Strava data!");
 		});
 	}
 

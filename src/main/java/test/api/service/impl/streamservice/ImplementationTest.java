@@ -3,12 +3,13 @@ package test.api.service.impl.streamservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.service.StreamService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.impl.StreamServiceImpl;
 
 import org.junit.Test;
@@ -44,9 +45,13 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StreamService service = StreamServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertNotNull(streams);
-			assertTrue(streams.isEmpty());
+			try {
+				service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			} catch (InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used an invalid token but still got access to Strava!");
 		});
 	}
 
@@ -55,9 +60,13 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_revokedToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StreamService service = StreamServiceImpl.instance(TestUtils.getRevokedToken());
-			List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertNotNull(streams);
-			assertTrue(streams.isEmpty());
+			try {
+				service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			} catch (InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used a revoked token but still got access to Strava!");
 		});
 	}
 

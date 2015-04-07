@@ -11,6 +11,7 @@ import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.BadRequestException;
+import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
@@ -94,7 +95,7 @@ public class AuthorisationServiceImplTest {
 				Token tokenResponse;
 				try {
 					tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, "", code);
-				} catch (final UnauthorizedException e) {
+				} catch (final InvalidTokenException e) {
 					// Expected behaviour
 					return;
 				}
