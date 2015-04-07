@@ -3,6 +3,7 @@ package test.api.service.impl.clubservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -64,6 +65,24 @@ public class ListAllRecentClubActivitiesTest extends StravaTest {
 				StravaActivityTest.validateActivity(activity);
 			}
 		});
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListAllRecentClubActivities_checkPrivacyAuthenticatedAthlete() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListAllRecentClubActivities_checkPrivacyOtherAthletes() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
 	}
 
 }

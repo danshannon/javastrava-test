@@ -3,6 +3,7 @@ package test.api.service.impl.athleteservice;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
-				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_AUTHENTICATED_ID
-						+ " is not the KOM!", isKom(effort.getSegment(), TestUtils.ATHLETE_AUTHENTICATED_ID));
+				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_AUTHENTICATED_ID + " is not the KOM!",
+						isKom(effort.getSegment(), TestUtils.ATHLETE_AUTHENTICATED_ID));
 			}
 		});
 	}
@@ -63,6 +64,42 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 			// " is not the KOM!",isKom(effort.getSegment(),TestUtils.ATHLETE_VALID_ID));
 			// }
 			});
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_otherAthletePrivateSegments() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_otherAthletePrivateActivities() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
 	}
 
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -66,6 +67,42 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 			assertNotNull(koms);
 			assertTrue(koms.size() == 0);
 		});
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_otherAthletePrivateSegments() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAllAthleteKOMs_otherAthletePrivateActivities() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
 	}
 
 	@Override

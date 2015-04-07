@@ -107,6 +107,24 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 		});
 	}
 
+	@Test
+	public void testListActivityKudoers_privateActivityWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS);
+			assertNotNull(kudoers);
+			assertEquals(0, kudoers.size());
+		});
+	}
+
+	@Test
+	public void testListActivityKudoers_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> kudoers = stravaWithViewPrivate().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS);
+			assertNotNull(kudoers);
+			assertNotEquals(0, kudoers.size());
+		});
+	}
+
 	@Override
 	protected void validate(final StravaAthlete athlete) {
 		validate(athlete, athlete.getId(), athlete.getResourceState());

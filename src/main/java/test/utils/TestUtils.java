@@ -43,7 +43,7 @@ public class TestUtils {
 	private static Token createToken(final String accessToken, final String username) {
 		final TokenResponse tokenResponse = new TokenResponse();
 		tokenResponse.setAccessToken(accessToken);
-		StravaAthlete athlete = new StravaAthlete();
+		final StravaAthlete athlete = new StravaAthlete();
 		athlete.setEmail(username);
 		tokenResponse.setAthlete(athlete);
 		tokenResponse.setTokenType("Bearer");
@@ -152,6 +152,9 @@ public class TestUtils {
 	public static Integer ACTIVITY_PRIVATE_OTHER_USER;
 	public static Integer ACTIVITY_PRIVATE;
 	public static Integer ACTIVITY_PRIVATE_WITH_PHOTOS;
+	public static Integer ACTIVITY_PRIVATE_WITH_KUDOS;
+	public static Integer ACTIVITY_PRIVATE_WITH_LAPS;
+	public static Integer ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
 
 	public static Integer ACTIVITY_RUN_OTHER_USER;
 
@@ -184,7 +187,7 @@ public class TestUtils {
 	public static Long SEGMENT_EFFORT_PRIVATE_ID;
 
 	public static Long SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
-	
+
 	public static Long SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
 
 	public static Integer SEGMENT_VALID_ID;
@@ -235,6 +238,9 @@ public class TestUtils {
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityServicesImplTest.activityPrivateOtherUser");
 		ACTIVITY_PRIVATE = integerProperty("test.activityServicesImplTest.activityPrivateAuthenticatedUser");
 		ACTIVITY_PRIVATE_WITH_PHOTOS = integerProperty("test.activityServicesImplTest.activityPrivatePhotos");
+		ACTIVITY_PRIVATE_WITH_KUDOS = integerProperty("test.activityServicesImplTest.activityPrivateKudos");
+		ACTIVITY_PRIVATE_WITH_LAPS = integerProperty("test.activityServicesImplTest.activityPrivateLaps");
+		ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES = integerProperty("test.activityServicesImplTest.activityPrivateRelated");
 		ACTIVITY_RUN_OTHER_USER = integerProperty("test.activityServicesImplTest.activityRunOtherUser");
 
 		ATHLETE_AUTHENTICATED_ID = integerProperty("test.athleteServicesImplTest.authenticatedAthleteId");

@@ -1,11 +1,11 @@
 package test.api.rest.segment;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -54,9 +54,13 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 	@Test
 	public void testListStarredSegments_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID, null, null);
-			assertNotNull(segments);
-			assertEquals(0, segments.length);
+			try {
+				api().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID, null, null);
+			} catch (final UnauthorizedException e) {
+				// expected
+				return;
+			}
+			fail("Should have thrown a 404 unauthorised, but didn't");
 		});
 	}
 

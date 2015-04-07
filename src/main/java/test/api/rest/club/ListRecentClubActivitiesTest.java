@@ -31,7 +31,7 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listRecentClubActivities(TestUtils.CLUB_INVALID_ID, null, null);
-			} catch (NotFoundException e) {
+			} catch (final NotFoundException e) {
 				// expected
 				return;
 			}
@@ -59,7 +59,7 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null);
-			} catch (UnauthorizedException e) {
+			} catch (final UnauthorizedException e) {
 				// expected
 				return;
 			}
@@ -100,11 +100,29 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			validateList(secondPage);
 
 			// The first entry in bothPages should be the same as the first entry in firstPage
-				assertEquals(bothPages[0], firstPage[0]);
+			assertEquals(bothPages[0], firstPage[0]);
 
-				// The second entry in bothPages should be the same as the first entry in secondPage
-				assertEquals(bothPages[1], secondPage[0]);
-		});
+			// The second entry in bothPages should be the same as the first entry in secondPage
+			assertEquals(bothPages[1], secondPage[0]);
+			});
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListRecentClubActivities_checkPrivacyAuthenticatedAthlete() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListRecentClubActivities_checkPrivacyOtherAthletes() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
 	}
 
 	@Override

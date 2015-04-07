@@ -13,18 +13,31 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.StravaDateUtils;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue69;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
+	private Boolean issue69 = null;
+
 	@Override
 	protected ArrayCallback<StravaActivity> callback() {
 		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()));
+	}
+
+	@Before
+	public void setIssue69() throws Exception {
+		if (this.issue69 == null) {
+			RateLimitedTestRunner.run(() -> {
+				this.issue69 = Boolean.valueOf(new Issue69().isIssue());
+			});
+		}
 	}
 
 	/**
@@ -43,10 +56,11 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null);
 			for (final StravaActivity activity : activities) {
-				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
-					assertTrue(activity.getStartDateLocal().isAfter(calendar));
-					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				if (!this.issue69) {
+					assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				}
+				assertTrue(activity.getStartDateLocal().isAfter(calendar));
+				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validateActivity(activity);
 			}
 		});
@@ -68,6 +82,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null, null);
 			for (final StravaActivity activity : activities) {
+				if (!this.issue69) {
+					assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
+				}
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validateActivity(activity);
@@ -93,6 +110,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before),
 					StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
 			for (final StravaActivity activity : activities) {
+				if (!this.issue69) {
+					assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
+				}
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -135,6 +155,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			assertNotNull(activities);
 			assertEquals(1, activities.length);
 			for (final StravaActivity activity : activities) {
+				if (!this.issue69) {
+					assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
+				}
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -161,9 +184,10 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			assertNotNull("Authenticated athlete's activities returned as null", activities);
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);
 			for (final StravaActivity activity : activities) {
-				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
-					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				if (!this.issue69) {
+					assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				}
+				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validateActivity(activity);
 			}
 		});

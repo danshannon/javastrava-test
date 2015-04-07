@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -160,9 +161,9 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegmentEffort> efforts = strava().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID);
 			// Should return an empty list
-				assertNotNull(efforts);
-				assertEquals(0, efforts.size());
-			});
+			assertNotNull(efforts);
+			assertEquals(0, efforts.size());
+		});
 	}
 
 	@Test
@@ -170,9 +171,21 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegmentEffort> efforts = stravaWithViewPrivate().listSegmentEfforts(TestUtils.SEGMENT_PRIVATE_ID);
 			// Should not return an empty list
-				assertNotNull(efforts);
-				assertFalse(efforts.isEmpty());
-			});
+			assertNotNull(efforts);
+			assertFalse(efforts.isEmpty());
+		});
+	}
+
+	@Test
+	public void testListSegmentEfforts_privateActivityWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListSegmentEfforts_privateActivityWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -95,7 +96,25 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 			//
 			// // The second entry in bothPages should be the same as the first entry in secondPage
 			// assertEquals(bothPages.get(1),secondPage.get(0));
-			});
+		});
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListRecentClubActivities_checkPrivacyAuthenticatedAthlete() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListRecentClubActivities_checkPrivacyOtherAthletes() {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
 	}
 
 	@Override

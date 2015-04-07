@@ -73,6 +73,30 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 		});
 	}
 
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
+	}
+
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
 		validate(effort, effort.getId(), effort.getResourceState());

@@ -1,6 +1,7 @@
 package test.api.rest.upload;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaUploadResponse;
 
 import org.junit.Test;
@@ -18,6 +19,12 @@ public class CheckUploadStatusTest extends APITest {
 			assertNotNull(response);
 			StravaUploadResponseTest.validate(response);
 		});
+	}
+
+	@Test
+	public void testCheckUploadStatus_activityForOtherUser() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented!");
 	}
 
 }

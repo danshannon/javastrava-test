@@ -120,7 +120,7 @@ public class ListActivityLapsTest extends APITest {
 	public void testListActivityLaps_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+				api().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_WITH_LAPS);
 			} catch (final UnauthorizedException e) {
 				return;
 			}
@@ -131,7 +131,7 @@ public class ListActivityLapsTest extends APITest {
 	@Test
 	public void testListActivityLaps_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaLap[] laps = apiWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			final StravaLap[] laps = apiWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_WITH_LAPS);
 			assertNotNull(laps);
 			assertFalse(0 == laps.length);
 			for (final StravaLap lap : laps) {

@@ -1,5 +1,6 @@
 package test.api.rest.activity;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
@@ -35,7 +36,7 @@ public class ListRelatedActivitiesTest extends PagingArrayMethodTest<StravaActiv
 	}
 
 	@Test
-	public void testListRelatedActivities_privateActivity() throws Exception {
+	public void testListRelatedActivities_privateActivityOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
 				api().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null);
@@ -56,6 +57,28 @@ public class ListRelatedActivitiesTest extends PagingArrayMethodTest<StravaActiv
 				StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
 			}
 
+		});
+	}
+
+	@Test
+	public void testListRelatedActivities_privateActivityWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			try {
+				api().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES, null, null);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned related activities for a private activity belonging to the authenticated user, but do not have view_private access!");
+		});
+	}
+
+	@Test
+	public void testListRelatedActivities_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity[] activities = apiWithViewPrivate().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES, null, null);
+			assertNotNull(activities);
+			assertNotEquals(0, activities.length);
 		});
 	}
 

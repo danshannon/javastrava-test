@@ -2,6 +2,7 @@ package test.api.rest.segment;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.api.v3.model.StravaSegmentExplorerResponse;
 import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
@@ -76,6 +77,12 @@ public class SegmentExploreTest extends APITest {
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
+	}
+
+	@Test
+	public void testSegmentExplore_checkPrivacy() throws Exception {
+		// TODO Not yet implemented
+		fail("Not yet implemented");
 	}
 
 	private static String bounds(final StravaMapPoint point1, final StravaMapPoint point2) {

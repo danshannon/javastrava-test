@@ -115,7 +115,7 @@ public class ListActivityLapsTest extends StravaTest {
 	@Test
 	public void testListActivityLaps_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			final List<StravaLap> laps = strava().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_WITH_LAPS);
 			assertNotNull(laps);
 			assertTrue(laps.isEmpty());
 		});
@@ -124,7 +124,7 @@ public class ListActivityLapsTest extends StravaTest {
 	@Test
 	public void testListActivityLaps_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaLap> laps = stravaWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE);
+			final List<StravaLap> laps = stravaWithViewPrivate().listActivityLaps(TestUtils.ACTIVITY_PRIVATE_WITH_LAPS);
 			assertNotNull(laps);
 			assertFalse(laps.isEmpty());
 		});

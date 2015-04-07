@@ -113,16 +113,16 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue 23
-				final Issue23 issue23 = new Issue23();
-				if (issue23.isIssue()) {
-					return;
-				}
-				// End of workaround
+			final Issue23 issue23 = new Issue23();
+			if (issue23.isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
-						TestUtils.CLUB_INVALID_ID, null, null, null, null);
-				assertNull(leaderboard);
-			});
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
+					TestUtils.CLUB_INVALID_ID, null, null, null, null);
+			assertNull(leaderboard);
+		});
 	}
 
 	// 9. Filter by leaderboard date range
@@ -177,17 +177,17 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	}
 
 	@Test
-	public void testGetSegmentLeaderboard_privateSegment() throws Exception {
+	public void testGetSegmentLeaderboard_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null, null, null,
 					null, null);
 			// Should return an empty leaderboard
-			assertNotNull(leaderboard);
-			assertNotNull(leaderboard.getEntries());
-			// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
-			// assertTrue(leaderboard.getEntries().isEmpty());
-			// End of workaround
-		});
+				assertNotNull(leaderboard);
+				assertNotNull(leaderboard.getEntries());
+				// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
+				// assertTrue(leaderboard.getEntries().isEmpty());
+				// End of workaround
+			});
 	}
 
 	@Test
@@ -255,12 +255,12 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 			validateList(secondPage);
 
 			// The first entry in bothPages should be the same as the first entry in firstPage
-			assertEquals(bothPages[0], firstPage[0]);
+				assertEquals(bothPages[0], firstPage[0]);
 
-			// The second entry in bothPages should be the same as the first entry in secondPage
-			assertEquals(bothPages[1], secondPage[0]);
+				// The second entry in bothPages should be the same as the first entry in secondPage
+				assertEquals(bothPages[1], secondPage[0]);
 
-		});
+			});
 	}
 
 	@Override
@@ -268,11 +268,11 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testPagingOutOfRangeHigh() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely to return anything!
-			final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1000000, 200));
+				final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1000000, 200));
 
-			assertNotNull(list);
-			assertEquals(1, list.length);
-		});
+				assertNotNull(list);
+				assertEquals(1, list.length);
+			});
 	}
 
 	@Override
@@ -280,13 +280,13 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-				final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1, 1));
-				assertNotNull(list);
-				assertEquals(2, list.length);
+			final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1, 1));
+			assertNotNull(list);
+			assertEquals(2, list.length);
 
-				// Validate all the entries in the list
-				validateList(list);
-			});
+			// Validate all the entries in the list
+			validateList(list);
+		});
 	}
 
 }

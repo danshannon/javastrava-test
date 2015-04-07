@@ -15,6 +15,7 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue95;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -109,6 +110,31 @@ public class ListActivityKudoersTest extends PagingArrayMethodTest<StravaAthlete
 				return;
 			}
 			fail("Returned kudoers for a private activity belonging to other user");
+		});
+	}
+
+	@Test
+	public void testListActivityKudoers_privateActivityWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			if (new Issue95().isIssue()) {
+				return;
+			}
+			try {
+				api().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS, null, null);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned kudoers for a private activity, but activity is private and token does not have view_private scope");
+		});
+	}
+
+	@Test
+	public void testListActivityKudoers_privateActivityWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaAthlete[] kudoers = apiWithViewPrivate().listActivityKudoers(TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS, null, null);
+			assertNotNull(kudoers);
+			assertNotEquals(0, kudoers.length);
 		});
 	}
 
