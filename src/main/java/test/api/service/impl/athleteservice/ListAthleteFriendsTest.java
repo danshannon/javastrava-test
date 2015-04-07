@@ -1,5 +1,6 @@
 package test.api.service.impl.athleteservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,16 +36,23 @@ public class ListAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, 
 	}
 
 	@Test
-	public void testListAthleteFriends_privateAthlete() throws Exception {
+	public void testListAthleteFriends_privateAthleteWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
 			assertNotNull(friends);
-			for (final StravaAthlete athlete : friends) {
-				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
-			}
+			assertEquals(0, friends.size());
 		});
 	}
 
+	@Test
+	public void testListAthleteFriends_privateAthleteWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
+			assertNotNull(friends);
+			assertEquals(0, friends.size());
+		});
+	}
+	
 	@Test
 	public void testListAthleteFriends_validAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
