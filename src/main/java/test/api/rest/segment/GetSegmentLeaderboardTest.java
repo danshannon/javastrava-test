@@ -17,6 +17,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.model.reference.StravaWeightClass;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.util.Paging;
 
 import org.junit.Test;
 
@@ -234,6 +235,58 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	protected void validate(final StravaSegmentLeaderboardEntry entry, final Integer id, final StravaResourceState state) {
 		StravaSegmentLeaderboardEntryTest.validate(entry);
 
+	}
+
+	@Override
+	@Test
+	public void testPageNumberAndSize() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentLeaderboardEntry[] bothPages = callback().getArray(new Paging(1, 2));
+			assertNotNull(bothPages);
+			assertEquals(3, bothPages.length);
+			validateList(bothPages);
+			final StravaSegmentLeaderboardEntry[] firstPage = callback().getArray(new Paging(1, 1));
+			assertNotNull(firstPage);
+			assertEquals(2, firstPage.length);
+			validateList(firstPage);
+			final StravaSegmentLeaderboardEntry[] secondPage = callback().getArray(new Paging(2, 1));
+			assertNotNull(secondPage);
+			assertEquals(2, secondPage.length);
+			validateList(secondPage);
+
+			// The first entry in bothPages should be the same as the first entry in firstPage
+			assertEquals(bothPages[0], firstPage[0]);
+
+			// The second entry in bothPages should be the same as the first entry in secondPage
+			assertEquals(bothPages[1], secondPage[0]);
+
+		});
+	}
+
+	@Override
+	@Test
+	public void testPagingOutOfRangeHigh() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Get the 200,000,000th entry in the list - this is pretty unlikely to return anything!
+			final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1000000, 200));
+
+			assertNotNull(list);
+			assertEquals(1, list.length);
+		});
+	}
+
+	@Override
+	@Test
+	public void testPageSize() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Get a list with only one entry
+				final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1, 1));
+				assertNotNull(list);
+				assertEquals(2, list.length);
+
+				// Validate all the entries in the list
+				validateList(list);
+			});
 	}
 
 }
