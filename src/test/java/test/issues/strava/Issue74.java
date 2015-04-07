@@ -3,13 +3,10 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
+import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.APITest;
 import test.utils.TestUtils;
 
 /**
@@ -23,17 +20,29 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/74">https://github.com/danshannon/javastravav3api/issues/74</a>
  */
-public class Issue74 {
-	@Test
-	public void issueTest() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.createDefaultActivity("Issue74.issueTest()");
-			final API api = new API(TestUtils.getValidTokenWithFullAccess());
-			final StravaActivity response = api.createManualActivity(activity);
-			final API apiWithWriteAccess = new API(TestUtils.getValidTokenWithWriteAccess());
-			final StravaComment comment = apiWithWriteAccess.createComment(response.getId(), "Test - ignore");
-			apiWithWriteAccess.deleteComment(response.getId(), comment.getId());
-			api.deleteActivity(response.getId());
-		});
+public class Issue74 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		StravaComment comment = APITest.createPrivateActivityWithComment("Issue74.isIssue()");
+		API api = new API(TestUtils.getValidTokenWithWriteAccess());
+		try {
+			api.deleteComment(comment.getActivityId(), comment.getId());
+		} catch (UnauthorizedException e) {
+			APITest.forceDeleteActivity(comment.getActivityId());
+			return false;
+		}
+		APITest.forceDeleteActivity(comment.getActivityId());
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 74;
 	}
 }

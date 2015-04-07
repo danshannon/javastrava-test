@@ -3,15 +3,7 @@
  */
 package test.issues.strava;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.rest.API;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 /**
  * <p>
@@ -25,14 +17,25 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/73">https://github.com/danshannon/javastravav3api/issues/73</a>
  */
-public class Issue73 {
-	@Test
-	public void issueTest() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final API api = new API(TestUtils.getValidToken());
-			final StravaSegmentLeaderboard leaderboard = api.getSegmentLeaderboard(1190741, null, null, null, null, null, null, null, null, null);
-			assertNotNull(leaderboard);
-			assertNotEquals(0, leaderboard.getEntries());
-		});
+public class Issue73 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.getSegmentLeaderboard(1190741, null, null, null, null, null, null, null, null, null);
+		} catch (UnauthorizedException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 73;
 	}
 }

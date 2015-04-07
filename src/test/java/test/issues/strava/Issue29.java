@@ -1,11 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ActivityAPI;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.utils.TestUtils;
 
 /**
@@ -17,13 +12,26 @@ import test.utils.TestUtils;
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/29">https://github.com/danshannon/javastravav3api/issues/29</a>
  *
  */
-public class Issue29 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-			retrofit.giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-		});
+public class Issue29 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		try {
+			api.giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+		} catch (UnauthorizedException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 29;
 	}
 
 }

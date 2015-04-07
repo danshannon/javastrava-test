@@ -1,14 +1,6 @@
 package test.issues.strava;
 
-import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.SegmentAPI;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * <p>
@@ -18,35 +10,26 @@ import test.utils.TestUtils;
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/25">https://github.com/danshannon/javastravav3api/issues/25</a>
  *
  */
-public class Issue25 {
-	@Test
-	public void testIssue_listAthleteStarredSegments() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
-			final StravaSegment[] segments = retrofit.listStarredSegments(5614, 1, 2);
-			boolean issue = false;
-			for (final StravaSegment segment : segments) {
-				if ((segment.getAthletePrEffort() != null) && (segment.getAthletePrEffort().getResourceState() == null)) {
-					issue = true;
-				}
+public class Issue25 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		final StravaSegment[] segments = api.listStarredSegments(5614, 1, 2);
+		for (final StravaSegment segment : segments) {
+			if ((segment.getAthletePrEffort() != null) && (segment.getAthletePrEffort().getResourceState() == null)) {
+				return true;
 			}
-			assertTrue(issue);
-		});
+		}
+		return false;
 	}
 
-	@Test
-	public void testIssue_listAuthenticatedAthleteStarredSegments() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final SegmentAPI retrofit = API.instance(SegmentAPI.class, TestUtils.getValidToken());
-			final StravaSegment[] segments = retrofit.listAuthenticatedAthleteStarredSegments(1, 50);
-			boolean issue = false;
-			for (final StravaSegment segment : segments) {
-				if ((segment.getAthletePrEffort() != null) && (segment.getAthletePrEffort().getResourceState() == null)) {
-					issue = true;
-				}
-			}
-			assertTrue(issue);
-		});
-
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 25;
 	}
 }

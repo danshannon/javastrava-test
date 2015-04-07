@@ -3,21 +3,9 @@
  */
 package test.issues.strava;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Arrays;
-import java.util.List;
-
 import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ActivityAPI;
-
-import org.junit.Test;
-
-import test.api.service.impl.util.ActivityServiceUtils;
-import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
+import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.APITest;
 
 /**
  * <p>
@@ -27,15 +15,28 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/67>https://github.com/danshannon/javastravav3api/issues/67</a>
  */
-public class Issue67 {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final ActivityAPI api = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-			final StravaComment comment = ActivityServiceUtils.createPrivateActivityWithComment("Issue67.testIssue()");
-			final List<StravaComment> comments = Arrays.asList(api.listActivityComments(comment.getActivityId(), null, null, null));
-			assertNotNull(comments);
-			assertFalse(comments.isEmpty());
-		});
+public class Issue67 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		final StravaComment comment = APITest.createPrivateActivityWithComment("Issue67.testIssue()");
+		try {
+			api.listActivityComments(comment.getActivityId(), null, null, null);
+		} catch (UnauthorizedException e) {
+			APITest.forceDeleteActivity(comment.getActivityId());
+			return false;
+		}
+		APITest.forceDeleteActivity(comment.getActivityId());
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 67;
 	}
 }

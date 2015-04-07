@@ -12,8 +12,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
+import test.api.rest.APITest;
 import test.api.service.StravaTest;
-import test.api.service.impl.util.ActivityServiceUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -122,7 +122,7 @@ public class GetActivityTest extends StravaTest {
 	@Test
 	public void testGetActivity_privateAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateAuthenticatedUser()");
 			StravaActivity response = null;
 			try {
 				response = stravaWithViewPrivate().getActivity(activity.getId());
@@ -157,7 +157,7 @@ public class GetActivityTest extends StravaTest {
 	@Test
 	public void testGetActivity_privateNoViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityServiceUtils.createPrivateActivity();
+			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateNoViewPrivateScope()");
 			StravaActivity response = null;
 			try {
 				response = strava().getActivity(activity.getId());

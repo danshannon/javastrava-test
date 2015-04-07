@@ -1,15 +1,14 @@
 package test.issues.strava;
 
-import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ActivityAPI;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 
 import org.junit.Test;
 
+import test.api.rest.APITest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -22,22 +21,37 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class Issue49 {
+public class Issue49 extends IssueTest {
 	@Test
 	public void testIssue() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidTokenWithWriteAccess());
-			final StravaActivity activity = TestUtils.createDefaultActivity("Issue49.testIssue");
-			activity.setType(StravaActivityType.UNKNOWN);
-			try {
-				retrofit.createManualActivity(activity);
-			} catch (final StravaInternalServerErrorException e) {
-				// Expected
-				return;
-			} catch (final BadRequestException e) {
-				fail("Issue 49 appears to be fixed - now throwing 400 Bad Request Exception");
-			}
-			fail("Didn't throw the expected 500 Internal Server Error");
 		});
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		final API api = new API(TestUtils.getValidTokenWithWriteAccess());
+		StravaActivity activity = TestUtils.createDefaultActivity("Issue49.testIssue");
+		activity.setType(StravaActivityType.UNKNOWN);
+		try {
+			activity = api.createManualActivity(activity);
+		} catch (final StravaInternalServerErrorException e) {
+			return true;
+		} catch (final BadRequestException e) {
+			return false;
+		}
+		APITest.forceDeleteActivity(activity);
+		return false;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 49;
 	}
 }

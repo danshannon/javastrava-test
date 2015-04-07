@@ -25,17 +25,17 @@ public class GiveKudosTest extends StravaTest {
 			stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 			// Check that kudos was NOT given
-				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
-				boolean found = false;
-				for (final StravaAthlete athlete : kudoers) {
-					StravaAthleteTest.validateAthlete(athlete);
-					if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
-						found = true;
-					}
+			boolean found = false;
+			for (final StravaAthlete athlete : kudoers) {
+				StravaAthleteTest.validateAthlete(athlete);
+				if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+					found = true;
 				}
-				assertFalse(found);
-			});
+			}
+			assertFalse(found);
+		});
 	}
 
 	@Test
@@ -59,17 +59,17 @@ public class GiveKudosTest extends StravaTest {
 			stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 			// Check that kudos is now given
-				final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			final List<StravaAthlete> kudoers = strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
-				boolean found = false;
-				for (final StravaAthlete athlete : kudoers) {
-					StravaAthleteTest.validateAthlete(athlete);
-					if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
-						found = true;
-					}
+			boolean found = false;
+			for (final StravaAthlete athlete : kudoers) {
+				StravaAthleteTest.validateAthlete(athlete);
+				if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+					found = true;
 				}
-				assertTrue(found);
-			});
+			}
+			assertTrue(found);
+		});
 	}
 
 	@Test
@@ -99,4 +99,16 @@ public class GiveKudosTest extends StravaTest {
 		});
 	}
 
+	@Test
+	public void testGiveKudos_activityPrivateNoViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			try {
+				stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Gave kudos to a private activity without view_private access");
+		});
+	}
 }

@@ -1,12 +1,8 @@
 package test.issues.strava;
 
 import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ActivityAPI;
-
-import org.junit.Test;
-
-import test.utils.RateLimitedTestRunner;
+import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.APITest;
 import test.utils.TestUtils;
 
 /**
@@ -17,14 +13,30 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  * @see <a href="https://github.com/danshannon/javastravav3api/issues/30">https://github.com/danshannon/javastravav3api/issues/30</a>
  */
-public class Issue30 {
-	@Test
-	public void testIssue30() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final ActivityAPI retrofit = API.instance(ActivityAPI.class, TestUtils.getValidToken());
-			final StravaComment comment = retrofit.createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
-			retrofit.deleteComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, comment.getId());
-		});
+public class Issue30 extends IssueTest {
+	/**
+	 * @see test.issues.strava.IssueTest#isIssue()
+	 */
+	@Override
+	public boolean isIssue() throws Exception {
+		StravaComment comment = null;
+		try {
+			comment = api.createComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
+		} catch (UnauthorizedException e) {
+			return false;
+		}
+		
+		// Force delete the comment we just created
+		APITest.forceDeleteComment(comment);
+		return true;
+	}
+
+	/**
+	 * @see test.issues.strava.IssueTest#issueNumber()
+	 */
+	@Override
+	public int issueNumber() {
+		return 30;
 	}
 
 }
