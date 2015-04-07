@@ -15,6 +15,7 @@ import org.junit.Test;
 import test.api.model.StravaActivityTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue94;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -82,6 +83,9 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue94().isIssue()) {
+				return;
+			}
 			final StravaActivity[] bothPages = callback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.length);
