@@ -3,13 +3,16 @@
  */
 package test.utils;
 
+import javastrava.api.v3.service.exception.StravaAPINetworkException;
 import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
 import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * @author Dan Shannon
  *
  */
+@Log4j2
 public class RateLimitedTestRunner {
 	public static void run(final TestCallback t) throws Exception {
 		boolean loop = true;
@@ -21,15 +24,41 @@ public class RateLimitedTestRunner {
 				waitForRateLimit();
 			} catch (final StravaServiceUnavailableException e) {
 				waitForServiceRestoration();
+			} catch (final StravaAPINetworkException e) {
+				waitForNetworkRestoration();
+			}
+			
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private static void waitForNetworkRestoration() {
+		boolean loop = true;
+		while (loop) {
+			try {
+				log.error("Network failure - pausing test for 15 seconds");
+				Thread.sleep(15000l);
+			} catch (InterruptedException e) {
+				// ignore
+			}
+			try {
+				TestUtils.strava().getAuthenticatedAthlete();
+				// If this call worked, we don't have network issues now
+				loop = false;
+			} catch (StravaAPINetworkException e) {
+				loop = true;
 			}
 		}
+		
 	}
 
 	private static void waitForRateLimit() {
 		boolean loop = true;
 		while (loop) {
 			try {
-				System.out.println("WARN - Rate limit exceeded - pausing test execution for 15 seconds");
+				log.error("Rate limit exceeded - pausing test execution for 15 seconds");
 				Thread.sleep(15000l);
 			} catch (final InterruptedException e) {
 				// ignore
@@ -51,7 +80,7 @@ public class RateLimitedTestRunner {
 		boolean loop = true;
 		while (loop) {
 			try {
-				System.out.println("WARN - Strava temporarily unavailable (503 error) - pausing execution for 60 seconds");
+				log.error("Strava temporarily unavailable (503 error) - pausing execution for 60 seconds");
 				Thread.sleep(60000l);
 			} catch (final InterruptedException e) {
 				// ignore

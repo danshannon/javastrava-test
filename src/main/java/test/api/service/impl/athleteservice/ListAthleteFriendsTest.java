@@ -15,6 +15,7 @@ import org.junit.Test;
 import test.api.model.StravaAthleteTest;
 import test.api.service.impl.util.ListCallback;
 import test.api.service.impl.util.PagingListMethodTest;
+import test.issues.strava.Issue83;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -38,6 +39,9 @@ public class ListAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, 
 	@Test
 	public void testListAthleteFriends_privateAthleteWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue83().isIssue()) {
+				return;
+			}
 			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
 			assertNotNull(friends);
 			assertEquals(0, friends.size());
@@ -47,6 +51,9 @@ public class ListAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, 
 	@Test
 	public void testListAthleteFriends_privateAthleteWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue83().isIssue()) {
+				return;
+			}
 			final List<StravaAthlete> friends = strava().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID);
 			assertNotNull(friends);
 			assertEquals(0, friends.size());
