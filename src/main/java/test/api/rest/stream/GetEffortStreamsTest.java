@@ -17,6 +17,8 @@ import org.junit.Test;
 
 import test.api.model.StravaStreamTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue87;
+import test.issues.strava.Issue91;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -105,14 +107,20 @@ public class GetEffortStreamsTest extends APITest {
 	@Test
 	public void testGetEffortStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamType.UNKNOWN.toString(), null, null);
-			} catch (final BadRequestException e) {
-				// Expected
-				return;
-			}
-			fail("Should have got an BadRequestException, but didn't");
-		});
+			// TODO Workaround for issue javastravav3api#91
+				if (new Issue91().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					api().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamType.UNKNOWN.toString(), null, null);
+				} catch (final BadRequestException e) {
+					// Expected
+					return;
+				}
+				fail("Should have got an BadRequestException, but didn't");
+			});
 	}
 
 	// 5. Only one stream type
@@ -184,6 +192,12 @@ public class GetEffortStreamsTest extends APITest {
 	@Test
 	public void testGetEffortStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// TODO Workaround for issue javastravav3api#87
+			if (new Issue87().isIssue()) {
+				return;
+			}
+			// End of workaround
+
 			final StravaStream[] streams = api().getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ID, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
 			assertTrue(streams.length == 0);

@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import test.api.model.StravaStreamTest;
 import test.api.service.StravaTest;
+import test.issues.strava.Issue88;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -122,14 +123,20 @@ public class GetActivityStreamsTest extends StravaTest {
 	@Test
 	public void testGetActivityStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.UNKNOWN);
-			} catch (final IllegalArgumentException e) {
-				// Expected
-				return;
-			}
-			fail("Should have thrown an illegal argument exception");
-		});
+			// TODO This is a workaround for javastrava-api#88
+				if (new Issue88().isIssue()) {
+					return;
+				}
+				// End of workaround
+
+				try {
+					strava().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.UNKNOWN);
+				} catch (final IllegalArgumentException e) {
+					// Expected
+					return;
+				}
+				fail("Should have thrown an illegal argument exception");
+			});
 	}
 
 	// 5. Only one stream type

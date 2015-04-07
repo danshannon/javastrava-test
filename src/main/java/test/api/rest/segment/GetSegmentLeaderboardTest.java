@@ -33,7 +33,7 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	protected ArrayCallback<StravaSegmentLeaderboardEntry> callback() {
 		return (paging -> {
 			final List<StravaSegmentLeaderboardEntry> list = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, null,
-					paging.getPage(), paging.getPageSize(), null).getEntries();
+					paging.getPage(), paging.getPageSize(), 0).getEntries();
 			final StravaSegmentLeaderboardEntry[] entries = new StravaSegmentLeaderboardEntry[list.size()];
 			int i = 0;
 			for (final StravaSegmentLeaderboardEntry entry : list) {
@@ -112,16 +112,16 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue 23
-			final Issue23 issue23 = new Issue23();
-			if (issue23.isIssue()) {
-				return;
-			}
-			// End of workaround
+				final Issue23 issue23 = new Issue23();
+				if (issue23.isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
-					TestUtils.CLUB_INVALID_ID, null, null, null, null);
-			assertNull(leaderboard);
-		});
+				final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
+						TestUtils.CLUB_INVALID_ID, null, null, null, null);
+				assertNull(leaderboard);
+			});
 	}
 
 	// 9. Filter by leaderboard date range
@@ -181,12 +181,12 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID, null, null, null, null, null, null, null,
 					null, null);
 			// Should return an empty leaderboard
-				assertNotNull(leaderboard);
-				assertNotNull(leaderboard.getEntries());
-				// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
-				// assertTrue(leaderboard.getEntries().isEmpty());
-				// End of workaround
-			});
+			assertNotNull(leaderboard);
+			assertNotNull(leaderboard.getEntries());
+			// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
+			// assertTrue(leaderboard.getEntries().isEmpty());
+			// End of workaround
+		});
 	}
 
 	@Test

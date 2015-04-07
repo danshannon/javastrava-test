@@ -15,6 +15,7 @@ import org.junit.Test;
 import test.api.model.StravaActivityTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
+import test.issues.strava.Issue18;
 import test.utils.RateLimitedTestRunner;
 
 public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
@@ -69,6 +70,17 @@ public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActiv
 	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
 		StravaActivityTest.validateActivity(activity, id, state);
 
+	}
+
+	@Override
+	public void testPageNumberAndSize() throws Exception {
+		// TODO This is a workaround for issue javastravav3api#18
+		// When the issue is fixed, remove this method altogether
+		if (new Issue18().isIssue()) {
+			return;
+		}
+		// End of workaround
+		super.testPageNumberAndSize();
 	}
 
 }

@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.StravaUnknownAPIException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -16,6 +17,7 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.APITest;
+import test.issues.strava.Issue36;
 import test.issues.strava.Issue72;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -32,16 +34,34 @@ public class UpdateActivityTest extends APITest {
 	 *             if not found
 	 */
 	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception {
-		final StravaActivity response = apiWithWriteAccess().createManualActivity(activity);
+		final StravaActivity response = apiWithFullAccess().createManualActivity(activity);
 		StravaActivity updateResponse = null;
 		try {
-			updateResponse = apiWithWriteAccess().updateActivity(response.getId(), update);
+			updateResponse = apiWithFullAccess().updateActivity(response.getId(), update);
 		} catch (final Exception e) {
 			forceDeleteActivity(response);
 			throw e;
 		}
+		updateResponse = waitForUpdateCompletion(updateResponse);
 		forceDeleteActivity(response);
 		return updateResponse;
+	}
+
+	/**
+	 * @param updateResponse
+	 * @return
+	 */
+	private StravaActivity waitForUpdateCompletion(final StravaActivity updateResponse) throws Exception {
+		int i = 0;
+		StravaActivity response = null;
+		while (i < 600) {
+			response = apiWithFullAccess().getActivity(updateResponse.getId(), null);
+			i++;
+			if (response.getResourceState() != StravaResourceState.UPDATING) {
+				return response;
+			}
+		}
+		return response;
 	}
 
 	/**
@@ -142,7 +162,7 @@ public class UpdateActivityTest extends APITest {
 				final String description = text.sentence();
 				final String name = text.sentence();
 				final StravaActivityType type = StravaActivityType.RIDE;
-				final Boolean privateActivity = Boolean.FALSE;
+				final Boolean privateActivity = Boolean.TRUE;
 				final Boolean commute = Boolean.TRUE;
 				final Boolean trainer = Boolean.TRUE;
 				final String gearId = TestUtils.GEAR_VALID_ID;
@@ -163,13 +183,19 @@ public class UpdateActivityTest extends APITest {
 				StravaActivityTest.validateActivity(updateResponse);
 				assertEquals(description, updateResponse.getDescription());
 
-				assertEquals(commute, updateResponse.getCommute());
 				assertEquals(gearId, updateResponse.getGearId());
 				assertEquals(name, updateResponse.getName());
 				assertEquals(privateActivity, updateResponse.getPrivateActivity());
 				assertEquals(trainer, updateResponse.getTrainer());
 				assertEquals(type, updateResponse.getType());
-			});
+
+				// TODO This is a workaround for javastravav3api#36
+				// When issue fixed, restore the assertions to normal code
+				if (!new Issue36().isIssue()) {
+					assertEquals(commute, updateResponse.getCommute());
+				}
+				// End of workaround
+		});
 	}
 
 	@Test

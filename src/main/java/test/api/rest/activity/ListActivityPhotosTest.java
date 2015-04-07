@@ -64,14 +64,14 @@ public class ListActivityPhotosTest extends APITest {
 			final StravaPhoto[] photos = api().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
 
 			// This is a workaround for issue javastravav3api#76
-				if (new Issue76().isIssue()) {
-					return;
-				}
-				// End of workaround
+			if (new Issue76().isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				assertNotNull("Photos returned as null for a valid activity without photos", photos);
-				assertEquals("Photos were returned for an activity which has no photos", 0, photos.length);
-			});
+			assertNotNull("Photos returned as null for a valid activity without photos", photos);
+			assertEquals("Photos were returned for an activity which has no photos", 0, photos.length);
+		});
 	}
 
 	/**
@@ -142,15 +142,16 @@ public class ListActivityPhotosTest extends APITest {
 	@Test
 	public void testListActivityPhotos_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaPhoto[] photos = apiWithViewPrivate().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			assertNotNull(photos);
 			// TODO This is a workaround for issue javastravav3api#68
-			if (new Issue68().isIssue()) {
-				return;
-			}
-			// End of workaround
+				if (new Issue68().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			assertFalse(photos.length == 0);
-			});
+				final StravaPhoto[] photos = apiWithViewPrivate().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
+				assertNotNull(photos);
+
+				assertFalse(photos.length == 0);
+		});
 	}
 }

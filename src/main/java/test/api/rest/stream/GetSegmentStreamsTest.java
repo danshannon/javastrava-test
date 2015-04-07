@@ -17,6 +17,8 @@ import org.junit.Test;
 import test.api.model.StravaStreamTest;
 import test.api.rest.APITest;
 import test.issues.strava.Issue87;
+import test.issues.strava.Issue89;
+import test.issues.strava.Issue90;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -48,6 +50,9 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue89().isIssue()) {
+				return;
+			}
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
@@ -109,6 +114,9 @@ public class GetSegmentStreamsTest extends APITest {
 	@Test
 	public void testGetSegmentStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue90().isIssue()) {
+				return;
+			}
 			try {
 				api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamType.UNKNOWN.toString(), null, null);
 			} catch (final BadRequestException e) {
