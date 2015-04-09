@@ -4,14 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-
-import org.junit.Test;
-
 import test.api.model.StravaActivityTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
@@ -22,7 +22,24 @@ import test.utils.TestUtils;
 public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
 	@Override
 	protected ArrayCallback<StravaActivity> callback() {
-		return (paging -> api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize()));
+		return (paging -> api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, paging.getPage(),
+				paging.getPageSize()));
+	}
+
+	/**
+	 * Check that no activity flagged as private is returned
+	 */
+	@Test
+	public void testListRecentClubActivities_checkPrivacy() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID, null,
+					null);
+			for (final StravaActivity activity : activities) {
+				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
+					fail("List recent club activities returned an activity flagged as private!");
+				}
+			}
+		} );
 	}
 
 	// 2. Invalid club
@@ -36,10 +53,11 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 				return;
 			}
 			fail("Returned recent activities for a non-existent club");
-		});
+		} );
 	}
 
-	// 4. StravaClub with > 200 activities (according to Strava, should only return a max of 200 results)
+	// 4. StravaClub with > 200 activities (according to Strava, should only
+	// return a max of 200 results)
 	@Test
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -50,10 +68,11 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			assertNotNull(activities);
 			assertFalse(0 == activities.length);
 			validateList(activities);
-		});
+		} );
 	}
 
-	// 3. StravaClub the current authenticated athlete is NOT a member of (according to Strava should return 0 results)
+	// 3. StravaClub the current authenticated athlete is NOT a member of
+	// (according to Strava should return 0 results)
 	@Test
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -64,7 +83,7 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 				return;
 			}
 			fail("Got list of recent activities for a club the authenticated user is not a member of");
-		});
+		} );
 	}
 
 	// Test cases
@@ -75,10 +94,11 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, null, null);
 
 			assertNotNull(activities);
-		});
+		} );
 	}
 
-	// This is a workaround for issue javastrava-api #18 (https://github.com/danshannon/javastravav3api/issues/18)
+	// This is a workaround for issue javastrava-api #18
+	// (https://github.com/danshannon/javastravav3api/issues/18)
 	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {
@@ -99,30 +119,14 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			assertEquals(1, secondPage.length);
 			validateList(secondPage);
 
-			// The first entry in bothPages should be the same as the first entry in firstPage
+			// The first entry in bothPages should be the same as the first
+			// entry in firstPage
 			assertEquals(bothPages[0], firstPage[0]);
 
-			// The second entry in bothPages should be the same as the first entry in secondPage
+			// The second entry in bothPages should be the same as the first
+			// entry in secondPage
 			assertEquals(bothPages[1], secondPage[0]);
-			});
-	}
-
-	/**
-	 * Check that no activity flagged as private is returned
-	 */
-	@Test
-	public void testListRecentClubActivities_checkPrivacyAuthenticatedAthlete() {
-		// TODO Not yet implemented
-		fail("Not yet implemented!");
-	}
-
-	/**
-	 * Check that no activity flagged as private is returned
-	 */
-	@Test
-	public void testListRecentClubActivities_checkPrivacyOtherAthletes() {
-		// TODO Not yet implemented
-		fail("Not yet implemented!");
+		} );
 	}
 
 	@Override

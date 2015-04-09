@@ -4,13 +4,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
+import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
@@ -20,7 +21,65 @@ import test.utils.TestUtils;
 public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffort, Long> {
 	@Override
 	protected ArrayCallback<StravaSegmentEffort> callback() {
-		return (paging -> api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(), paging.getPageSize()));
+		return (paging -> api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
+				paging.getPageSize()));
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+			for (final StravaSegmentEffort kom : koms) {
+				try {
+					api().getActivity(kom.getActivity().getId(), null);
+				} catch (final UnauthorizedException e) {
+					fail("Returned KOM for a private segment!");
+				}
+			}
+		} );
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentEffort[] koms = apiWithViewPrivate().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID,
+					null, null);
+			for (final StravaSegmentEffort kom : koms) {
+				try {
+					api().getActivity(kom.getActivity().getId(), null);
+				} catch (final UnauthorizedException e) {
+					fail("Returned KOM for a private activity!");
+				}
+			}
+		} );
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+			for (final StravaSegmentEffort kom : koms) {
+				try {
+					api().getSegment(kom.getSegment().getId());
+				} catch (final UnauthorizedException e) {
+					fail("Returned KOM for a private segment!");
+				}
+			}
+		} );
+	}
+
+	@Test
+	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegmentEffort[] koms = apiWithViewPrivate().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID,
+					null, null);
+			for (final StravaSegmentEffort kom : koms) {
+				final StravaSegment segment = apiWithViewPrivate().getSegment(kom.getSegment().getId());
+				if (segment.getPrivateSegment() == Boolean.TRUE) {
+					fail("Returned KOM for a private segment!");
+				}
+			}
+		} );
 	}
 
 	// 3. Invalid athlete
@@ -34,7 +93,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 				return;
 			}
 			fail("Returned KOMs for an invalid athlete!");
-		});
+		} );
 	}
 
 	// 4. Private athlete
@@ -46,7 +105,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 				// Expected
 				return;
 			}
-		});
+		} );
 	}
 
 	// Test cases
@@ -60,7 +119,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 			for (final StravaSegmentEffort effort : koms) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
 			}
-		});
+		} );
 	}
 
 	// 2. Valid athlete with no KOM's
@@ -70,31 +129,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS, null, null);
 			assertNotNull(koms);
 			assertTrue(koms.length == 0);
-		});
-	}
-
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
-		// TODO Not yet implemented
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
-		// TODO Not yet implemented
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
-		// TODO Not yet implemented
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
-		// TODO Not yet implemented
-		fail("Not yet implemented");
+		} );
 	}
 
 	@Override

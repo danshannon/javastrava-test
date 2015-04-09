@@ -1,11 +1,10 @@
 package test.api.rest.upload;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaUploadResponse;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APITest;
 import test.utils.RateLimitedTestRunner;
@@ -18,13 +17,21 @@ public class CheckUploadStatusTest extends APITest {
 			final StravaUploadResponse response = api().checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			assertNotNull(response);
 			StravaUploadResponseTest.validate(response);
-		});
+		} );
 	}
 
 	@Test
 	public void testCheckUploadStatus_activityForOtherUser() throws Exception {
-		// TODO Not yet implemented
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			api().checkUploadStatus(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+		} );
+	}
+
+	@Test
+	public void testCheckUploadStatus_privateActivityForOtherUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			api().checkUploadStatus(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		} );
 	}
 
 }
