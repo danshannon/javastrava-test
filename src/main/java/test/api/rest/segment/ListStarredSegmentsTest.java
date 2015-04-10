@@ -2,24 +2,26 @@ package test.api.rest.segment;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaSegmentTest;
 import test.api.rest.util.ArrayCallback;
 import test.api.rest.util.PagingArrayMethodTest;
 import test.issues.strava.Issue25;
+import test.issues.strava.Issue98;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
 	@Override
 	protected ArrayCallback<StravaSegment> callback() {
-		return (paging -> api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(), paging.getPageSize()));
+		return (paging -> api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
+				paging.getPageSize()));
 	}
 
 	@Test
@@ -27,7 +29,7 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
 			assertNotNull(segments);
-		});
+		} );
 	}
 
 	@Test
@@ -40,7 +42,7 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 				return;
 			}
 			fail("Returned starred segments for a non-existent athlete");
-		});
+		} );
 	}
 
 	@Test
@@ -48,12 +50,15 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_VALID_ID, null, null);
 			assertNotNull(segments);
-		});
+		} );
 	}
 
 	@Test
 	public void testListStarredSegments_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue98().isIssue()) {
+				return;
+			}
 			try {
 				api().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID, null, null);
 			} catch (final UnauthorizedException e) {
@@ -61,7 +66,7 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 				return;
 			}
 			fail("Should have thrown a 404 unauthorised, but didn't");
-		});
+		} );
 	}
 
 	@Override
