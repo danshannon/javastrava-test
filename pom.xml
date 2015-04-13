@@ -121,7 +121,7 @@
 		<dependency>
 			<groupId>com.github.danshannon</groupId>
 			<artifactId>javastrava-api</artifactId>
-			<version>0.9.1-SNAPSHOT</version>
+			<version>0.9.1-BETA</version>
 		</dependency>
 	</dependencies>
 </project>
