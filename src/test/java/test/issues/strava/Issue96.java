@@ -20,7 +20,8 @@ public class Issue96 extends IssueTest {
 	public boolean isIssue() throws Exception {
 		final StravaActivity[] activities = this.api.listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 		for (final StravaActivity activity : activities) {
-			if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity()) {
+			if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
+					&& activity.getPrivateActivity()) {
 				return true;
 			}
 		}
