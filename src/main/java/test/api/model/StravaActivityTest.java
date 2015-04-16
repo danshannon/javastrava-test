@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaBestRunningEffort;
 import javastrava.api.v3.model.StravaSegmentEffort;
@@ -26,7 +27,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 		validateActivity(activity, activity.getId(), activity.getResourceState());
 	}
 
-	public static void validateActivity(final StravaActivity activity, final Integer id, final StravaResourceState state) {
+	public static void validateActivity(final StravaActivity activity, final Integer id,
+			final StravaResourceState state) {
 		assertNotNull(activity);
 		assertEquals(id, activity.getId());
 		assertEquals(state, activity.getResourceState());
@@ -41,7 +43,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getAthlete());
 			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META)
 					|| (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
-			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(),
+					activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() >= 0);
@@ -95,14 +98,17 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getCommute());
 			// OPTIONAL assertNotNull(activity.getDescription());
 			assertNotNull(activity.getElapsedTime());
-			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getEndLatlng());
+			// Optional (because sometimes GPS doesn't work properly)
+			// assertNull(activity.getEndLatlng());
 			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
 			if (activity.getGear() != null) {
-				StravaGearTest.validateGear(activity.getGear(), activity.getGearId(), activity.getGear().getResourceState());
+				StravaGearTest.validateGear(activity.getGear(), activity.getGearId(),
+						activity.getGear().getResourceState());
 			}
 			assertNotNull(activity.getHasKudoed());
-			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer() && (activity.getCalories() != null)) {
+			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer()
+					&& (activity.getCalories() != null)) {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
@@ -112,7 +118,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
-				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(), activity);
+				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(),
+						activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
 			assertTrue(activity.getMaxSpeed() >= 0);
@@ -126,7 +133,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			}
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getStartLatlng());
+			// Optional (because sometimes GPS doesn't work properly)
+			// assertNull(activity.getStartLatlng());
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
@@ -151,7 +159,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getAthlete());
 			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META)
 					|| (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
-			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(),
+					activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() >= 0);
@@ -168,7 +177,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 					assertNotNull(activity.getWeightedAverageWatts());
 				}
 			} else {
-				// TODO Issue javastravav3api#84 Apparently optional assertNull("Activity " + activity.getId() + " has unexpected cadence",
+				// optional assertNull("Activity " + activity.getId() + " has
+				// unexpected cadence",
 				// activity.getAverageCadence());
 				assertNull(activity.getAverageWatts());
 				assertNull(activity.getDeviceWatts());
@@ -190,13 +200,15 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getCommute());
 			assertNull(activity.getDescription());
 			assertNotNull(activity.getElapsedTime());
-			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getEndLatlng());
+			// Optional (because sometimes GPS doesn't work properly)
+			// assertNull(activity.getEndLatlng());
 			// Optional assertNotNull(activity.getExternalId());
 			assertNotNull(activity.getFlagged());
 			assertNull(activity.getGear());
 			// Optional assertNotNull(activity.getGearId());
 			assertNotNull(activity.getHasKudoed());
-			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer() && (activity.getCalories() != null)) {
+			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer()
+					&& (activity.getCalories() != null)) {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
@@ -206,7 +218,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
-				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(), activity);
+				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(),
+						activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
 			assertTrue(activity.getMaxSpeed() >= 0);
@@ -219,7 +232,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getSplitsStandard());
 			assertNotNull(activity.getStartDate());
 			assertNotNull(activity.getStartDateLocal());
-			// Optional (because sometimes GPS doesn't work properly) assertNull(activity.getStartLatlng());
+			// Optional (because sometimes GPS doesn't work properly)
+			// assertNull(activity.getStartLatlng());
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
