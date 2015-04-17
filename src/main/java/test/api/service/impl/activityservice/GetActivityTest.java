@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.v3.service.impl.StravaServiceImpl;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APITest;
 import test.api.service.StravaTest;
@@ -18,6 +19,17 @@ import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetActivityTest extends StravaTest {
+	@Test
+	public void testGetActivity_caching() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final int requests = StravaServiceImpl.requestRate;
+			final StravaActivity activity2 = strava().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			assertEquals(StravaServiceImpl.requestRate, requests);
+			assertEquals(activity, activity2);
+		} );
+	}
+
 	/**
 	 * <p>
 	 * Test retrieval of a known {@link StravaActivity} that belongs to the
