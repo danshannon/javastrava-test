@@ -12,6 +12,14 @@ import javastrava.api.v3.model.StravaActivity;
 public class Issue18 extends IssueTest {
 
 	/**
+	 * @see test.issues.strava.IssueTest#isIntermittent()
+	 */
+	@Override
+	public boolean isIntermittent() {
+		return true;
+	}
+
+	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
 	@Override

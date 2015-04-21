@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -253,6 +254,20 @@ public class CacheTest extends APITest {
 			assertNull(athleteCached);
 
 		} );
+	}
+
+	/**
+	 * <p>
+	 * Test that attempting to overwrite an item in cache with one that is LESS
+	 * detailed than the one that's already there doesn't work
+	 * </p>
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCache_putLessDetailedObject() throws Exception {
+		// TODO Not yet implemented!
+		fail("Not yet implemented!");
 	}
 
 	/**
