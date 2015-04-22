@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.Strava;
 import javastrava.cache.StravaCache;
@@ -261,13 +261,24 @@ public class CacheTest extends APITest {
 	 * Test that attempting to overwrite an item in cache with one that is LESS
 	 * detailed than the one that's already there doesn't work
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testCache_putLessDetailedObject() throws Exception {
-		// TODO Not yet implemented!
-		fail("Not yet implemented!");
+		RateLimitedTestRunner.run(() -> {
+			final StravaCache<StravaAthlete, Integer> cache = athleteCache(false);
+			final StravaAthlete athleteMeta = new StravaAthlete();
+			athleteMeta.setId(1);
+			athleteMeta.setResourceState(StravaResourceState.META);
+			final StravaAthlete athleteSummary = new StravaAthlete();
+			athleteSummary.setResourceState(StravaResourceState.SUMMARY);
+			athleteSummary.setId(1);
+			cache.put(athleteSummary);
+			cache.put(athleteMeta);
+			final StravaAthlete athleteCache = cache.get(1);
+			assertEquals(athleteCache, athleteSummary);
+		} );
 	}
 
 	/**
