@@ -1,6 +1,9 @@
 package test.api.rest;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
@@ -11,7 +14,7 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class APITest {
+public abstract class APITest<T> {
 	public static void forceDeleteActivity(final Integer activityId) {
 		if (activityId == null) {
 			return;
@@ -88,5 +91,12 @@ public class APITest {
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
 		return response;
 	}
+
+	/**
+	 * @param result
+	 */
+	protected abstract void validate(T result) throws Exception;
+
+	protected abstract void validateList(List<T> results) throws Exception;
 
 }

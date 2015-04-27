@@ -1,96 +1,83 @@
 package test.api.rest.activity;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
-import test.api.rest.APITest;
+import test.api.rest.APICreateTest;
+import test.api.rest.TestCreateCallback;
 import test.issues.strava.Issue49;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class CreateManualActivityTest extends APITest {
+public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
 	/**
-	 * <p>
-	 * Attempt to create a valid manual {@link StravaActivity} for the user associated with the security token, where the user has NOT granted write access via
-	 * the OAuth process
-	 * </p>
-	 *
-	 * <p>
-	 * Should fail to create the activity and throw an {@link UnauthorizedException}, which is trapped in the test because it it expected
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 * No argument constructor sets up the callback to use to create the manual activity
 	 */
-	@Test
-	public void testCreateManualActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			StravaActivity response = null;
-			try {
-				final StravaActivity activity = TestUtils
-						.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_accessTokenDoesNotHaveWriteAccess");
-				response = api().createManualActivity(activity);
-			} catch (final UnauthorizedException e) {
-				// This is the expected behaviour - creation has failed because there's no write access
-				return;
+	public CreateManualActivityTest() {
+		super();
+		this.creationCallback = new TestCreateCallback<StravaActivity, Integer>() {
+
+			@Override
+			public StravaActivity run(final API api, final StravaActivity activity, final Integer id) throws Exception {
+				return api.createManualActivity(activity);
 			}
-			forceDeleteActivity(response);
-			fail("Created a manual activity but should have failed and thrown an UnauthorizedException!");
-		});
+		};
 	}
 
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// This is only a workaround for issue javastravav3api#49
-			if (new Issue49().isIssue()) {
-				return;
-			}
-			// End of workaround
+				if (new Issue49().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			// Type must be one of the specified values
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType");
-			StravaActivity stravaResponse = null;
-			activity.setType(StravaActivityType.UNKNOWN);
-			try {
-				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-			} catch (final BadRequestException e1) {
-				// Expected behaviour
-				return;
-			}
-			// If it did get created, delete it again
-			forceDeleteActivity(stravaResponse);
+				// Type must be one of the specified values
+				final StravaActivity activity = createObject();
+				StravaActivity stravaResponse = null;
+				activity.setType(StravaActivityType.UNKNOWN);
+				try {
+					stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				} catch (final BadRequestException e1) {
+					// Expected behaviour
+					return;
+				}
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
 				fail("Created an activity with invalid type in error (was " + StravaActivityType.UNKNOWN + ", is " + stravaResponse.getType() + ")");
-		});
+			});
 	}
 
 	@Test
 	public void testCreateManualActivity_noElapsedTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime");
+			final StravaActivity activity = createObject();
 			StravaActivity stravaResponse = null;
 			// Elapsed time is required
-			activity.setElapsedTime(null);
-			try {
-				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-			} catch (final BadRequestException e1) {
-				// Expected behaviour
-				return;
-			}
+				activity.setElapsedTime(null);
+				try {
+					stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				} catch (final BadRequestException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			// If it did get created, delete it again
-			forceDeleteActivity(stravaResponse);
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
 
-			fail("Created an activity with no elapsed time in error" + stravaResponse);
-		});
+				fail("Created an activity with no elapsed time in error" + stravaResponse);
+			});
 	}
 
 	/**
@@ -110,98 +97,163 @@ public class CreateManualActivityTest extends APITest {
 	public void testCreateManualActivity_noName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Name is required
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName");
-			StravaActivity stravaResponse = null;
-			activity.setDescription(activity.getName());
-			activity.setName(null);
-			try {
-				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-			} catch (final BadRequestException e1) {
-				// Expected behaviour
-					return;
-				}
+				final StravaActivity activity = createObject();
+				StravaActivity stravaResponse = null;
+				activity.setDescription(activity.getName());
+				activity.setName(null);
+				try {
+					stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				} catch (final BadRequestException e1) {
+					// Expected behaviour
+				return;
+			}
 
-				// If it did get created, delete it again
-				if (stravaResponse != null) {
-					forceDeleteActivity(stravaResponse);
-				}
+			// If it did get created, delete it again
+			if (stravaResponse != null) {
+				forceDelete(stravaResponse);
+			}
 
-				fail("Created an activity with no name in error" + stravaResponse);
-			});
+			fail("Created an activity with no name in error" + stravaResponse);
+		});
 	}
 
 	@Test
 	public void testCreateManualActivity_noStartDate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate");
+			final StravaActivity activity = createObject();
+			;
 			StravaActivity stravaResponse = null;
 			// Start date is required
-			activity.setStartDateLocal(null);
-			try {
-				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-			} catch (final BadRequestException e) {
-				// Expected behaviour
-				return;
-			}
+				activity.setStartDateLocal(null);
+				try {
+					stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				} catch (final BadRequestException e) {
+					// Expected behaviour
+					return;
+				}
 
-			// If it did get created, delete it again
-			forceDeleteActivity(stravaResponse);
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
 
-			fail("Created an activity with no start date in error" + stravaResponse);
-		});
+				fail("Created an activity with no start date in error" + stravaResponse);
+			});
 	}
 
 	@Test
 	public void testCreateManualActivity_noType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Type is required
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateMannualActivityTest.testCreateManualActivity_noType");
-			StravaActivity stravaResponse = null;
-			activity.setType(null);
-			try {
-				stravaResponse = apiWithWriteAccess().createManualActivity(activity);
-			} catch (final BadRequestException e1) {
-				// Expected behaviour
-					return;
-				}
+				final StravaActivity activity = createObject();
+				StravaActivity stravaResponse = null;
+				activity.setType(null);
+				try {
+					stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				} catch (final BadRequestException e1) {
+					// Expected behaviour
+				return;
+			}
 
-				// If it did get created, delete it again
-				forceDeleteActivity(stravaResponse);
+			// If it did get created, delete it again
+			forceDelete(stravaResponse);
 
-				fail("Created an activity with no type in error" + stravaResponse);
-			});
+			fail("Created an activity with no type in error" + stravaResponse);
+		});
 	}
 
 	/**
-	 * <p>
-	 * Attempt to create a valid manual {@link StravaActivity} for the user associated with the security token
-	 * </p>
-	 *
-	 * <p>
-	 * Should successfully create the activity, and the activity should be retrievable immediately and identical to the one used to create
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.rest.APICreateTest#createObject()
 	 */
-	@Test
-	public void testCreateManualActivity_validActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_validActivity");
-			final StravaActivity response = apiWithWriteAccess().createManualActivity(activity);
+	@Override
+	protected StravaActivity createObject() {
+		return TestUtils.createDefaultActivity("CreateManualActivityTest");
+	}
 
-			assertNotNull(response);
+	/**
+	 * @see test.api.rest.APICreateTest#invalidParentId()
+	 */
+	@Override
+	protected Integer invalidParentId() {
+		return null;
+	}
 
-			// Load it from Strava
-			final StravaActivity stravaActivity = api().getActivity(response.getId(), null);
-			assertNotNull(stravaActivity);
-			StravaActivityTest.validateActivity(stravaActivity);
+	/**
+	 * @see test.api.rest.APICreateTest#privateParentId()
+	 */
+	@Override
+	protected Integer privateParentId() {
+		return null;
+	}
 
-			// And delete it
-			forceDeleteActivity(response);
-		});
+	/**
+	 * @see test.api.rest.APICreateTest#validParentId()
+	 */
+	@Override
+	protected Integer validParentId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#privateParentOtherUserId()
+	 */
+	@Override
+	protected Integer privateParentOtherUserId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#forceDelete(java.lang.Object)
+	 */
+	@Override
+	protected void forceDelete(final StravaActivity activity) {
+		forceDeleteActivity(activity);
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaActivity activity) throws Exception {
+		StravaActivityTest.validateActivity(activity);
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validateList(java.util.List)
+	 */
+	@Override
+	protected void validateList(final List<StravaActivity> activities) throws Exception {
+		StravaActivityTest.validateList(activities);
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#create_invalidParent()
+	 */
+	@Override
+	public void create_invalidParent() throws Exception {
+		return;
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#create_privateParentWithViewPrivate()
+	 */
+	@Override
+	public void create_privateParentWithViewPrivate() throws Exception {
+		return;
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#create_privateParentWithoutViewPrivate()
+	 */
+	@Override
+	public void create_privateParentWithoutViewPrivate() throws Exception {
+		return;
+	}
+
+	/**
+	 * @see test.api.rest.APICreateTest#create_privateParentBelongsToOtherUser()
+	 */
+	@Override
+	public void create_privateParentBelongsToOtherUser() throws Exception {
+		return;
 	}
 
 }

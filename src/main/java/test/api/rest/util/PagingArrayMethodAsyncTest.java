@@ -11,7 +11,7 @@ import javastrava.util.Paging;
 
 import org.junit.Test;
 
-import test.api.rest.APITest;
+import test.api.rest.AsyncAPITest;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -26,7 +26,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <U>
  *            Class of the object's identifier (mostly they're Integer, but some are Long or even String)
  */
-public abstract class PagingArrayMethodTest<T, U> extends APITest<T> {
+public abstract class PagingArrayMethodAsyncTest<T, U> extends AsyncAPITest<T, U> {
 	/**
 	 * <p>
 	 * Test paging (page size only)
@@ -150,7 +150,6 @@ public abstract class PagingArrayMethodTest<T, U> extends APITest<T> {
 
 	protected abstract void validate(final T object, final U id, final StravaResourceState state);
 
-	@Override
 	protected abstract void validate(final T object);
 
 	protected void validateList(final T[] bigList) {

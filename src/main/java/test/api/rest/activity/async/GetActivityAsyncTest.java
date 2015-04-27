@@ -1,4 +1,4 @@
-package test.api.rest.activity;
+package test.api.rest.activity.async;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -14,10 +14,11 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.APITest;
+import test.api.rest.AsyncAPITest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetActivityTest extends APITest<StravaActivity, Integer> {
+public class GetActivityAsyncTest extends AsyncAPITest {
 	/**
 	 * <p>
 	 * Test retrieval of a known {@link StravaActivity} that belongs to the authenticated user; it should be a detailed {@link StravaResourceState
@@ -32,7 +33,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_knownActivityBelongsToAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).get();
 
 			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, activity);
 			assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), StravaResourceState.DETAILED,
@@ -55,7 +56,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_knownActivityBelongsToUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).get();
 
 			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, activity);
 			assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), StravaResourceState.SUMMARY,
@@ -77,7 +78,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_knownActivityWithEfforts() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE).get();
 
 			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity);
 			assertNotNull("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is null", activity.getSegmentEfforts());
@@ -97,7 +98,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_knownActivityWithoutEfforts() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE).get();
 
 			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity);
 			assertNotNull("Returned null segment efforts for known activity, when they were expected", activity.getSegmentEfforts());
@@ -116,7 +117,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateAuthenticatedUser");
 			StravaActivity response = null;
 			try {
-				response = apiWithViewPrivate().getActivity(activity.getId(), null);
+				response = apiWithViewPrivate().getActivity(activity.getId(), null).get();
 			} finally {
 				forceDeleteActivity(response);
 			}
@@ -129,7 +130,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	public void testGetActivity_privateBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null);
+				api().getActivity(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null).get();
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -149,7 +150,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 			final StravaActivity activity = APITest.createPrivateActivity("GetActivityTest.testGetActivity_privateNoViewPrivateScope");
 			StravaActivity response = null;
 			try {
-				response = api().getActivity(activity.getId(), null);
+				response = api().getActivity(activity.getId(), null).get();
 			} catch (final UnauthorizedException e) {
 				// expected
 				forceDeleteActivity(response);
@@ -163,7 +164,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_RUN_WITH_SEGMENTS, null);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_RUN_WITH_SEGMENTS, null).get();
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
 		});
@@ -172,7 +173,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	@Test
 	public void testGetActivity_runOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER, null);
+			final StravaActivity activity = api().getActivity(TestUtils.ACTIVITY_RUN_OTHER_USER, null).get();
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
 		});
@@ -196,7 +197,7 @@ public class GetActivityTest extends APITest<StravaActivity, Integer> {
 	public void testGetActivity_unknownActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getActivity(TestUtils.ACTIVITY_INVALID, null);
+				api().getActivity(TestUtils.ACTIVITY_INVALID, null).get();
 			} catch (final NotFoundException e) {
 				// expected
 				return;

@@ -1,4 +1,4 @@
-package test.api.rest.activity;
+package test.api.rest.activity.async;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -17,14 +17,14 @@ import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
 import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.util.PagingArrayMethodAsyncTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
+public class ListAuthenticatedAthleteActivitiesAsyncTest extends PagingArrayMethodAsyncTest<StravaActivity, Integer> {
 	@Override
 	protected ArrayCallback<StravaActivity> callback() {
-		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()));
+		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()).get());
 	}
 
 	/**
@@ -41,7 +41,8 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null)
+					.get();
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
@@ -65,7 +66,8 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null, null)
+					.get();
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
@@ -91,7 +93,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before),
-					StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
+					StravaDateUtils.secondsSinceUnixEpoch(after), null, null).get();
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
@@ -119,7 +121,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before),
-					StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
+					StravaDateUtils.secondsSinceUnixEpoch(after), null, null).get();
 			assertNotNull("Returned null collection of activities", activities);
 			assertEquals(0, activities.length);
 		});
@@ -132,7 +134,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before),
-					StravaDateUtils.secondsSinceUnixEpoch(after), 1, 1);
+					StravaDateUtils.secondsSinceUnixEpoch(after), 1, 1).get();
 			assertNotNull(activities);
 			assertEquals(1, activities.length);
 			for (final StravaActivity activity : activities) {
@@ -158,7 +160,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 	@Test
 	public void testListAuthenticatedAthleteActivities_default() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, null, null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, null, null, null).get();
 
 			assertNotNull("Authenticated athlete's activities returned as null", activities);
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);

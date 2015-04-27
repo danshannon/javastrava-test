@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
@@ -26,8 +29,7 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete()
-					.getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -35,8 +37,7 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete()
-					.getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -54,5 +55,15 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 	@Override
 	protected Class<StravaComment> getClassUnderTest() {
 		return StravaComment.class;
+	}
+
+	/**
+	 * @param results
+	 */
+	public static void validateCommentList(final List<StravaComment> comments) {
+		for (final StravaComment comment : comments) {
+			validateComment(comment);
+		}
+
 	}
 }
