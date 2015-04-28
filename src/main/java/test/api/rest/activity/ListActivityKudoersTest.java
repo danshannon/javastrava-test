@@ -65,10 +65,10 @@ public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Integer>
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateList(final StravaAthlete[] bigList) {
+	protected void validateArray(final StravaAthlete[] bigList) {
 		StravaAthleteTest.validateList(Arrays.asList(bigList));
 
 	}

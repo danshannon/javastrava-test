@@ -31,7 +31,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 			assertNotNull(segments);
 			assertFalse(segments.length == 0);
 
-			validateList(segments);
+			validateArray(segments);
 		});
 	}
 

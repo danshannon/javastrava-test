@@ -66,10 +66,10 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateList(final StravaPhoto[] list) {
+	protected void validateArray(final StravaPhoto[] list) {
 		StravaPhotoTest.validateList(Arrays.asList(list));
 	}
 

@@ -92,10 +92,10 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateList(final StravaLap[] list) {
+	protected void validateArray(final StravaLap[] list) {
 		StravaLapTest.validateList(Arrays.asList(list));
 
 	}

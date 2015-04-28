@@ -67,7 +67,7 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			activities = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, 1, 200);
 			assertNotNull(activities);
 			assertFalse(0 == activities.length);
-			validateList(activities);
+			validateArray(activities);
 		} );
 	}
 
@@ -109,15 +109,15 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			final StravaActivity[] bothPages = pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.length);
-			validateList(bothPages);
+			validateArray(bothPages);
 			final StravaActivity[] firstPage = pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.length);
-			validateList(firstPage);
+			validateArray(firstPage);
 			final StravaActivity[] secondPage = pagingCallback().getArray(new Paging(2, 1));
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.length);
-			validateList(secondPage);
+			validateArray(secondPage);
 
 			// The first entry in bothPages should be the same as the first
 			// entry in firstPage

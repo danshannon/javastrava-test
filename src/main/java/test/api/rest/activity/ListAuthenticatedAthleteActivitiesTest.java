@@ -7,24 +7,26 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.StravaDateUtils;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.APIListTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
-	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()));
+public class ListAuthenticatedAthleteActivitiesTest extends APIListTest<StravaActivity, Integer> {
+	/**
+	 * No-arguments constructor provides the required callbacks
+	 */
+	public ListAuthenticatedAthleteActivitiesTest() {
+		this.listCallback = (api, id) -> api.listAuthenticatedAthleteActivities(null, null, null, null);
+		this.pagingCallback = paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize());
 	}
 
 	/**
@@ -172,14 +174,71 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingArrayMethodTes
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		validate(activity, activity.getId(), activity.getResourceState());
+		StravaActivityTest.validateActivity(activity);
 
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
+	protected Integer invalidId() {
+		// Not applicable, so return null to prevent test from being executed
+		return null;
+	}
 
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		// Not applicable, so return null to prevent test from being executed
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		// Not applicable, so return null to prevent test from being executed
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
+	@Override
+	protected void validateArray(final StravaActivity[] activities) {
+		StravaActivityTest.validateList(Arrays.asList(activities));
+
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		// Return the authenticated athlete's ID (even though it's not actually used, we need something that's not null)
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		// Not applicable, so return null to prevent test from being executed
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		// Not applicable, so return null to prevent test from being executed
+		return null;
 	}
 
 }

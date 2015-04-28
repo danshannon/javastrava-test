@@ -46,10 +46,10 @@ public class ListActivityCommentsTest extends APIListTest<StravaComment, Integer
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateList(final StravaComment[] bigList) {
+	protected void validateArray(final StravaComment[] bigList) {
 		// TODO Auto-generated method stub
 
 	}

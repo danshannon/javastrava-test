@@ -196,7 +196,7 @@ public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentE
 					null, null);
 			assertNotNull(efforts);
 			assertFalse(efforts.length == 0);
-			validateList(efforts);
+			validateArray(efforts);
 		} );
 	}
 

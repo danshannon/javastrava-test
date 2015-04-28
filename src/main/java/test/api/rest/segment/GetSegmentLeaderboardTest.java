@@ -232,15 +232,15 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 			final StravaSegmentLeaderboardEntry[] bothPages = pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(3, bothPages.length);
-			validateList(bothPages);
+			validateArray(bothPages);
 			final StravaSegmentLeaderboardEntry[] firstPage = pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(firstPage);
 			assertEquals(2, firstPage.length);
-			validateList(firstPage);
+			validateArray(firstPage);
 			final StravaSegmentLeaderboardEntry[] secondPage = pagingCallback().getArray(new Paging(2, 1));
 			assertNotNull(secondPage);
 			assertEquals(2, secondPage.length);
-			validateList(secondPage);
+			validateArray(secondPage);
 
 			// The first entry in bothPages should be the same as the first
 			// entry in firstPage
@@ -263,7 +263,7 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 			assertEquals(2, list.length);
 
 			// Validate all the entries in the list
-			validateList(list);
+			validateArray(list);
 		} );
 	}
 
