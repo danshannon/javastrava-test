@@ -1,12 +1,8 @@
 package test.api.rest.activity;
 
-import java.util.List;
-
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.rest.API;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
-import test.api.rest.TestDeleteCallback;
 import test.utils.TestUtils;
 
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
@@ -16,36 +12,37 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	public DeleteActivityTest() {
 		super();
 
-		this.callback = new TestDeleteCallback<StravaActivity, Integer>() {
-			@Override
-			public StravaActivity run(final API api, final StravaActivity activity, final Integer activityId) throws Exception {
-				return api.deleteActivity(activityId);
-			}
-		};
+		this.callback = (api, activity, activityId) -> api.deleteActivity(activityId);
 	}
 
 	// /**
 	// * <p>
-	// * Attempt to create an {@link StravaActivity} for the user, using a token which has not been granted write access through the OAuth process
+	// * Attempt to create an {@link StravaActivity} for the user, using a token
+	// which has not been granted write access through the OAuth process
 	// * </p>
 	// *
 	// * <p>
-	// * Should fail to create the activity and throw an {@link UnauthorizedException}
+	// * Should fail to create the activity and throw an {@link
+	// UnauthorizedException}
 	// * </p>
 	// *
 	// * @throws Exception
 	// */
 	// @Test
-	// public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
+	// public void testDeleteActivity_accessTokenDoesNotHaveWriteAccess() throws
+	// Exception {
 	// RateLimitedTestRunner.run(() -> {
 	// // Create the activity using a service which DOES have write access
-	// final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
-	// final StravaActivity stravaResponse = apiWithWriteAccess().createManualActivity(activity);
+	// final StravaActivity activity =
+	// TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_accessTokenDoesNotHaveWriteAccess");
+	// final StravaActivity stravaResponse =
+	// apiWithWriteAccess().createManualActivity(activity);
 	//
 	// // Now get a token without write access and attempt to delete
 	// try {
 	// api().deleteActivity(stravaResponse.getId());
-	// fail("Succeeded in deleting an activity despite not having write access");
+	// fail("Succeeded in deleting an activity despite not having write
+	// access");
 	// } catch (final UnauthorizedException e) {
 	// // Expected behaviour
 	// }
@@ -80,13 +77,16 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	// @Test
 	// public void testDeleteActivity_privateActivity() throws Exception {
 	// RateLimitedTestRunner.run(() -> {
-	// final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivity");
+	// final StravaActivity activity =
+	// TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivity");
 	// activity.setPrivateActivity(Boolean.TRUE);
-	// final StravaActivity createResponse = apiWithFullAccess().createManualActivity(activity);
+	// final StravaActivity createResponse =
+	// apiWithFullAccess().createManualActivity(activity);
 	// assertEquals(Boolean.TRUE, createResponse.getPrivateActivity());
 	// StravaActivity deleteResponse = null;
 	// try {
-	// deleteResponse = apiWithFullAccess().deleteActivity(createResponse.getId());
+	// deleteResponse =
+	// apiWithFullAccess().deleteActivity(createResponse.getId());
 	// assertNull(deleteResponse);
 	// } catch (final Exception e) {
 	// forceDeleteActivity(createResponse);
@@ -96,11 +96,14 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	// }
 	//
 	// @Test
-	// public void testDeleteActivity_privateActivityNoViewPrivate() throws Exception {
+	// public void testDeleteActivity_privateActivityNoViewPrivate() throws
+	// Exception {
 	// RateLimitedTestRunner.run(() -> {
-	// final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivityNoViewPrivate");
+	// final StravaActivity activity =
+	// TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_privateActivityNoViewPrivate");
 	// activity.setPrivateActivity(Boolean.TRUE);
-	// final StravaActivity createResponse = apiWithFullAccess().createManualActivity(activity);
+	// final StravaActivity createResponse =
+	// apiWithFullAccess().createManualActivity(activity);
 	// try {
 	// apiWithWriteAccess().deleteActivity(createResponse.getId());
 	// } catch (final UnauthorizedException e) {
@@ -121,12 +124,15 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	// * </p>
 	// *
 	// * <p>
-	// * In order to avoid deleting genuine data, this test creates the activity first, checks that it has been successfully written (i.e. that it can be read
+	// * In order to avoid deleting genuine data, this test creates the activity
+	// first, checks that it has been successfully written (i.e. that it can be
+	// read
 	// * back from the API) and then deletes it again
 	// * </p>
 	// *
 	// * <p>
-	// * Should successfully delete the activity; it should no longer be able to be retrieved via the API
+	// * Should successfully delete the activity; it should no longer be able to
+	// be retrieved via the API
 	// * </p>
 	// *
 	// * @throws Exception
@@ -134,11 +140,14 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	// @Test
 	// public void testDeleteActivity_validActivity() throws Exception {
 	// RateLimitedTestRunner.run(() -> {
-	// final StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_validActivity");
-	// final StravaActivity createResponse = apiWithWriteAccess().createManualActivity(activity);
+	// final StravaActivity activity =
+	// TestUtils.createDefaultActivity("DeleteActivityTest.testDeleteActivity_validActivity");
+	// final StravaActivity createResponse =
+	// apiWithWriteAccess().createManualActivity(activity);
 	// StravaActivity deleteResponse = null;
 	// try {
-	// deleteResponse = apiWithWriteAccess().deleteActivity(createResponse.getId());
+	// deleteResponse =
+	// apiWithWriteAccess().deleteActivity(createResponse.getId());
 	// } catch (final Exception e) {
 	// deleteResponse = forceDeleteActivity(createResponse);
 	// }
@@ -158,6 +167,14 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	@Override
 	protected StravaActivity createObject() {
 		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIDeleteTest#forceDelete(java.lang.Object)
+	 */
+	@Override
+	protected void forceDelete(final StravaActivity activity) {
+		forceDeleteActivity(activity);
 	}
 
 	/**
@@ -181,30 +198,11 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	}
 
 	/**
-	 * @see test.api.rest.APIDeleteTest#validParentId()
-	 */
-	@Override
-	protected Integer validParentId() {
-		// Create a private activity
-		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
-		activity = apiWithFullAccess().createManualActivity(activity);
-		return activity.getId();
-	}
-
-	/**
 	 * @see test.api.rest.APIDeleteTest#privateParentOtherUserId()
 	 */
 	@Override
 	protected Integer privateParentOtherUserId() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
-	}
-
-	/**
-	 * @see test.api.rest.APIDeleteTest#forceDelete(java.lang.Object)
-	 */
-	@Override
-	protected void forceDelete(final StravaActivity activity) {
-		forceDeleteActivity(activity);
 	}
 
 	/**
@@ -217,12 +215,14 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	}
 
 	/**
-	 * @see test.api.rest.APITest#validateList(java.util.List)
+	 * @see test.api.rest.APIDeleteTest#validParentId()
 	 */
 	@Override
-	protected void validateList(final List<StravaActivity> results) throws Exception {
-		StravaActivityTest.validateList(results);
-
+	protected Integer validParentId() {
+		// Create a private activity
+		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
+		activity = apiWithFullAccess().createManualActivity(activity);
+		return activity.getId();
 	}
 
 }

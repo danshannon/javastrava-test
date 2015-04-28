@@ -18,7 +18,7 @@ import test.utils.TestUtils;
 
 public class ListClubMembersTest extends PagingArrayMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected ArrayCallback<StravaAthlete> callback() {
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
 		return (paging -> api().listClubMembers(TestUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize()));
 	}
 

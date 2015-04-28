@@ -20,7 +20,7 @@ import test.utils.TestUtils;
 
 public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffort, Long> {
 	@Override
-	protected ArrayCallback<StravaSegmentEffort> callback() {
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
 		return (paging -> api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
 				paging.getPageSize()));
 	}

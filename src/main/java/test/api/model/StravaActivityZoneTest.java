@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaActivityZone;
 import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
 import javastrava.api.v3.model.reference.StravaActivityZoneType;
@@ -17,6 +20,14 @@ import test.utils.BeanTest;
  *
  */
 public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
+
+	/**
+	 * @param zone
+	 */
+	public static void validate(final StravaActivityZone zone) {
+		validateActivityZone(zone, zone.getResourceState());
+
+	}
 
 	public static void validateActivityZone(final StravaActivityZone zone, final StravaResourceState state) {
 		assertNotNull(zone);
@@ -79,6 +90,16 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 			return;
 		}
 		fail("unexpected state " + state + " for activity zone " + zone);
+	}
+
+	/**
+	 * @param asList
+	 */
+	public static void validateList(final List<StravaActivityZone> asList) {
+		for (final StravaActivityZone zone : asList) {
+			validate(zone);
+		}
+
 	}
 
 	@Override

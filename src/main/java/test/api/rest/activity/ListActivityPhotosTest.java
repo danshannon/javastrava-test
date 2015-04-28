@@ -1,157 +1,99 @@
 package test.api.rest.activity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaActivity;
+import java.util.Arrays;
+
 import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaPhotoTest;
-import test.api.rest.APITest;
-import test.issues.strava.Issue68;
+import test.api.rest.APIListTest;
 import test.issues.strava.Issue76;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListActivityPhotosTest extends APITest {
+public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 	/**
-	 * <p>
-	 * List {@link StravaPhoto photos}, with an {@link StravaActivity activity} that has a known non-zero number of photos
-	 * </p>
 	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
 	 */
-	@Test
-	public void testListActivityPhotos_default() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaPhoto[] photos = api().listActivityPhotos(TestUtils.ACTIVITY_WITH_PHOTOS);
-
-			assertNotNull("Null list of photos returned for activity", photos);
-			assertNotEquals("No photos returned although some were expected", 0, photos.length);
-			for (final StravaPhoto photo : photos) {
-				assertEquals(TestUtils.ACTIVITY_WITH_PHOTOS, photo.getActivityId());
-				StravaPhotoTest.validatePhoto(photo, photo.getId(), photo.getResourceState());
-			}
-		});
+	public ListActivityPhotosTest() {
+		super();
+		this.listCallback = (api, id) -> api.listActivityPhotos(id);
+		this.pagingCallback = null;
+		this.suppressPagingTests = true;
 	}
 
 	/**
-	 * <p>
-	 * List {@link StravaPhoto photos}, for an {@link StravaActivity activity} that has no photos
-	 * </p>
-	 *
-	 * <p>
-	 * Should return an empty list
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
-	@Test
-	public void testListActivityPhotos_hasNoPhotos() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaPhoto[] photos = api().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
+	@Override
+	protected Integer invalidId() {
+		return TestUtils.ACTIVITY_INVALID;
+	}
 
-			// This is a workaround for issue javastravav3api#76
+	@Override
+	public void list_validParentNoChildren() throws Exception {
+		RateLimitedTestRunner.run(() -> {
 			if (new Issue76().isIssue()) {
 				return;
 			}
-			// End of workaround
-
-			assertNotNull("Photos returned as null for a valid activity without photos", photos);
-			assertEquals("Photos were returned for an activity which has no photos", 0, photos.length);
-		});
+		} );
+		RateLimitedTestRunner.run(() -> {
+			super.list_validParentNoChildren();
+		} );
 	}
 
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaPhoto photos} for a non-existent {@link StravaActivity activity}
-	 * </p>
-	 *
-	 * <p>
-	 * Should return <code>null</code> because the {@link StravaActivity} doesn't exist
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.rest.APIListTest#privateId()
 	 */
-	@Test
-	public void testListActivityPhotos_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityPhotos(TestUtils.ACTIVITY_INVALID);
-			} catch (final NotFoundException e) {
-				// expected
-				return;
-			}
-
-			fail("Photos returned for an invalid activity");
-		});
+	@Override
+	protected Integer privateId() {
+		return TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
 	}
 
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaPhoto photos} for an activity marked as private
-	 * </p>
-	 *
-	 * <p>
-	 * Should return an empty list
-	 * </p>
-	 *
-	 * @throws Exception
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
 	 */
-	@Test
-	public void testListActivityPhotos_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned photos for a private activity belonging to another user");
-		});
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
-	@Test
-	public void testListActivityPhotos_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned photos for a private activity without view_private");
-		});
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaPhoto photo) throws Exception {
+		StravaPhotoTest.validate(photo);
+
 	}
 
-	@Test
-	public void testListActivityPhotos_privateWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#68
-				if (new Issue68().isIssue()) {
-					return;
-				}
-				// End of workaround
+	/**
+	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 */
+	@Override
+	protected void validateList(final StravaPhoto[] list) {
+		StravaPhotoTest.validateList(Arrays.asList(list));
+	}
 
-				final StravaPhoto[] photos = apiWithViewPrivate().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-				assertNotNull(photos);
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ACTIVITY_WITH_PHOTOS;
+	}
 
-				assertFalse(photos.length == 0);
-		});
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return TestUtils.ACTIVITY_WITHOUT_PHOTOS;
 	}
 }

@@ -19,7 +19,7 @@ import test.utils.TestUtils;
 
 public class ListAthleteFriendsTest extends PagingArrayMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected ArrayCallback<StravaAthlete> callback() {
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
 		return (paging -> api().listAthleteFriends(TestUtils.ATHLETE_VALID_ID, paging.getPage(), paging.getPageSize()));
 	}
 

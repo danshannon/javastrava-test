@@ -26,7 +26,7 @@ import test.utils.TestUtils;
 
 public class ListSegmentEffortsTest extends PagingArrayMethodTest<StravaSegmentEffort, Long> {
 	@Override
-	protected ArrayCallback<StravaSegmentEffort> callback() {
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
 		return (paging -> api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, null, paging.getPage(),
 				paging.getPageSize()));
 	}

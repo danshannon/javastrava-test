@@ -19,7 +19,7 @@ import test.utils.TestUtils;
 
 public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
 	@Override
-	protected ArrayCallback<StravaSegment> callback() {
+	protected ArrayCallback<StravaSegment> pagingCallback() {
 		return (paging -> api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
 				paging.getPageSize()));
 	}

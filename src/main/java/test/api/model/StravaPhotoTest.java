@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.model.reference.StravaPhotoType;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -15,6 +18,24 @@ import test.utils.BeanTest;
  *
  */
 public class StravaPhotoTest extends BeanTest<StravaPhoto> {
+
+	/**
+	 * @param photo
+	 */
+	public static void validate(final StravaPhoto photo) {
+		validatePhoto(photo, photo.getId(), photo.getResourceState());
+
+	}
+
+	/**
+	 * @param asList
+	 */
+	public static void validateList(final List<StravaPhoto> list) {
+		for (final StravaPhoto photo : list) {
+			validate(photo);
+		}
+
+	}
 
 	public static void validatePhoto(final StravaPhoto photo, final Integer id, final StravaResourceState state) {
 		assertNotNull(photo);
@@ -36,7 +57,7 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			}
 			return;
 		}
-		if (state == StravaResourceState.SUMMARY || state == null) {
+		if ((state == StravaResourceState.SUMMARY) || (state == null)) {
 			// Optional assertNotNull(photo.getCaption());
 			// Optional assertNotNull(photo.getCreatedAt());
 			// Optional assertNotNull(photo.getLocation());

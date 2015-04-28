@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.reference.StravaFollowerState;
@@ -24,13 +27,15 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
 	}
 
-	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId, final StravaResourceState state) {
+	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId,
+			final StravaResourceState state) {
 		assertNotNull(athlete);
 		assertEquals(expectedId, athlete.getId());
 		assertEquals(state, athlete.getResourceState());
 
 		if (athlete.getResourceState() == StravaResourceState.DETAILED) {
-			// Not returned because it's not part of the API for detailed athlete returns
+			// Not returned because it's not part of the API for detailed
+			// athlete returns
 			assertNull(athlete.getApproveFollowers());
 			assertNotNull(athlete.getBikes());
 			// Optional assertNotNull(athlete.getCity());
@@ -43,10 +48,12 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			assertNotNull(athlete.getDatePreference());
 			assertNotNull(athlete.getEmail());
 			assertNotNull(athlete.getFirstname());
-			// Is NULL because this IS the authenticated athlete and you can't follow yourself
+			// Is NULL because this IS the authenticated athlete and you can't
+			// follow yourself
 			assertNull(athlete.getFollower());
 			assertNotNull(athlete.getFollowerCount());
-			// Is NULL because this is the authenticated athlete and you can't follow yourself
+			// Is NULL because this is the authenticated athlete and you can't
+			// follow yourself
 			assertNull(athlete.getFriend());
 			assertNotNull(athlete.getFriendCount());
 			assertNotNull(athlete.getFtp());
@@ -151,6 +158,16 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			return;
 		}
 		fail("Athlete returned with unexpected resource state " + state + " : " + athlete);
+	}
+
+	/**
+	 * @param results
+	 */
+	public static void validateList(final List<StravaAthlete> athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			validateAthlete(athlete);
+		}
+
 	}
 
 	@Override

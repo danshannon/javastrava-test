@@ -18,7 +18,7 @@ import test.utils.RateLimitedTestRunner;
 
 public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
 	@Override
-	protected ArrayCallback<StravaSegment> callback() {
+	protected ArrayCallback<StravaSegment> pagingCallback() {
 		return (paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize()));
 	}
 

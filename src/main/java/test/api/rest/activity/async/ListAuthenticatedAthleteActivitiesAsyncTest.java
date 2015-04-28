@@ -23,7 +23,7 @@ import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteActivitiesAsyncTest extends PagingArrayMethodAsyncTest<StravaActivity, Integer> {
 	@Override
-	protected ArrayCallback<StravaActivity> callback() {
+	protected ArrayCallback<StravaActivity> pagingCallback() {
 		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()).get());
 	}
 

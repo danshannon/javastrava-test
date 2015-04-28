@@ -24,7 +24,7 @@ import test.utils.TestUtils;
 public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
 
 	@Override
-	protected ArrayCallback<StravaActivity> callback() {
+	protected ArrayCallback<StravaActivity> pagingCallback() {
 		return (paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize()));
 	}
 

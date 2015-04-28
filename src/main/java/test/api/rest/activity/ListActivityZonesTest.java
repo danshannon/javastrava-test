@@ -1,129 +1,86 @@
 package test.api.rest.activity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaActivity;
+import java.util.Arrays;
+
 import javastrava.api.v3.model.StravaActivityZone;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaActivityZoneTest;
-import test.api.rest.APITest;
-import test.utils.RateLimitedTestRunner;
+import test.api.rest.APIListTest;
 import test.utils.TestUtils;
 
-public class ListActivityZonesTest extends APITest {
+public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Integer> {
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaActivityZone zones} for an {@link StravaActivity} which doesn't have any
-	 * </p>
 	 *
-	 * <p>
-	 * Should return an empty array
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
 	 */
-	@Test
-	public void testListActivityZones_hasNoZones() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivityZone[] zones = api().listActivityZones(TestUtils.ACTIVITY_WITHOUT_ZONES);
-
-			assertNotNull("Returned null activity zones for an activity without zones (should return an empty array)", zones);
-			assertEquals("Returned an non-empty array of activity zones for an activity without zones", 0, zones.length);
-		});
+	public ListActivityZonesTest() {
+		super();
+		this.listCallback = (api, id) -> api.listActivityZones(id);
+		this.pagingCallback = null;
+		this.suppressPagingTests = true;
 	}
 
 	/**
-	 * <p>
-	 * List {@link StravaActivityZone activity zones} for an {@link StravaActivity} which has them
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
-	@Test
-	public void testListActivityZones_hasZones() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivityZone[] zones = api().listActivityZones(TestUtils.ACTIVITY_WITH_ZONES);
-
-			assertNotNull("Returned null activity zones for an activity with zones", zones);
-			assertNotEquals("Returned an empty array of activity zones for an activity with zones", 0, zones.length);
-			for (final StravaActivityZone zone : zones) {
-				StravaActivityZoneTest.validateActivityZone(zone, zone.getResourceState());
-			}
-		});
+	@Override
+	protected Integer invalidId() {
+		return TestUtils.ACTIVITY_INVALID;
 	}
 
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaActivityZone zones} for an {@link StravaActivity} which doesn't exist
-	 * </p>
-	 *
-	 * <p>
-	 * Should return <code>null</code>
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.rest.APIListTest#privateId()
 	 */
-	@Test
-	public void testListActivityZones_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityZones(TestUtils.ACTIVITY_INVALID);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			fail("Returned activity zones for a non-existent activity!");
-		});
+	@Override
+	protected Integer privateId() {
+		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
-	@Test
-	public void testListActivityZones_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityZones(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned activity zones for a private activity belonging to another user!");
-		});
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
-	@Test
-	public void testListActivityZones_privateActivityWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivityZone[] zones = apiWithViewPrivate().listActivityZones(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			assertNotNull(zones);
-			assertFalse(zones.length == 0);
-		});
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaActivityZone zone) throws Exception {
+		StravaActivityZoneTest.validate(zone);
+
 	}
 
-	@Test
-	public void testListActivityZones_privateActivityWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listActivityZones(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned activity zones for a private activity, but don't have view_private scope!");
-		});
+	/**
+	 * @see test.api.rest.APIListTest#validateList(java.lang.Object[])
+	 */
+	@Override
+	protected void validateList(final StravaActivityZone[] list) {
+		StravaActivityZoneTest.validateList(Arrays.asList(list));
+
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ACTIVITY_WITH_ZONES;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return TestUtils.ACTIVITY_WITHOUT_ZONES;
 	}
 }

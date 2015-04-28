@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
@@ -14,6 +17,10 @@ import test.utils.BeanTest;
  */
 public class StravaLapTest extends BeanTest<StravaLap> {
 
+	public static void validateLap(final StravaLap lap) {
+		validateLap(lap, lap.getId(), lap.getResourceState());
+	}
+
 	public static void validateLap(final StravaLap lap, final Integer id, final StravaResourceState state) {
 		assertNotNull(lap);
 		assertEquals(id, lap.getId());
@@ -21,9 +28,11 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(),
+					lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(),
+					lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}
@@ -63,9 +72,11 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(),
+					lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(),
+					lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}
@@ -125,6 +136,12 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 			assertNull(lap.getTotalElevationGain());
 			return;
 
+		}
+	}
+
+	public static void validateList(final List<StravaLap> laps) {
+		for (final StravaLap lap : laps) {
+			validateLap(lap);
 		}
 	}
 

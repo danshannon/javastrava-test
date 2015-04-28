@@ -21,7 +21,7 @@ import test.utils.TestUtils;
 
 public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
 	@Override
-	protected ArrayCallback<StravaActivity> callback() {
+	protected ArrayCallback<StravaActivity> pagingCallback() {
 		return (paging -> api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, paging.getPage(),
 				paging.getPageSize()));
 	}
@@ -106,15 +106,15 @@ public class ListRecentClubActivitiesTest extends PagingArrayMethodTest<StravaAc
 			if (new Issue94().isIssue()) {
 				return;
 			}
-			final StravaActivity[] bothPages = callback().getArray(new Paging(1, 2));
+			final StravaActivity[] bothPages = pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.length);
 			validateList(bothPages);
-			final StravaActivity[] firstPage = callback().getArray(new Paging(1, 1));
+			final StravaActivity[] firstPage = pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.length);
 			validateList(firstPage);
-			final StravaActivity[] secondPage = callback().getArray(new Paging(2, 1));
+			final StravaActivity[] secondPage = pagingCallback().getArray(new Paging(2, 1));
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.length);
 			validateList(secondPage);

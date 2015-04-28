@@ -28,7 +28,7 @@ import test.utils.TestUtils;
 
 public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegmentLeaderboardEntry, Integer> {
 	@Override
-	protected ArrayCallback<StravaSegmentLeaderboardEntry> callback() {
+	protected ArrayCallback<StravaSegmentLeaderboardEntry> pagingCallback() {
 		return (paging -> {
 			final List<StravaSegmentLeaderboardEntry> list = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID,
 					null, null, null, null, null, null, paging.getPage(), paging.getPageSize(), 0).getEntries();
@@ -229,15 +229,15 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboardEntry[] bothPages = callback().getArray(new Paging(1, 2));
+			final StravaSegmentLeaderboardEntry[] bothPages = pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(3, bothPages.length);
 			validateList(bothPages);
-			final StravaSegmentLeaderboardEntry[] firstPage = callback().getArray(new Paging(1, 1));
+			final StravaSegmentLeaderboardEntry[] firstPage = pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(firstPage);
 			assertEquals(2, firstPage.length);
 			validateList(firstPage);
-			final StravaSegmentLeaderboardEntry[] secondPage = callback().getArray(new Paging(2, 1));
+			final StravaSegmentLeaderboardEntry[] secondPage = pagingCallback().getArray(new Paging(2, 1));
 			assertNotNull(secondPage);
 			assertEquals(2, secondPage.length);
 			validateList(secondPage);
@@ -258,7 +258,7 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-			final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1, 1));
+			final StravaSegmentLeaderboardEntry[] list = pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(list);
 			assertEquals(2, list.length);
 
@@ -273,7 +273,7 @@ public class GetSegmentLeaderboardTest extends PagingArrayMethodTest<StravaSegme
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely
 			// to return anything!
-			final StravaSegmentLeaderboardEntry[] list = callback().getArray(new Paging(1000000, 200));
+			final StravaSegmentLeaderboardEntry[] list = pagingCallback().getArray(new Paging(1000000, 200));
 
 			assertNotNull(list);
 			assertEquals(1, list.length);
