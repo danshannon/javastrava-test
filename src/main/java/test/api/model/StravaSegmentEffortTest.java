@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaAchievement;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaActivityType;
@@ -17,6 +20,16 @@ import test.utils.BeanTest;
  */
 public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 
+	/**
+	 * @param asList
+	 */
+	public static void validateList(final List<StravaSegmentEffort> list) {
+		for (final StravaSegmentEffort effort : list) {
+			validateSegmentEffort(effort);
+		}
+
+	}
+
 	public static void validateSegmentEffort(final StravaSegmentEffort effort) {
 		validateSegmentEffort(effort, effort.getId(), effort.getResourceState());
 	}
@@ -26,17 +39,20 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 	 * @param id
 	 * @param state
 	 */
-	public static void validateSegmentEffort(final StravaSegmentEffort effort, final Long id, final StravaResourceState state) {
+	public static void validateSegmentEffort(final StravaSegmentEffort effort, final Long id,
+			final StravaResourceState state) {
 		assertNotNull(effort);
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
 
 		if ((state == StravaResourceState.DETAILED) || (state == StravaResourceState.SUMMARY)) {
 			if (effort.getActivity() != null) {
-				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(), effort.getActivity().getResourceState());
+				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(),
+						effort.getActivity().getResourceState());
 			}
 			if (effort.getAthlete() != null) {
-				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
+				StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(),
+						effort.getAthlete().getResourceState());
 			}
 			if ((effort.getActivity() != null) && (effort.getActivity().getAthlete() != null)) {
 				assertEquals(effort.getActivity().getAthlete().getId(), effort.getAthlete().getId());
@@ -51,7 +67,8 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 						assertTrue(effort.getAverageWatts() >= 0);
 					}
 				} else {
-					// If we can't tell what sort of activity it was, then can't tell if average cadence/watts can be set or not
+					// If we can't tell what sort of activity it was, then can't
+					// tell if average cadence/watts can be set or not
 					if (effort.getActivity().getResourceState() != StravaResourceState.META) {
 						assertNull(effort.getAverageCadence());
 						assertNull(effort.getAverageWatts());
@@ -120,19 +137,24 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
-			// Optional (not returned with athlete_pr_effort in starred segments)
+			// Optional (not returned with athlete_pr_effort in starred
+			// segments)
 			// assertNotNull(effort.getEndIndex());
 
-			// Optional (not returned with athlete_pr_effort in starred segments)
+			// Optional (not returned with athlete_pr_effort in starred
+			// segments)
 			// assertNotNull(effort.getMovingTime());
 
-			// Optional (not returned with athlete_pr_effort in starred segments)
+			// Optional (not returned with athlete_pr_effort in starred
+			// segments)
 			// assertNotNull(effort.getName());
 
-			// Optional (not returned with athlete_pr_effort in starred segments)
+			// Optional (not returned with athlete_pr_effort in starred
+			// segments)
 			// assertNotNull(effort.getSegment());
 
-			// Optional (not returned with athlete_pr_effort in starred segments)
+			// Optional (not returned with athlete_pr_effort in starred
+			// segments)
 			// assertNotNull(effort.getStartIndex());
 			return;
 		}

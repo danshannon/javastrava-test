@@ -1,21 +1,20 @@
-package test.api.rest.athlete;
+package test.api.rest.athlete.async;
 
 import java.util.Arrays;
 
-import javastrava.api.v3.model.StravaAthlete;
-import test.api.model.StravaAthleteTest;
+import javastrava.api.v3.model.StravaSegmentEffort;
+import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIListTest;
-import test.issues.strava.Issue83;
 import test.utils.TestUtils;
 
-public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, Integer> {
+public class ListAthleteKOMsAsyncTest extends APIListTest<StravaSegmentEffort, Integer> {
 	/**
-	 *
+	 * No-args constructor provides the relevant callbacks
 	 */
-	public ListAthletesBothFollowingTest() {
-		this.listCallback = (api, id) -> api.listAthletesBothFollowing(id, null, null);
-		this.pagingCallback = (paging) -> api().listAthletesBothFollowing(validId(), paging.getPage(),
-				paging.getPageSize());
+	public ListAthleteKOMsAsyncTest() {
+		this.listCallback = (api, id) -> api.listAthleteKOMsAsync(id, null, null).get();
+		this.pagingCallback = (paging) -> api().listAthleteKOMsAsync(validId(), paging.getPage(), paging.getPageSize())
+				.get();
 	}
 
 	/**
@@ -24,17 +23,6 @@ public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, In
 	@Override
 	protected Integer invalidId() {
 		return TestUtils.ATHLETE_INVALID_ID;
-	}
-
-	// 3. Private athlete
-	@Override
-	public void list_privateBelongsToOtherUser() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#83
-		if (new Issue83().isIssue()) {
-			return;
-		}
-		// End of workaround
-		super.list_privateBelongsToOtherUser();
 	}
 
 	/**
@@ -50,20 +38,20 @@ public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, In
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return null;
 	}
 
 	@Override
-	protected void validate(final StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete);
+	protected void validate(final StravaSegmentEffort effort) {
+		StravaSegmentEffortTest.validateSegmentEffort(effort);
 	}
 
 	/**
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] list) {
-		StravaAthleteTest.validateList(Arrays.asList(list));
+	protected void validateArray(final StravaSegmentEffort[] list) {
+		StravaSegmentEffortTest.validateList(Arrays.asList(list));
 
 	}
 
@@ -88,7 +76,7 @@ public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, In
 	 */
 	@Override
 	protected Integer validIdNoChildren() {
-		return null;
+		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 }

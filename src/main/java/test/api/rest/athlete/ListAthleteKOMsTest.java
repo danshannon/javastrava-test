@@ -1,34 +1,55 @@
 package test.api.rest.athlete;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.APIListTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffort, Long> {
+public class ListAthleteKOMsTest extends APIListTest<StravaSegmentEffort, Integer> {
+	/**
+	 * No-args constructor provides the relevant callbacks
+	 */
+	public ListAthleteKOMsTest() {
+		this.listCallback = (api, id) -> api.listAthleteKOMs(id, null, null);
+		this.pagingCallback = (paging) -> api().listAthleteKOMs(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
-		return (paging -> api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
-				paging.getPageSize()));
+	protected Integer invalidId() {
+		return TestUtils.ATHLETE_INVALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
 	}
 
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+			final StravaSegmentEffort[] koms = api().listAthleteKOMs(validId(), null, null);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					api().getActivity(kom.getActivity().getId(), null);
@@ -42,8 +63,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = apiWithViewPrivate().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID,
-					null, null);
+			final StravaSegmentEffort[] koms = apiWithViewPrivate().listAthleteKOMs(validId(), null, null);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					api().getActivity(kom.getActivity().getId(), null);
@@ -57,7 +77,7 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+			final StravaSegmentEffort[] koms = api().listAthleteKOMs(validId(), null, null);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					api().getSegment(kom.getSegment().getId());
@@ -68,80 +88,42 @@ public class ListAthleteKOMsTest extends PagingArrayMethodTest<StravaSegmentEffo
 		} );
 	}
 
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = apiWithViewPrivate().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID,
-					null, null);
-			for (final StravaSegmentEffort kom : koms) {
-				final StravaSegment segment = apiWithViewPrivate().getSegment(kom.getSegment().getId());
-				if (segment.getPrivateSegment() == Boolean.TRUE) {
-					fail("Returned KOM for a private segment!");
-				}
-			}
-		} );
-	}
-
-	// 3. Invalid athlete
-	@Test
-	public void testListAthleteKOMs_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listAthleteKOMs(TestUtils.ATHLETE_INVALID_ID, null, null);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			fail("Returned KOMs for an invalid athlete!");
-		} );
-	}
-
-	// 4. Private athlete
-	public void testListAthleteKOMs_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listAthleteKOMs(TestUtils.ATHLETE_PRIVATE_ID, null, null);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-		} );
-	}
-
-	// Test cases
-	// 1. Valid athlete with some KOM's
-	@Test
-	public void testListAthleteKOMs_withKOM() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
-			assertNotNull(koms);
-			assertFalse(koms.length == 0);
-			for (final StravaSegmentEffort effort : koms) {
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
-			}
-		} );
-	}
-
-	// 2. Valid athlete with no KOM's
-	@Test
-	public void testListAthleteKOMs_withoutKOM() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] koms = api().listAthleteKOMs(TestUtils.ATHLETE_WITHOUT_KOMS, null, null);
-			assertNotNull(koms);
-			assertTrue(koms.length == 0);
-		} );
-	}
-
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
-		validate(effort, effort.getId(), effort.getResourceState());
+		StravaSegmentEffortTest.validateSegmentEffort(effort);
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
+	@Override
+	protected void validateArray(final StravaSegmentEffort[] list) {
+		StravaSegmentEffortTest.validateList(Arrays.asList(list));
 
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
 	@Override
-	protected void validate(final StravaSegmentEffort effort, final Long id, final StravaResourceState state) {
-		StravaSegmentEffortTest.validateSegmentEffort(effort, id, state);
+	protected Integer validId() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ATHLETE_VALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 }
