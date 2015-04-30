@@ -162,18 +162,18 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	public void list_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// If the id is null, then don't run the test
-			if (privateId() == null) {
-				return;
-			}
+				if (privateId() == null) {
+					return;
+				}
 
-			try {
-				this.listCallback.run(api(), privateId());
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned a list of objects for an private parent id which belongs to the authenticated user");
-		});
+				try {
+					this.listCallback.run(api(), privateId());
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+				fail("Returned a list of objects for an private parent id which belongs to the authenticated user");
+			});
 	}
 
 	/**
@@ -191,6 +191,10 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void list_validBelongsToOtherUser() throws Exception {
+		// If the id is null, then don't run the test
+		if (validIdBelongsToOtherUser() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			final T[] results = this.listCallback.run(api(), validIdBelongsToOtherUser());
 			assertNotNull(results);
@@ -289,13 +293,13 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 
 			// The first entry in bothPages should be the same as the first
 			// entry in firstPage
-			assertEquals(bothPages[0], firstPage[0]);
+				assertEquals(bothPages[0], firstPage[0]);
 
-			// The second entry in bothPages should be the same as the first
-			// entry in secondPage
-			assertEquals(bothPages[1], secondPage[0]);
+				// The second entry in bothPages should be the same as the first
+				// entry in secondPage
+				assertEquals(bothPages[1], secondPage[0]);
 
-		});
+			});
 	}
 
 	/**
@@ -315,13 +319,13 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-			final T[] list = this.pagingCallback.getArray(new Paging(1, 1));
-			assertNotNull(list);
-			assertEquals(1, list.length);
+				final T[] list = this.pagingCallback.getArray(new Paging(1, 1));
+				assertNotNull(list);
+				assertEquals(1, list.length);
 
-			// Validate all the entries in the list
-			validateArray(list);
-		});
+				// Validate all the entries in the list
+				validateArray(list);
+			});
 	}
 
 	/**
@@ -340,14 +344,14 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with too many entries for Strava to cope with in a
 			// single paging instruction
-			try {
-				this.pagingCallback.getArray(new Paging(2, StravaConfig.MAX_PAGE_SIZE.intValue() + 1));
-			} catch (final BadRequestException e) {
-				// Expected
-				return;
-			}
-			fail("Strava is coping with more elements per page than expected");
-		});
+				try {
+					this.pagingCallback.getArray(new Paging(2, StravaConfig.MAX_PAGE_SIZE.intValue() + 1));
+				} catch (final BadRequestException e) {
+					// Expected
+					return;
+				}
+				fail("Strava is coping with more elements per page than expected");
+			});
 	}
 
 	/**
@@ -368,11 +372,11 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely
 			// to return anything!
-			final T[] list = this.pagingCallback.getArray(new Paging(1000000, 200));
+				final T[] list = this.pagingCallback.getArray(new Paging(1000000, 200));
 
-			assertNotNull(list);
-			assertEquals(0, list.length);
-		});
+				assertNotNull(list);
+				assertEquals(0, list.length);
+			});
 	}
 
 	/**
