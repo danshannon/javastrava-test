@@ -1,66 +1,37 @@
-package test.api.rest.club;
+package test.api.rest.club.async;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-
-import org.junit.Test;
-
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-import test.api.model.StravaActivityTest;
-import test.api.rest.APIListTest;
+import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.issues.strava.Issue94;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, Integer> {
+public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesTest {
 
 	/**
 	 *
 	 */
-	public ListRecentClubActivitiesTest() {
-		this.listCallback = (api, id) -> api.listRecentClubActivities(id, null, null);
-		this.pagingCallback = paging -> api().listRecentClubActivities(validId(), paging.getPage(),
-				paging.getPageSize());
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
-	@Override
-	protected Integer invalidId() {
-		return TestUtils.CLUB_INVALID_ID;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
-	@Override
-	protected Integer privateId() {
-		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
-	@Override
-	protected Integer privateIdBelongsToOtherUser() {
-		return null;
+	public ListRecentClubActivitiesAsyncTest() {
+		this.listCallback = (api, id) -> api.listRecentClubActivitiesAsync(id, null, null).get();
+		this.pagingCallback = paging -> api()
+				.listRecentClubActivitiesAsync(validId(), paging.getPage(), paging.getPageSize()).get();
 	}
 
 	/**
 	 * Check that no activity flagged as private is returned
 	 */
-	@Test
+	@Override
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID, null,
-					null);
+			final StravaActivity[] activities = api()
+					.listRecentClubActivitiesAsync(TestUtils.CLUB_PUBLIC_MEMBER_ID, null, null).get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
 					fail("List recent club activities returned an activity flagged as private!");
@@ -71,13 +42,13 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 
 	// 4. StravaClub with > 200 activities (according to Strava, should only
 	// return a max of 200 results)
-	@Test
+	@Override
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, 2, 200);
+			StravaActivity[] activities = api().listRecentClubActivitiesAsync(TestUtils.CLUB_VALID_ID, 2, 200).get();
 			assertNotNull(activities);
 			assertEquals(0, activities.length);
-			activities = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, 1, 200);
+			activities = api().listRecentClubActivitiesAsync(TestUtils.CLUB_VALID_ID, 1, 200).get();
 			assertNotNull(activities);
 			assertFalse(0 == activities.length);
 			validateArray(activities);
@@ -86,11 +57,11 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 
 	// 3. StravaClub the current authenticated athlete is NOT a member of
 	// (according to Strava should return 0 results)
-	@Test
+	@Override
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null);
+				api().listRecentClubActivitiesAsync(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null).get();
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -128,45 +99,6 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 			// entry in secondPage
 			assertEquals(bothPages[1], secondPage[0]);
 		} );
-	}
-
-	@Override
-	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
-
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
-	@Override
-	protected void validateArray(final StravaActivity[] list) {
-		StravaActivityTest.validateList(Arrays.asList(list));
-
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
-	@Override
-	protected Integer validId() {
-		return TestUtils.CLUB_VALID_ID;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
-	 */
-	@Override
-	protected Integer validIdBelongsToOtherUser() {
-		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#validIdNoChildren()
-	 */
-	@Override
-	protected Integer validIdNoChildren() {
-		return null;
 	}
 
 }

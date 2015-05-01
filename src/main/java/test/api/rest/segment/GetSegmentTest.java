@@ -1,88 +1,80 @@
 package test.api.rest.segment;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
-import test.api.rest.APITest;
+import test.api.rest.APIGetTest;
 import test.issues.strava.Issue70;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetSegmentTest extends APITest {
-	// 2. Invalid segment
-	@Test
-	public void testGetSegment_invalidSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getSegment(TestUtils.SEGMENT_INVALID_ID);
-			} catch (final NotFoundException e) {
-				// expected
-				return;
-			}
-			fail("Returned an invalid segment");
-		});
+public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
+	/**
+	 *
+	 */
+	public GetSegmentTest() {
+		this.getCallback = (api, id) -> api.getSegment(id);
 	}
 
-	// 3. Private segment belonging to another user
-	@Test
-	public void testGetSegment_otherUserPrivateSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Got another user's private segment");
-		});
+	/**
+	 * @see test.api.rest.APIGetTest#invalidId()
+	 */
+	@Override
+	protected Integer invalidId() {
+		return TestUtils.SEGMENT_INVALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return TestUtils.SEGMENT_PRIVATE_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
 	// 4. Private segment belonging to the authenticated user
 	@Test
 	public void testGetSegment_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#70
-				if (new Issue70().isIssue()) {
-					return;
-				}
-				// End of workaround
+		// TODO This is a workaround for issue javastravav3api#70
+		if (new Issue70().isIssue()) {
+			return;
+		}
+		// End of workaround
 
-				try {
-					api().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-				} catch (final UnauthorizedException e) {
-					// expected
-					return;
-				}
-				fail("Returned a private segment without view_private access");
-			});
+		super.get_privateWithoutViewPrivate();
 	}
 
-	@Test
-	public void testGetSegment_privateWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-			assertNotNull(segment);
-			assertEquals(Boolean.TRUE, segment.getPrivateSegment());
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.DETAILED);
-		});
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaSegment result) throws Exception {
+		StravaSegmentTest.validateSegment(result);
+
 	}
 
-	// Test cases:
-	// 1. Valid segment
-	@Test
-	public void testGetSegment_validSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = api().getSegment(TestUtils.SEGMENT_VALID_ID);
-			assertNotNull(segment);
-		});
+	/**
+	 * @see test.api.rest.APIGetTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.SEGMENT_VALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return null;
 	}
 
 }

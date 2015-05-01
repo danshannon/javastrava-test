@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.reference.StravaClubType;
 import javastrava.api.v3.model.reference.StravaResourceState;
@@ -61,14 +64,40 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			assertNull(club.getState());
 			return;
 		}
-		if (state == StravaResourceState.META || state == StravaResourceState.PRIVATE) {
+		if ((state == StravaResourceState.META) || (state == StravaResourceState.PRIVATE)) {
 			return;
 		}
 		fail("Unexpected state " + state + " for club " + club);
 	}
 
+	/**
+	 * @param asList
+	 */
+	public static void validateList(final List<StravaClub> asList) {
+		for (final StravaClub club : asList) {
+			validate(club);
+		}
+
+	}
+
 	@Override
 	protected Class<StravaClub> getClassUnderTest() {
 		return StravaClub.class;
+	}
+
+	/**
+	 * @param clubs
+	 *            List of clubs to check
+	 * @param id
+	 *            Id of the club we're checking for membership
+	 * @return <code>true</code> if one of the clubs has the given id
+	 */
+	public static boolean checkIsMember(final StravaClub[] clubs, final Integer id) {
+		for (final StravaClub club : clubs) {
+			if (club.getId().intValue() == id.intValue()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

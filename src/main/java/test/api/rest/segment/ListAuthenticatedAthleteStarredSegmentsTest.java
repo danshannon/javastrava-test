@@ -1,57 +1,69 @@
 package test.api.rest.segment;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.APIListTest;
 import test.issues.strava.Issue71;
 import test.issues.strava.Issue81;
 import test.utils.RateLimitedTestRunner;
+import test.utils.TestUtils;
 
-public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
-	@Override
-	protected ArrayCallback<StravaSegment> pagingCallback() {
-		return (paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize()));
+public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<StravaSegment, Integer> {
+	/**
+	 *
+	 */
+	public ListAuthenticatedAthleteStarredSegmentsTest() {
+		this.listCallback = (api, id) -> api.listAuthenticatedAthleteStarredSegments(null, null);
+		this.pagingCallback = paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(),
+				paging.getPageSize());
 	}
 
-	// Test cases:
-	// 1. No paging
-	@Test
-	public void testListAuthenticatedAthleteStarredSegments_noPaging() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
-			assertNotNull(segments);
-			assertFalse(segments.length == 0);
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
+	@Override
+	protected Integer invalidId() {
+		return null;
+	}
 
-			validateArray(segments);
-		});
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
 	}
 
 	@Test
 	public void testListAuthenticatedAthleteStarredSegments_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#71
-				final Issue71 issue71 = new Issue71();
-				if (issue71.isIssue()) {
-					return;
-				}
-				// End of workaround
+		// TODO This is a workaround for issue javastravav3api#71
+		final Issue71 issue71 = new Issue71();
+		if (issue71.isIssue()) {
+			return;
+		}
+		// End of workaround
 
-				final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
-				for (final StravaSegment segment : segments) {
-					if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
-						fail("Returned at least one private starred segment");
-					}
-				}
-			});
+		final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
+		for (final StravaSegment segment : segments) {
+			if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
+				fail("Returned at least one private starred segment");
+			}
+		}
 	}
 
 	@Test
@@ -65,7 +77,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 				}
 			}
 			assertTrue(pass);
-		});
+		} );
 	}
 
 	@Override
@@ -83,19 +95,37 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingArrayMeth
 
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
 	@Override
-	protected void validate(final StravaSegment segment, final Integer id, final StravaResourceState state) {
-		// TODO This is a workaround for issue javastravav3api#81
-		try {
-			if (new Issue81().isIssue()) {
-				return;
-			}
-		} catch (final Exception e) {
-			// ignore
-		}
-		// End of workaround
-		StravaSegmentTest.validateSegment(segment, id, state);
+	protected void validateArray(final StravaSegment[] list) {
+		StravaSegmentTest.validateList(Arrays.asList(list));
 
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return null;
 	}
 
 }

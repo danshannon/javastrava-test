@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
-import test.api.rest.APITest;
+import test.api.rest.APIGetTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class CheckUploadStatusTest extends APITest {
+public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Integer> {
 	@Test
 	public void testCheckUploadStatus() throws Exception {
 		RateLimitedTestRunner.run(() -> {

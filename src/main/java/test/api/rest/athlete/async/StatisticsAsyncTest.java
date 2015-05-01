@@ -1,19 +1,33 @@
-package test.api.rest.athlete;
+package test.api.rest.athlete.async;
 
-import org.junit.Test;
+import static org.junit.Assert.fail;
 
-import javastrava.api.v3.model.StravaAthlete;
-import test.api.model.StravaAthleteTest;
+import javastrava.api.v3.model.StravaStatistics;
+import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
+public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 	/**
 	 *
 	 */
-	public GetAthleteTest() {
-		this.getCallback = (api, id) -> api.getAthlete(id);
+	public StatisticsAsyncTest() {
+		this.getCallback = (api, id) -> api.statisticsAsync(id).get();
+	}
+
+	@Override
+	public void get_validBelongsToOtherUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			try {
+				api().statisticsAsync(validIdBelongsToOtherUser()).get();
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned statistics for another athlete");
+		} );
 	}
 
 	/**
@@ -37,23 +51,15 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return null;
-	}
-
-	@Test
-	public void testGetAthlete_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete athlete = api().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
-			StravaAthleteTest.validateAthlete(athlete);
-		} );
+		return TestUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	/**
 	 * @see test.api.rest.APITest#validate(java.lang.Object)
 	 */
 	@Override
-	protected void validate(final StravaAthlete result) throws Exception {
-		StravaAthleteTest.validateAthlete(result);
+	protected void validate(final StravaStatistics result) throws Exception {
+		StravaStatisticsTest.validate(result);
 
 	}
 
@@ -72,5 +78,4 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	protected Integer validIdBelongsToOtherUser() {
 		return TestUtils.ATHLETE_VALID_ID;
 	}
-
 }

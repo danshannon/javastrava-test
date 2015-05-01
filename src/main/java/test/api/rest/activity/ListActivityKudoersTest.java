@@ -47,7 +47,7 @@ public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Integer>
 	 */
 	@Override
 	protected Integer privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS;
 	}
 
 	/**

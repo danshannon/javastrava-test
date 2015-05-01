@@ -4,33 +4,87 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.time.ZonedDateTime;
-
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.config.StravaConfig;
+import java.util.Arrays;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.StravaConfig;
 import test.api.model.StravaActivityTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.APIListTest;
 import test.issues.strava.Issue18;
 import test.issues.strava.Issue96;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
+public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integer> {
+	/**
+	 *
+	 */
+	public ListFriendsActivitiesTest() {
+		this.listCallback = (api, id) -> api.listFriendsActivities(null, null);
+		this.pagingCallback = paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize());
+	}
 
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return (paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize()));
+	protected Integer invalidId() {
+		return TestUtils.ATHLETE_INVALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
+	}
+
+	@Test
+	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			if (new Issue96().isIssue()) {
+				return;
+			}
+			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
+			for (final StravaActivity activity : activities) {
+				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
+						&& activity.getPrivateActivity()) {
+					fail("Returned private activities belonging to the authenticated user");
+				}
+			}
+		} );
+	}
+
+	@Test
+	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
+			for (final StravaActivity activity : activities) {
+				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
+						&& activity.getPrivateActivity()) {
+					fail("Returned private activities belonging to other users!");
+				}
+			}
+		} );
 	}
 
 	/**
 	 * <p>
-	 * List latest {@link StravaActivity activities} for {@link StravaAthlete athletes} the currently authorised user is following
+	 * List latest {@link StravaActivity activities} for {@link StravaAthlete
+	 * athletes} the currently authorised user is following
 	 * </p>
 	 *
 	 * <p>
@@ -49,58 +103,20 @@ public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActiv
 
 			assertNotNull("Returned null array for latest friends' activities", activities);
 
-			// Check that the activities are returned in descending order of start date
-				ZonedDateTime lastStartDate = null;
-				for (final StravaActivity activity : activities) {
-					if (lastStartDate == null) {
-						lastStartDate = activity.getStartDate();
-					} else {
-						if (activity.getStartDate().isAfter(lastStartDate)) {
-							fail("Activities not returned in descending start date order");
-						}
+			// Check that the activities are returned in descending order of
+			// start date
+			ZonedDateTime lastStartDate = null;
+			for (final StravaActivity activity : activities) {
+				if (lastStartDate == null) {
+					lastStartDate = activity.getStartDate();
+				} else {
+					if (activity.getStartDate().isAfter(lastStartDate)) {
+						fail("Activities not returned in descending start date order");
 					}
-					StravaActivityTest.validateActivity(activity);
 				}
-			});
-	}
-
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			if (new Issue96().isIssue()) {
-				return;
+				StravaActivityTest.validateActivity(activity);
 			}
-			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
-			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to the authenticated user");
-				}
-			}
-		});
-	}
-
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
-			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) && activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to other users!");
-				}
-			}
-		});
-	}
-
-	@Override
-	protected void validate(final StravaActivity activity) {
-		validate(activity, activity.getId(), activity.getResourceState());
-
-	}
-
-	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
-
+		} );
 	}
 
 	@Override
@@ -112,6 +128,44 @@ public class ListFriendsActivitiesTest extends PagingArrayMethodTest<StravaActiv
 		}
 		// End of workaround
 		super.testPageNumberAndSize();
+	}
+
+	@Override
+	protected void validate(final StravaActivity activity) {
+		StravaActivityTest.validateActivity(activity);
+
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
+	@Override
+	protected void validateArray(final StravaActivity[] athletes) {
+		StravaActivityTest.validateList(Arrays.asList(athletes));
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ATHLETE_VALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 }

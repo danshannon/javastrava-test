@@ -14,7 +14,7 @@ import test.api.model.StravaSegmentExplorerResponseTest;
 import test.api.rest.APITest;
 import test.utils.RateLimitedTestRunner;
 
-public class SegmentExploreTest extends APITest {
+public class SegmentExploreTest extends APITest<StravaSegmentExplorerResponse> {
 	private static String bounds(final StravaMapPoint point1, final StravaMapPoint point2) {
 		return point1.getLatitude() + "," + point1.getLongitude() + "," + point2.getLatitude() + "," //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				+ point2.getLongitude();

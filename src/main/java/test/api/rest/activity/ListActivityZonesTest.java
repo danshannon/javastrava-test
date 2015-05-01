@@ -31,7 +31,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Integ
 	 */
 	@Override
 	protected Integer privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return TestUtils.ACTIVITY_PRIVATE_WITH_LAPS;
 	}
 
 	/**

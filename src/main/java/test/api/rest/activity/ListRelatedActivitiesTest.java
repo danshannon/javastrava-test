@@ -1,97 +1,81 @@
 package test.api.rest.activity;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import java.util.Arrays;
+
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaActivityTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
-import test.utils.RateLimitedTestRunner;
+import test.api.rest.APIListTest;
 import test.utils.TestUtils;
 
-public class ListRelatedActivitiesTest extends PagingArrayMethodTest<StravaActivity, Integer> {
+public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Integer> {
+	/**
+	 *
+	 */
+	public ListRelatedActivitiesTest() {
+		this.listCallback = (api, id) -> api.listRelatedActivities(id, null, null);
+		this.pagingCallback = paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return (paging -> api().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, paging.getPage(), paging.getPageSize()));
+	protected Integer invalidId() {
+		return TestUtils.ACTIVITY_INVALID;
 	}
 
-	@Test
-	public void testListRelatedActivities_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listRelatedActivities(TestUtils.ACTIVITY_INVALID, null, null);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			fail("Returned related activities for an invalid activity!");
-		});
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
 	}
 
-	@Test
-	public void testListRelatedActivities_privateActivityOtherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER, null, null);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned related activities for a private activity belonging to another user!");
-		});
-	}
-
-	@Test
-	public void testListRelatedActivities_validActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null);
-			assertNotNull(activities);
-			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
-			}
-
-		});
-	}
-
-	@Test
-	public void testListRelatedActivities_privateActivityWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES, null, null);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned related activities for a private activity belonging to the authenticated user, but do not have view_private access!");
-		});
-	}
-
-	@Test
-	public void testListRelatedActivities_privateActivityWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = apiWithViewPrivate().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES, null, null);
-			assertNotNull(activities);
-			assertNotEquals(0, activities.length);
-		});
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		validate(activity, activity.getId(), activity.getResourceState());
+		StravaActivityTest.validateActivity(activity);
 
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
 	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
+	protected void validateArray(final StravaActivity[] list) {
+		StravaActivityTest.validateList(Arrays.asList(list));
+	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return null;
 	}
 
 }

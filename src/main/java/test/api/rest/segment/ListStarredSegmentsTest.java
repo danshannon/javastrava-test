@@ -1,72 +1,44 @@
 package test.api.rest.segment;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
+import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentTest;
-import test.api.rest.util.ArrayCallback;
-import test.api.rest.util.PagingArrayMethodTest;
+import test.api.rest.APIListTest;
 import test.issues.strava.Issue25;
-import test.issues.strava.Issue98;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment, Integer> {
+public class ListStarredSegmentsTest extends APIListTest<StravaSegment, Integer> {
+	/**
+	 *
+	 */
+	public ListStarredSegmentsTest() {
+		this.listCallback = (api, id) -> api.listStarredSegments(id, null, null);
+		this.pagingCallback = paging -> api().listStarredSegments(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaSegment> pagingCallback() {
-		return (paging -> api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging.getPage(),
-				paging.getPageSize()));
+	protected Integer invalidId() {
+		return TestUtils.ATHLETE_INVALID_ID;
 	}
 
-	@Test
-	public void testListStarredSegments_authenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
-			assertNotNull(segments);
-		} );
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return null;
 	}
 
-	@Test
-	public void testListStarredSegments_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listStarredSegments(TestUtils.ATHLETE_INVALID_ID, null, null);
-			} catch (final NotFoundException e) {
-				// expected
-				return;
-			}
-			fail("Returned starred segments for a non-existent athlete");
-		} );
-	}
-
-	@Test
-	public void testListStarredSegments_otherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listStarredSegments(TestUtils.ATHLETE_VALID_ID, null, null);
-			assertNotNull(segments);
-		} );
-	}
-
-	@Test
-	public void testListStarredSegments_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			if (new Issue98().isIssue()) {
-				return;
-			}
-			try {
-				api().listStarredSegments(TestUtils.ATHLETE_PRIVATE_ID, null, null);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Should have thrown a 404 unauthorised, but didn't");
-		} );
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
 	}
 
 	@Override
@@ -83,10 +55,37 @@ public class ListStarredSegmentsTest extends PagingArrayMethodTest<StravaSegment
 		StravaSegmentTest.validateSegment(segment);
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
+	 */
 	@Override
-	protected void validate(final StravaSegment segment, final Integer id, final StravaResourceState state) {
-		StravaSegmentTest.validateSegment(segment, id, state);
+	protected void validateArray(final StravaSegment[] list) {
+		StravaSegmentTest.validateList(Arrays.asList(list));
 
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ATHLETE_VALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#validIdNoChildren()
+	 */
+	@Override
+	protected Integer validIdNoChildren() {
+		return null;
 	}
 
 }

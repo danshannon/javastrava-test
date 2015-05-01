@@ -19,6 +19,9 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	@Test
 	public void get_invalid() throws Exception {
+		if (invalidId() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			try {
 				this.getCallback.run(api(), invalidId());
@@ -32,6 +35,9 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	@Test
 	public void get_private() throws Exception {
+		if (privateId() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			final T result = this.getCallback.run(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
@@ -41,6 +47,9 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	@Test
 	public void get_privateBelongsToOtherUser() throws Exception {
+		if (privateIdBelongsToOtherUser() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			try {
 				this.getCallback.run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
@@ -54,6 +63,9 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	@Test
 	public void get_privateWithoutViewPrivate() throws Exception {
+		if (privateId() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			try {
 				this.getCallback.run(api(), privateId());
@@ -76,6 +88,9 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	@Test
 	public void get_validBelongsToOtherUser() throws Exception {
+		if (validIdBelongsToOtherUser() == null) {
+			return;
+		}
 		RateLimitedTestRunner.run(() -> {
 			final T result = this.getCallback.run(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);
