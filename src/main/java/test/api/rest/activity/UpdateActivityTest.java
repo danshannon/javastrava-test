@@ -109,8 +109,12 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 	public void testUpdateActivity_tooManyActivityAttributes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			final StravaActivity update = new StravaActivity();
 
 			final Float cadence = Float.valueOf(67.2f);
@@ -122,7 +126,11 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Test the results
 			assertNull(stravaResponse.getAverageCadence());
 			StravaActivityTest.validateActivity(stravaResponse);
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
@@ -145,8 +153,12 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 	public void testUpdateActivity_validUpdateAllAtOnce() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final TextProducer text = Fairy.create().textProducer();
 			final String description = text.sentence();
@@ -185,15 +197,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 				assertEquals(commute, updateResponse.getCommute());
 			}
 			// End of workaround
+<<<<<<< HEAD
 		} );
+=======
+			});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateCommute() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			StravaActivity updateResponse = null;
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -206,15 +226,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(updateResponse);
 			assertEquals(commute, updateResponse.getCommute());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateDescription() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up test date
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final TextProducer text = Fairy.create().textProducer();
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -227,15 +255,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Test the response
 			StravaActivityTest.validateActivity(response);
 			assertEquals(description, response.getDescription());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateGearId() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final String gearId = TestUtils.GEAR_VALID_ID;
 			update.setGearId(gearId);
@@ -246,7 +282,11 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(gearId, response.getGearId());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
@@ -254,8 +294,12 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 		RateLimitedTestRunner.run(() -> {
 
 			// Set up all the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final String gearId = "none";
@@ -267,7 +311,11 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertNull(response.getGearId());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	/**
@@ -292,8 +340,12 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 	public void testUpdateActivity_validUpdateName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final TextProducer text = Fairy.create().textProducer();
 
@@ -308,15 +360,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			StravaActivityTest.validateActivity(response);
 			assertEquals(sentence, response.getName());
 
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdatePrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final Boolean privateFlag = Boolean.TRUE;
@@ -328,7 +388,11 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(privateFlag, response.getPrivateActivity());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
@@ -340,8 +404,12 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			}
 			// End of workaround
 
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			activity.setPrivateActivity(Boolean.TRUE);
 
 			// Create the activity
@@ -360,15 +428,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			forceDeleteActivity(response);
 			fail("Updated private activity without view_private authorisation");
 
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateTrainer() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final Boolean trainer = Boolean.TRUE;
@@ -380,15 +456,23 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(trainer, response.getTrainer());
+<<<<<<< HEAD
 		} );
+=======
+		});
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Test
 	public void testUpdateActivity_validUpdateType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
+<<<<<<< HEAD
 			final StravaActivity activity = TestUtils
 					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType");
+=======
+			final StravaActivity activity = TestUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType");
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			activity.setType(StravaActivityType.ALPINE_SKI);
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -401,6 +485,7 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(type, response.getType());
+<<<<<<< HEAD
 		} );
 	}
 
@@ -428,6 +513,18 @@ public class UpdateActivityTest extends APITest<StravaActivity> {
 			}
 		}
 		return response;
+=======
+		});
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaActivity result) throws Exception {
+		StravaActivityTest.validateActivity(result);
+
+>>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 }
