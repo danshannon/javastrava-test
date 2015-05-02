@@ -5,21 +5,13 @@ import static org.junit.Assert.fail;
 
 import java.time.ZonedDateTime;
 
-<<<<<<< HEAD
-=======
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.StravaConfig;
 
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.config.StravaConfig;
-import test.api.model.StravaActivityTest;
 import test.api.rest.activity.ListFriendsActivitiesTest;
 import test.issues.strava.Issue96;
 import test.utils.RateLimitedTestRunner;
@@ -27,56 +19,16 @@ import test.utils.TestUtils;
 
 public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	/**
-<<<<<<< HEAD
-	 *
-	 */
-	public ListFriendsActivitiesAsyncTest() {
-		this.listCallback = (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
-		this.pagingCallback = paging -> api().listFriendsActivitiesAsync(paging.getPage(), paging.getPageSize()).get();
-	}
-
-	@Override
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			if (new Issue96().isIssue()) {
-				return;
-			}
-			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
-			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
-						&& activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to the authenticated user");
-				}
-			}
-		} );
-	}
-
-	@Override
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
-			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
-						&& activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to other users!");
-				}
-			}
-		} );
-=======
 	 * No-arguments constructor provides the required callbacks
 	 */
 	public ListFriendsActivitiesAsyncTest() {
 		this.listCallback = (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
 		this.pagingCallback = paging -> api().listFriendsActivitiesAsync(paging.getPage(), paging.getPageSize()).get();
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	/**
 	 * <p>
-	 * List latest {@link StravaActivity activities} for {@link StravaAthlete
-	 * athletes} the currently authorised user is following
+	 * List latest {@link StravaActivity activities} for {@link StravaAthlete athletes} the currently authorised user is following
 	 * </p>
 	 *
 	 * <p>
@@ -98,18 +50,16 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 
 			// Check that the activities are returned in descending order of
 			// start date
-			ZonedDateTime lastStartDate = null;
-			for (final StravaActivity activity : activities) {
-				if (lastStartDate == null) {
-					lastStartDate = activity.getStartDate();
-				} else {
-					if (activity.getStartDate().isAfter(lastStartDate)) {
-						fail("Activities not returned in descending start date order");
+				ZonedDateTime lastStartDate = null;
+				for (final StravaActivity activity : activities) {
+					if (lastStartDate == null) {
+						lastStartDate = activity.getStartDate();
+					} else {
+						if (activity.getStartDate().isAfter(lastStartDate)) {
+							fail("Activities not returned in descending start date order");
+						}
 					}
 				}
-<<<<<<< HEAD
-				StravaActivityTest.validateActivity(activity);
-=======
 			});
 	}
 
@@ -119,13 +69,7 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 		RateLimitedTestRunner.run(() -> {
 			if (new Issue96().isIssue()) {
 				return;
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 			}
-<<<<<<< HEAD
-		} );
-	}
-
-=======
 			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity()) {
@@ -147,5 +91,4 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 			}
 		});
 	}
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 }

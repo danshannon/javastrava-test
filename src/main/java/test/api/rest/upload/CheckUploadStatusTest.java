@@ -1,37 +1,65 @@
 package test.api.rest.upload;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Integer> {
-	@Test
-	public void testCheckUploadStatus() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaUploadResponse response = api().checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertNotNull(response);
-			StravaUploadResponseTest.validate(response);
-		} );
+	/**
+	 *
+	 */
+	public CheckUploadStatusTest() {
+		this.getCallback = (api, id) -> api.checkUploadStatus(id);
 	}
 
-	@Test
-	public void testCheckUploadStatus_activityForOtherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			api().checkUploadStatus(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-		} );
+	/**
+	 * @see test.api.rest.APIGetTest#invalidId()
+	 */
+	@Override
+	protected Integer invalidId() {
+		return TestUtils.ACTIVITY_INVALID;
 	}
 
-	@Test
-	public void testCheckUploadStatus_privateActivityForOtherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			api().checkUploadStatus(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-		} );
+	/**
+	 * @see test.api.rest.APIGetTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return TestUtils.ACTIVITY_PRIVATE;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#validId()
+	 */
+	@Override
+	protected Integer validId() {
+		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer validIdBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaUploadResponse result) throws Exception {
+		StravaUploadResponseTest.validate(result);
+
 	}
 
 }

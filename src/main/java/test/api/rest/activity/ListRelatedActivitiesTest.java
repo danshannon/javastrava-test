@@ -9,7 +9,6 @@ import test.utils.TestUtils;
 
 public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Integer> {
 	/**
-<<<<<<< HEAD
 	 *
 	 */
 	public ListRelatedActivitiesTest() {
@@ -39,44 +38,11 @@ public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Integ
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
-=======
-	 * No-arguments constructor provides the required callbacks
-	 */
-	public ListRelatedActivitiesTest() {
-		this.listCallback = (api, id) -> api.listRelatedActivities(id, null, null);
-		this.pagingCallback = paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) {
 		StravaActivityTest.validateActivity(activity);
-<<<<<<< HEAD
-=======
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
-	@Override
-	protected Integer invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
-	@Override
-	protected Integer privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
-	@Override
-	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
@@ -85,29 +51,9 @@ public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Integ
 	@Override
 	protected void validateArray(final StravaActivity[] list) {
 		StravaActivityTest.validateList(Arrays.asList(list));
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
-
 	}
 
 	/**
-<<<<<<< HEAD
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-=======
-	 * @see test.api.rest.APIListTest#validId()
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
-	 */
-	@Override
-<<<<<<< HEAD
-	protected void validateArray(final StravaActivity[] list) {
-		StravaActivityTest.validateList(Arrays.asList(list));
-=======
-	protected Integer validId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
-	}
-
-	/**
-<<<<<<< HEAD
 	 * @see test.api.rest.APIListTest#validId()
 	 */
 	@Override
@@ -116,8 +62,6 @@ public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Integ
 	}
 
 	/**
-=======
->>>>>>> branch 'master' of https://github.com/danshannon/javastrava-test.git
 	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
 	 */
 	@Override

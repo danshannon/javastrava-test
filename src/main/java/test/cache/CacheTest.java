@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
-
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
@@ -15,6 +12,9 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.Strava;
 import javastrava.cache.StravaCache;
 import javastrava.cache.impl.StravaCacheImpl;
+
+import org.junit.Test;
+
 import test.api.rest.APITest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -23,11 +23,10 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class CacheTest extends APITest {
+public class CacheTest extends APITest<StravaCache<?, ?>> {
 	private StravaCache<StravaActivity, Integer> activityCache(final boolean populate) throws Exception {
 		final Token token = TestUtils.getValidToken();
-		final StravaCache<StravaActivity, Integer> cache = new StravaCacheImpl<StravaActivity, Integer>(
-				StravaActivity.class, token);
+		final StravaCache<StravaActivity, Integer> cache = new StravaCacheImpl<StravaActivity, Integer>(StravaActivity.class, token);
 		assertEquals(0, cache.size());
 		if (!populate) {
 			return cache;
@@ -47,14 +46,12 @@ public class CacheTest extends APITest {
 	 *            The token to use
 	 * @param populate
 	 *            Should the returned cache be populated
-	 * @return The cache, populated with athletes (list of friends of the
-	 *         authenticated user) if required
+	 * @return The cache, populated with athletes (list of friends of the authenticated user) if required
 	 * @throws Exception
 	 */
 	private StravaCache<StravaAthlete, Integer> athleteCache(final boolean populate) throws Exception {
 		final Token token = TestUtils.getValidToken();
-		final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(
-				StravaAthlete.class, token);
+		final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 		assertEquals(0, cache.size());
 		if (!populate) {
 			return cache;
@@ -75,12 +72,11 @@ public class CacheTest extends APITest {
 			assertFalse(cache.size() == 0);
 			cache = activityCache(false);
 			assertEquals(0, cache.size());
-		} );
+		});
 	}
 
 	/**
-	 * Test that the athlete cache generator actually does generate a cache, and
-	 * puts athletes in it
+	 * Test that the athlete cache generator actually does generate a cache, and puts athletes in it
 	 *
 	 * @throws Exception
 	 */
@@ -92,13 +88,12 @@ public class CacheTest extends APITest {
 			assertFalse(cache.size() == 0);
 			cache = athleteCache(false);
 			assertEquals(0, cache.size());
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that when clearing the cache, there are no remaining accessible
-	 * entities in there
+	 * Test that when clearing the cache, there are no remaining accessible entities in there
 	 * </p>
 	 *
 	 * @throws Exception
@@ -111,13 +106,12 @@ public class CacheTest extends APITest {
 			assertFalse(cache.size() == 0);
 			cache.removeAll();
 			assertEquals(0, cache.size());
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that clearing the cache for one class doesn't clear all the other
-	 * classes
+	 * Test that clearing the cache for one class doesn't clear all the other classes
 	 * </p>
 	 *
 	 * @throws Exception
@@ -131,13 +125,12 @@ public class CacheTest extends APITest {
 			cache1.removeAll();
 			assertEquals(0, cache1.size());
 			assertFalse(cache2.size() == 0);
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that clearing one token's entire cache doesn't clear data from other
-	 * tokens' caches
+	 * Test that clearing one token's entire cache doesn't clear data from other tokens' caches
 	 * </p>
 	 *
 	 * @throws Exception
@@ -147,8 +140,7 @@ public class CacheTest extends APITest {
 		RateLimitedTestRunner.run(() -> {
 			final Token token1 = TestUtils.getValidToken();
 			final API api1 = new API(token1);
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token1);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token1);
 			final StravaAthlete[] athletes = api1.listAthleteFriends(token1.getAthlete().getId(), null, null);
 			for (final StravaAthlete athlete : athletes) {
 				cache1.put(athlete);
@@ -156,8 +148,7 @@ public class CacheTest extends APITest {
 
 			final Token token2 = TestUtils.getValidTokenWithFullAccess();
 			final API api2 = new API(token1);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token2);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token2);
 			final StravaAthlete[] athletes2 = api2.listAthleteFriends(token1.getAthlete().getId(), null, null);
 			for (final StravaAthlete athlete : athletes2) {
 				cache2.put(athlete);
@@ -166,14 +157,13 @@ public class CacheTest extends APITest {
 			cache1.removeAll();
 			assertFalse(0 == cache2.size());
 
-		} );
+		});
 
 	}
 
 	/**
 	 * <p>
-	 * Test that putting two different object with the same id and class results
-	 * in the second put overwriting the first
+	 * Test that putting two different object with the same id and class results in the second put overwriting the first
 	 * </p>
 	 *
 	 * @throws Exception
@@ -192,13 +182,12 @@ public class CacheTest extends APITest {
 			athlete = cache.get(id);
 			assertNotNull(athlete);
 			assertEquals("Bob", athlete.getFirstname());
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that asking for an item NOT in the cache returns null and does not
-	 * throw an exception
+	 * Test that asking for an item NOT in the cache returns null and does not throw an exception
 	 * </p>
 	 *
 	 * @throws Exception
@@ -211,13 +200,12 @@ public class CacheTest extends APITest {
 			cache.put(athlete);
 			athlete = cache.get(TestUtils.ATHLETE_INVALID_ID);
 			assertNull(athlete);
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that asking for an object that IS in the cache returns the right
-	 * object
+	 * Test that asking for an object that IS in the cache returns the right object
 	 * </p>
 	 *
 	 * @throws Exception
@@ -231,14 +219,13 @@ public class CacheTest extends APITest {
 			final StravaAthlete athleteCached = cache.get(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(athleteCached);
 			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, athleteCached.getId());
-		} );
+		});
 
 	}
 
 	/**
 	 * <p>
-	 * Test that putting an object, then clearing the cache, then getting it,
-	 * returns null
+	 * Test that putting an object, then clearing the cache, then getting it, returns null
 	 * </p>
 	 *
 	 * @throws Exception
@@ -253,13 +240,12 @@ public class CacheTest extends APITest {
 			final StravaAthlete athleteCached = cache.get(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNull(athleteCached);
 
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Test that attempting to overwrite an item in cache with one that is LESS
-	 * detailed than the one that's already there doesn't work
+	 * Test that attempting to overwrite an item in cache with one that is LESS detailed than the one that's already there doesn't work
 	 * </p>
 	 *
 	 * @throws Exception
@@ -278,7 +264,7 @@ public class CacheTest extends APITest {
 			cache.put(athleteMeta);
 			final StravaAthlete athleteCache = cache.get(1);
 			assertEquals(athleteCache, athleteSummary);
-		} );
+		});
 	}
 
 	/**
@@ -294,14 +280,13 @@ public class CacheTest extends APITest {
 			final StravaCache<StravaAthlete, Integer> cache = athleteCache(false);
 			cache.put(null);
 			assertEquals(0, cache.size());
-		} );
+		});
 
 	}
 
 	/**
 	 * <p>
-	 * Test that putting an object with one cache instance, then getting it with
-	 * another cache instance associated with a different token, returns null
+	 * Test that putting an object with one cache instance, then getting it with another cache instance associated with a different token, returns null
 	 *
 	 * @throws Exception
 	 */
@@ -311,21 +296,18 @@ public class CacheTest extends APITest {
 			final Token token1 = TestUtils.getValidTokenWithFullAccess();
 			final Token token2 = TestUtils.getValidToken();
 			assertFalse(token1.equals(token2));
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token1);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token2);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token1);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token2);
 			cache1.put(token1.getAthlete());
 			final StravaAthlete athlete = cache2.get(token1.getAthlete().getId());
 			assertNull(athlete);
-		} );
+		});
 
 	}
 
 	/**
 	 * <p>
-	 * Test that putting an object with one cache instance, then getting it with
-	 * another instance associated with the same token, returns the object
+	 * Test that putting an object with one cache instance, then getting it with another instance associated with the same token, returns the object
 	 * successfully
 	 * </p>
 	 *
@@ -335,22 +317,19 @@ public class CacheTest extends APITest {
 	public void testCache_putWithOneInstanceGetWithAnotherSameToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Token token = TestUtils.getValidToken();
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 			cache1.put(token.getAthlete());
 			final StravaAthlete athlete = cache2.get(token.getAthlete().getId());
 			assertNotNull(athlete);
 			assertEquals(token.getAthlete().getId(), athlete.getId());
-		} );
+		});
 
 	}
 
 	/**
 	 * <p>
-	 * Test that revoking a token results in the cache being empty for that
-	 * token
+	 * Test that revoking a token results in the cache being empty for that token
 	 * </p>
 	 *
 	 * @throws Exception
@@ -359,13 +338,21 @@ public class CacheTest extends APITest {
 	public void testCache_revokeTokenEmptiesCache() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Token token = TestUtils.getValidToken();
-			final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(
-					StravaAthlete.class, token);
+			final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 			cache.put(token.getAthlete());
 			final Strava strava = new Strava(token);
 			strava.deauthorise(token);
 			assertEquals(0, cache.size());
-		} );
+		});
+
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaCache<?, ?> result) throws Exception {
+		return;
 
 	}
 
