@@ -13,6 +13,7 @@ public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, I
 	 */
 	public ListAuthenticatedAthleteClubsTest() {
 		this.listCallback = (api, id) -> api.listAuthenticatedAthleteClubs();
+		this.suppressPagingTests = true;
 	}
 
 	/**

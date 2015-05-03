@@ -11,8 +11,7 @@ public class ListActivityCommentsTest extends APIListTest<StravaComment, Integer
 	 */
 	public ListActivityCommentsTest() {
 		this.listCallback = (api, id) -> api.listActivityComments(id, null, null, null);
-		this.pagingCallback = paging -> api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null,
-				paging.getPage(), paging.getPageSize());
+		this.pagingCallback = paging -> api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize());
 	}
 
 	/**
@@ -67,7 +66,7 @@ public class ListActivityCommentsTest extends APIListTest<StravaComment, Integer
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**

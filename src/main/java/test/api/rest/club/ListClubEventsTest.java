@@ -2,6 +2,7 @@ package test.api.rest.club;
 
 import static org.junit.Assert.assertNotNull;
 import javastrava.api.v3.model.StravaClubAnnouncement;
+import javastrava.api.v3.model.StravaClubEvent;
 
 import org.junit.Test;
 
@@ -13,12 +14,12 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncement, Integer> {
+public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	/**
 	 *
 	 */
-	public ListClubAnnouncementsTest() {
-		this.listCallback = (api, id) -> api.listClubAnnouncements(id);
+	public ListClubEventsTest() {
+		this.listCallback = (api, id) -> api.listClubGroupEvents(id);
 		this.suppressPagingTests = true;
 	}
 
@@ -54,21 +55,12 @@ public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncemen
 		});
 	}
 
-	// @Test
-	// public void testListClubAnnouncements_privateClubNonMember() throws Exception {
-	// RateLimitedTestRunner.run(() -> {
-	// final StravaClubAnnouncement[] announcements = api()
-	// .listClubAnnouncements(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-	// assertNotNull(announcements);
-	// assertTrue(announcements.length == 0);
-	// } );
-	// }
-
 	/**
 	 * @see test.api.rest.APITest#validate(java.lang.Object)
 	 */
 	@Override
-	protected void validate(final StravaClubAnnouncement result) throws Exception {
+	protected void validate(final StravaClubEvent result) throws Exception {
+		// TODO
 		return;
 
 	}
@@ -77,7 +69,8 @@ public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncemen
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaClubAnnouncement[] list) {
+	protected void validateArray(final StravaClubEvent[] list) {
+		// TODO
 		return;
 
 	}

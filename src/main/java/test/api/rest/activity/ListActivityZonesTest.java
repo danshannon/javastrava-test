@@ -16,6 +16,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Integ
 		this.listCallback = (api, id) -> api.listActivityZones(id);
 		this.pagingCallback = null;
 		this.suppressPagingTests = true;
+		this.listOtherReturns401Unauthorised = true;
 	}
 
 	/**

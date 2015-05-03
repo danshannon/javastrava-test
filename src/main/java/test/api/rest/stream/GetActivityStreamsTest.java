@@ -24,7 +24,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 *
 	 */
 	public GetActivityStreamsTest() {
-		this.getCallback = (api, id) -> api.getActivityStreams(id, null, null, null);
+		this.getCallback = (api, id) -> api.getActivityStreams(id, StravaStreamType.DISTANCE.toString(), null, null);
 	}
 
 	/**
@@ -160,13 +160,13 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 			assertEquals(1, streams.length);
 			assertEquals(StravaStreamType.DISTANCE, streams[0].getType());
 			// TODO This is a workaround for issue javastravav3api#21
-			if (new Issue21().isIssue()) {
-				return;
-			}
-			// End of workaround
+				if (new Issue21().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			validateArray(streams);
-		});
+				validateArray(streams);
+			});
 	}
 
 	/**
@@ -183,13 +183,13 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
 			// TODO This is a workaround for issue javastravav3api#21
-			if (new Issue21().isIssue()) {
-				return;
-			}
-			// End of workaround
+				if (new Issue21().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			validateArray(streams);
-		});
+				validateArray(streams);
+			});
 	}
 
 	// 3. Valid activity for other user

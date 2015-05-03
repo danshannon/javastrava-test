@@ -9,6 +9,7 @@ public class ListAuthenticatedAthleteClubsAsyncTest extends ListAuthenticatedAth
 	public ListAuthenticatedAthleteClubsAsyncTest() {
 		super();
 		this.listCallback = (api, id) -> api.listAuthenticatedAthleteClubsAsync().get();
+		this.suppressPagingTests = true;
 	}
 
 }

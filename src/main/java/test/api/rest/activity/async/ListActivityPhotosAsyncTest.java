@@ -11,6 +11,7 @@ public class ListActivityPhotosAsyncTest extends ListActivityPhotosTest {
 		this.listCallback = (api, id) -> api.listActivityPhotosAsync(id).get();
 		this.pagingCallback = null;
 		this.suppressPagingTests = true;
+		this.listOtherReturns401Unauthorised = true;
 	}
 
 }

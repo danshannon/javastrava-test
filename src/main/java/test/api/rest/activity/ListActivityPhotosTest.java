@@ -18,6 +18,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 		this.listCallback = (api, id) -> api.listActivityPhotos(id);
 		this.pagingCallback = null;
 		this.suppressPagingTests = true;
+		this.listOtherReturns401Unauthorised = true;
 	}
 
 	/**
@@ -34,10 +35,10 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 			if (new Issue76().isIssue()) {
 				return;
 			}
-		} );
+		});
 		RateLimitedTestRunner.run(() -> {
 			super.list_validParentNoChildren();
-		} );
+		});
 	}
 
 	/**

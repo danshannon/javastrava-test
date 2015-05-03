@@ -2,11 +2,11 @@ package test.api.rest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -30,7 +30,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 				return;
 			}
 			fail("Returned an object with an invalid ID");
-		} );
+		});
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			final T result = this.getCallback.run(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
 			validate(result);
-		} );
+		});
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 				return;
 			}
 			fail("Returned a private object belonging to another user!");
-		} );
+		});
 	}
 
 	@Test
@@ -73,8 +73,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 				// Expected
 				return;
 			}
-			fail("Returned a private object belonging to another user!");
-		} );
+			fail("Returned a private object, but don't have view_private access!");
+		});
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			final T result = this.getCallback.run(api(), validId());
 			assertNotNull(result);
 			validate(result);
-		} );
+		});
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			final T result = this.getCallback.run(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);
 			validate(result);
-		} );
+		});
 	}
 
 	protected abstract U invalidId();

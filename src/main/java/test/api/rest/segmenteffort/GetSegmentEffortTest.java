@@ -3,12 +3,12 @@ package test.api.rest.segmenteffort;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+
+import org.junit.Test;
+
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIGetTest;
 import test.issues.strava.Issue78;
@@ -16,6 +16,13 @@ import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> {
+	/**
+	 *
+	 */
+	public GetSegmentEffortTest() {
+		this.getCallback = (api, id) -> api.getSegmentEffort(id);
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -55,12 +62,11 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 				return;
 			}
 			fail("Returned segment effort for a private activity, without view_private");
-		} );
+		});
 	}
 
 	/**
-	 * Check that an effort on a private activity is returned with view_private
-	 * scope
+	 * Check that an effort on a private activity is returned with view_private scope
 	 *
 	 * @throws Exception
 	 */
@@ -70,7 +76,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffort(5735858255L);
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
-		} );
+		});
 	}
 
 	/**
@@ -82,18 +88,18 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	public void testGetSegmentEffort_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#78
-			if (new Issue78().isIssue()) {
-				return;
-			}
-			// End of workaround
+				if (new Issue78().isIssue()) {
+					return;
+				}
+				// End of workaround
 
-			try {
-				api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
-			} catch (final UnauthorizedException e) {
-				return;
-			}
-			fail("Returned segment effort for a segment flagged private");
-		} );
+				try {
+					api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+				} catch (final UnauthorizedException e) {
+					return;
+				}
+				fail("Returned segment effort for a segment flagged private");
+			});
 	}
 
 	/**

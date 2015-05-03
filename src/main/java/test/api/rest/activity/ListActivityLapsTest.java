@@ -15,6 +15,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 		this.listCallback = (api, id) -> api.listActivityLaps(id);
 		this.pagingCallback = null;
 		this.suppressPagingTests = true;
+		this.listOtherReturns401Unauthorised = true;
 	}
 
 	/**

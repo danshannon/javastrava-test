@@ -11,6 +11,7 @@ public class ListActivityZonesAsyncTest extends ListActivityZonesTest {
 		this.listCallback = (api, id) -> api.listActivityZonesAsync(id).get();
 		this.pagingCallback = null;
 		this.suppressPagingTests = true;
+		this.listOtherReturns401Unauthorised = true;
 	}
 
 }

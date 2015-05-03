@@ -6,12 +6,13 @@ import static org.junit.Assert.fail;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 
-import org.junit.Test;
-
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.StravaConfig;
+
+import org.junit.Test;
+
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIListTest;
 import test.issues.strava.Issue18;
@@ -33,7 +34,7 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return null;
 	}
 
 	/**
@@ -60,12 +61,11 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 			}
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
-						&& activity.getPrivateActivity()) {
+				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity()) {
 					fail("Returned private activities belonging to the authenticated user");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
@@ -73,18 +73,16 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
-						&& activity.getPrivateActivity()) {
+				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) && activity.getPrivateActivity()) {
 					fail("Returned private activities belonging to other users!");
 				}
 			}
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * List latest {@link StravaActivity activities} for {@link StravaAthlete
-	 * athletes} the currently authorised user is following
+	 * List latest {@link StravaActivity activities} for {@link StravaAthlete athletes} the currently authorised user is following
 	 * </p>
 	 *
 	 * <p>
@@ -116,7 +114,7 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 				}
 				StravaActivityTest.validateActivity(activity);
 			}
-		} );
+		});
 	}
 
 	@Override
@@ -157,7 +155,7 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return null;
 	}
 
 	/**
@@ -165,7 +163,7 @@ public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integ
 	 */
 	@Override
 	protected Integer validIdNoChildren() {
-		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
+		return null;
 	}
 
 }

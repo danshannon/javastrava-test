@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
@@ -41,6 +42,14 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	 * Callback code for a test class to execute a request for a paged list (used by the paging tests)
 	 */
 	protected ArrayCallback<T> pagingCallback;
+
+	/**
+	 * <p>
+	 * In some cases attempting to list items such as {@link StravaLap laps} on an item belonging to another user returns a 401 Unauthorized error. Where this
+	 * is the case the test class should set this value to <code>true</code>
+	 * </p>
+	 */
+	protected boolean listOtherReturns401Unauthorised = false;
 
 	/**
 	 * <p>
@@ -162,18 +171,18 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	public void list_privateWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// If the id is null, then don't run the test
-				if (privateId() == null) {
-					return;
-				}
+			if (privateId() == null) {
+				return;
+			}
 
-				try {
-					this.listCallback.run(api(), privateId());
-				} catch (final UnauthorizedException e) {
-					// Expected
-					return;
-				}
-				fail("Returned a list of objects for an private parent id which belongs to the authenticated user");
-			});
+			try {
+				this.listCallback.run(api(), privateId());
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned a list of objects for an private parent id which belongs to the authenticated user");
+		});
 	}
 
 	/**
@@ -187,6 +196,11 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	 * returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
+	 * <p>
+	 * In other cases, the Strava API doesn't allow items that belong to an item that is owned by another user to be listed, returning a 401 Unauthorised error.
+	 * If the {@link #listOtherReturns401Unauthorised} is <code>true</code> then we expect to get a {@link UnauthorizedException} thrown.
+	 * </p>
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -196,11 +210,25 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T[] results = this.listCallback.run(api(), validIdBelongsToOtherUser());
+			T[] results = null;
+			try {
+				results = this.listCallback.run(api(), validIdBelongsToOtherUser());
+			} catch (final UnauthorizedException e) {
+				if (this.listOtherReturns401Unauthorised) {
+					// Expected
+					return;
+				} else {
+					throw e;
+				}
+			}
+		if (this.listOtherReturns401Unauthorised) {
+			// If we get here, we should have got a 401 returned, but we didn't
+			fail("Listed items belonging to another user unexpectedly!");
+		}
 			assertNotNull(results);
 			assertNotEquals(0, results.length);
 			validateArray(results);
-		});
+		})  ;
 	}
 
 	/**
@@ -293,13 +321,13 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 
 			// The first entry in bothPages should be the same as the first
 			// entry in firstPage
-				assertEquals(bothPages[0], firstPage[0]);
+			assertEquals(bothPages[0], firstPage[0]);
 
-				// The second entry in bothPages should be the same as the first
-				// entry in secondPage
-				assertEquals(bothPages[1], secondPage[0]);
+			// The second entry in bothPages should be the same as the first
+			// entry in secondPage
+			assertEquals(bothPages[1], secondPage[0]);
 
-			});
+		});
 	}
 
 	/**
@@ -319,13 +347,13 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-				final T[] list = this.pagingCallback.getArray(new Paging(1, 1));
-				assertNotNull(list);
-				assertEquals(1, list.length);
+			final T[] list = this.pagingCallback.getArray(new Paging(1, 1));
+			assertNotNull(list);
+			assertEquals(1, list.length);
 
-				// Validate all the entries in the list
-				validateArray(list);
-			});
+			// Validate all the entries in the list
+			validateArray(list);
+		});
 	}
 
 	/**
@@ -344,14 +372,14 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with too many entries for Strava to cope with in a
 			// single paging instruction
-				try {
-					this.pagingCallback.getArray(new Paging(2, StravaConfig.MAX_PAGE_SIZE.intValue() + 1));
-				} catch (final BadRequestException e) {
-					// Expected
-					return;
-				}
-				fail("Strava is coping with more elements per page than expected");
-			});
+			try {
+				this.pagingCallback.getArray(new Paging(2, StravaConfig.MAX_PAGE_SIZE.intValue() + 1));
+			} catch (final BadRequestException e) {
+				// Expected
+				return;
+			}
+			fail("Strava is coping with more elements per page than expected");
+		});
 	}
 
 	/**
@@ -372,11 +400,11 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely
 			// to return anything!
-				final T[] list = this.pagingCallback.getArray(new Paging(1000000, 200));
+			final T[] list = this.pagingCallback.getArray(new Paging(1000000, 200));
 
-				assertNotNull(list);
-				assertEquals(0, list.length);
-			});
+			assertNotNull(list);
+			assertEquals(0, list.length);
+		});
 	}
 
 	/**

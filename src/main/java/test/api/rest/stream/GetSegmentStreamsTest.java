@@ -23,7 +23,7 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	 *
 	 */
 	public GetSegmentStreamsTest() {
-		this.getCallback = (api, id) -> api.getSegmentStreams(id, null, null, null);
+		this.getCallback = (api, id) -> api.getSegmentStreams(id, StravaStreamType.DISTANCE.toString(), null, null);
 	}
 
 	/**
@@ -78,12 +78,12 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final BadRequestException e) {
 						// expected
-				return;
+						return;
+					}
+					fail("Can't return a segment stream which is downsampled by TIME!");
+				}
 			}
-			fail("Can't return a segment stream which is downsampled by TIME!");
-		}
-	}
-})	  ;
+		})	  ;
 	}
 
 	// 9. Invalid downsample resolution
