@@ -1,7 +1,5 @@
 package test.api.rest.segment;
 
-import org.junit.Test;
-
 import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
@@ -41,8 +39,8 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	}
 
 	// 4. Private segment belonging to the authenticated user
-	@Test
-	public void testGetSegment_privateWithoutViewPrivate() throws Exception {
+	@Override
+	public void get_privateWithoutViewPrivate() throws Exception {
 		// TODO This is a workaround for issue javastravav3api#70
 		if (new Issue70().isIssue()) {
 			return;

@@ -56,7 +56,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	public void testGetSegmentEffort_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentEffort(5735858255L);
+				api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -73,7 +73,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	@Test
 	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffort(5735858255L);
+			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
 		});
@@ -84,22 +84,17 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	 *
 	 * @throws Exception
 	 */
-	@Test
-	public void testGetSegmentEffort_privateSegment() throws Exception {
+	@Override
+	public void get_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#78
-				if (new Issue78().isIssue()) {
-					return;
-				}
-				// End of workaround
+			if (new Issue78().isIssue()) {
+				return;
+			}
+			// End of workaround
+			super.get_private();
 
-				try {
-					api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
-				} catch (final UnauthorizedException e) {
-					return;
-				}
-				fail("Returned segment effort for a segment flagged private");
-			});
+		});
 	}
 
 	/**

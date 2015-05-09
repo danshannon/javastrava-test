@@ -5,9 +5,10 @@ import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
+import javastrava.api.v3.model.StravaSegment;
+
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIListTest;
 import test.issues.strava.Issue71;
@@ -21,8 +22,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 	 */
 	public ListAuthenticatedAthleteStarredSegmentsTest() {
 		this.listCallback = (api, id) -> api.listAuthenticatedAthleteStarredSegments(null, null);
-		this.pagingCallback = paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(),
-				paging.getPageSize());
+		this.pagingCallback = paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize());
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 		return null;
 	}
 
-	@Test
-	public void testListAuthenticatedAthleteStarredSegments_privateWithoutViewPrivate() throws Exception {
+	@Override
+	public void list_privateWithoutViewPrivate() throws Exception {
 		// TODO This is a workaround for issue javastravav3api#71
 		final Issue71 issue71 = new Issue71();
 		if (issue71.isIssue()) {
@@ -66,10 +66,11 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 		}
 	}
 
+	@Override
 	@Test
-	public void testListAuthenticatedAthleteStarredSegments_privateWithViewPrivate() throws Exception {
+	public void list_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = api().listAuthenticatedAthleteStarredSegments(null, null);
+			final StravaSegment[] segments = apiWithViewPrivate().listAuthenticatedAthleteStarredSegments(null, null);
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
 				if (segment.getPrivateSegment()) {
@@ -77,7 +78,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 				}
 			}
 			assertTrue(pass);
-		} );
+		});
 	}
 
 	@Override

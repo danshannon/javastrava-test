@@ -130,7 +130,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		});
 	}
 
-	private void waitForCompletionAndDelete(final StravaUploadResponse response) throws NotFoundException {
+	protected void waitForCompletionAndDelete(final StravaUploadResponse response) throws NotFoundException {
 		final Integer id = response.getId();
 		StravaUploadResponse localResponse = null;
 		boolean loop = true;
@@ -169,7 +169,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 	 * @param response
 	 * @return
 	 */
-	private StravaUploadResponse waitForUploadStatus(final StravaUploadResponse response) {
+	protected StravaUploadResponse waitForUploadStatus(final StravaUploadResponse response) {
 		int i = 0;
 		StravaUploadResponse status = null;
 		while (i < 30) {
