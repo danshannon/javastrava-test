@@ -5,11 +5,7 @@ import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
-
-import org.junit.Test;
-
 import test.api.rest.APITest;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
@@ -22,12 +18,6 @@ import test.utils.TestUtils;
  *
  */
 public class Issue49 extends IssueTest {
-	@Test
-	public void testIssue() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-		});
-	}
-
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */

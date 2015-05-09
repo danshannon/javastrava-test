@@ -149,6 +149,9 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			if (activity.getPhotos() != null) {
 				StravaActivityPhotosTest.validate(activity.getPhotos());
 			}
+			if (activity.getVideo() != null) {
+				StravaVideoTest.validate(activity.getVideo());
+			}
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
