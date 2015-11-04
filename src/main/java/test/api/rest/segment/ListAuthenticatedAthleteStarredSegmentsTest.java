@@ -129,4 +129,31 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 		return null;
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#list_validParent()
+	 */
+	@Override
+	public void list_validParent() throws Exception {
+		// TODO Auto-generated method stub
+		super.list_validParent();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#testPageNumberAndSize()
+	 */
+	@Override
+	public void testPageNumberAndSize() throws Exception {
+		// TODO Auto-generated method stub
+		super.testPageNumberAndSize();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#testPageSize()
+	 */
+	@Override
+	public void testPageSize() throws Exception {
+		// TODO Auto-generated method stub
+		super.testPageSize();
+	}
+
 }

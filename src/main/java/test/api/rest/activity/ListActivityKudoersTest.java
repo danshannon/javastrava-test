@@ -5,8 +5,6 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIListTest;
-import test.issues.strava.Issue95;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Integer> {
@@ -24,22 +22,6 @@ public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Integer>
 	@Override
 	protected Integer invalidId() {
 		return TestUtils.ACTIVITY_INVALID;
-	}
-
-	/*
-	 * Workaround method for issue #95 - remove this override when issue is
-	 * resolved!
-	 */
-	@Override
-	public void list_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			if (new Issue95().isIssue()) {
-				return;
-			}
-		} );
-		RateLimitedTestRunner.run(() -> {
-			super.list_privateWithoutViewPrivate();
-		} );
 	}
 
 	/**
@@ -78,7 +60,7 @@ public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Integer>
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS;
+		return TestUtils.ACTIVITY_WITH_KUDOS;
 	}
 
 	/**

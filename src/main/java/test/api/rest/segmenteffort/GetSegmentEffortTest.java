@@ -88,13 +88,13 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	public void get_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#78
-			if (new Issue78().isIssue()) {
-				return;
-			}
-			// End of workaround
-			super.get_private();
+				if (new Issue78().isIssue()) {
+					return;
+				}
+				// End of workaround
+				super.get_private();
 
-		});
+			});
 	}
 
 	/**
@@ -120,6 +120,18 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	@Override
 	protected Long validIdBelongsToOtherUser() {
 		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
+	 */
+	@Override
+	public void get_privateWithoutViewPrivate() throws Exception {
+		// TODO Workaround for issue 78
+		if (new Issue78().isIssue()) {
+			return;
+		}
+		super.get_privateWithoutViewPrivate();
 	}
 
 }

@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
+import test.issues.strava.Issue87;
 import test.issues.strava.Issue89;
 import test.issues.strava.Issue90;
 import test.utils.RateLimitedTestRunner;
@@ -78,12 +79,12 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final BadRequestException e) {
 						// expected
-				return;
+						return;
+					}
+					fail("Can't return a segment stream which is downsampled by TIME!");
+				}
 			}
-			fail("Can't return a segment stream which is downsampled by TIME!");
-		}
-	}
-})	  ;
+		})	  ;
 	}
 
 	// 9. Invalid downsample resolution
@@ -199,5 +200,17 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 			StravaStreamTest.validate(stream);
 		}
 
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
+	 */
+	@Override
+	public void get_privateWithoutViewPrivate() throws Exception {
+		// TODO Workaround for issue #87
+		if (new Issue87().isIssue()) {
+			return;
+		}
+		super.get_privateWithoutViewPrivate();
 	}
 }

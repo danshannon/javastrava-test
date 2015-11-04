@@ -10,6 +10,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 *
 	 */
 	public CheckUploadStatusTest() {
+		super();
 		this.getCallback = (api, id) -> api.checkUploadStatus(id);
 	}
 
@@ -18,7 +19,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return 0;
 	}
 
 	/**
@@ -26,7 +27,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return apiWithViewPrivate().getActivity(TestUtils.ACTIVITY_PRIVATE, null).getUploadId();
 	}
 
 	/**
@@ -34,7 +35,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return null;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return api().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).getUploadId();
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return api().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).getUploadId();
 	}
 
 	/**

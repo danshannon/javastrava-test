@@ -42,7 +42,12 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 	public void delete_privateParentWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithFullAccess();
-			final T result = this.callback.run(api, createObject(), privateParentId());
+			T result = null;
+			try {
+				result = this.callback.run(api, createObject(), privateParentId());
+			} catch (final NotFoundException e) {
+				return;
+			}
 			assertNull(result);
 		});
 	}

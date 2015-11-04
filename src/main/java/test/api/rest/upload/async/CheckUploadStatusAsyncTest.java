@@ -6,7 +6,7 @@ package test.api.rest.upload.async;
 import test.api.rest.upload.CheckUploadStatusTest;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public class CheckUploadStatusAsyncTest extends CheckUploadStatusTest {

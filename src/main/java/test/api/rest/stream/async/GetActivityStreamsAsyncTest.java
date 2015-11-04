@@ -31,7 +31,7 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 	 *
 	 */
 	public GetActivityStreamsAsyncTest() {
-		this.getCallback = (api, id) -> api.getActivityStreamsAsync(id, null, null, null).get();
+		this.getCallback = (api, id) -> api.getActivityStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get();
 	}
 
 	// 4. All stream types
@@ -65,7 +65,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 
 	// 7. Downsampled by distance
 	@Override
-	@Test
 	public void testGetActivityStreams_downsampledByDistance() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
@@ -84,7 +83,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 
 	// 6. Downsampled by time
 	@Override
-	@Test
 	public void testGetActivityStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
@@ -100,7 +98,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 
 	// 9. Invalid downsample resolution
 	@Override
-	@Test
 	public void testGetActivityStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
@@ -115,7 +112,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 
 	// 10. Invalid downsample type (i.e. not distance or time)
 	@Override
-	@Test
 	public void testGetActivityStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
@@ -149,7 +145,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 
 	// 5. Only one stream type
 	@Override
-	@Test
 	public void testGetActivityStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaStream[] streams = api().getActivityStreamsAsync(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamType.DISTANCE.toString(), null,
@@ -176,8 +171,7 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 	 */
 	@Override
 	// 1. Valid activity for the authenticated user
-	@Test
-	public void testGetActivityStreams_validActivityAuthenticatedUser() throws Exception {
+	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaStream[] streams = api().getActivityStreamsAsync(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), null, null).get();
 			assertNotNull(streams);

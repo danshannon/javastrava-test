@@ -5,8 +5,7 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaPhoto;
 import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
-import test.issues.strava.Issue76;
-import test.utils.RateLimitedTestRunner;
+import test.issues.strava.Issue68;
 import test.utils.TestUtils;
 
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
@@ -27,18 +26,6 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 	@Override
 	protected Integer invalidId() {
 		return TestUtils.ACTIVITY_INVALID;
-	}
-
-	@Override
-	public void list_validParentNoChildren() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			if (new Issue76().isIssue()) {
-				return;
-			}
-		});
-		RateLimitedTestRunner.run(() -> {
-			super.list_validParentNoChildren();
-		});
 	}
 
 	/**
@@ -96,5 +83,16 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return TestUtils.ACTIVITY_WITHOUT_PHOTOS;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#list_private()
+	 */
+	@Override
+	public void list_private() throws Exception {
+		if (new Issue68().isIssue()) {
+			return;
+		}
+		super.list_private();
 	}
 }

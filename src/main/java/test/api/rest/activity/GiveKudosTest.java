@@ -2,13 +2,11 @@ package test.api.rest.activity;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
 import test.issues.strava.Issue29;
-import test.issues.strava.Issue82;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -27,12 +25,6 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 */
 	@Override
 	public void create_privateParentWithoutViewPrivate() throws Exception {
-		// TODO Workaround for issue 82
-		if (new Issue82().isIssue()) {
-			return;
-		}
-		// End of workaround
-
 		super.create_privateParentWithoutViewPrivate();
 	}
 
@@ -41,7 +33,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 		super.create_valid();
 		RateLimitedTestRunner.run(() -> {
 			assertFalse(hasGivenKudos(validParentId(), TestUtils.ATHLETE_AUTHENTICATED_ID));
-		} );
+		});
 	}
 
 	@Override
@@ -49,7 +41,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 		super.create_validParentBelongsToOtherUser();
 		RateLimitedTestRunner.run(() -> {
 			assertTrue(hasGivenKudos(validParentOtherUserId(), TestUtils.ATHLETE_AUTHENTICATED_ID));
-		} );
+		});
 	}
 
 	@Override

@@ -130,16 +130,16 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 	public void testListSegmentEfforts_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#33
-				final Issue33 issue33 = new Issue33();
-				if (issue33.isIssue()) {
-					return;
-				}
-				// End of workaround
+			final Issue33 issue33 = new Issue33();
+			if (issue33.isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
-				assertNotNull(efforts);
-				assertEquals(0, efforts.length);
-			});
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
+			assertNotNull(efforts);
+			assertEquals(0, efforts.length);
+		});
 	}
 
 	@Test
@@ -172,6 +172,17 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 		// End of workaround
 
 		super.list_privateWithoutViewPrivate();
+	}
+
+	@Override
+	public void list_privateBelongsToOtherUser() throws Exception {
+		// TODO This is a workaround for issue javastravav3api#86
+		if (new Issue86().isIssue()) {
+			return;
+		}
+		// End of workaround
+
+		super.list_privateBelongsToOtherUser();
 	}
 
 	@Override

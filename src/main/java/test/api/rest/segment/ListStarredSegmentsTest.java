@@ -60,6 +60,15 @@ public class ListStarredSegmentsTest extends APIListTest<StravaSegment, Integer>
 	 */
 	@Override
 	protected void validateArray(final StravaSegment[] list) {
+		// This is a workaround for issue javastravav3api#25
+		try {
+			if (new Issue25().isIssue()) {
+				return;
+			}
+		} catch (final Exception e) {
+			// Ignore
+		}
+
 		StravaSegmentTest.validateList(Arrays.asList(list));
 
 	}

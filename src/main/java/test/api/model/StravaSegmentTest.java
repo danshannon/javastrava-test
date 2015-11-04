@@ -47,15 +47,14 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
 		if ((state == StravaResourceState.DETAILED) || (state == StravaResourceState.SUMMARY)) {
 			assertNotNull(segment.getActivityType());
-			assertFalse("Segment " + segment.getId() + " has an unknown activity type",
-					segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
-					// Optional sassertNull(segment.getAthleteCount());
+			assertFalse("Segment " + segment.getId() + " has an unknown activity type", segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
+			// Optional sassertNull(segment.getAthleteCount());
 
 			// Can be null, if the athlete's never done the segment (and it's
 			// only returned with starred segments anyway)
 			if (segment.getAthletePrEffort() != null) {
-				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(),
-						segment.getAthletePrEffort().getId(), segment.getAthletePrEffort().getResourceState());
+				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort()
+						.getResourceState());
 			}
 
 			assertNotNull(segment.getAverageGrade());
@@ -80,16 +79,15 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNotNull(segment.getStarred());
 			assertNotNull(segment.getStartLatlng());
 			// Optional assertNotNull(segment.getState());
+			assertNotNull(segment.getHazardous());
+			// Optional assertNotNull(segment.getStarCount());
 		}
 
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(segment.getCreatedAt());
 			assertNotNull(segment.getEffortCount());
-			assertNotNull(segment.getHazardous());
 			assertNotNull(segment.getMap());
-			StravaMapTest.validateMap(segment.getMap(), segment.getMap().getId(), segment.getMap().getResourceState(),
-					null);
-			assertNotNull(segment.getStarCount());
+			StravaMapTest.validateMap(segment.getMap(), segment.getMap().getId(), segment.getMap().getResourceState(), null);
 			assertNotNull(segment.getTotalElevationGain());
 			assertNotNull(segment.getUpdatedAt());
 			return;
@@ -97,9 +95,7 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 		if (state == StravaResourceState.SUMMARY) {
 			assertNull(segment.getCreatedAt());
 			assertNull(segment.getEffortCount());
-			assertNull(segment.getHazardous());
 			assertNull(segment.getMap());
-			assertNull(segment.getStarCount());
 			assertNull(segment.getTotalElevationGain());
 			assertNull(segment.getUpdatedAt());
 			return;

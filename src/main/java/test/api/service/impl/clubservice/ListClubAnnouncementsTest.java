@@ -1,13 +1,12 @@
 package test.api.service.impl.clubservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
@@ -23,14 +22,8 @@ public class ListClubAnnouncementsTest extends StravaTest {
 	@Test
 	public void testListClubAnnouncements_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				strava().listClubAnnouncements(TestUtils.CLUB_INVALID_ID);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			fail("Returned announcements for an invalid club!");
-
+			final List<StravaClubAnnouncement> announcements = strava().listClubAnnouncements(TestUtils.CLUB_INVALID_ID);
+			assertNull(announcements);
 		});
 	}
 
@@ -45,13 +38,10 @@ public class ListClubAnnouncementsTest extends StravaTest {
 	@Test
 	public void testListClubAnnouncements_privateClubNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				strava().listClubAnnouncements(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned announcements for a club the authenticated athlete is not a member of!");
+			final List<StravaClubAnnouncement> announcements = strava().listClubAnnouncements(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			assertNotNull(announcements);
+			assertEquals(0, announcements.size());
+
 		});
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaLap;
 import test.api.model.StravaLapTest;
 import test.api.rest.APIListTest;
+import test.issues.strava.Issue105;
 import test.utils.TestUtils;
 
 public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
@@ -82,6 +83,17 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return TestUtils.ACTIVITY_WITHOUT_LAPS;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#list_validParentNoChildren()
+	 */
+	@Override
+	public void list_validParentNoChildren() throws Exception {
+		if (new Issue105().isIssue()) {
+			return;
+		}
+		super.list_validParentNoChildren();
 	}
 
 }

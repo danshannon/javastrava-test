@@ -17,7 +17,6 @@ import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.model.reference.StravaWorkoutType;
 import test.utils.BeanTest;
-import test.utils.TestUtils;
 
 /**
  * @author Dan Shannon
@@ -135,9 +134,6 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
-			if (activity.getAthlete().getId().intValue() != TestUtils.ATHLETE_AUTHENTICATED_ID) {
-				assertNull(activity.getTruncated());
-			}
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
 			if (activity.getType() != StravaActivityType.RUN) {
@@ -175,13 +171,6 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 				if (activity.getDeviceWatts()) {
 					assertNotNull(activity.getWeightedAverageWatts());
 				}
-			} else {
-				// optional assertNull("Activity " + activity.getId() + " has
-				// unexpected cadence",
-				// activity.getAverageCadence());
-				assertNull(activity.getAverageWatts());
-				assertNull(activity.getDeviceWatts());
-				assertNull(activity.getWeightedAverageWatts());
 			}
 			if (activity.getAverageHeartrate() != null) {
 				assertTrue(activity.getAverageHeartrate() >= 0);
@@ -234,9 +223,6 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getTimezone());
 			assertNotNull(activity.getTotalElevationGain());
 			assertNotNull(activity.getTrainer());
-			if (activity.getAthlete().getId().intValue() != TestUtils.ATHLETE_AUTHENTICATED_ID) {
-				assertNull(activity.getTruncated());
-			}
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
 			if (activity.getType() != StravaActivityType.RUN) {
@@ -296,7 +282,6 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getTimezone());
 			assertNull(activity.getTotalElevationGain());
 			assertNull(activity.getTrainer());
-			assertNull(activity.getTruncated());
 			assertNull(activity.getType());
 			assertNull(activity.getWeightedAverageWatts());
 			assertNull(activity.getWorkoutType());

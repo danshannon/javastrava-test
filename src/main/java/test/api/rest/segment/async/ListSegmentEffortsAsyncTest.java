@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import test.api.rest.segment.ListSegmentEffortsTest;
 import test.issues.strava.Issue33;
+import test.issues.strava.Issue86;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -85,7 +86,7 @@ public class ListSegmentEffortsAsyncTest extends ListSegmentEffortsTest {
 	public void testListSegmentEfforts_filterByInvalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listSegmentEffortsAsync(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null, null, null);
+				api().listSegmentEffortsAsync(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_INVALID_ID, null, null, null, null).get();
 			} catch (final NotFoundException e) {
 				// expected
 				return;
@@ -149,5 +150,19 @@ public class ListSegmentEffortsAsyncTest extends ListSegmentEffortsTest {
 			assertNotNull(efforts);
 			assertFalse(efforts.length == 0);
 		});
+	}
+
+	/**
+	 * @see test.api.rest.segment.ListSegmentEffortsTest#list_privateBelongsToOtherUser()
+	 */
+	@Override
+	public void list_privateBelongsToOtherUser() throws Exception {
+		// Workaround for issue 86
+		if (new Issue86().isIssue()) {
+			return;
+		}
+		// End of workaround
+
+		super.list_privateBelongsToOtherUser();
 	}
 }
