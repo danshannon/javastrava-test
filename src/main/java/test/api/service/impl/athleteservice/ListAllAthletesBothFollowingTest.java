@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.model.reference.StravaFollowerState;
 
 import org.junit.Test;
 
@@ -38,10 +39,16 @@ public class ListAllAthletesBothFollowingTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaAthlete> athletes = strava().listAllAthletesBothFollowing(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(athletes);
+			int friendCount = 0;
 
 			// Will have returned all the athletes that the authenticated user is following
 				final List<StravaAthlete> friends = strava().listAllAuthenticatedAthleteFriends();
-				assertEquals(friends.size(), athletes.size());
+				for (final StravaAthlete athlete : friends) {
+					if (athlete.getFriend() == StravaFollowerState.ACCEPTED) {
+						friendCount++;
+					}
+				}
+				assertEquals(friendCount, athletes.size());
 			});
 	}
 

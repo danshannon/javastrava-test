@@ -15,8 +15,10 @@ public class StravaSegmentLeaderboardTest extends BeanTest<StravaSegmentLeaderbo
 		assertNotNull(leaderboard);
 		// Optional (if using API only) assertNotNull(leaderboard.getAthleteEntries());
 		// Optional assertNotNull(leaderboard.getEffortCount());
-		assertNotNull(leaderboard.getEntries());
 		assertNotNull(leaderboard.getEntryCount());
+		if (leaderboard.getEntryCount() != 0) {
+			assertNotNull(leaderboard.getEntries());
+		}
 		// TODO Apparently optional but see https://github.com/danshannon/javastravav3api/issues/22
 		// assertNotNull(leaderboard.getKomType());
 		assertNotNull(leaderboard.getNeighborhoodCount());

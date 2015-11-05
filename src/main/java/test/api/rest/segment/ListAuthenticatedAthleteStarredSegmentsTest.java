@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIListTest;
+import test.issues.strava.Issue25;
 import test.issues.strava.Issue71;
 import test.issues.strava.Issue81;
 import test.utils.RateLimitedTestRunner;
@@ -134,7 +135,9 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 	 */
 	@Override
 	public void list_validParent() throws Exception {
-		// TODO Auto-generated method stub
+		if (new Issue25().isIssue()) {
+			return;
+		}
 		super.list_validParent();
 	}
 
@@ -143,7 +146,9 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 	 */
 	@Override
 	public void testPageNumberAndSize() throws Exception {
-		// TODO Auto-generated method stub
+		if (new Issue25().isIssue()) {
+			return;
+		}
 		super.testPageNumberAndSize();
 	}
 
@@ -152,7 +157,9 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIListTest<Str
 	 */
 	@Override
 	public void testPageSize() throws Exception {
-		// TODO Auto-generated method stub
+		if (new Issue25().isIssue()) {
+			return;
+		}
 		super.testPageSize();
 	}
 

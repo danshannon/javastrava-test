@@ -7,6 +7,7 @@ import javastrava.api.v3.model.StravaClubEvent;
 import org.junit.Test;
 
 import test.api.rest.APIListTest;
+import test.issues.strava.Issue112;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -97,6 +98,17 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#list_privateBelongsToOtherUser()
+	 */
+	@Override
+	public void list_privateBelongsToOtherUser() throws Exception {
+		if (new Issue112().isIssue()) {
+			return;
+		}
+		super.list_privateBelongsToOtherUser();
 	}
 
 }

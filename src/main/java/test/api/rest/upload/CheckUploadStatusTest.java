@@ -27,7 +27,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 */
 	@Override
 	protected Integer privateId() {
-		return apiWithViewPrivate().getActivity(TestUtils.ACTIVITY_PRIVATE, null).getUploadId();
+		return null;
 	}
 
 	/**

@@ -53,7 +53,7 @@ public class TestHttpUtils {
 	 *            The hidden value of the authenticity token which must be returned with the form to Strava
 	 * @return The code used by {@link #tokenExchange(Integer, String, String)} to get an access token
 	 */
-	public static String acceptApplication(final String authenticityToken, final AuthorisationScope... scopes) {
+	private static String acceptApplication(final String authenticityToken, final AuthorisationScope... scopes) {
 		String scopeString = "";
 		for (final AuthorisationScope scope : scopes) {
 			scopeString = scopeString + scope.toString() + ",";
@@ -115,7 +115,7 @@ public class TestHttpUtils {
 	 * @return The authenticity token
 	 * @throws IOException
 	 */
-	public static String getAuthorisationPageAuthenticityToken(final AuthorisationScope... scopes) {
+	private static String getAuthorisationPageAuthenticityToken(final AuthorisationScope... scopes) {
 		String scopeString = "";
 		for (final AuthorisationScope scope : scopes) {
 			if (!scopeString.equals("")) {
@@ -155,7 +155,7 @@ public class TestHttpUtils {
 	 * @return The value of the authenticity token, which should be included when posting the form to log in
 	 * @throws IOException
 	 */
-	public static String getLoginAuthenticityToken() {
+	private static String getLoginAuthenticityToken() {
 		final BasicNameValuePair[] params = null;
 		Document loginPage;
 		try {
@@ -199,7 +199,7 @@ public class TestHttpUtils {
 		return token;
 	}
 
-	public static Document httpGet(final String uri, final NameValuePair... parameters) throws IOException {
+	private static Document httpGet(final String uri, final NameValuePair... parameters) throws IOException {
 		HttpUriRequest get = null;
 		Document page = null;
 		if (parameters == null) {
@@ -245,7 +245,7 @@ public class TestHttpUtils {
 	 *            token handed out by the Strava login page within the login form
 	 * @return The string URL to redirect to next
 	 */
-	public static String login(final String email, final String password, final String authenticityToken) {
+	private static String login(final String email, final String password, final String authenticityToken) {
 		String location = null;
 		try {
 			final HttpUriRequest login = RequestBuilder.post().setUri(new URI(StravaConfig.AUTH_ENDPOINT + "/session")).addParameter("email", email)
@@ -271,31 +271,6 @@ public class TestHttpUtils {
 
 		return location;
 
-	}
-
-	/**
-	 * @param username
-	 * @param password
-	 * @throws IOException
-	 */
-	public static void loginToSession(final String username, final String password) throws IOException, UnauthorizedException {
-		// Get the login page and find the authenticity token that Strava
-		// cunningly hides in there :)
-		final String authenticityToken = getLoginAuthenticityToken();
-		if ((authenticityToken == null) || authenticityToken.equals("")) {
-			throw new UnauthorizedException("Strava login page didn't seem to hand out an authenticity_token");
-		}
-
-		// Log in - success should send a redirect to the dashboard
-		final String location = login(username, password, authenticityToken);
-		if (!location.equals(StravaConfig.AUTH_ENDPOINT + "/dashboard")) {
-			throw new UnauthorizedException("Login failed");
-		}
-
-		// Get the page to which we were re-directed, just for the sake of
-		// completeness
-		final BasicNameValuePair[] params = null;
-		httpGet(location, params);
 	}
 
 	private TestHttpUtils() {

@@ -136,9 +136,9 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getTrainer());
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
-			if (activity.getType() != StravaActivityType.RUN) {
-				assertNull(activity.getWorkoutType());
-			}
+			// if (activity.getType() != StravaActivityType.RUN) {
+			// assertNull(activity.getWorkoutType());
+			// }
 			if (activity.getWorkoutType() != null) {
 				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
 			}
@@ -225,9 +225,9 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getTrainer());
 			assertNotNull(activity.getType());
 			assertFalse(activity.getType() == StravaActivityType.UNKNOWN);
-			if (activity.getType() != StravaActivityType.RUN) {
-				assertNull(activity.getWorkoutType());
-			}
+			// if (activity.getType() != StravaActivityType.RUN) {
+			// assertNull(activity.getWorkoutType());
+			// }
 			if (activity.getWorkoutType() != null) {
 				assertFalse(activity.getWorkoutType() == StravaWorkoutType.UNKNOWN);
 			}
