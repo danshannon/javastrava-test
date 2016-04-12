@@ -11,16 +11,18 @@ import java.util.List;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaActivityZone;
+import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
 import test.api.model.StravaActivityZoneTest;
-import test.api.service.StravaTest;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListActivityZonesTest extends StravaTest {
+public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Integer> {
 	/**
 	 * <p>
 	 * Attempt to list {@link StravaActivityZone zones} for an {@link StravaActivity} which doesn't have any
@@ -99,7 +101,7 @@ public class ListActivityZonesTest extends StravaTest {
 			assertEquals(0, zones.size());
 		});
 	}
-	
+
 	@Test
 	public void testListActivityZones_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -115,6 +117,57 @@ public class ListActivityZonesTest extends StravaTest {
 			final List<StravaActivityZone> zones = strava().listActivityZones(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
 			assertNotNull(zones);
 			assertTrue(zones.isEmpty());
+		});
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithEntries()
+	 */
+	@Override
+	public Integer getValidParentWithEntries() {
+		return TestUtils.ACTIVITY_WITH_ZONES;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithNoEntries()
+	 */
+	@Override
+	public Integer getValidParentWithNoEntries() {
+		return TestUtils.ACTIVITY_WITHOUT_ZONES;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToOtherUser()
+	 */
+	@Override
+	public Integer getIdPrivateBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToAuthenticatedUser()
+	 */
+	@Override
+	public Integer getIdPrivateBelongsToAuthenticatedUser() {
+		// TODO Get some test data
+		return null;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdInvalid()
+	 */
+	@Override
+	public Integer getIdInvalid() {
+		return TestUtils.ACTIVITY_INVALID;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.ListMethodTest#callback(javastrava.api.v3.service.Strava)
+	 */
+	@Override
+	protected ListCallback<StravaActivityZone, Integer> callback(final Strava strava) {
+		return ((parentId) -> {
+			return strava.listActivityZones(parentId);
 		});
 	}
 }

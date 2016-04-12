@@ -61,6 +61,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 				deletedObject = this.callback.run(api, createObject(), privateParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
+				forceDelete(deletedObject);
 				return;
 			}
 			forceDelete(deletedObject);
@@ -77,6 +78,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 				deletedObject = this.callback.run(api, createObject(), validParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
+				forceDelete(deletedObject);
 				return;
 			}
 			forceDelete(deletedObject);
@@ -93,10 +95,11 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 				deletedObject = this.callback.run(api, createObject(), privateParentOtherUserId());
 			} catch (final UnauthorizedException e) {
 				// Expected
+				forceDelete(deletedObject);
 				return;
 			}
 			forceDelete(deletedObject);
-			fail("Created an object with a private parent that belongs to another user!");
+			fail("Deleted an object with a private parent that belongs to another user!");
 		});
 	}
 

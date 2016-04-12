@@ -17,14 +17,14 @@ import javastrava.util.Paging;
 import org.junit.Test;
 
 import test.api.model.StravaActivityTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Override
-	protected ListCallback<StravaActivity> callback() {
+	protected PagingListCallback<StravaActivity> callback() {
 		return (paging -> strava().listAuthenticatedAthleteActivities(paging));
 	}
 

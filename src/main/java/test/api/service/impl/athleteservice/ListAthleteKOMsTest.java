@@ -14,14 +14,14 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort, Long> {
 	@Override
-	protected ListCallback<StravaSegmentEffort> callback() {
+	protected PagingListCallback<StravaSegmentEffort> callback() {
 		return (paging -> strava().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, paging));
 	}
 

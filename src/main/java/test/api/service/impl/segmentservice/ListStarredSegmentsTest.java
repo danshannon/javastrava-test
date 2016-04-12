@@ -12,14 +12,14 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import org.junit.Test;
 
 import test.api.model.StravaSegmentTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Override
-	protected ListCallback<StravaSegment> callback() {
+	protected PagingListCallback<StravaSegment> callback() {
 		return (paging -> strava().listStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID, paging));
 	}
 

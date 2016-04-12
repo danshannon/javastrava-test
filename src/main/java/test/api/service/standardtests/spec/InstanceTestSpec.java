@@ -1,4 +1,4 @@
-package test.api.service.impl.util;
+package test.api.service.standardtests.spec;
 
 /**
  * <p>

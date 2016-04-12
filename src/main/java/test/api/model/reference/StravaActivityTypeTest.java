@@ -11,13 +11,9 @@ import org.junit.Test;
  *
  */
 public class StravaActivityTypeTest {
-	@Test
-	public void testGetDescription() {
-		for (final StravaActivityType type : StravaActivityType.values()) {
-			assertNotNull(type.getDescription());
-		}
-	}
-
+	/**
+	 * @see test.api.model.reference.StravaReferenceTypeTest#testGetId()
+	 */
 	@Test
 	public void testGetId() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
@@ -25,4 +21,26 @@ public class StravaActivityTypeTest {
 			assertEquals(type, StravaActivityType.create(type.getId()));
 		}
 	}
+
+	/**
+	 * @see test.api.model.reference.StravaReferenceTypeTest#testGetValue()
+	 */
+	public void testGetValue() {
+		for (final StravaActivityType type : StravaActivityType.values()) {
+			assertNotNull(type.getValue());
+			assertEquals(type, StravaActivityType.create(type.getValue()));
+		}
+
+	}
+
+	/**
+	 * @see test.api.model.reference.StravaReferenceTypeTest#testCreate()
+	 */
+	public void testCreate() {
+		for (final StravaActivityType type : StravaActivityType.values()) {
+			assertEquals(type, StravaActivityType.create(type.getValue()));
+		}
+
+	}
+
 }

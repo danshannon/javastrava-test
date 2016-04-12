@@ -11,7 +11,7 @@ import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
-import test.api.service.impl.util.InstanceTestSpec;
+import test.api.service.standardtests.spec.InstanceTestSpec;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 

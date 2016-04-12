@@ -13,14 +13,14 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected ListCallback<StravaAthlete> callback() {
+	protected PagingListCallback<StravaAthlete> callback() {
 		return (paging -> strava().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID, paging));
 	}
 

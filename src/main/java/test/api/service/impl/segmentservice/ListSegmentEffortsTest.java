@@ -17,14 +17,14 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.util.Paging;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEffort, Long> {
 	@Override
-	protected ListCallback<StravaSegmentEffort> callback() {
+	protected PagingListCallback<StravaSegmentEffort> callback() {
 		return (paging -> strava().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, paging));
 	}
 

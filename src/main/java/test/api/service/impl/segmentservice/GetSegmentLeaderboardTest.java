@@ -17,14 +17,14 @@ import org.junit.Test;
 
 import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmentLeaderboardEntry, Integer> {
 	@Override
-	protected ListCallback<StravaSegmentLeaderboardEntry> callback() {
+	protected PagingListCallback<StravaSegmentLeaderboardEntry> callback() {
 		return (paging -> strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, paging).getEntries());
 	}
 

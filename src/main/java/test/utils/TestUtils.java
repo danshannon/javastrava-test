@@ -21,7 +21,7 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
  * @author Dan Shannon
  *
  */
-public class TestUtils {
+public abstract class TestUtils {
 	public static String USERNAME;
 
 	public static String PASSWORD;
@@ -126,10 +126,8 @@ public class TestUtils {
 		ACTIVITY_WITHOUT_LAPS = new Integer(properties.getString("test.activityWithoutLaps"));
 		ACTIVITY_WITH_ZONES = new Integer(properties.getString("test.activityWithZones"));
 		ACTIVITY_WITHOUT_ZONES = new Integer(properties.getString("test.activityWithoutZones"));
-		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(
-				properties.getString("test.activityBelongingToAuthenticatedUser"));
-		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(
-				properties.getString("test.activityBelongingToUnauthenticatedUser"));
+		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(properties.getString("test.activityBelongingToAuthenticatedUser"));
+		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityBelongingToUnauthenticatedUser"));
 		ACTIVITY_INVALID = new Integer(properties.getString("test.activityInvalid"));
 		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityPrivateOtherUser");
 		ACTIVITY_PRIVATE = integerProperty("test.activityPrivateAuthenticatedUser");

@@ -1,7 +1,7 @@
 /**
  *
  */
-package test.api.model;
+package test.api.model.webhook;
 
 import static org.junit.Assert.assertNotNull;
 import javastrava.api.v3.model.webhook.StravaEventSubscription;

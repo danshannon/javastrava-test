@@ -7,25 +7,24 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-
-import org.junit.Test;
-
 import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment, Integer> {
 	@Override
-	protected ListCallback<StravaComment> callback() {
-		return (paging -> strava().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, paging));
+	protected ListCallback<StravaComment, Integer> callback() {
+		return ((strava, paging, parentId) -> strava.listActivityComments(parentId, paging));
 	}
 
 	@Test
@@ -63,8 +62,8 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 
 			// Check that the lists are the same length!!
 			assertNotNull("Returned null list of comments (without markdown) when some were expected");
-			assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!",
-						comments.size(), commentsWithoutMarkdown.size());
+			assertEquals("List of comments for activity " + TestUtils.ACTIVITY_WITH_COMMENTS + " is not same length with/without markdown!", comments.size(),
+					commentsWithoutMarkdown.size());
 			for (final StravaComment comment1 : comments) {
 				assertEquals(TestUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
 				StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());

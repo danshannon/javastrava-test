@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
@@ -12,9 +15,6 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.Strava;
 import javastrava.cache.StravaCache;
 import javastrava.cache.impl.StravaCacheImpl;
-
-import org.junit.Test;
-
 import test.api.rest.APITest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -49,9 +49,9 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	 * @return The cache, populated with athletes (list of friends of the authenticated user) if required
 	 * @throws Exception
 	 */
-	private StravaCache<StravaAthlete, Integer> athleteCache(final boolean populate) throws Exception {
+	private StravaCache<StravaAthlete, Integer, Void> athleteCache(final boolean populate) throws Exception {
 		final Token token = TestUtils.getValidToken();
-		final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
+		final StravaCache<StravaAthlete, Integer, Void> cache = new StravaCacheImpl<StravaAthlete, Integer, Void>(StravaAthlete.class, token);
 		assertEquals(0, cache.size());
 		if (!populate) {
 			return cache;

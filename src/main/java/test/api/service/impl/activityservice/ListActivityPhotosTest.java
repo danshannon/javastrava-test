@@ -1,135 +1,83 @@
 package test.api.service.impl.activityservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
-import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
-import test.api.model.StravaPhotoTest;
-import test.api.service.StravaTest;
-import test.utils.RateLimitedTestRunner;
+import javastrava.api.v3.service.Strava;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
+import test.issues.strava.Issue68;
 import test.utils.TestUtils;
 
-public class ListActivityPhotosTest extends StravaTest {
-	/**
-	 * <p>
-	 * List {@link StravaPhoto photos}, with an {@link StravaActivity activity} that has a known non-zero number of photos
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
-	 */
-	@Test
-	public void testListActivityPhotos_default() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_WITH_PHOTOS);
+public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Integer> {
 
-			assertNotNull("Null list of photos returned for activity", photos);
-			assertNotEquals("No photos returned although some were expected", 0, photos.size());
-			for (final StravaPhoto photo : photos) {
-				assertEquals(TestUtils.ACTIVITY_WITH_PHOTOS, photo.getActivityId());
-				StravaPhotoTest.validatePhoto(photo, photo.getId(), photo.getResourceState());
-			}
-		});
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithEntries()
+	 */
+	@Override
+	public Integer getValidParentWithEntries() {
+		return TestUtils.ACTIVITY_WITH_PHOTOS;
 	}
 
 	/**
-	 * <p>
-	 * List {@link StravaPhoto photos}, for an {@link StravaActivity activity} that has no photos
-	 * </p>
-	 *
-	 * <p>
-	 * Should return an empty list
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithNoEntries()
 	 */
-	@Test
-	public void testListActivityPhotos_hasNoPhotos() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_WITHOUT_PHOTOS);
-
-			assertNotNull("Photos returned as null for a valid activity without photos", photos);
-			assertEquals("Photos were returned for an activity which has no photos", 0, photos.size());
-		});
+	@Override
+	public Integer getValidParentWithNoEntries() {
+		return TestUtils.ACTIVITY_WITHOUT_PHOTOS;
 	}
 
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaPhoto photos} for a non-existent {@link StravaActivity activity}
-	 * </p>
-	 *
-	 * <p>
-	 * Should return <code>null</code> because the {@link StravaActivity} doesn't exist
-	 * </p>
-	 *
-	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToOtherUser()
 	 */
-	@Test
-	public void testListActivityPhotos_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_INVALID);
+	@Override
+	public Integer getIdPrivateBelongsToOtherUser() {
+		return null;
+	}
 
-			assertNull("Photos returned for an invalid activity", photos);
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToAuthenticatedUser()
+	 */
+	@Override
+	public Integer getIdPrivateBelongsToAuthenticatedUser() {
+		return TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdInvalid()
+	 */
+	@Override
+	public Integer getIdInvalid() {
+		return TestUtils.ACTIVITY_INVALID;
+	}
+
+	/**
+	 * @see test.api.service.standardtests.ListMethodTest#callback(javastrava.api.v3.service.Strava)
+	 */
+	@Override
+	protected ListCallback<StravaPhoto, Integer> callback(final Strava strava) {
+		return (parentId -> {
+			return strava.listActivityPhotos(parentId);
 		});
 	}
 
 	/**
-	 * <p>
-	 * Attempt to list {@link StravaPhoto photos} for an activity marked as private
-	 * </p>
-	 *
-	 * <p>
-	 * Should return an empty list
-	 * </p>
-	 *
-	 * @throws Exception
+	 * @see test.api.service.standardtests.ListMethodTest#testGetPrivateWithViewPrivate()
 	 */
-	@Test
-	public void testListActivityPhotos_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			assertNotNull(photos);
-			assertEquals(0, photos.size());
-		});
+	@Override
+	public void testGetPrivateWithViewPrivate() throws Exception {
+		if (new Issue68().isIssue()) {
+			return;
+		}
+		super.testGetPrivateWithViewPrivate();
 	}
 
-	@Test
-	public void testListActivityPhotos_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = strava().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			assertNotNull(photos);
-			assertTrue(photos.size() == 0);
-		});
-	}
-
-	@Test
-	public void testListActivityPhotos_privateWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaPhoto> photos = stravaWithViewPrivate().listActivityPhotos(TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS);
-			assertNotNull(photos);
-			// TODO This is a test workaround for issue javastrava-api #68
-			// See https://github.com/danshannon/javastravav3api/issues/68
-			// When resolved, uncomment the following line
-			// assertFalse(photos.size() == 0);
-			// End of workaround
-			});
+	/**
+	 * @see test.api.service.standardtests.ListMethodTest#testGetPrivateWithoutViewPrivate()
+	 */
+	@Override
+	public void testGetPrivateWithoutViewPrivate() throws Exception {
+		if (new Issue68().isIssue()) {
+			return;
+		}
+		super.testGetPrivateWithoutViewPrivate();
 	}
 }

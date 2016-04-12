@@ -11,7 +11,7 @@ import javastrava.api.v3.model.webhook.StravaEventSubscription;
 
 import org.junit.Test;
 
-import test.api.model.StravaEventSubscriptionTest;
+import test.api.model.webhook.StravaEventSubscriptionTest;
 import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
 

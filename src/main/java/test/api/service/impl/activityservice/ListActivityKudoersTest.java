@@ -16,14 +16,14 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import org.junit.Test;
 
 import test.api.model.StravaAthleteTest;
-import test.api.service.impl.util.ListCallback;
-import test.api.service.impl.util.PagingListMethodTest;
+import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected ListCallback<StravaAthlete> callback() {
+	protected PagingListCallback<StravaAthlete> callback() {
 		return (paging -> strava().listActivityKudoers(TestUtils.ACTIVITY_WITH_KUDOS, paging));
 	}
 
