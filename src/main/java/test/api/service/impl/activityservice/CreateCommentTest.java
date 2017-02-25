@@ -6,7 +6,7 @@ import test.api.model.StravaCommentTest;
 import test.api.service.standardtests.CreateMethodTest;
 import test.utils.TestUtils;
 
-public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer, Integer> {
+public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> {
 	/**
 	 * @see test.api.service.StravaTest#validate(java.lang.Object)
 	 */

@@ -9,7 +9,7 @@ import test.utils.TestUtils;
 
 public class ListActivityKudoersAsyncTest extends AsyncPagingListMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected AsyncListCallback<StravaAthlete> deleter() {
+	protected AsyncListCallback<StravaAthlete> lister() {
 		return (paging -> strava().listActivityKudoersAsync(TestUtils.ACTIVITY_WITH_KUDOS, paging));
 	}
 

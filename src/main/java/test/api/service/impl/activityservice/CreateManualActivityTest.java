@@ -16,7 +16,7 @@ import test.api.service.standardtests.callbacks.GetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, Integer, Void> {
+public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, Integer> {
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -25,7 +25,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 			StravaActivity stravaResponse = null;
 			activity.setType(StravaActivityType.UNKNOWN);
 			try {
-				stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
+				stravaResponse = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 			} catch (final IllegalArgumentException e1) {
 				// Expected behaviour
 				return;
@@ -48,7 +48,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 			// Elapsed time is required
 			activity.setElapsedTime(null);
 			try {
-				stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
+				stravaResponse = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 			} catch (final IllegalArgumentException e1) {
 				// Expected behaviour
 				return;
@@ -85,7 +85,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 			activity.setDescription(activity.getName());
 			activity.setName(null);
 			try {
-				stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
+				stravaResponse = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 			} catch (final IllegalArgumentException e1) {
 				// Expected behaviour
 				return;
@@ -110,7 +110,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 			// Start date is required
 			activity.setStartDateLocal(null);
 			try {
-				stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
+				stravaResponse = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 			} catch (final IllegalArgumentException e1) {
 				// Expected behaviour
 				return;
@@ -133,7 +133,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 			StravaActivity stravaResponse = null;
 			activity.setType(null);
 			try {
-				stravaResponse = stravaWithWriteAccess().createManualActivity(activity);
+				stravaResponse = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 			} catch (final IllegalArgumentException e1) {
 				// Expected behaviour
 				return;
@@ -152,9 +152,9 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 	 * @see test.api.service.standardtests.CreateMethodTest#callback()
 	 */
 	@Override
-	protected CreateCallback<StravaActivity, Void> createCallback() {
-		return ((strava, object, parentId) -> {
-			return strava.createManualActivity(object);
+	protected CreateCallback<StravaActivity, Integer> createCallback() {
+		return ((strava, object) -> {
+			return TestUtils.stravaWithWriteAccess().createManualActivity(object);
 		});
 	}
 
@@ -267,7 +267,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 	}
 
 	/**
-	 * @see test.utils.TestDataUtils#deleter()
+	 * @see test.utils.TestDataUtils#lister()
 	 */
 	@Override
 	protected DeleteCallback<StravaActivity, Integer, Void> deleteCallback() {
@@ -300,6 +300,24 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, I
 	@Override
 	protected StravaActivity generateTestObject(final Integer id, final Void parentId) {
 		return generateValidObject(parentId);
+	}
+
+	@Override
+	protected CreateCallback<StravaActivity, Integer> creator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected DeleteCallback<StravaActivity, Integer> deleter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected GetCallback<StravaActivity, Integer> getter() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -31,8 +31,8 @@ import test.utils.RateLimitedTestRunner;
  * @param <V>
  *            Class of the object's parent's identifier (mostly they too are Integer)
  */
-public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> extends ListMethodTest<T, U>
-		implements PagingListMethodTests, GetMethodTests<U, V> {
+public abstract class PagingListMethodTest<T extends StravaCacheable<U>, U> extends ListMethodTest<T, U>
+		implements PagingListMethodTests, GetMethodTests<T, U> {
 	@Override
 	protected abstract ListCallback<T, U> callback();
 

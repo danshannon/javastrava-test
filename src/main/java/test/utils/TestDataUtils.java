@@ -7,22 +7,17 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.cache.StravaCacheable;
 import test.api.service.standardtests.callbacks.MethodTests;
 
 /**
- * @author danshannon
- *
- * @param T
- *            class of the object being created
- * @param U
- *            class of the object's identifier (usually Integer)
- * @param V
- *            class of the parent object's identifier (usually Integer)
+ * @author Dan Shannon
+ * @param <T> Type of object for which data is to be created
+ * @param <U> Object's identifier type
  *
  */
-public abstract class TestDataUtils<T extends StravaEntity<U, V>, U, V> {
+public abstract class TestDataUtils<T extends StravaCacheable<U>, U> {
 	protected abstract boolean isTransient();
 
 	/**
@@ -36,13 +31,6 @@ public abstract class TestDataUtils<T extends StravaEntity<U, V>, U, V> {
 	protected abstract U getValidId();
 
 	/**
-	 * @return A valid identifier for a parent object, or <code>null</code> if not applicable
-	 */
-	protected abstract V getValidParentId();
-
-	protected abstract V getInvalidParentId();
-
-	/**
 	 * @return The id of an object flagged as private which belongs to someone other than the authenticated user
 	 */
 	protected abstract U getIdPrivateBelongsToOtherUser();
@@ -52,20 +40,6 @@ public abstract class TestDataUtils<T extends StravaEntity<U, V>, U, V> {
 	 */
 	protected abstract U getIdPrivateBelongsToAuthenticatedUser();
 
-	protected abstract V getParentIdPrivateBelongsToOtherUser();
-
-	protected abstract V getParentIdPrivateBelongsToAuthenticatedUser();
-
-	/**
-	 * @return The id of a valid parent not flagged as private, which will return a populated list with >0 entries
-	 */
-	protected abstract V getValidParentWithEntries();
-
-	/**
-	 * @return The id of a valid parent not flagged as private, which will return an empty list with 0 entries
-	 */
-	protected abstract V getValidParentWithNoEntries();
-
 	/**
 	 * <p>
 	 * Creates a piece of test data on Strava for you
@@ -74,35 +48,35 @@ public abstract class TestDataUtils<T extends StravaEntity<U, V>, U, V> {
 	 * @param isTransient
 	 * @return
 	 */
-	protected TestData<T, U, V> createTestData(final MethodTests<T, U, V> callbacks, final U id, final V parentId) {
+	protected TestData<T, U> createTestData(final MethodTests<T, U> callbacks, final U id) {
 		T testObject = null;
 
 		if (isTransient()) {
 			// If transient, create a new one and add it to Strava; it should be deleted later on
-			testObject = generateTestObject(id, parentId);
-			testObject = callbacks.create(TestUtils.stravaWithFullAccess(), testObject, parentId);
+			testObject = generateTestObject(id);
+			testObject = callbacks.create(TestUtils.stravaWithFullAccess(), testObject);
 		} else {
 			// If NOT transient, just get the data from Strava
 			testObject = callbacks.get(TestUtils.stravaWithFullAccess(), id);
 		}
-		final TestData<T, U, V> data = new TestData<T, U, V>(testObject, isTransient());
+		final TestData<T, U> data = new TestData<T, U>(testObject, isTransient());
 
 		return data;
 	}
 
-	protected abstract T generateTestObject(U id, V parentId);
+	protected abstract T generateTestObject(U id);
 
-	protected abstract T generateValidObject(V parentId);
+	protected abstract T generateValidObject();
 
-	protected abstract T generateInvalidObject(V parentId);
+	protected abstract T generateInvalidObject();
 
-	protected TestData<T, U, V> generateTestObject(final T object, final boolean isTransient) {
-		final TestData<T, U, V> data = new TestData<T, U, V>(object, isTransient);
+	protected TestData<T, U> generateTestObject(final T object, final boolean isTransient) {
+		final TestData<T, U> data = new TestData<T, U>(object, isTransient);
 		return data;
 	}
 
-	protected void forceDelete(final MethodTests<T, U, V> callbacks, final TestData<T, U, V> testData) throws Exception {
-		callbacks.delete(TestUtils.stravaWithFullAccess(), testData);
+	protected void forceDelete(final MethodTests<T, U> callbacks, final TestData<T, U> testData) throws Exception {
+		callbacks.delete(TestUtils.stravaWithFullAccess(), testData.getObject());
 	}
 
 	protected void validate(final T object) {
@@ -123,5 +97,5 @@ public abstract class TestDataUtils<T extends StravaEntity<U, V>, U, V> {
 	 * @param isPrivate
 	 * @return
 	 */
-	public abstract TestData<T, U, V> setupTestData(final boolean belongsToAuthenticatedUser, final boolean isPrivate);
+	public abstract TestData<T, U> setupTestData(final boolean belongsToAuthenticatedUser, final boolean isPrivate);
 }

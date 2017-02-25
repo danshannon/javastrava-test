@@ -9,7 +9,7 @@ import test.utils.TestUtils;
 
 public class ListActivityCommentsAsyncTest extends AsyncPagingListMethodTest<StravaComment, Integer> {
 	@Override
-	protected AsyncListCallback<StravaComment> deleter() {
+	protected AsyncListCallback<StravaComment> lister() {
 		return (paging -> strava().listActivityCommentsAsync(TestUtils.ACTIVITY_WITH_COMMENTS, paging));
 	}
 

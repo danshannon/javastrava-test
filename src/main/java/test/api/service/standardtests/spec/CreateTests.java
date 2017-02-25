@@ -1,7 +1,7 @@
 /**
  *
  */
-package test.api.service.standardtests;
+package test.api.service.standardtests.spec;
 
 /**
  * @author danshannon

@@ -29,7 +29,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <T>
  * @param <U>
  */
-public abstract class ListMethodTest<T, U> extends StravaTest<T, U> implements ListMethodTests<U> {
+public abstract class ListMethodTest<T, U> extends StravaTest<T, U> implements ListMethodTests<T, U> {
 	protected abstract ListCallback<T, U> callback();
 
 	/**

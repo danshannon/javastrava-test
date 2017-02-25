@@ -49,9 +49,9 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	 * @return The cache, populated with athletes (list of friends of the authenticated user) if required
 	 * @throws Exception
 	 */
-	private StravaCache<StravaAthlete, Integer, Void> athleteCache(final boolean populate) throws Exception {
+	private StravaCache<StravaAthlete, Integer> athleteCache(final boolean populate) throws Exception {
 		final Token token = TestUtils.getValidToken();
-		final StravaCache<StravaAthlete, Integer, Void> cache = new StravaCacheImpl<StravaAthlete, Integer, Void>(StravaAthlete.class, token);
+		final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 		assertEquals(0, cache.size());
 		if (!populate) {
 			return cache;

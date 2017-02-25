@@ -1,10 +1,7 @@
-/**
- *
- */
 package test.api.service.standardtests.callbacks;
 
-import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.Strava;
+import javastrava.cache.StravaCacheable;
 import test.utils.TestData;
 import test.utils.TestDataUtils;
 
@@ -12,24 +9,38 @@ import test.utils.TestDataUtils;
  * @author danshannon
  *
  */
-public abstract class MethodTests<T extends StravaEntity<U, V>, U, V> {
-	protected TestDataUtils<T, U, V> testDataUtils;
+public abstract class MethodTests<T extends StravaCacheable<U>, U> {
+	protected TestDataUtils<T, U> testDataUtils;
 
-	protected abstract CreateCallback<T, V> creator();
+	protected abstract CreateCallback<T, U> creator();
 
-	protected abstract DeleteCallback<T, U, V> deleter();
+	protected abstract DeleteCallback<T, U> deleter();
 
 	protected abstract GetCallback<T, U> getter();
 
-	public void delete(final Strava strava, final TestData<T, U, V> testData) {
-		deleter().delete(strava, testData.getId(), testData.getParentId());
+	/**
+	 * @param strava
+	 * @param testData
+	 */
+	public void delete(final Strava strava, final T testData) {
+		deleter().delete(strava, testData.getId());
 	}
 
-	protected T create(final Strava strava, final TestData<T, U, V> testData) {
-		return creator().create(strava, testData.getObject(), testData.getParentId());
+	/**
+	 * @param strava
+	 * @param testData
+	 * @return
+	 */
+	public T create(final Strava strava, final T testData) {
+		return creator().create(strava, testData);
 	}
 
-	protected T get(final Strava strava, final U id) {
+	/**
+	 * @param strava
+	 * @param id
+	 * @return
+	 */
+	public T get(final Strava strava, final U id) {
 		return getter().get(strava, id);
 	}
 

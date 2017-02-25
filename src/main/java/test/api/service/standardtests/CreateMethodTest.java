@@ -8,11 +8,12 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.cache.StravaCacheable;
 import test.api.service.standardtests.callbacks.MethodTests;
+import test.api.service.standardtests.spec.CreateTests;
 import test.api.service.standardtests.spec.PrivacyTests;
 import test.api.service.standardtests.spec.StandardTests;
 import test.utils.RateLimitedTestRunner;
@@ -21,15 +22,13 @@ import test.utils.TestUtils;
 /**
  *
  * @author Dan Shannon
- * @param T
+ * @param <T>
  *            class of the object being created
- * @param U
+ * @param <U>
  *            class of the object's identifier (usually Integer)
- * @param V
- *            class of the parent object's identifier (usually Integer)
  *
  */
-public abstract class CreateMethodTest<T extends StravaEntity<U, V>, U, V> extends MethodTests<T, U, V> implements PrivacyTests, StandardTests, CreateTests {
+public abstract class CreateMethodTest<T extends StravaCacheable<U>, U> extends MethodTests<T, U> implements PrivacyTests, StandardTests, CreateTests {
 
 	/**
 	 * @see test.api.service.standardtests.spec.PrivacyTests#testPrivateBelongsToOtherUser()
@@ -265,7 +264,7 @@ public abstract class CreateMethodTest<T extends StravaEntity<U, V>, U, V> exten
 	}
 
 	/**
-	 * @see test.api.service.standardtests.CreateTests#testCreateValidObject()
+	 * @see test.api.service.standardtests.spec.CreateTests#testCreateValidObject()
 	 */
 	@Override
 	@Test
@@ -275,7 +274,7 @@ public abstract class CreateMethodTest<T extends StravaEntity<U, V>, U, V> exten
 	}
 
 	/**
-	 * @see test.api.service.standardtests.CreateTests#testCreatePrivateObject()
+	 * @see test.api.service.standardtests.spec.CreateTests#testCreatePrivateObject()
 	 */
 	@Override
 	@Test

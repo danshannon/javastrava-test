@@ -137,7 +137,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer, 
 	}
 
 	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#deleter()
+	 * @see test.api.service.standardtests.DeleteMethodTest#lister()
 	 */
 	@Override
 	protected DeleteCallback<StravaComment, Integer, Integer> deleteCallback() {

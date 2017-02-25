@@ -8,12 +8,10 @@ import static org.junit.Assert.fail;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.util.Paging;
-
 import org.junit.Test;
 
-import test.api.service.StravaTest;
+import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.util.Paging;
 import test.api.service.standardtests.callbacks.AsyncListCallback;
 import test.api.service.standardtests.spec.PagingListMethodTests;
 import test.utils.RateLimitedTestRunner;
@@ -30,8 +28,8 @@ import test.utils.RateLimitedTestRunner;
  * @param <U>
  *            Class of the object's identifier (mostly they're Integer, but some are Long or even String)
  */
-public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> implements PagingListMethodTests {
-	protected abstract AsyncListCallback<T> deleter();
+public abstract class AsyncPagingListMethodTest<T, U> implements PagingListMethodTests {
+	protected abstract AsyncListCallback<T> lister();
 
 	/**
 	 * @see test.api.service.standardtests.spec.PagingListMethodTests#testPageNumberAndSize()
@@ -40,15 +38,15 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bothPages = deleter().getList(new Paging(1, 2)).get();
+			final List<T> bothPages = lister().getList(new Paging(1, 2)).get();
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.size());
 			validateList(bothPages);
-			final List<T> firstPage = deleter().getList(new Paging(1, 1)).get();
+			final List<T> firstPage = lister().getList(new Paging(1, 1)).get();
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.size());
 			validateList(firstPage);
-			final List<T> secondPage = deleter().getList(new Paging(2, 1)).get();
+			final List<T> secondPage = lister().getList(new Paging(2, 1)).get();
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.size());
 			validateList(secondPage);
@@ -72,7 +70,7 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-			final List<T> list = deleter().getList(new Paging(1, 1)).get();
+			final List<T> list = lister().getList(new Paging(1, 1)).get();
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -90,7 +88,7 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with too many entries for Strava to cope with in a
 			// single paging instruction
-			final List<T> list = deleter().getList(new Paging(2, 201)).get();
+			final List<T> list = lister().getList(new Paging(2, 201)).get();
 			assertNotNull(list);
 			assertTrue(list.size() <= 201);
 
@@ -106,11 +104,11 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 	@Test
 	public void testPagingIgnoreFirstN() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bigList = deleter().getList(new Paging(1, 2, 0, 0)).get();
+			final List<T> bigList = lister().getList(new Paging(1, 2, 0, 0)).get();
 			assertNotNull(bigList);
 			assertEquals(2, bigList.size());
 
-			final List<T> list = deleter().getList(new Paging(1, 2, 1, 0)).get();
+			final List<T> list = lister().getList(new Paging(1, 2, 1, 0)).get();
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -129,11 +127,11 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 	@Test
 	public void testPagingIgnoreLastN() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bigList = deleter().getList(new Paging(1, 2, 0, 0)).get();
+			final List<T> bigList = lister().getList(new Paging(1, 2, 0, 0)).get();
 			assertNotNull(bigList);
 			assertEquals(2, bigList.size());
 
-			final List<T> list = deleter().getList(new Paging(1, 2, 0, 1)).get();
+			final List<T> list = lister().getList(new Paging(1, 2, 0, 1)).get();
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -154,7 +152,7 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely
 			// to return anything!
-			final List<T> list = deleter().getList(new Paging(1000000, 200)).get();
+			final List<T> list = lister().getList(new Paging(1000000, 200)).get();
 
 			assertNotNull(list);
 			assertEquals(0, list.size());
@@ -169,7 +167,7 @@ public abstract class AsyncPagingListMethodTest<T, U> extends StravaTest<T, U> i
 	public void testPagingOutOfRangeLow() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				deleter().getList(new Paging(-1, -1)).get();
+				lister().getList(new Paging(-1, -1)).get();
 			} catch (final ExecutionException e) {
 				if (e.getCause() instanceof IllegalArgumentException) {
 					// This is the expected behaviour

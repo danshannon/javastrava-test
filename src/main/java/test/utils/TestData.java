@@ -3,16 +3,22 @@
  */
 package test.utils;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.cache.StravaCacheable;
 
 /**
  * @author danshannon
+ * @param <T> 
+ * @param <U> 
  *
  */
-public class TestData<T extends StravaEntity<U, V>, U, V> {
+public class TestData<T extends StravaCacheable<U>, U> {
 	private T object;
 	private boolean isTransient = false;
 
+	/**
+	 * @param object
+	 * @param isTransient
+	 */
 	public TestData(final T object, final boolean isTransient) {
 		this.object = object;
 		this.isTransient = isTransient;
@@ -41,16 +47,6 @@ public class TestData<T extends StravaEntity<U, V>, U, V> {
 			return null;
 		}
 		return this.object.getId();
-	}
-
-	/**
-	 * @return the parentId
-	 */
-	public V getParentId() {
-		if (this.object == null) {
-			return null;
-		}
-		return this.object.getParentId();
 	}
 
 	/**
