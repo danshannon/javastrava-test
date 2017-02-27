@@ -6,11 +6,11 @@ package test.api.service.standardtests.callbacks;
 import javastrava.api.v3.service.Strava;
 
 /**
- *
  * @author Dan Shannon
  * @param <T>
- *            Object to be deleted
- *
+ *            The type of object being deleted
+ * @param <U>
+ *            The type of its id
  */
 public interface DeleteCallback<T> {
 	/**

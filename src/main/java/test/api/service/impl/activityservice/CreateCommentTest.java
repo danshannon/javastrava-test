@@ -25,7 +25,6 @@ import test.utils.TestUtils;
  *
  */
 public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> {
-
 	@Override
 	protected StravaComment generateValidObject() {
 		return CommentDataUtils.generateValidObject();
