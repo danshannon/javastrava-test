@@ -3,53 +3,54 @@
  */
 package test.api.service.impl.activityservice;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import javastrava.api.v3.model.StravaAthlete;
-
-import org.junit.Test;
-
 import test.api.model.StravaAthleteTest;
-import test.api.service.StravaTest;
-import test.utils.RateLimitedTestRunner;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.TestUtils;
 
 /**
+ * <p>
+ * Specific tests for methods that list all activity kudoers
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
-public class ListAllActivityKudoersTest extends StravaTest {
-	@Test
-	public void testListAllActivityKudoers_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_INVALID);
-			assertNull(athletes);
-		});
+public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Long> {
+
+	@Override
+	protected ListCallback<StravaAthlete, Long> lister() {
+		return ((strava, id) -> strava.listAllActivityKudoers(id));
 	}
 
-	@Test
-	public void testListAllActivityKudoers_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			assertNotNull(athletes);
-			assertTrue(athletes.isEmpty());
-		});
+	@Override
+	protected Long idPrivate() {
+		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
-	@Test
-	public void testListAllActivityKudoers_validActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = strava().listAllActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertNotNull(athletes);
-			assertFalse(athletes.isEmpty());
-			for (final StravaAthlete athlete : athletes) {
-				StravaAthleteTest.validateAthlete(athlete);
-			}
-		});
+	@Override
+	protected Long idPrivateBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long idValidWithEntries() {
+		return TestUtils.ACTIVITY_WITH_KUDOS;
+	}
+
+	@Override
+	protected Long idValidWithoutEntries() {
+		return TestUtils.ACTIVITY_WITHOUT_KUDOS;
+	}
+
+	@Override
+	protected Long idInvalid() {
+		return TestUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected void validate(StravaAthlete athlete) {
+		StravaAthleteTest.validateAthlete(athlete);
 	}
 }

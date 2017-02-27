@@ -55,11 +55,11 @@ public abstract class APITest<T> {
 	 * @param comment
 	 * @return
 	 */
-	public static StravaComment forceCreateComment(final Integer activityId, final String comment) throws Exception {
+	public static StravaComment forceCreateComment(final Long activityId, final String comment) throws Exception {
 		return apiWithFullAccess().createComment(activityId, comment);
 	}
 
-	public static void forceDeleteActivity(final Integer activityId) {
+	public static void forceDeleteActivity(final Long activityId) {
 		if (activityId == null) {
 			return;
 		}

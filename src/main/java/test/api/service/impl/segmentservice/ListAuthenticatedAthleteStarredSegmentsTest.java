@@ -1,56 +1,54 @@
 package test.api.service.impl.segmentservice;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaSegmentTest;
 import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
+import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link Strava#listAuthenticatedAthleteStarredSegments()} methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Override
-	protected PagingListCallback<StravaSegment> callback() {
-		return (paging -> strava().listAuthenticatedAthleteStarredSegments(paging));
-	}
-
-	// Test cases:
-	// 1. No paging
-	@Test
-	public void testListAuthenticatedAthleteStarredSegments_noPaging() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
-			assertNotNull(segments);
-			assertFalse(segments.size() == 0);
-			validateList(segments);
-		});
+	protected PagingListCallback<StravaSegment, Integer> pagingLister() {
+		return ((strava, paging, id) -> strava.listAuthenticatedAthleteStarredSegments(paging));
 	}
 
 	@Test
-	public void testListAuthenticatedAthleteStarredSegments_privateWithoutViewPrivate() throws Exception {
+	@Override
+	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
+			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), null);
 			for (final StravaSegment segment : segments) {
 				if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
-					fail("Returned at least one private starred segment");
+					fail("Returned at least one private starred segment"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
 	@Test
-	public void testListAuthenticatedAthleteStarredSegments_privateWithViewPrivate() throws Exception {
+	@Override
+	public void testPrivateWithViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAuthenticatedAthleteStarredSegments();
+			final List<StravaSegment> segments = lister().getList(TestUtils.stravaWithViewPrivate(), null);
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
 				if (segment.getResourceState() == StravaResourceState.PRIVATE) {
@@ -68,9 +66,33 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 	}
 
 	@Override
-	protected void validate(final StravaSegment segment, final Integer id, final StravaResourceState state) {
-		StravaSegmentTest.validateSegment(segment, id, state);
+	protected ListCallback<StravaSegment, Integer> lister() {
+		return ((strava, id) -> strava.listAuthenticatedAthleteStarredSegments());
+	}
 
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idInvalid() {
+		return null;
 	}
 
 }

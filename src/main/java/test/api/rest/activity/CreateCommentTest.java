@@ -13,7 +13,7 @@ import test.issues.strava.Issue30;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
+public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	public CreateCommentTest() {
 		super();
 		this.creationCallback = (api, objectToCreate, id) -> api.createComment(id, objectToCreate.getText());
@@ -30,7 +30,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 
 			super.create_validParentNoWriteAccess();
 
-		} );
+		});
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 	 * @see test.api.rest.APICreateTest#invalidParentId()
 	 */
 	@Override
-	protected Integer invalidParentId() {
+	protected Long invalidParentId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -63,7 +63,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 	 * @see test.api.rest.APICreateTest#privateParentId()
 	 */
 	@Override
-	protected Integer privateParentId() {
+	protected Long privateParentId() {
 		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
@@ -71,7 +71,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 	 * @see test.api.rest.APICreateTest#privateParentOtherUserId()
 	 */
 	@Override
-	protected Integer privateParentOtherUserId() {
+	protected Long privateParentOtherUserId() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
@@ -91,7 +91,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 			// If it got added in error, delete it again
 			forceDeleteComment(comment);
 			fail("Added an invalid comment to an activity");
-		} );
+		});
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 	 * @see test.api.rest.APICreateTest#validParentId()
 	 */
 	@Override
-	protected Integer validParentId() {
+	protected Long validParentId() {
 		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
@@ -115,7 +115,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Integer> {
 	 * @see test.api.rest.APICreateTest#validParentOtherUserId()
 	 */
 	@Override
-	protected Integer validParentOtherUserId() {
+	protected Long validParentOtherUserId() {
 		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 

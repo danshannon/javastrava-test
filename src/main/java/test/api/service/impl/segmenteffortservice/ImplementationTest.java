@@ -12,11 +12,11 @@ import javastrava.api.v3.service.impl.SegmentEffortServiceImpl;
 
 import org.junit.Test;
 
-import test.api.service.standardtests.spec.InstanceTestSpec;
+import test.api.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ImplementationTest implements InstanceTestSpec {
+public class ImplementationTest implements ServiceInstanceTests {
 
 	private Token getRevokedToken() {
 		return TestUtils.getRevokedToken();

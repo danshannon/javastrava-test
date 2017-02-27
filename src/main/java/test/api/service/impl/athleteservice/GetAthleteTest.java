@@ -1,43 +1,48 @@
 package test.api.service.impl.athleteservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.reference.StravaResourceState;
-
-import org.junit.Test;
-
 import test.api.model.StravaAthleteTest;
-import test.api.service.StravaTest;
-import test.utils.RateLimitedTestRunner;
+import test.api.service.standardtests.GetMethodTest;
+import test.api.service.standardtests.callbacks.GetCallback;
 import test.utils.TestUtils;
 
-public class GetAthleteTest extends StravaTest {
-	@Test
-	public void testGetAthlete_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_INVALID_ID);
-			assertNull(athlete);
-		});
+/**
+ * <p>
+ * Specific test configs for get athlete methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
+public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
+
+	@Override
+	protected Integer getIdValid() {
+		return TestUtils.ATHLETE_VALID_ID;
 	}
 
-	@Test
-	public void testGetAthlete_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
-			assertNotNull(athlete);
-			assertEquals(TestUtils.ATHLETE_PRIVATE_ID, athlete.getId());
-			StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_PRIVATE_ID, StravaResourceState.SUMMARY);
-		});
+	@Override
+	protected Integer getIdInvalid() {
+		return TestUtils.ATHLETE_INVALID_ID;
 	}
 
-	@Test
-	public void testGetAthlete_validAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete athlete = strava().getAthlete(TestUtils.ATHLETE_VALID_ID);
-			StravaAthleteTest.validateAthlete(athlete, TestUtils.ATHLETE_VALID_ID, StravaResourceState.SUMMARY);
-		});
+	@Override
+	protected Integer getIdPrivate() {
+		return null;
 	}
 
+	@Override
+	protected Integer getIdPrivateBelongsToOtherUser() {
+		return TestUtils.ATHLETE_PRIVATE_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaAthlete, Integer> getter() throws Exception {
+		return ((strava, id) -> strava.getAthlete(id));
+	}
+
+	@Override
+	protected void validate(StravaAthlete object) {
+		StravaAthleteTest.validateAthlete(object);
+	}
 }

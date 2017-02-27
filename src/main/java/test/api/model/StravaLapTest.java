@@ -21,18 +21,16 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 		validateLap(lap, lap.getId(), lap.getResourceState());
 	}
 
-	public static void validateLap(final StravaLap lap, final Integer id, final StravaResourceState state) {
+	public static void validateLap(final StravaLap lap, final Long id, final StravaResourceState state) {
 		assertNotNull(lap);
 		assertEquals(id, lap.getId());
 		assertEquals(state, lap.getResourceState());
 
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(),
-					lap.getActivity().getResourceState());
+			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(),
-					lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}
@@ -72,11 +70,9 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(),
-					lap.getActivity().getResourceState());
+			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
-			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(),
-					lap.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
 				assertTrue(lap.getAverageCadence() >= 0);
 			}

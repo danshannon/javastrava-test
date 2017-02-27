@@ -6,16 +6,14 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaClubMembershipResponse;
-
 import org.junit.Test;
 
-import test.api.service.StravaTest;
+import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.model.StravaClubMembershipResponse;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class LeaveClubTest extends StravaTest {
+public class LeaveClubTest {
 	/**
 	 * @param clubs
 	 *            List of clubs to check
@@ -38,7 +36,7 @@ public class LeaveClubTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_INVALID_ID;
 
-			final StravaClubMembershipResponse response = stravaWithWriteAccess().leaveClub(id);
+			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().leaveClub(id);
 			assertEquals(Boolean.FALSE, response.getSuccess());
 		});
 	}
@@ -49,16 +47,16 @@ public class LeaveClubTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-			stravaWithWriteAccess().leaveClub(id);
+			TestUtils.stravaWithWriteAccess().leaveClub(id);
 
-			final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
+			final List<StravaClub> clubs = TestUtils.strava().listAuthenticatedAthleteClubs();
 			final boolean member = checkIsMember(clubs, id);
 
 			// Join the club again
-				stravaWithWriteAccess().joinClub(id);
+			TestUtils.stravaWithWriteAccess().joinClub(id);
 
-				assertFalse(member);
-			});
+			assertFalse(member);
+		});
 	}
 
 	// Test cases
@@ -68,9 +66,9 @@ public class LeaveClubTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
-			stravaWithWriteAccess().leaveClub(id);
+			TestUtils.stravaWithWriteAccess().leaveClub(id);
 
-			final List<StravaClub> clubs = strava().listAuthenticatedAthleteClubs();
+			final List<StravaClub> clubs = TestUtils.strava().listAuthenticatedAthleteClubs();
 			final boolean member = checkIsMember(clubs, id);
 
 			assertFalse(member);
@@ -83,7 +81,7 @@ public class LeaveClubTest extends StravaTest {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
 
-			final StravaClubMembershipResponse response = strava().leaveClub(id);
+			final StravaClubMembershipResponse response = TestUtils.strava().leaveClub(id);
 			assertNotNull(response);
 			assertEquals(Boolean.FALSE, response.getSuccess());
 		});
@@ -105,7 +103,7 @@ public class LeaveClubTest extends StravaTest {
 			// // Join the club again
 			// serviceWithWriteAccess.joinClub(id);
 			// assertFalse(member);
-			});
+		});
 	}
 
 }

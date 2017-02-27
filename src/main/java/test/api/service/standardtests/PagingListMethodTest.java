@@ -10,12 +10,11 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaEntity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-import test.api.service.standardtests.callbacks.ListCallback;
-import test.api.service.standardtests.spec.GetMethodTests;
+import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.api.service.standardtests.spec.PagingListMethodTests;
 import test.utils.RateLimitedTestRunner;
+import test.utils.TestUtils;
 
 /**
  * <p>
@@ -27,14 +26,12 @@ import test.utils.RateLimitedTestRunner;
  * @param <T>
  *            Class of objects contained in the lists returned by the method being tested
  * @param <U>
- *            Class of the object's identifier (mostly they're Integer, but some are Long or even String)
- * @param <V>
  *            Class of the object's parent's identifier (mostly they too are Integer)
  */
-public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> extends ListMethodTest<T, U>
-		implements PagingListMethodTests, GetMethodTests<U, V> {
-	@Override
-	protected abstract ListCallback<T, U> callback();
+public abstract class PagingListMethodTest<T extends StravaEntity, U> extends ListMethodTest<T, U>
+		implements PagingListMethodTests {
+
+	protected abstract PagingListCallback<T, U> pagingLister();
 
 	/**
 	 * <p>
@@ -42,28 +39,26 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	 * </p>
 	 *
 	 * <p>
-	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first entity, then ask for the
-	 * second page and check that it's the same as the second entity
+	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first
+	 * entity, then ask for the second page and check that it's the same as the second entity
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if test fails in an unexpected wat
 	 */
 	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bothPages = callback().getList(strava(), new Paging(1, 2), getValidParentWithEntries());
+			final List<T> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 2), idValidWithEntries());
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.size());
 			validateList(bothPages);
-			final List<T> firstPage = callback().getList(strava(), new Paging(1, 1), getValidParentWithEntries());
+			final List<T> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1), idValidWithEntries());
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.size());
 			validateList(firstPage);
-			final List<T> secondPage = callback().getList(strava(), new Paging(2, 1), getValidParentWithEntries());
+			final List<T> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1), idValidWithEntries());
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.size());
 			validateList(secondPage);
@@ -85,16 +80,14 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with only one entry
-			final List<T> list = callback().getList(strava(), new Paging(1, 1), getValidParentWithEntries());
+			final List<T> list = pagingLister().getList(TestUtils.strava(), new Paging(1, 1), idValidWithEntries());
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -109,7 +102,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 		RateLimitedTestRunner.run(() -> {
 			// Get a list with too many entries for Strava to cope with in a
 			// single paging instruction
-			final List<T> list = callback().getList(strava(), new Paging(2, 201), getValidParentWithEntries());
+			final List<T> list = pagingLister().getList(TestUtils.strava(), new Paging(2, 201), idValidWithEntries());
 			assertNotNull(list);
 			assertTrue(list.size() <= 201);
 
@@ -122,11 +115,11 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	@Test
 	public void testPagingIgnoreFirstN() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bigList = callback().getList(strava(), new Paging(1, 2, 0, 0), getValidParentWithEntries());
+			final List<T> bigList = pagingLister().getList(TestUtils.strava(), new Paging(1, 2, 0, 0), idValidWithEntries());
 			assertNotNull(bigList);
 			assertEquals(2, bigList.size());
 
-			final List<T> list = callback().getList(strava(), new Paging(1, 2, 1, 0), getValidParentWithEntries());
+			final List<T> list = pagingLister().getList(TestUtils.strava(), new Paging(1, 2, 1, 0), idValidWithEntries());
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -142,11 +135,11 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	@Test
 	public void testPagingIgnoreLastN() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<T> bigList = callback().getList(strava(), new Paging(1, 2, 0, 0), getValidParentWithEntries());
+			final List<T> bigList = pagingLister().getList(TestUtils.strava(), new Paging(1, 2, 0, 0), idValidWithEntries());
 			assertNotNull(bigList);
 			assertEquals(2, bigList.size());
 
-			final List<T> list = callback().getList(strava(), new Paging(1, 2, 0, 1), getValidParentWithEntries());
+			final List<T> list = pagingLister().getList(TestUtils.strava(), new Paging(1, 2, 0, 1), idValidWithEntries());
 			assertNotNull(list);
 			assertEquals(1, list.size());
 
@@ -164,9 +157,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -174,7 +165,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 		RateLimitedTestRunner.run(() -> {
 			// Get the 200,000,000th entry in the list - this is pretty unlikely
 			// to return anything!
-			final List<T> list = callback().getList(strava(), new Paging(1000000, 200), getValidParentWithEntries());
+			final List<T> list = pagingLister().getList(TestUtils.strava(), new Paging(1000000, 200), idValidWithEntries());
 
 			assertNotNull(list);
 			assertEquals(0, list.size());
@@ -187,21 +178,19 @@ public abstract class PagingListMethodTest<T extends StravaEntity<U>, U, V> exte
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testPagingOutOfRangeLow() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				callback().getList(strava(), new Paging(-1, -1), getValidParentWithEntries());
+				pagingLister().getList(TestUtils.strava(), new Paging(-1, -1), idValidWithEntries());
 			} catch (final IllegalArgumentException e) {
 				// This is the expected behaviour
 				return;
 			}
-			fail("Allowed paging instruction for page -1 of size -1!");
+			fail("Allowed paging instruction for page -1 of size -1!"); //$NON-NLS-1$
 		});
 	}
 

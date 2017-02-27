@@ -12,11 +12,11 @@ import javastrava.api.v3.service.impl.GearServiceImpl;
 
 import org.junit.Test;
 
-import test.api.service.standardtests.spec.InstanceTestSpec;
+import test.api.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ImplementationTest implements InstanceTestSpec {
+public class ImplementationTest implements ServiceInstanceTests {
 	private GearService getGearService() {
 		return GearServiceImpl.instance(TestUtils.getValidToken());
 	}

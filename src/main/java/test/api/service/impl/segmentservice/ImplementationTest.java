@@ -4,17 +4,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
 
 import org.junit.Test;
 
-import test.api.service.standardtests.spec.InstanceTestSpec;
+import javastrava.api.v3.service.SegmentService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
+import javastrava.api.v3.service.impl.SegmentServiceImpl;
+import test.api.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ImplementationTest implements InstanceTestSpec {
+/**
+ * <p>
+ * SegmentService implementation tests
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
+public class ImplementationTest implements ServiceInstanceTests {
 
 	/**
 	 * <p>
@@ -23,6 +31,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -41,6 +50,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -48,7 +58,7 @@ public class ImplementationTest implements InstanceTestSpec {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.getValidToken());
 			final SegmentService service2 = SegmentServiceImpl.instance(TestUtils.getValidToken());
-			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2); //$NON-NLS-1$
 		});
 	}
 
@@ -58,6 +68,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -66,11 +77,11 @@ public class ImplementationTest implements InstanceTestSpec {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
 				service.getSegment(TestUtils.SEGMENT_VALID_ID);
-			} catch (InvalidTokenException e) {
+			} catch (final InvalidTokenException e) {
 				// expected
 				return;
 			}
-			fail("Used a revoked token but still got access to Strava!");
+			fail("Used a revoked token but still got access to Strava!"); //$NON-NLS-1$
 		});
 	}
 
@@ -80,6 +91,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -88,11 +100,11 @@ public class ImplementationTest implements InstanceTestSpec {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.getRevokedToken());
 			try {
 				service.getSegment(TestUtils.SEGMENT_VALID_ID);
-			} catch (InvalidTokenException e) {
+			} catch (final InvalidTokenException e) {
 				// expected
 				return;
 			}
-			fail("Used a revoked token but still got access to Strava!");
+			fail("Used a revoked token but still got access to Strava!"); //$NON-NLS-1$
 		});
 	}
 
@@ -102,13 +114,14 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testImplementation_validToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.getValidToken());
-			assertNotNull("Got a NULL service for a valid token", service);
+			assertNotNull("Got a NULL service for a valid token", service); //$NON-NLS-1$
 		});
 	}
 

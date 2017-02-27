@@ -2,103 +2,86 @@ package test.api.service.impl.segmenteffortservice;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.service.StravaTest;
+import test.api.service.standardtests.GetMethodTest;
+import test.api.service.standardtests.callbacks.GetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetSegmentEffortTest extends StravaTest {
-	@Test
-	public void testGetSegmentEffort_invalid() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final Long id = TestUtils.SEGMENT_EFFORT_INVALID_ID;
-			final StravaSegmentEffort effort = strava().getSegmentEffort(id);
-			assertNull(effort);
-		});
-	}
-
-	@Test
-	public void testGetSegmentEffort_private() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final Long id = TestUtils.SEGMENT_EFFORT_PRIVATE_ID;
-			final StravaSegmentEffort effort = strava().getSegmentEffort(id);
-			assertNotNull(effort);
-			StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
-		});
-	}
-
-	@Test
-	public void testGetSegmentEffort_privateOtherAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final Long id = TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
-			final StravaSegmentEffort effort = strava().getSegmentEffort(id);
-			assertNotNull(effort);
-			StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
-			final StravaSegmentEffort comparison = new StravaSegmentEffort();
-			comparison.setId(id);
-			comparison.setResourceState(StravaResourceState.PRIVATE);
-			assertEquals(comparison, effort);
-		});
-	}
-	
+/**
+ * <p>
+ * Specific tests for getSegmentEffort methods
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
+public class GetSegmentEffortTest extends GetMethodTest<StravaSegmentEffort, Long> {
 	/**
 	 * Check that an effort on a private activity is not returned
+	 *
 	 * @throws Exception
+	 *             if an unexpected error occurs
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentEffort_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaSegmentEffort effort = strava().getSegmentEffort(5735858255L);
+			final StravaSegmentEffort effort = TestUtils.strava().getSegmentEffort(new Long(5735858255L));
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
 		});
 	}
-	
-	/**
-	 * Check that an effort on a private activity is  returned with view_private scope
-	 * @throws Exception
-	 */
-	@Test
-	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			StravaSegmentEffort effort = stravaWithViewPrivate().getSegmentEffort(5735858255L);
-			assertNotNull(effort);
-			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
-		});
-	}
-	
+
 	/**
 	 * Check that an effort on a private segment is not returned
+	 *
 	 * @throws Exception
+	 *             if an unexpected error occurs
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentEffort_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaSegmentEffort effort = strava().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
+			final StravaSegmentEffort effort = TestUtils.strava().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ID);
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
-		});		
-	}
-	
-	// Test cases
-	// 1. Valid effort
-	// 2. Invalid effort
-	// 3. Private effort which does belong to the current athlete (is returned)
-	// 4. Private effort which doesn't belong to the current athlete (is not returned)
-	@Test
-	public void testGetSegmentEffort_valid() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final Long id = TestUtils.SEGMENT_EFFORT_VALID_ID;
-			final StravaSegmentEffort effort = strava().getSegmentEffort(id);
-			assertNotNull(effort);
-			StravaSegmentEffortTest.validateSegmentEffort(effort, id, effort.getResourceState());
 		});
+	}
+
+	@Override
+	protected Long getIdValid() {
+		return TestUtils.SEGMENT_EFFORT_VALID_ID;
+	}
+
+	@Override
+	protected Long getIdInvalid() {
+		return TestUtils.SEGMENT_EFFORT_INVALID_ID;
+	}
+
+	@Override
+	protected Long getIdPrivate() {
+		return TestUtils.SEGMENT_EFFORT_PRIVATE_ID;
+	}
+
+	@Override
+	protected Long getIdPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected GetCallback<StravaSegmentEffort, Long> getter() throws Exception {
+		return ((strava, id) -> strava.getSegmentEffort(id));
+	}
+
+	@Override
+	protected void validate(StravaSegmentEffort object) {
+		StravaSegmentEffortTest.validateSegmentEffort(object);
 	}
 
 }

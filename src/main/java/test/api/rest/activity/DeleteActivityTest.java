@@ -5,7 +5,7 @@ import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
 import test.utils.TestUtils;
 
-public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
+public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	/**
 	 *
 	 */
@@ -181,7 +181,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIDeleteTest#invalidParentId()
 	 */
 	@Override
-	protected Integer invalidParentId() {
+	protected Long invalidParentId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -189,7 +189,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIDeleteTest#privateParentId()
 	 */
 	@Override
-	protected Integer privateParentId() {
+	protected Long privateParentId() {
 		// Create a private activity
 		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
 		activity.setPrivateActivity(Boolean.TRUE);
@@ -201,7 +201,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIDeleteTest#privateParentOtherUserId()
 	 */
 	@Override
-	protected Integer privateParentOtherUserId() {
+	protected Long privateParentOtherUserId() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
@@ -218,7 +218,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIDeleteTest#validParentId()
 	 */
 	@Override
-	protected Integer validParentId() {
+	protected Long validParentId() {
 		// Create a private activity
 		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
 		activity = apiWithFullAccess().createManualActivity(activity);

@@ -12,7 +12,7 @@ import test.api.rest.APIGetTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
+public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	/**
 	 *
 	 */
@@ -24,7 +24,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
 	@Override
-	protected Integer invalidId() {
+	protected Long invalidId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -32,7 +32,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIGetTest#privateId()
 	 */
 	@Override
-	protected Integer privateId() {
+	protected Long privateId() {
 		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
@@ -40,14 +40,13 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer privateIdBelongsToOtherUser() {
+	protected Long privateIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
 	 * <p>
-	 * Test retrieval of a known {@link StravaActivity}, complete with all
-	 * {@link StravaSegmentEffort efforts}
+	 * Test retrieval of a known {@link StravaActivity}, complete with all {@link StravaSegmentEffort efforts}
 	 * </p>
 	 *
 	 * @throws Exception
@@ -61,7 +60,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 			final StravaActivity activity = this.getCallback.run(api(), TestUtils.ACTIVITY_RUN_WITH_SEGMENTS);
 			assertNotNull(activity);
 			validate(activity);
-		} );
+		});
 	}
 
 	@Test
@@ -70,7 +69,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 			final StravaActivity activity = this.getCallback.run(api(), TestUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validateActivity(activity);
-		} );
+		});
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIGetTest#validId()
 	 */
 	@Override
-	protected Integer validId() {
+	protected Long validId() {
 		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
@@ -93,7 +92,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Integer> {
 	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer validIdBelongsToOtherUser() {
+	protected Long validIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 }

@@ -1,65 +1,49 @@
 package test.api.service.impl.segmentservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
-
-import org.junit.Test;
-
 import test.api.model.StravaSegmentTest;
-import test.api.service.StravaTest;
-import test.utils.RateLimitedTestRunner;
+import test.api.service.standardtests.GetMethodTest;
+import test.api.service.standardtests.callbacks.GetCallback;
 import test.utils.TestUtils;
 
-public class GetSegmentTest extends StravaTest {
-	// 2. Invalid segment
-	@Test
-	public void testGetSegment_invalidSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_INVALID_ID);
-			assertNull(segment);
-		});
+/**
+ * <p>
+ * Specific tests for getSegment methods
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
+public class GetSegmentTest extends GetMethodTest<StravaSegment, Integer> {
+
+	@Override
+	protected Integer getIdValid() {
+		return TestUtils.SEGMENT_VALID_ID;
 	}
 
-	// 3. Private segment belonging to another user
-	@Test
-	public void testGetSegment_otherUserPrivateSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID, StravaResourceState.PRIVATE);
-		});
+	@Override
+	protected Integer getIdInvalid() {
+		return TestUtils.SEGMENT_INVALID_ID;
 	}
 
-	// 4. Private segment belonging to the authenticated user
-	@Test
-	public void testGetSegment_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-			assertNotNull(segment);
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.PRIVATE);
-		});
+	@Override
+	protected Integer getIdPrivate() {
+		return TestUtils.SEGMENT_PRIVATE_ID;
 	}
 
-	@Test
-	public void testGetSegment_privateWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = stravaWithViewPrivate().getSegment(TestUtils.SEGMENT_PRIVATE_ID);
-			assertNotNull(segment);
-			assertEquals(Boolean.TRUE, segment.getPrivateSegment());
-			StravaSegmentTest.validateSegment(segment, TestUtils.SEGMENT_PRIVATE_ID, StravaResourceState.DETAILED);
-		});
+	@Override
+	protected Integer getIdPrivateBelongsToOtherUser() {
+		return TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
-	// Test cases:
-	// 1. Valid segment
-	@Test
-	public void testGetSegment_validSegment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = strava().getSegment(TestUtils.SEGMENT_VALID_ID);
-			assertNotNull(segment);
-		});
+	@Override
+	protected GetCallback<StravaSegment, Integer> getter() throws Exception {
+		return ((strava, id) -> strava.getSegment(id));
+	}
+
+	@Override
+	protected void validate(StravaSegment object) {
+		StravaSegmentTest.validateSegment(object);
 	}
 
 }

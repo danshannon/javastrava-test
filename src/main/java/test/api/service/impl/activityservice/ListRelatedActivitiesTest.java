@@ -1,67 +1,59 @@
 package test.api.service.impl.activityservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.List;
-
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
-
-import org.junit.Test;
-
 import test.api.model.StravaActivityTest;
 import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.api.service.standardtests.callbacks.PagingListCallback;
-import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
+/**
+ * <p>
+ * Specific tests for list related activities methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
+public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity, Long> {
 	@Override
-	protected PagingListCallback<StravaActivity> callback() {
-		return (paging -> strava().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, paging));
-	}
-
-	@Test
-	public void testListRelatedActivities_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_INVALID);
-			assertNull(activities);
-		});
-	}
-
-	@Test
-	public void testListRelatedActivities_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			assertNotNull(activities);
-			assertEquals(0, activities.size());
-		});
-	}
-
-	@Test
-	public void testListRelatedActivities_validActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = strava().listRelatedActivities(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertNotNull(activities);
-			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity, activity.getId(), activity.getResourceState());
-			}
-
-		});
+	protected PagingListCallback<StravaActivity, Long> pagingLister() {
+		return ((strava, paging, id) -> strava.listRelatedActivities(id, paging));
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		validate(activity, activity.getId(), activity.getResourceState());
-
+		StravaActivityTest.validateActivity(activity);
 	}
 
 	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
+	protected ListCallback<StravaActivity, Long> lister() {
+		return ((strava, id) -> strava.listRelatedActivities(id));
+	}
 
+	@Override
+	protected Long idPrivate() {
+		return TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+	}
+
+	@Override
+	protected Long idPrivateBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long idValidWithEntries() {
+		return TestUtils.ACTIVITY_WITH_RELATED_ACTIVITIES;
+	}
+
+	@Override
+	protected Long idValidWithoutEntries() {
+		return TestUtils.ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
+	}
+
+	@Override
+	protected Long idInvalid() {
+		return TestUtils.ACTIVITY_INVALID;
 	}
 
 }

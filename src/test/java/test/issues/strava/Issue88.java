@@ -17,7 +17,7 @@ public class Issue88 extends IssueTest {
 	@Override
 	public boolean isIssue() throws Exception {
 		try {
-			this.api.getActivityStreams(245713183, "UNKNOWN", null, null);
+			this.api.getActivityStreams(new Long(245713183L), "UNKNOWN", null, null); //$NON-NLS-1$
 		} catch (final BadRequestException e) {
 			return false;
 		}

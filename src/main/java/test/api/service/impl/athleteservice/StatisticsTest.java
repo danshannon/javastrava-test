@@ -1,47 +1,67 @@
 package test.api.service.impl.athleteservice;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import javastrava.api.v3.model.StravaStatistics;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaStatistics;
 import test.api.model.StravaStatisticsTest;
-import test.api.service.StravaTest;
+import test.api.service.standardtests.GetMethodTest;
+import test.api.service.standardtests.callbacks.GetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class StatisticsTest extends StravaTest {
+/**
+ * <p>
+ * Specific tests for statistics methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
+public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
+	/**
+	 * <p>
+	 * Test that we can get statistics for the authenticated athlete
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testStatistics_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final StravaStatistics stats = TestUtils.strava().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			StravaStatisticsTest.validate(stats);
 		});
 	}
 
-	@Test
-	public void testStatistics_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_INVALID_ID);
-			assertNull(stats);
-		});
+	@Override
+	protected Integer getIdValid() {
+		return TestUtils.ATHLETE_VALID_ID;
 	}
 
-	@Test
-	public void testStatistics_otherAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_VALID_ID);
-			assertNotNull(stats);
-		});
+	@Override
+	protected Integer getIdInvalid() {
+		return TestUtils.ATHLETE_INVALID_ID;
 	}
 
-	@Test
-	public void testStatistics_privateAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = strava().statistics(TestUtils.ATHLETE_PRIVATE_ID);
-			StravaStatisticsTest.validate(stats);
-		});
+	@Override
+	protected Integer getIdPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer getIdPrivateBelongsToOtherUser() {
+		return TestUtils.ATHLETE_PRIVATE_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaStatistics, Integer> getter() throws Exception {
+		return ((strava, id) -> strava.statistics(id));
+	}
+
+	@Override
+	protected void validate(StravaStatistics object) {
+		StravaStatisticsTest.validate(object);
 	}
 
 }

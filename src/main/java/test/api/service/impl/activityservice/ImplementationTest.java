@@ -4,19 +4,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.ActivityServiceImpl;
-
-import org.junit.Test;
-
-import test.api.service.standardtests.spec.InstanceTestSpec;
+import test.api.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ImplementationTest implements InstanceTestSpec {
+/**
+ * <p>
+ * Service implementation tests
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
+public class ImplementationTest implements ServiceInstanceTests {
+	@SuppressWarnings("static-method")
 	private ActivityService service() {
 		return ActivityServiceImpl.instance(TestUtils.getValidToken());
 	}
@@ -28,6 +37,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in some unexpected way
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
@@ -40,7 +50,7 @@ public class ImplementationTest implements InstanceTestSpec {
 			ActivityServiceImpl.instance(token);
 			final Token token2 = TestUtils.getValidTokenWithWriteAccess();
 			ActivityServiceImpl.instance(token2);
-			assertNotEquals("Different tokens returned the same service implementation", token, token2);
+			assertNotEquals("Different tokens returned the same service implementation", token, token2); //$NON-NLS-1$
 		});
 	}
 
@@ -51,6 +61,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in some unexpected way
 	 */
 	@Override
 	@Test
@@ -58,7 +69,7 @@ public class ImplementationTest implements InstanceTestSpec {
 		RateLimitedTestRunner.run(() -> {
 			final ActivityService service = ActivityServiceImpl.instance(TestUtils.getValidToken());
 			final ActivityService service2 = ActivityServiceImpl.instance(TestUtils.getValidToken());
-			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2); //$NON-NLS-1$
 		});
 	}
 
@@ -68,6 +79,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in some unexpected way
 	 */
 	@Override
 	@Test
@@ -76,11 +88,11 @@ public class ImplementationTest implements InstanceTestSpec {
 			final ActivityService service = ActivityServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
 				service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			} catch (InvalidTokenException e) {
-				// expected 
+			} catch (final InvalidTokenException e) {
+				// expected
 				return;
 			}
-			fail("Used an invalid token but still got access to Strava!");
+			fail("Used an invalid token but still got access to Strava!"); //$NON-NLS-1$
 		});
 	}
 
@@ -90,25 +102,24 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in some unexpected way
 	 */
 	@Override
 	@Test
 	public void testImplementation_revokedToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Attempt to get an implementation using the now invalidated token
-				final ActivityService activityServices = ActivityServiceImpl.instance(TestUtils.getRevokedToken());
+			final ActivityService activityServices = ActivityServiceImpl.instance(TestUtils.getRevokedToken());
 
-				// Check that it can't be used
-				try {
-					activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-				} catch (InvalidTokenException e) {
-					// expected
-					return;
-				}
-				fail("Used a revoked token but still got access to Strava!");
-			});
+			// Check that it can't be used
+			try {
+				activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			} catch (final InvalidTokenException e) {
+				// expected
+				return;
+			}
+			fail("Used a revoked token but still got access to Strava!"); //$NON-NLS-1$
+		});
 	}
 
 	/**
@@ -117,6 +128,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in some unexpected way
 	 *
 	 * @throws UnauthorizedException
 	 *             If token is not valid
@@ -126,7 +138,7 @@ public class ImplementationTest implements InstanceTestSpec {
 	public void testImplementation_validToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final ActivityService service = service();
-			assertNotNull("Got a NULL service for a valid token", service);
+			assertNotNull("Got a NULL service for a valid token", service); //$NON-NLS-1$
 		});
 	}
 

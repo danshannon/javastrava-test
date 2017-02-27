@@ -3,54 +3,55 @@
  */
 package test.api.service.impl.activityservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import javastrava.api.v3.model.StravaComment;
-
-import org.junit.Test;
-
 import test.api.model.StravaCommentTest;
-import test.api.service.StravaTest;
-import test.utils.RateLimitedTestRunner;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.TestUtils;
 
 /**
+ * <p>
+ * Specific tests for methods that list all activity comments
+ * </p>
+ * 
  * @author Dan Shannon
  *
  */
-public class ListAllActivityCommentsTest extends StravaTest {
-	@Test
-	public void testListAllActivityComments_invalidActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_INVALID);
-			assertNull(comments);
-		});
+public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, Long> {
+
+	@Override
+	protected ListCallback<StravaComment, Long> lister() {
+		return ((strava, id) -> strava.listAllActivityComments(id));
 	}
 
-	@Test
-	public void testListAllActivityComments_privateActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
-			assertNotNull(comments);
-			assertEquals(0, comments.size());
-		});
+	@Override
+	protected Long idPrivate() {
+		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
-	@Test
-	public void testListAllActivityComments_validActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaComment> comments = strava().listAllActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS);
-			assertNotNull(comments);
-			assertTrue(0 < comments.size());
-			for (final StravaComment comment : comments) {
-				StravaCommentTest.validateComment(comment);
-			}
-		});
+	@Override
+	protected Long idPrivateBelongsToOtherUser() {
+		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long idValidWithEntries() {
+		return TestUtils.ACTIVITY_WITH_COMMENTS;
+	}
+
+	@Override
+	protected Long idValidWithoutEntries() {
+		return TestUtils.ACTIVITY_WITHOUT_COMMENTS;
+	}
+
+	@Override
+	protected Long idInvalid() {
+		return TestUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected void validate(StravaComment comment) {
+		StravaCommentTest.validateComment(comment);
 	}
 
 }

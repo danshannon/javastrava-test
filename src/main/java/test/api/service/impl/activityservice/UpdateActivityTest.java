@@ -15,28 +15,26 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaActivityTest;
-import test.api.service.StravaTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class UpdateActivityTest extends StravaTest {
+public class UpdateActivityTest {
 
 	/**
 	 * @param activity
 	 *            The initial activity to create
 	 * @param update
 	 *            The update to apply
-	 * @return The activity as it was created on Strava (although it is ALWAYS
-	 *         deleted again)
+	 * @return The activity as it was created on Strava (although it is ALWAYS deleted again)
 	 * @throws Exception
 	 *             if not found
 	 */
 	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update)
 			throws Exception {
-		final StravaActivity response = stravaWithWriteAccess().createManualActivity(activity);
+		final StravaActivity response = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 		StravaActivity updateResponse = null;
 		try {
-			updateResponse = stravaWithFullAccess().updateActivity(response.getId(), update);
+			updateResponse = TestUtils.stravaWithFullAccess().updateActivity(response.getId(), update);
 			updateResponse = waitForUpdateToComplete(updateResponse.getId());
 		} catch (final Exception e) {
 			forceDeleteActivity(response);
@@ -46,10 +44,14 @@ public class UpdateActivityTest extends StravaTest {
 		return updateResponse;
 	}
 
+	private void forceDeleteActivity(StravaActivity activity) {
+		TestUtils.stravaWithFullAccess().deleteActivity(activity);
+
+	}
+
 	/**
 	 * <p>
-	 * Test attempting to update an activity using a token that doesn't have
-	 * write access
+	 * Test attempting to update an activity using a token that doesn't have write access
 	 * </p>
 	 *
 	 * @throws UnauthorizedException
@@ -58,17 +60,17 @@ public class UpdateActivityTest extends StravaTest {
 	public void testUpdateActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final TextProducer text = Fairy.create().textProducer();
-			final StravaActivity activity = strava().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final StravaActivity activity = TestUtils.strava().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			activity.setDescription(text.paragraph(1));
 
 			try {
-				strava().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+				TestUtils.strava().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 			} catch (final UnauthorizedException e) {
 				// Expected behaviour
 				return;
 			}
 			fail("Successfully updated an activity despite not having write access");
-		} );
+		});
 	}
 
 	@Test
@@ -80,22 +82,22 @@ public class UpdateActivityTest extends StravaTest {
 
 			StravaActivity response = null;
 			try {
-				response = stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+				response = TestUtils.stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
 			}
 			assertNull("Updated an activity which doesn't exist?", response);
-		} );
+		});
 	}
 
 	@Test
 	public void testUpdateActivity_nullUpdate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = stravaWithWriteAccess()
+			final StravaActivity activity = TestUtils.stravaWithWriteAccess()
 					.updateActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null);
-			assertEquals(activity, stravaWithWriteAccess().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
-		} );
+			assertEquals(activity, TestUtils.stravaWithWriteAccess().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER));
+		});
 	}
 
 	@Test
@@ -115,23 +117,23 @@ public class UpdateActivityTest extends StravaTest {
 			// Test the results
 			assertNull(stravaResponse.getAverageCadence());
 			StravaActivityTest.validateActivity(stravaResponse);
-		} );
+		});
 	}
 
 	@Test
 	public void testUpdateActivity_unauthenticatedAthletesActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = stravaWithWriteAccess()
+			final StravaActivity activity = TestUtils.stravaWithWriteAccess()
 					.getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 			try {
-				stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
+				TestUtils.stravaWithWriteAccess().updateActivity(activity.getId(), new StravaActivityUpdate(activity));
 			} catch (final UnauthorizedException e) {
 				// Expected behaviour
 				return;
 			}
 			fail("Updated an activity which belongs to someone else??");
-		} );
+		});
 	}
 
 	@Test
@@ -172,7 +174,7 @@ public class UpdateActivityTest extends StravaTest {
 			assertEquals(privateActivity, updateResponse.getPrivateActivity());
 			assertEquals(trainer, updateResponse.getTrainer());
 			assertEquals(type, updateResponse.getType());
-		} );
+		});
 	}
 
 	@Test
@@ -193,7 +195,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(updateResponse);
 			assertEquals(commute, updateResponse.getCommute());
-		} );
+		});
 	}
 
 	@Test
@@ -214,7 +216,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Test the response
 			StravaActivityTest.validateActivity(response);
 			assertEquals(description, response.getDescription());
-		} );
+		});
 	}
 
 	@Test
@@ -233,7 +235,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(gearId, response.getGearId());
-		} );
+		});
 	}
 
 	@Test
@@ -254,7 +256,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertNull(response.getGearId());
-		} );
+		});
 	}
 
 	/**
@@ -267,8 +269,7 @@ public class UpdateActivityTest extends StravaTest {
 	 * <li>private</li>
 	 * <li>commute</li>
 	 * <li>trainer</li>
-	 * <li>gear_id (also allows special case of 'none' which should remove the
-	 * gear)</li>
+	 * <li>gear_id (also allows special case of 'none' which should remove the gear)</li>
 	 * <li>description</li>
 	 * </ol>
 	 *
@@ -295,7 +296,7 @@ public class UpdateActivityTest extends StravaTest {
 			StravaActivityTest.validateActivity(response);
 			assertEquals(sentence, response.getName());
 
-		} );
+		});
 	}
 
 	@Test
@@ -315,7 +316,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(privateFlag, response.getPrivateActivity());
-		} );
+		});
 	}
 
 	@Test
@@ -326,13 +327,13 @@ public class UpdateActivityTest extends StravaTest {
 			activity.setPrivateActivity(Boolean.TRUE);
 
 			// Create the activity
-			StravaActivity response = stravaWithFullAccess().createManualActivity(activity);
+			StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
 			assertEquals(Boolean.TRUE, response.getPrivateActivity());
 
 			// Try to update it without view private
 			activity.setDescription("Updated description");
 			try {
-				response = stravaWithWriteAccess().updateActivity(response.getId(), new StravaActivityUpdate(activity));
+				response = TestUtils.stravaWithWriteAccess().updateActivity(response.getId(), new StravaActivityUpdate(activity));
 			} catch (final UnauthorizedException e) {
 				// expected
 				forceDeleteActivity(response);
@@ -341,7 +342,7 @@ public class UpdateActivityTest extends StravaTest {
 			forceDeleteActivity(response);
 			fail("Updated private activity without view_private authorisation");
 
-		} );
+		});
 	}
 
 	@Test
@@ -361,7 +362,7 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(trainer, response.getTrainer());
-		} );
+		});
 	}
 
 	@Test
@@ -382,18 +383,18 @@ public class UpdateActivityTest extends StravaTest {
 			// Validate the results
 			StravaActivityTest.validateActivity(response);
 			assertEquals(type, response.getType());
-		} );
+		});
 	}
 
 	/**
 	 * @param id
 	 * @return
 	 */
-	private StravaActivity waitForUpdateToComplete(final Integer id) {
+	private StravaActivity waitForUpdateToComplete(final Long id) {
 		int i = 0;
 		StravaActivity activity = null;
 		while (i < 600) {
-			activity = stravaWithFullAccess().getActivity(id);
+			activity = TestUtils.stravaWithFullAccess().getActivity(id);
 			if (activity.getResourceState() != StravaResourceState.UPDATING) {
 				return activity;
 			}

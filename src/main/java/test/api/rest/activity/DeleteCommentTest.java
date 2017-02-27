@@ -14,7 +14,7 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class DeleteCommentTest extends APIDeleteTest<StravaComment, Integer> {
+public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	public DeleteCommentTest() {
 		super();
 
@@ -56,7 +56,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Integer> {
 	 * @see test.api.rest.APIDeleteTest#invalidParentId()
 	 */
 	@Override
-	protected Integer invalidParentId() {
+	protected Long invalidParentId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -64,7 +64,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Integer> {
 	 * @see test.api.rest.APIDeleteTest#privateParentId()
 	 */
 	@Override
-	protected Integer privateParentId() {
+	protected Long privateParentId() {
 		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
@@ -72,17 +72,16 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Integer> {
 	 * @see test.api.rest.APIDeleteTest#privateParentOtherUserId()
 	 */
 	@Override
-	protected Integer privateParentOtherUserId() {
+	protected Long privateParentOtherUserId() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Test
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS,
-					"Test - ignore");
+			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 			apiWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
-		} );
+		});
 	}
 
 	/**
@@ -98,7 +97,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Integer> {
 	 * @see test.api.rest.APIDeleteTest#validParentId()
 	 */
 	@Override
-	protected Integer validParentId() {
+	protected Long validParentId() {
 		return TestUtils.ACTIVITY_WITH_COMMENTS;
 	}
 }

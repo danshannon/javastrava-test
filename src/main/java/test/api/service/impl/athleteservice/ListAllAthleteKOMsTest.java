@@ -1,7 +1,6 @@
 package test.api.service.impl.athleteservice;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -15,14 +14,15 @@ import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.service.StravaTest;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.issues.strava.Issue32;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAllAthleteKOMsTest extends StravaTest {
+public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, Integer> {
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(segment.getId());
+		final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			if (entry.getAthleteId().equals(athleteId) && entry.getRank().equals(1)) {
@@ -35,86 +35,78 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
 				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_AUTHENTICATED_ID
 						+ " is not the KOM!", isKom(effort.getSegment(), TestUtils.ATHLETE_AUTHENTICATED_ID));
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
-					strava().getActivity(kom.getActivity().getId());
+					TestUtils.strava().getActivity(kom.getActivity().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = stravaWithViewPrivate()
+			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
 					.listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
-					strava().getActivity(kom.getActivity().getId());
+					TestUtils.strava().getActivity(kom.getActivity().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
-					strava().getSegment(kom.getSegment().getId());
+					TestUtils.strava().getSegment(kom.getSegment().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = stravaWithViewPrivate()
+			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
 					.listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
-					strava().getSegment(kom.getSegment().getId());
+					TestUtils.strava().getSegment(kom.getSegment().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
-	}
-
-	@Test
-	public void testListAllAthleteKOMs_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_INVALID_ID);
-			assertNull(efforts);
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
 			assertNotNull(efforts);
 			// TODO workaround for issue javastrava-api #32 - see
 			// https://github.com/danshannon/javastravav3api/issues/32
@@ -125,38 +117,73 @@ public class ListAllAthleteKOMsTest extends StravaTest {
 
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
-				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_VALID_ID
-						+ " is not the KOM!", isKom(effort.getSegment(), TestUtils.ATHLETE_VALID_ID));
+				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_VALID_ID + " is not the KOM!",
+						isKom(effort.getSegment(), TestUtils.ATHLETE_VALID_ID));
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_otherAthletePrivateActivities() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
-					strava().getActivity(effort.getActivity().getId());
+					TestUtils.strava().getActivity(effort.getActivity().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM's for a private activity!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
 	public void testListAllAthleteKOMs_otherAthletePrivateSegments() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
-					strava().getSegment(effort.getSegment().getId());
+					TestUtils.strava().getSegment(effort.getSegment().getId());
 				} catch (final UnauthorizedException e) {
 					fail("Returned KOM's for a private activity!");
 				}
 			}
-		} );
+		});
+	}
+
+	@Override
+	protected ListCallback<StravaSegmentEffort, Integer> lister() {
+		return ((strava, id) -> strava.listAllAthleteKOMs(id));
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idInvalid() {
+		return TestUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected void validate(StravaSegmentEffort object) {
+		StravaSegmentEffortTest.validateSegmentEffort(object);
 	}
 
 }

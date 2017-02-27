@@ -1,7 +1,7 @@
 package test.api.service.impl.clubservice;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
-import javastrava.api.v3.service.Strava;
+import test.api.model.StravaClubAnnouncementTest;
 import test.api.service.standardtests.ListMethodTest;
 import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.TestUtils;
@@ -11,53 +11,39 @@ import test.utils.TestUtils;
  *
  */
 public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnouncement, Integer> {
-	/**
-	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithEntries()
-	 */
 	@Override
-	public Integer getValidParentWithEntries() {
+	public Integer idValidWithEntries() {
 		return TestUtils.CLUB_VALID_ID;
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.ListMethodTests#getValidParentWithNoEntries()
-	 */
 	@Override
-	public Integer getValidParentWithNoEntries() {
+	public Integer idValidWithoutEntries() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToOtherUser()
-	 */
 	@Override
-	public Integer getIdPrivateBelongsToOtherUser() {
+	public Integer idPrivateBelongsToOtherUser() {
 		return TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdPrivateBelongsToAuthenticatedUser()
-	 */
 	@Override
-	public Integer getIdPrivateBelongsToAuthenticatedUser() {
-		return TestUtils.CLUB_PRIVATE_MEMBER_ID;
-	}
-
-	/**
-	 * @see test.api.service.standardtests.spec.ListMethodTests#getIdInvalid()
-	 */
-	@Override
-	public Integer getIdInvalid() {
+	public Integer idInvalid() {
 		return TestUtils.CLUB_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.service.standardtests.ListMethodTest#callback(javastrava.api.v3.service.Strava)
-	 */
 	@Override
-	protected ListCallback<StravaClubAnnouncement, Integer> callback(final Strava strava) {
-		return ((parentId) -> {
-			return strava.listClubAnnouncements(parentId);
-		});
+	protected ListCallback<StravaClubAnnouncement, Integer> lister() {
+		return ((strava, id) -> strava.listClubAnnouncements(id));
 	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected void validate(StravaClubAnnouncement object) {
+		StravaClubAnnouncementTest.validate(object);
+	}
+
 }

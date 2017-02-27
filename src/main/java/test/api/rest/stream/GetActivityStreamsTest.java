@@ -3,15 +3,15 @@ package test.api.rest.stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-
-import org.junit.Test;
-
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
 import test.issues.strava.Issue21;
@@ -19,7 +19,7 @@ import test.issues.strava.Issue88;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> {
+public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
 	/**
 	 *
 	 */
@@ -46,7 +46,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	@Test
 	public void testGetActivityStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), null, null);
+			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(),
+					null, null);
 			assertNotNull(streams);
 			int size = 0;
 			for (final StravaStream stream : streams) {
@@ -77,8 +78,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), resolutionType,
-							StravaStreamSeriesDownsamplingType.DISTANCE);
+					final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+							getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
 					assertNotNull(streams);
 					for (final StravaStream stream : streams) {
 						assertEquals(resolutionType, stream.getResolution());
@@ -95,8 +96,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-					final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), resolutionType,
-							StravaStreamSeriesDownsamplingType.TIME);
+					final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+							getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					assertNotNull(streams);
 					validateArray(streams);
 				}
@@ -109,7 +110,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	public void testGetActivityStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), StravaStreamResolutionType.UNKNOWN, null);
+				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(),
+						StravaStreamResolutionType.UNKNOWN, null);
 			} catch (final BadRequestException e) {
 				// Expected
 				return;
@@ -123,8 +125,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	public void testGetActivityStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), StravaStreamResolutionType.LOW,
-						StravaStreamSeriesDownsamplingType.UNKNOWN);
+				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(),
+						StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final BadRequestException e) {
 				// Expected
 				return;
@@ -141,7 +143,8 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 				return;
 			}
 			try {
-				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamType.UNKNOWN.getValue(), null, null);
+				api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamType.UNKNOWN.getValue(), null,
+						null);
 			} catch (final BadRequestException e) {
 				// Expected
 				return;
@@ -154,19 +157,19 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	@Test
 	public void testGetActivityStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api()
-					.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamType.DISTANCE.toString(), null, null);
+			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+					StravaStreamType.DISTANCE.toString(), null, null);
 			assertNotNull(streams);
 			assertEquals(1, streams.length);
 			assertEquals(StravaStreamType.DISTANCE, streams[0].getType());
 			// TODO This is a workaround for issue javastravav3api#21
-				if (new Issue21().isIssue()) {
-					return;
-				}
-				// End of workaround
+			if (new Issue21().isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				validateArray(streams);
-			});
+			validateArray(streams);
+		});
 	}
 
 	/**
@@ -180,16 +183,17 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	@Override
 	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), null, null);
+			final StravaStream[] streams = api().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(),
+					null, null);
 			assertNotNull(streams);
 			// TODO This is a workaround for issue javastravav3api#21
-				if (new Issue21().isIssue()) {
-					return;
-				}
-				// End of workaround
+			if (new Issue21().isIssue()) {
+				return;
+			}
+			// End of workaround
 
-				validateArray(streams);
-			});
+			validateArray(streams);
+		});
 	}
 
 	// 3. Valid activity for other user
@@ -217,7 +221,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
 	@Override
-	protected Integer invalidId() {
+	protected Long invalidId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -225,7 +229,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 * @see test.api.rest.APIGetTest#privateId()
 	 */
 	@Override
-	protected Integer privateId() {
+	protected Long privateId() {
 		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
@@ -233,7 +237,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer privateIdBelongsToOtherUser() {
+	protected Long privateIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
@@ -241,7 +245,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 * @see test.api.rest.APIGetTest#validId()
 	 */
 	@Override
-	protected Integer validId() {
+	protected Long validId() {
 		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
@@ -249,7 +253,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Integer> 
 	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer validIdBelongsToOtherUser() {
+	protected Long validIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 

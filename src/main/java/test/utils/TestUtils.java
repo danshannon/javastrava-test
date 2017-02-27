@@ -32,74 +32,76 @@ public abstract class TestUtils {
 
 	public static Token INVALID_TOKEN;
 
-	public static Integer ACTIVITY_WITH_EFFORTS;
+	public static Long ACTIVITY_WITH_EFFORTS;
 
-	public static Integer ACTIVITY_WITH_PHOTOS;
+	public static Long ACTIVITY_WITH_PHOTOS;
 
-	public static Integer ACTIVITY_WITHOUT_PHOTOS;
+	public static Long ACTIVITY_WITHOUT_PHOTOS;
 
-	public static Integer ACTIVITY_FOR_AUTHENTICATED_USER;
+	public static Long ACTIVITY_FOR_AUTHENTICATED_USER;
 
-	public static Integer ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	public static Long ACTIVITY_FOR_UNAUTHENTICATED_USER;
 
-	public static Integer ACTIVITY_INVALID;
+	public static Long ACTIVITY_INVALID;
 
-	public static Integer ACTIVITY_WITH_COMMENTS;
+	public static Long ACTIVITY_WITH_COMMENTS;
 
-	public static Integer ACTIVITY_WITHOUT_COMMENTS;
+	public static Long ACTIVITY_WITHOUT_COMMENTS;
 
-	public static Integer ACTIVITY_WITH_KUDOS;
+	public static Long ACTIVITY_WITH_KUDOS;
 
-	public static Integer ACTIVITY_WITHOUT_KUDOS;
+	public static Long ACTIVITY_WITHOUT_KUDOS;
 
-	public static Integer ACTIVITY_WITH_LAPS;
-	public static Integer ACTIVITY_WITHOUT_LAPS;
-	public static Integer ACTIVITY_WITH_ZONES;
-	public static Integer ACTIVITY_WITHOUT_ZONES;
-	public static Integer ACTIVITY_PRIVATE_OTHER_USER;
-	public static Integer ACTIVITY_PRIVATE;
-	public static Integer ACTIVITY_PRIVATE_WITH_PHOTOS;
+	public static Long	ACTIVITY_WITH_LAPS;
+	public static Long	ACTIVITY_WITHOUT_LAPS;
+	public static Long	ACTIVITY_WITH_ZONES;
+	public static Long	ACTIVITY_WITHOUT_ZONES;
+	public static Long	ACTIVITY_PRIVATE_OTHER_USER;
+	public static Long	ACTIVITY_PRIVATE;
+	public static Long	ACTIVITY_PRIVATE_WITH_PHOTOS;
 
-	public static Integer ACTIVITY_PRIVATE_WITH_KUDOS;
-	public static Integer ACTIVITY_PRIVATE_WITH_LAPS;
-	public static Integer ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
-	public static Integer ACTIVITY_RUN_OTHER_USER;
-	public static Integer ACTIVITY_RUN_WITH_SEGMENTS;
+	public static Long	ACTIVITY_PRIVATE_WITH_KUDOS;
+	public static Long	ACTIVITY_PRIVATE_WITH_LAPS;
+	public static Long	ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+	public static Long	ACTIVITY_WITH_RELATED_ACTIVITIES;
+	public static Long	ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
+	public static Long	ACTIVITY_RUN_OTHER_USER;
+	public static Long	ACTIVITY_RUN_WITH_SEGMENTS;
 
-	public static Integer ATHLETE_AUTHENTICATED_ID;
-	public static Integer ATHLETE_VALID_ID;
+	public static Integer	ATHLETE_AUTHENTICATED_ID;
+	public static Integer	ATHLETE_VALID_ID;
 
-	public static Integer ATHLETE_INVALID_ID;
-	public static Integer ATHLETE_WITHOUT_KOMS;
-	public static Integer ATHLETE_WITHOUT_FRIENDS;
-	public static Integer ATHLETE_PRIVATE_ID;
-	public static Integer CLUB_VALID_ID;
-	public static Integer CLUB_INVALID_ID;
+	public static Integer	ATHLETE_INVALID_ID;
+	public static Integer	ATHLETE_WITHOUT_KOMS;
+	public static Integer	ATHLETE_WITHOUT_FRIENDS;
+	public static Integer	ATHLETE_PRIVATE_ID;
+	public static Integer	CLUB_VALID_ID;
+	public static Integer	CLUB_INVALID_ID;
 
-	public static Integer CLUB_PUBLIC_MEMBER_ID;
-	public static Integer CLUB_PUBLIC_NON_MEMBER_ID;
-	public static Integer CLUB_PRIVATE_MEMBER_ID;
-	public static Integer CLUB_PRIVATE_NON_MEMBER_ID;
-	public static String GEAR_VALID_ID;
-	public static String GEAR_INVALID_ID;
+	public static Integer	CLUB_PUBLIC_MEMBER_ID;
+	public static Integer	CLUB_PUBLIC_NON_MEMBER_ID;
+	public static Integer	CLUB_PRIVATE_MEMBER_ID;
+	public static Integer	CLUB_PRIVATE_NON_MEMBER_ID;
+	public static String	GEAR_VALID_ID;
+	public static String	GEAR_INVALID_ID;
 
 	public static String GEAR_OTHER_ATHLETE_ID;
 
-	public static Long SEGMENT_EFFORT_VALID_ID;
-	public static Long SEGMENT_EFFORT_INVALID_ID;
-	public static Long SEGMENT_EFFORT_PRIVATE_ID;
-	public static Long SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+	public static Long	SEGMENT_EFFORT_VALID_ID;
+	public static Long	SEGMENT_EFFORT_INVALID_ID;
+	public static Long	SEGMENT_EFFORT_PRIVATE_ID;
+	public static Long	SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 
-	public static Long SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
-	public static Integer SEGMENT_VALID_ID;
-	public static Integer SEGMENT_INVALID_ID;
-	public static Integer SEGMENT_PRIVATE_ID;
-	public static Integer SEGMENT_OTHER_USER_PRIVATE_ID;
+	public static Long		SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
+	public static Integer	SEGMENT_VALID_ID;
+	public static Integer	SEGMENT_INVALID_ID;
+	public static Integer	SEGMENT_PRIVATE_ID;
+	public static Integer	SEGMENT_OTHER_USER_PRIVATE_ID;
 
-	public static Integer SEGMENT_HAZARDOUS_ID;
-	public static Integer SEGMENT_PRIVATE_STARRED_ID;
+	public static Integer	SEGMENT_HAZARDOUS_ID;
+	public static Integer	SEGMENT_PRIVATE_STARRED_ID;
 
-	private static final String PROPERTIES_FILE = "test-config";
+	private static final String PROPERTIES_FILE = "test-config"; //$NON-NLS-1$
 
 	private static ResourceBundle properties;
 
@@ -109,65 +111,67 @@ public abstract class TestUtils {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		USERNAME = properties.getString("username");
-		PASSWORD = properties.getString("password");
-		STRAVA_APPLICATION_ID = new Integer(properties.getString("strava_application_id"));
-		STRAVA_CLIENT_SECRET = properties.getString("client_secret");
+		USERNAME = properties.getString("username"); //$NON-NLS-1$
+		PASSWORD = properties.getString("password"); //$NON-NLS-1$
+		STRAVA_APPLICATION_ID = new Integer(properties.getString("strava_application_id")); //$NON-NLS-1$
+		STRAVA_CLIENT_SECRET = properties.getString("client_secret"); //$NON-NLS-1$
 
-		INVALID_TOKEN = createToken(properties.getString("test.invalidToken"), USERNAME);
-		ACTIVITY_WITH_EFFORTS = new Integer(properties.getString("test.activityWithEfforts"));
-		ACTIVITY_WITH_PHOTOS = new Integer(properties.getString("test.activityWithPhotos"));
-		ACTIVITY_WITHOUT_PHOTOS = new Integer(properties.getString("test.activityWithoutPhotos"));
-		ACTIVITY_WITH_COMMENTS = new Integer(properties.getString("test.activityWithComments"));
-		ACTIVITY_WITHOUT_COMMENTS = new Integer(properties.getString("test.activityWithoutComments"));
-		ACTIVITY_WITH_KUDOS = new Integer(properties.getString("test.activityWithKudos"));
-		ACTIVITY_WITHOUT_KUDOS = new Integer(properties.getString("test.activityWithoutKudos"));
-		ACTIVITY_WITH_LAPS = new Integer(properties.getString("test.activityWithLaps"));
-		ACTIVITY_WITHOUT_LAPS = new Integer(properties.getString("test.activityWithoutLaps"));
-		ACTIVITY_WITH_ZONES = new Integer(properties.getString("test.activityWithZones"));
-		ACTIVITY_WITHOUT_ZONES = new Integer(properties.getString("test.activityWithoutZones"));
-		ACTIVITY_FOR_AUTHENTICATED_USER = new Integer(properties.getString("test.activityBelongingToAuthenticatedUser"));
-		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Integer(properties.getString("test.activityBelongingToUnauthenticatedUser"));
-		ACTIVITY_INVALID = new Integer(properties.getString("test.activityInvalid"));
-		ACTIVITY_PRIVATE_OTHER_USER = integerProperty("test.activityPrivateOtherUser");
-		ACTIVITY_PRIVATE = integerProperty("test.activityPrivateAuthenticatedUser");
-		ACTIVITY_PRIVATE_WITH_PHOTOS = integerProperty("test.activityPrivatePhotos");
-		ACTIVITY_PRIVATE_WITH_KUDOS = integerProperty("test.activityPrivateKudos");
-		ACTIVITY_PRIVATE_WITH_LAPS = integerProperty("test.activityPrivateLaps");
-		ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES = integerProperty("test.activityPrivateRelated");
-		ACTIVITY_RUN_OTHER_USER = integerProperty("test.activityRunOtherUser");
-		ACTIVITY_RUN_WITH_SEGMENTS = integerProperty("test.activityRunWithSegments");
+		INVALID_TOKEN = createToken(properties.getString("test.invalidToken"), USERNAME); //$NON-NLS-1$
+		ACTIVITY_WITH_EFFORTS = new Long(properties.getString("test.activityWithEfforts")); //$NON-NLS-1$
+		ACTIVITY_WITH_PHOTOS = new Long(properties.getString("test.activityWithPhotos")); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_PHOTOS = new Long(properties.getString("test.activityWithoutPhotos")); //$NON-NLS-1$
+		ACTIVITY_WITH_COMMENTS = new Long(properties.getString("test.activityWithComments")); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_COMMENTS = new Long(properties.getString("test.activityWithoutComments")); //$NON-NLS-1$
+		ACTIVITY_WITH_KUDOS = new Long(properties.getString("test.activityWithKudos")); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_KUDOS = new Long(properties.getString("test.activityWithoutKudos")); //$NON-NLS-1$
+		ACTIVITY_WITH_LAPS = new Long(properties.getString("test.activityWithLaps")); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_LAPS = new Long(properties.getString("test.activityWithoutLaps")); //$NON-NLS-1$
+		ACTIVITY_WITH_ZONES = new Long(properties.getString("test.activityWithZones")); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_ZONES = new Long(properties.getString("test.activityWithoutZones")); //$NON-NLS-1$
+		ACTIVITY_FOR_AUTHENTICATED_USER = new Long(properties.getString("test.activityBelongingToAuthenticatedUser")); //$NON-NLS-1$
+		ACTIVITY_FOR_UNAUTHENTICATED_USER = new Long(properties.getString("test.activityBelongingToUnauthenticatedUser")); //$NON-NLS-1$
+		ACTIVITY_INVALID = new Long(properties.getString("test.activityInvalid")); //$NON-NLS-1$
+		ACTIVITY_PRIVATE_OTHER_USER = longProperty("test.activityPrivateOtherUser"); //$NON-NLS-1$
+		ACTIVITY_PRIVATE = longProperty("test.activityPrivateAuthenticatedUser"); //$NON-NLS-1$
+		ACTIVITY_PRIVATE_WITH_PHOTOS = longProperty("test.activityPrivatePhotos"); //$NON-NLS-1$
+		ACTIVITY_PRIVATE_WITH_KUDOS = longProperty("test.activityPrivateKudos"); //$NON-NLS-1$
+		ACTIVITY_PRIVATE_WITH_LAPS = longProperty("test.activityPrivateLaps"); //$NON-NLS-1$
+		ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES = longProperty("test.activityPrivateRelated"); //$NON-NLS-1$
+		ACTIVITY_WITH_RELATED_ACTIVITIES = longProperty("test.ActivityWithRelatedActivities"); //$NON-NLS-1$
+		ACTIVITY_WITHOUT_RELATED_ACTIVITIES = longProperty("test.ActivityWithoutRelatedActivities"); //$NON-NLS-1$
+		ACTIVITY_RUN_OTHER_USER = longProperty("test.activityRunOtherUser"); //$NON-NLS-1$
+		ACTIVITY_RUN_WITH_SEGMENTS = longProperty("test.activityRunWithSegments"); //$NON-NLS-1$
 
-		ATHLETE_AUTHENTICATED_ID = integerProperty("test.authenticatedAthleteId");
-		ATHLETE_VALID_ID = integerProperty("test.athleteId");
-		ATHLETE_INVALID_ID = integerProperty("test.athleteInvalidId");
-		ATHLETE_WITHOUT_KOMS = integerProperty("test.athleteWithoutKOMs");
-		ATHLETE_WITHOUT_FRIENDS = integerProperty("test.athleteWithoutFriends");
-		ATHLETE_PRIVATE_ID = integerProperty("test.athletePrivate");
+		ATHLETE_AUTHENTICATED_ID = integerProperty("test.authenticatedAthleteId"); //$NON-NLS-1$
+		ATHLETE_VALID_ID = integerProperty("test.athleteId"); //$NON-NLS-1$
+		ATHLETE_INVALID_ID = integerProperty("test.athleteInvalidId"); //$NON-NLS-1$
+		ATHLETE_WITHOUT_KOMS = integerProperty("test.athleteWithoutKOMs"); //$NON-NLS-1$
+		ATHLETE_WITHOUT_FRIENDS = integerProperty("test.athleteWithoutFriends"); //$NON-NLS-1$
+		ATHLETE_PRIVATE_ID = integerProperty("test.athletePrivate"); //$NON-NLS-1$
 
-		CLUB_VALID_ID = integerProperty("test.clubId");
-		CLUB_INVALID_ID = integerProperty("test.clubInvalidId");
-		CLUB_PRIVATE_MEMBER_ID = integerProperty("test.clubPrivateMemberId");
-		CLUB_PRIVATE_NON_MEMBER_ID = integerProperty("test.clubPrivateNonMemberId");
-		CLUB_PUBLIC_NON_MEMBER_ID = integerProperty("test.clubNonMemberId");
-		CLUB_PUBLIC_MEMBER_ID = integerProperty("test.clubPublicMemberId");
+		CLUB_VALID_ID = integerProperty("test.clubId"); //$NON-NLS-1$
+		CLUB_INVALID_ID = integerProperty("test.clubInvalidId"); //$NON-NLS-1$
+		CLUB_PRIVATE_MEMBER_ID = integerProperty("test.clubPrivateMemberId"); //$NON-NLS-1$
+		CLUB_PRIVATE_NON_MEMBER_ID = integerProperty("test.clubPrivateNonMemberId"); //$NON-NLS-1$
+		CLUB_PUBLIC_NON_MEMBER_ID = integerProperty("test.clubNonMemberId"); //$NON-NLS-1$
+		CLUB_PUBLIC_MEMBER_ID = integerProperty("test.clubPublicMemberId"); //$NON-NLS-1$
 
-		GEAR_VALID_ID = properties.getString("test.gearId");
-		GEAR_INVALID_ID = properties.getString("test.gearInvalidId");
-		GEAR_OTHER_ATHLETE_ID = properties.getString("test.gearOtherAthleteId");
+		GEAR_VALID_ID = properties.getString("test.gearId"); //$NON-NLS-1$
+		GEAR_INVALID_ID = properties.getString("test.gearInvalidId"); //$NON-NLS-1$
+		GEAR_OTHER_ATHLETE_ID = properties.getString("test.gearOtherAthleteId"); //$NON-NLS-1$
 
-		SEGMENT_EFFORT_INVALID_ID = longProperty("test.segmentEffortInvalidId");
-		SEGMENT_EFFORT_VALID_ID = longProperty("test.segmentEffortId");
-		SEGMENT_EFFORT_PRIVATE_ID = longProperty("test.segmentEffortPrivateId");
-		SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID = longProperty("test.segmentEffortOtherUserPrivateId");
-		SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID = longProperty("test.segmentEffortPrivateActivityId");
+		SEGMENT_EFFORT_INVALID_ID = longProperty("test.segmentEffortInvalidId"); //$NON-NLS-1$
+		SEGMENT_EFFORT_VALID_ID = longProperty("test.segmentEffortId"); //$NON-NLS-1$
+		SEGMENT_EFFORT_PRIVATE_ID = longProperty("test.segmentEffortPrivateId"); //$NON-NLS-1$
+		SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID = longProperty("test.segmentEffortOtherUserPrivateId"); //$NON-NLS-1$
+		SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID = longProperty("test.segmentEffortPrivateActivityId"); //$NON-NLS-1$
 
-		SEGMENT_VALID_ID = integerProperty("test.segmentId");
-		SEGMENT_INVALID_ID = integerProperty("test.segmentInvalidId");
-		SEGMENT_PRIVATE_ID = integerProperty("test.segmentPrivateId");
-		SEGMENT_OTHER_USER_PRIVATE_ID = integerProperty("test.segmentOtherUserPrivateId");
-		SEGMENT_HAZARDOUS_ID = integerProperty("test.segmentHazardousId");
-		SEGMENT_PRIVATE_STARRED_ID = integerProperty("test.segmentPrivateStarredId");
+		SEGMENT_VALID_ID = integerProperty("test.segmentId"); //$NON-NLS-1$
+		SEGMENT_INVALID_ID = integerProperty("test.segmentInvalidId"); //$NON-NLS-1$
+		SEGMENT_PRIVATE_ID = integerProperty("test.segmentPrivateId"); //$NON-NLS-1$
+		SEGMENT_OTHER_USER_PRIVATE_ID = integerProperty("test.segmentOtherUserPrivateId"); //$NON-NLS-1$
+		SEGMENT_HAZARDOUS_ID = integerProperty("test.segmentHazardousId"); //$NON-NLS-1$
+		SEGMENT_PRIVATE_STARRED_ID = integerProperty("test.segmentPrivateStarredId"); //$NON-NLS-1$
 	}
 
 	/**
@@ -178,9 +182,9 @@ public abstract class TestUtils {
 		activity.setName(name);
 		activity.setType(StravaActivityType.RIDE);
 		activity.setStartDateLocal(LocalDateTime.now());
-		activity.setElapsedTime(1000);
-		activity.setDescription("Created by Strava API v3 Java");
-		activity.setDistance(1000.1F);
+		activity.setElapsedTime(new Integer(1000));
+		activity.setDescription("Created by Strava API v3 Java"); //$NON-NLS-1$
+		activity.setDistance(new Float(1000.1F));
 		return activity;
 	}
 
@@ -194,7 +198,7 @@ public abstract class TestUtils {
 		final StravaAthlete athlete = new StravaAthlete();
 		athlete.setEmail(username);
 		tokenResponse.setAthlete(athlete);
-		tokenResponse.setTokenType("Bearer");
+		tokenResponse.setTokenType("Bearer"); //$NON-NLS-1$
 		final Token token = new Token(tokenResponse);
 		return token;
 	}

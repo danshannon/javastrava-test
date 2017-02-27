@@ -8,7 +8,7 @@ package test.api.service.standardtests.spec;
  * @author Dan Shannon
  *
  */
-public interface InstanceTestSpec {
+public interface ServiceInstanceTests {
 	public void testImplementation_validToken() throws Exception;
 
 	public void testImplementation_invalidToken() throws Exception;

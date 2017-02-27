@@ -2,15 +2,20 @@ package test.api.service.impl.activityservice;
 
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
 import test.api.service.standardtests.DeleteMethodTest;
+import test.api.service.standardtests.callbacks.CreateCallback;
 import test.api.service.standardtests.callbacks.DeleteCallback;
 import test.api.service.standardtests.callbacks.GetCallback;
+import test.api.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -18,184 +23,198 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer, Integer> {
-	@Test
-	public void testDeleteComment_byComment() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			stravaWithWriteAccess().deleteComment(comment);
-		});
-	}
-
+public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> {
+	/**
+	 * <p>
+	 * Delete by comment ids
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if test fails
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
-			stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
+			final StravaComment comment = TestUtils.stravaWithWriteAccess().createComment(CommentDataUtils.generateValidObject());
+			TestUtils.stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
 
 	@Test
-	public void testDeleteComment_noWriteAccess() throws Exception {
+	@Override
+	public void testDeleteNoWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = stravaWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			final StravaComment comment = TestUtils.stravaWithWriteAccess().createComment(CommentDataUtils.generateValidObject());
 			try {
-				strava().deleteComment(comment);
+				TestUtils.strava().deleteComment(comment);
 			} catch (final UnauthorizedException e) {
 				// Expected - delete the comment anyway
-				forceDeleteComment(comment);
+				forceDelete(comment);
 				return;
 			}
-			fail("Deleted a comment using a token without write access");
+			fail("Deleted a comment using a token without write access"); //$NON-NLS-1$
 		});
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make activity private, try to delete
-	 * comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user (create activity, create comment, make
+	 * activity private, try to delete comment)
 	 *
 	 * @throws Exception
+	 *             if test fails in an unexpected way
 	 */
 	@Test
 	public void testDeleteComment_privateActivityAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = APITest.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityAuthenticatedUser");
+			final StravaComment comment = APITest
+					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityAuthenticatedUser"); //$NON-NLS-1$
 
 			// Attempt to delete with full access
 			try {
-				stravaWithFullAccess().deleteComment(comment);
-				forceDeleteActivity(comment.getActivityId());
+				TestUtils.stravaWithFullAccess().deleteComment(comment);
 				return;
 			} catch (final Exception e) {
-				forceDeleteActivity(comment.getActivityId());
+				forceDelete(comment);
 				throw e;
 			}
 		});
 	}
 
 	/**
-	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE scope (create activity,
-	 * create comment, make activity private, try to delete comment)
+	 * Can we delete a comment on a private activity belonging to the authenticated user when the token does not have VIEW_PRIVATE
+	 * scope (create activity, create comment, make activity private, try to delete comment)
 	 *
 	 * @throws Exception
+	 *             if test fails
 	 */
 	@Test
 	public void testDeleteComment_privateActivityNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = APITest.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityNoViewPrivate");
+			final StravaComment comment = APITest
+					.createPrivateActivityWithComment("DeleteCommentTest.testDeleteComment_privateActivityNoViewPrivate"); //$NON-NLS-1$
 
 			// Attempt to delete with write access (but not view_private)
 			try {
-				stravaWithWriteAccess().deleteComment(comment);
-				forceDeleteActivity(comment.getActivityId());
-				fail("Deleted a comment on a private activity, but don't have VIEW_PRIVATE scope");
+				TestUtils.stravaWithWriteAccess().deleteComment(comment);
+				fail("Deleted a comment on a private activity, but don't have VIEW_PRIVATE scope"); //$NON-NLS-1$
 			} catch (final UnauthorizedException e) {
 				// Expected
-				forceDeleteActivity(comment.getActivityId());
+				forceDelete(comment);
 				return;
 			} catch (final Exception e) {
-				forceDeleteActivity(comment.getActivityId());
+				forceDelete(comment);
 				throw e;
 			}
 		});
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.PrivacyTests#getIdPrivateBelongsToOtherUser()
-	 */
 	@Override
-	public Integer getIdPrivateBelongsToOtherUser() {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testDeleteNonExistentParent() throws Exception {
+		final List<StravaComment> comments = TestUtils.stravaWithFullAccess()
+				.listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS);
+		final StravaComment comment = comments.get(0);
+		comment.setActivityId(TestUtils.ACTIVITY_INVALID);
+
+		try {
+			deleter().delete(TestUtils.stravaWithFullAccess(), comment);
+		} catch (final NotFoundException e) {
+			// Expected
+			return;
+		}
+
+		// Fail
+		fail("Deleted a comment for a non-existent activity??"); //$NON-NLS-1$
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.PrivacyTests#getIdPrivateBelongsToAuthenticatedUser()
-	 */
 	@Override
-	public Integer getIdPrivateBelongsToAuthenticatedUser() {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testInvalidId() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			try {
+				TestUtils.stravaWithFullAccess().deleteComment(TestUtils.ACTIVITY_INVALID, new Integer(0));
+			} catch (final NotFoundException e) {
+				// Expected
+				return;
+			}
+
+			// Fail
+			fail("Succeffully deleted comment with invalid id!"); //$NON-NLS-1$
+		});
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.StandardTests#getInvalidId()
-	 */
 	@Override
-	public Integer getInvalidId() {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testPrivateBelongsToOtherUser() throws Exception {
+		// TODO can't currently test this
 	}
 
-	/**
-	 * @see test.api.service.standardtests.spec.StandardTests#getValidId()
-	 */
 	@Override
-	public Integer getValidId() {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Set up test data
+			final StravaComment comment = CommentDataUtils.generateValidObject();
+			comment.setActivityId(TestUtils.ACTIVITY_PRIVATE);
+			final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
+
+			// Now delete it again
+			TestUtils.stravaWithFullAccess().deleteComment(createdComment);
+		});
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#deleter()
-	 */
 	@Override
-	protected DeleteCallback<StravaComment, Integer, Integer> deleteCallback() {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	public void testPrivateWithNoViewPrivateScope() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Set up test data
+			final StravaComment comment = CommentDataUtils.generateValidObject();
+			comment.setActivityId(TestUtils.ACTIVITY_PRIVATE);
+			final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
+
+			// Attempt to delete it without private scope
+			try {
+				TestUtils.stravaWithWriteAccess().deleteComment(createdComment);
+			} catch (final UnauthorizedException e) {
+				// Now delete it again
+				forceDelete(createdComment);
+				return;
+			}
+
+			// If we get here then the comment was successfully deleted in error
+			fail("Comment on a private activity was successfully deleted, but token did not have view_private scope"); //$NON-NLS-1$
+		});
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#getter()
-	 */
 	@Override
-	protected GetCallback<StravaComment, Integer> getCallback() {
-		// TODO Auto-generated method stub
-		return null;
+	protected CreateCallback<StravaComment> creator() throws Exception {
+		return CommentDataUtils.creator();
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#getParentIdPrivateBelongsToOtherUser()
-	 */
 	@Override
-	protected Integer getParentIdPrivateBelongsToOtherUser() {
-		// TODO Auto-generated method stub
-		return null;
+	protected DeleteCallback<StravaComment> deleter() throws Exception {
+		return CommentDataUtils.deleter();
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#getParentIdPrivateBelongsToAuthenticatedUser()
-	 */
 	@Override
-	protected Integer getParentIdPrivateBelongsToAuthenticatedUser() {
-		// TODO Auto-generated method stub
-		return null;
+	protected GetCallback<StravaComment, Integer> getter() throws Exception {
+		return CommentDataUtils.getter();
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#createTestData(java.lang.Object)
-	 */
 	@Override
-	protected StravaComment createTestData(final Integer parentId) {
-		// TODO Auto-generated method stub
-		return null;
+	protected StravaComment generateValidObject() {
+		return CommentDataUtils.generateValidObject();
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#validate(java.lang.Object)
-	 */
 	@Override
-	protected void validate(final StravaComment object) {
-		// TODO Auto-generated method stub
-
+	protected StravaComment generateInvalidObject() {
+		return CommentDataUtils.generateInvalidObject();
 	}
 
-	/**
-	 * @see test.api.service.standardtests.DeleteMethodTest#validate(java.lang.Object, java.lang.Object, javastrava.api.v3.model.reference.StravaResourceState)
-	 */
 	@Override
-	protected void validate(final StravaComment object, final Integer id, final StravaResourceState state) {
-		// TODO Auto-generated method stub
-
+	protected void validate(StravaComment object) {
+		StravaCommentTest.validateComment(object);
 	}
+
 }

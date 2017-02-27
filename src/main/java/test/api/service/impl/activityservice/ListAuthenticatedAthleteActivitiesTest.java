@@ -9,23 +9,30 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.util.Paging;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.util.Paging;
 import test.api.model.StravaActivityTest;
 import test.api.service.standardtests.PagingListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Specific tests for methods that list authenticated athlete's activities
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Override
-	protected PagingListCallback<StravaActivity> callback() {
-		return (paging -> strava().listAuthenticatedAthleteActivities(paging));
+	protected PagingListCallback<StravaActivity, Integer> pagingLister() {
+		return ((strava, paging, id) -> strava.listAuthenticatedAthleteActivities(paging));
 	}
 
 	/**
@@ -34,19 +41,19 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_afterActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(null, calendar);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(null, calendar);
 			for (final StravaActivity activity : activities) {
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
-				assertTrue(activity.getStartDateLocal().isAfter(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+					assertTrue(activity.getStartDateLocal().isAfter(calendar));
+					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
 				StravaActivityTest.validateActivity(activity);
 			}
@@ -59,15 +66,15 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(calendar, null);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(calendar, null);
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -82,16 +89,16 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterCombination() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(before, after);
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
@@ -108,21 +115,30 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterInvalidCombination() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime before = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 			final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after);
-			assertNotNull("Returned null collection of activities", activities);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(before, after);
+			assertNotNull("Returned null collection of activities", activities); //$NON-NLS-1$
 			assertEquals(0, activities.size());
 		});
 	}
 
+	/**
+	 * <p>
+	 * Test listing of activities between two given times
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterPaging() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -130,7 +146,8 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 			final Paging pagingInstruction = new Paging(1, 1);
 
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities(before, after, pagingInstruction);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(before, after,
+					pagingInstruction);
 			assertNotNull(activities);
 			assertEquals(1, activities.size());
 			for (final StravaActivity activity : activities) {
@@ -149,17 +166,16 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_default() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = strava().listAuthenticatedAthleteActivities();
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities();
 
-			assertNotNull("Authenticated athlete's activities returned as null", activities);
-			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size());
+			assertNotNull("Authenticated athlete's activities returned as null", activities); //$NON-NLS-1$
+			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size()); //$NON-NLS-1$
 			for (final StravaActivity activity : activities) {
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
@@ -171,14 +187,37 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		validate(activity, activity.getId(), activity.getResourceState());
-
+		StravaActivityTest.validateActivity(activity);
 	}
 
 	@Override
-	protected void validate(final StravaActivity activity, final Integer id, final StravaResourceState state) {
-		StravaActivityTest.validateActivity(activity, id, state);
+	protected ListCallback<StravaActivity, Integer> lister() {
+		return ((strava, id) -> strava.listAuthenticatedAthleteActivities());
+	}
 
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idInvalid() {
+		return null;
 	}
 
 }

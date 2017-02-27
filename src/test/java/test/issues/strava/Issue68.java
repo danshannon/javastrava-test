@@ -17,7 +17,7 @@ public class Issue68 extends IssueTest {
 		final API api = new API(TestUtils.getValidTokenWithViewPrivate());
 
 		// This one doesn't work - it's a photo uploaded via the Strava iPhone app
-		final StravaPhoto[] iPhoneApp = api.listActivityPhotos(244461140);
+		final StravaPhoto[] iPhoneApp = api.listActivityPhotos(new Long(244461140L));
 		if ((iPhoneApp == null) || (iPhoneApp.length == 0)) {
 			return true;
 		}

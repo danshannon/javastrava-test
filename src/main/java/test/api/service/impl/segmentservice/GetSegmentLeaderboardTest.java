@@ -5,35 +5,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.model.reference.StravaWeightClass;
-
-import org.junit.Test;
-
 import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
-import test.api.service.standardtests.PagingListMethodTest;
-import test.api.service.standardtests.callbacks.PagingListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmentLeaderboardEntry, Integer> {
-	@Override
-	protected PagingListCallback<StravaSegmentLeaderboardEntry> callback() {
-		return (paging -> strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, paging).getEntries());
-	}
-
+public class GetSegmentLeaderboardTest {
 	// 4. Filter by age group
 	@Test
 	public void testGetSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, StravaAgeGroup.AGE35_44, null, null,
-					null, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					StravaAgeGroup.AGE35_44, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -44,8 +36,9 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, StravaGender.MALE, StravaAgeGroup.AGE45_54,
-					StravaWeightClass.KG85_94, Boolean.FALSE, TestUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID,
+					StravaGender.MALE, StravaAgeGroup.AGE45_54, StravaWeightClass.KG85_94, Boolean.FALSE, TestUtils.CLUB_VALID_ID,
+					StravaLeaderboardDateRange.THIS_YEAR, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -56,8 +49,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
-					TestUtils.CLUB_VALID_ID, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					null, null, null, TestUtils.CLUB_VALID_ID, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -68,8 +61,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, Boolean.TRUE, null, null,
-					null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					null, null, Boolean.TRUE, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -80,8 +73,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, StravaGender.FEMALE, null, null, null,
-					null, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID,
+					StravaGender.FEMALE, null, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
@@ -95,8 +88,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null,
-					TestUtils.CLUB_INVALID_ID, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					null, null, null, TestUtils.CLUB_INVALID_ID, null, null, null);
 			assertNull(leaderboard);
 		});
 	}
@@ -105,8 +98,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByLeaderboardDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null,
-					StravaLeaderboardDateRange.THIS_YEAR, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					null, null, null, null, StravaLeaderboardDateRange.THIS_YEAR, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -117,8 +110,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, StravaWeightClass.KG75_84,
-					null, null, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null,
+					null, StravaWeightClass.KG75_84, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -128,7 +121,7 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_HAZARDOUS_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_HAZARDOUS_ID);
 			assertNull(leaderboard);
 		});
 	}
@@ -137,7 +130,7 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_INVALID_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_INVALID_ID);
 			assertNull(leaderboard);
 		});
 	}
@@ -145,20 +138,21 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
 			// Should return an empty leaderboard
-				assertNotNull(leaderboard);
-				assertNotNull(leaderboard.getEntries());
-				// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
-				// assertTrue(leaderboard.getEntries().isEmpty());
-				// End of workaround
-			});
+			assertNotNull(leaderboard);
+			assertNotNull(leaderboard.getEntries());
+			// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
+			// assertTrue(leaderboard.getEntries().isEmpty());
+			// End of workaround
+		});
 	}
 
 	@Test
 	public void testGetSegmentLeaderboard_privateSegmentOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava()
+					.getSegmentLeaderboard(TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
 			assertNotNull(leaderboard);
 			assertTrue(leaderboard.getEntries().isEmpty());
 			assertTrue(leaderboard.getAthleteEntries().isEmpty());
@@ -168,7 +162,8 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = stravaWithViewPrivate().getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.stravaWithViewPrivate()
+					.getSegmentLeaderboard(TestUtils.SEGMENT_PRIVATE_ID);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -180,19 +175,13 @@ public class GetSegmentLeaderboardTest extends PagingListMethodTest<StravaSegmen
 	@Test
 	public void testGetSegmentLeaderboard_validSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});
 	}
 
-	@Override
+	@SuppressWarnings("static-method")
 	protected void validate(final StravaSegmentLeaderboardEntry entry) {
-		StravaSegmentLeaderboardEntryTest.validate(entry);
-
-	}
-
-	@Override
-	protected void validate(final StravaSegmentLeaderboardEntry entry, final Integer id, final StravaResourceState state) {
 		StravaSegmentLeaderboardEntryTest.validate(entry);
 
 	}

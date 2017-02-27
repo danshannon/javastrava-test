@@ -8,7 +8,7 @@ import test.api.rest.APIListTest;
 import test.issues.strava.Issue105;
 import test.utils.TestUtils;
 
-public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
+public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
-	protected Integer invalidId() {
+	protected Long invalidId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -31,7 +31,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#privateId()
 	 */
 	@Override
-	protected Integer privateId() {
+	protected Long privateId() {
 		return TestUtils.ACTIVITY_PRIVATE_WITH_LAPS;
 	}
 
@@ -39,7 +39,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer privateIdBelongsToOtherUser() {
+	protected Long privateIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
@@ -65,7 +65,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#validId()
 	 */
 	@Override
-	protected Integer validId() {
+	protected Long validId() {
 		return TestUtils.ACTIVITY_WITH_LAPS;
 	}
 
@@ -73,7 +73,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer validIdBelongsToOtherUser() {
+	protected Long validIdBelongsToOtherUser() {
 		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
@@ -81,7 +81,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Integer> {
 	 * @see test.api.rest.APIListTest#validIdNoChildren()
 	 */
 	@Override
-	protected Integer validIdNoChildren() {
+	protected Long validIdNoChildren() {
 		return TestUtils.ACTIVITY_WITHOUT_LAPS;
 	}
 

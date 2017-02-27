@@ -2,49 +2,81 @@ package test.api.service.impl.segmentservice;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaSegment;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
-import test.api.service.StravaTest;
+import test.api.service.standardtests.ListMethodTest;
+import test.api.service.standardtests.callbacks.ListCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAllStarredSegmentsTest extends StravaTest {
+/**
+ * <p>
+ * Specific tests for listAllStarredSegments method
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
+public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, Integer> {
+	/**
+	 * <p>
+	 * List all starred segments for the authenticated athlete
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if test fails in an unexpected way
+	 */
 	@Test
 	public void listAllStarredSegments_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), TestUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(segments);
 
-			final List<StravaSegment> starredSegments = strava().listAllAuthenticatedAthleteStarredSegments();
+			final List<StravaSegment> starredSegments = TestUtils.strava().listAllAuthenticatedAthleteStarredSegments();
 			assertNotNull(starredSegments);
 			assertEquals(starredSegments.size(), segments.size());
 		});
 	}
 
-	@Test
-	public void listAllStarredSegments_invalidAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_INVALID_ID);
-			assertNull(segments);
-		});
+	@Override
+	protected ListCallback<StravaSegment, Integer> lister() {
+		return ((strava, id) -> strava.listAllStarredSegments(id));
 	}
 
-	@Test
-	public void listAllStarredSegments_validAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = strava().listAllStarredSegments(TestUtils.ATHLETE_VALID_ID);
-			assertNotNull(segments);
-			for (final StravaSegment segment : segments) {
-				StravaSegmentTest.validateSegment(segment);
-			}
-		});
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return TestUtils.ATHLETE_VALID_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idInvalid() {
+		return TestUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected void validate(StravaSegment object) {
+		StravaSegmentTest.validateSegment(object);
+
 	}
 
 }

@@ -5,7 +5,7 @@ import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
 import test.utils.TestUtils;
 
-public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Integer> {
+public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long> {
 	/**
 	 *
 	 */
@@ -18,15 +18,15 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
 	@Override
-	protected Integer invalidId() {
-		return 0;
+	protected Long invalidId() {
+		return new Long(0L);
 	}
 
 	/**
 	 * @see test.api.rest.APIGetTest#privateId()
 	 */
 	@Override
-	protected Integer privateId() {
+	protected Long privateId() {
 		return null;
 	}
 
@@ -34,7 +34,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer privateIdBelongsToOtherUser() {
+	protected Long privateIdBelongsToOtherUser() {
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 * @see test.api.rest.APIGetTest#validId()
 	 */
 	@Override
-	protected Integer validId() {
+	protected Long validId() {
 		return api().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).getUploadId();
 	}
 
@@ -50,7 +50,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Inte
 	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
 	 */
 	@Override
-	protected Integer validIdBelongsToOtherUser() {
+	protected Long validIdBelongsToOtherUser() {
 		return api().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).getUploadId();
 	}
 

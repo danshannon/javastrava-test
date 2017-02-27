@@ -8,8 +8,6 @@ import org.junit.Test;
  * </p>
  *
  * @author Dan Shannon
- * @param U
- *            the type of the parent object's identifier
  *
  */
 public interface ListMethodTests extends PrivacyTests, StandardTests {
@@ -17,6 +15,9 @@ public interface ListMethodTests extends PrivacyTests, StandardTests {
 	 * <p>
 	 * Test that a valid item which should return entries does, indeed, return entries
 	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testValidParentWithEntries() throws Exception;
@@ -25,6 +26,9 @@ public interface ListMethodTests extends PrivacyTests, StandardTests {
 	 * <p>
 	 * Test that a valid item which should return no entries does, indeed, return a list with 0 entries
 	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testValidParentWithNoEntries() throws Exception;

@@ -2,6 +2,7 @@ package test.api.rest.activity;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import test.api.model.StravaAthleteTest;
@@ -10,7 +11,7 @@ import test.issues.strava.Issue29;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
+public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	/**
 	 *
 	 */
@@ -78,7 +79,8 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @param athleteId
 	 * @return
 	 */
-	private boolean hasGivenKudos(final Integer activityId, final Integer athleteId) {
+	@SuppressWarnings("static-method")
+	private boolean hasGivenKudos(final Long activityId, final Integer athleteId) {
 		final StravaAthlete[] kudoers = api().listActivityKudoers(activityId, null, null);
 
 		boolean found = false;
@@ -95,7 +97,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @see test.api.rest.APICreateTest#invalidParentId()
 	 */
 	@Override
-	protected Integer invalidParentId() {
+	protected Long invalidParentId() {
 		return TestUtils.ACTIVITY_INVALID;
 	}
 
@@ -103,7 +105,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @see test.api.rest.APICreateTest#privateParentId()
 	 */
 	@Override
-	protected Integer privateParentId() {
+	protected Long privateParentId() {
 		return TestUtils.ACTIVITY_PRIVATE;
 	}
 
@@ -111,7 +113,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @see test.api.rest.APICreateTest#privateParentOtherUserId()
 	 */
 	@Override
-	protected Integer privateParentOtherUserId() {
+	protected Long privateParentOtherUserId() {
 		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
@@ -127,7 +129,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @see test.api.rest.APICreateTest#validParentId()
 	 */
 	@Override
-	protected Integer validParentId() {
+	protected Long validParentId() {
 		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
@@ -135,7 +137,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Integer> {
 	 * @see test.api.rest.APICreateTest#validParentOtherUserId()
 	 */
 	@Override
-	protected Integer validParentOtherUserId() {
+	protected Long validParentOtherUserId() {
 		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
