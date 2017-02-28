@@ -3,26 +3,20 @@ package test.api.rest.segmenteffort;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue78;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> {
-	/**
-	 *
-	 */
-	public GetSegmentEffortTest() {
-		this.getCallback = (api, id) -> api.getSegmentEffort(id);
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -88,13 +82,13 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	public void get_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// TODO This is a workaround for issue javastravav3api#78
-				if (new Issue78().isIssue()) {
-					return;
-				}
-				// End of workaround
-				super.get_private();
+			if (new Issue78().isIssue()) {
+				return;
+			}
+			// End of workaround
+			super.get_private();
 
-			});
+		});
 	}
 
 	/**
@@ -132,6 +126,11 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 			return;
 		}
 		super.get_privateWithoutViewPrivate();
+	}
+
+	@Override
+	protected TestGetCallback<StravaSegmentEffort, Long> getCallback() {
+		return ((api, id) -> api.getSegmentEffort(id));
 	}
 
 }

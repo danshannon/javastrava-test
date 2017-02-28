@@ -3,17 +3,11 @@ package test.api.rest.segment;
 import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue70;
 import test.utils.TestUtils;
 
 public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
-	/**
-	 *
-	 */
-	public GetSegmentTest() {
-		this.getCallback = (api, id) -> api.getSegment(id);
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -73,6 +67,11 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected TestGetCallback<StravaSegment, Integer> getCallback() {
+		return ((api, id) -> api.getSegment(id));
 	}
 
 }

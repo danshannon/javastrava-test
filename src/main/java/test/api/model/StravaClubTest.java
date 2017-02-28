@@ -15,16 +15,40 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Data tests for {@link StravaClub}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaClubTest extends BeanTest<StravaClub> {
 
+	/**
+	 * <p>
+	 * Validate the contents of a club are in line with API documentation
+	 * </p>
+	 *
+	 * @param club
+	 *            The club to be validated
+	 */
 	public static void validate(final StravaClub club) {
 		assertNotNull(club);
 		validate(club, club.getId(), club.getResourceState());
 	}
 
+	/**
+	 * <p>
+	 * Validate the contents of a club are in line with API documentation
+	 * </p>
+	 *
+	 * @param club
+	 *            The club to be validated
+	 * @param id
+	 *            The club's identifier
+	 * @param state
+	 *            The resource state of the club
+	 */
 	public static void validate(final StravaClub club, final Integer id, final StravaResourceState state) {
 		assertNotNull(club);
 		assertNotNull(club.getId());
@@ -40,7 +64,7 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			// Optional
 			// assertNotNull(club.getDescription());
 			assertNotNull(club.getMemberCount());
-			assertTrue(club.getMemberCount() >= 0);
+			assertTrue(club.getMemberCount().intValue() >= 0);
 			assertNotNull(club.getName());
 			assertNotNull(club.getPrivateClub());
 			assertNotNull(club.getProfile());
@@ -50,31 +74,38 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
-			assertNull(club.getCity());
+			assertNotNull(club.getCity());
 			assertNull(club.getClubType());
-			assertNull(club.getCountry());
+			assertNotNull(club.getCountry());
 			// Optional
 			// assertNull(club.getDescription());
 			assertNull(club.getMemberCount());
 			assertNotNull(club.getName());
-			assertNull(club.getPrivateClub());
+			assertNotNull(club.getPrivateClub());
 			assertNotNull(club.getProfile());
 			assertNotNull(club.getProfileMedium());
 			assertNull(club.getSportType());
-			assertNull(club.getState());
+			assertNotNull(club.getState());
+			assertNull(club.getUrl());
+			assertNull(club.getVerified());
 			return;
 		}
 		if ((state == StravaResourceState.META) || (state == StravaResourceState.PRIVATE)) {
 			return;
 		}
-		fail("Unexpected state " + state + " for club " + club);
+		fail("Unexpected state " + state + " for club " + club); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
-	 * @param asList
+	 * <p>
+	 * Validate the contents of all the clubs in a list
+	 * </p>
+	 *
+	 * @param list
+	 *            List of clubs to be validated
 	 */
-	public static void validateList(final List<StravaClub> asList) {
-		for (final StravaClub club : asList) {
+	public static void validateList(final List<StravaClub> list) {
+		for (final StravaClub club : list) {
 			validate(club);
 		}
 

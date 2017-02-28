@@ -7,41 +7,45 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Test;
+
 import javastrava.api.v3.auth.TokenManager;
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.model.StravaAthlete;
-
-import org.junit.Test;
 
 /**
  * @author Dan Shannon
  *
  */
 public class TokenManagerTest {
-	private List<AuthorisationScope> getAllScopes() {
+	private static List<AuthorisationScope> getAllScopes() {
 		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE });
 	}
 
-	private List<AuthorisationScope> getNoScope() {
+	private static List<AuthorisationScope> getNoScope() {
 		return Arrays.asList(new AuthorisationScope[] {});
 	}
 
-	private List<AuthorisationScope> getPrivateScope() {
+	private static List<AuthorisationScope> getPrivateScope() {
 		return Arrays.asList(new AuthorisationScope[] { AuthorisationScope.VIEW_PRIVATE });
 	}
 
 	/**
 	 * @return
 	 */
-	private Token getValidToken() {
+	private static Token getValidToken() {
 		final Token token = new Token();
 		token.setAthlete(new StravaAthlete());
-		token.getAthlete().setEmail("a@example.com");
+		token.getAthlete().setEmail("a@example.com"); //$NON-NLS-1$
 		token.setScopes(getNoScope());
 		return token;
 	}
 
+	/**
+	 * Attempt to remove a null token from the token manager - should fail
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRemoveToken_nullToken() {
 		final Token token = getValidToken();

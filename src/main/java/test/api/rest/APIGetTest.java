@@ -2,20 +2,20 @@ package test.api.rest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 
 import org.junit.Test;
 
+import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author dshannon
+ * @author Dan Shannon
  *
  */
 public abstract class APIGetTest<T, U> extends APITest<T> {
 
-	protected TestGetCallback<T, U> getCallback;
+	protected abstract TestGetCallback<T, U> getCallback();
 
 	@Test
 	public void get_invalid() throws Exception {
@@ -24,7 +24,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getCallback.run(api(), invalidId());
+				getCallback().run(api(), invalidId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -39,7 +39,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback.run(apiWithViewPrivate(), privateId());
+			final T result = this.getCallback().run(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
 			validate(result);
 		});
@@ -52,7 +52,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getCallback.run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
+				this.getCallback().run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -68,7 +68,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getCallback.run(api(), privateId());
+				this.getCallback().run(api(), privateId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -80,7 +80,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	@Test
 	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback.run(api(), validId());
+			final T result = this.getCallback().run(api(), validId());
 			assertNotNull(result);
 			validate(result);
 		});
@@ -92,7 +92,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback.run(api(), validIdBelongsToOtherUser());
+			final T result = this.getCallback().run(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);
 			validate(result);
 		});

@@ -8,17 +8,11 @@ import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.model.StravaGearTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetGearTest extends APIGetTest<StravaGear, String> {
-	/**
-	 *
-	 */
-	public GetGearTest() {
-		this.getCallback = (api, id) -> api.getGear(id);
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -53,7 +47,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 				return;
 			}
 			fail("Got gear details for gear belonging to another athlete!");
-		} );
+		});
 	}
 
 	/**
@@ -79,6 +73,11 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	@Override
 	protected String validIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected TestGetCallback<StravaGear, String> getCallback() {
+		return ((api, id) -> api.getGear(id));
 	}
 
 }

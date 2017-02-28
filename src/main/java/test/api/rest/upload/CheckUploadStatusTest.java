@@ -3,17 +3,10 @@ package test.api.rest.upload;
 import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.utils.TestUtils;
 
 public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long> {
-	/**
-	 *
-	 */
-	public CheckUploadStatusTest() {
-		super();
-		this.getCallback = (api, id) -> api.checkUploadStatus(id);
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -61,6 +54,11 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long
 	protected void validate(final StravaUploadResponse result) throws Exception {
 		StravaUploadResponseTest.validate(result);
 
+	}
+
+	@Override
+	protected TestGetCallback<StravaUploadResponse, Long> getCallback() {
+		return ((api, id) -> api.checkUploadStatus(id));
 	}
 
 }

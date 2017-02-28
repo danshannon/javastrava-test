@@ -3,16 +3,17 @@ package test.api.rest.stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
-
-import org.junit.Test;
-
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue87;
 import test.issues.strava.Issue89;
 import test.issues.strava.Issue90;
@@ -20,13 +21,6 @@ import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
-	/**
-	 *
-	 */
-	public GetSegmentStreamsTest() {
-		this.getCallback = (api, id) -> api.getSegmentStreams(id, StravaStreamType.DISTANCE.toString(), null, null);
-	}
-
 	/**
 	 * @return List of all valid stream types that can be requested
 	 */
@@ -57,8 +51,8 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType,
-							StravaStreamSeriesDownsamplingType.DISTANCE);
+					final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(),
+							resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
 					validateArray(streams);
 				}
 			}
@@ -76,7 +70,8 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
-						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType, StravaStreamSeriesDownsamplingType.TIME);
+						api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, getAllStreamTypes(), resolutionType,
+								StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final BadRequestException e) {
 						// expected
 						return;
@@ -84,7 +79,7 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 					fail("Can't return a segment stream which is downsampled by TIME!");
 				}
 			}
-		})	  ;
+		});
 	}
 
 	// 9. Invalid downsample resolution
@@ -137,7 +132,8 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	@Test
 	public void testGetSegmentStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamType.DISTANCE.toString(), null, null);
+			final StravaStream[] streams = api().getSegmentStreams(TestUtils.SEGMENT_VALID_ID, StravaStreamType.DISTANCE.toString(),
+					null, null);
 			assertNotNull(streams);
 			assertEquals(1, streams.length);
 			assertEquals(StravaStreamType.DISTANCE, streams[0].getType());
@@ -212,5 +208,10 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 			return;
 		}
 		super.get_privateWithoutViewPrivate();
+	}
+
+	@Override
+	protected TestGetCallback<StravaStream[], Integer> getCallback() {
+		return ((api, id) -> api.getSegmentStreams(id, StravaStreamType.DISTANCE.toString(), null, null));
 	}
 }

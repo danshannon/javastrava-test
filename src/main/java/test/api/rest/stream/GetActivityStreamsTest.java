@@ -14,19 +14,13 @@ import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue21;
 import test.issues.strava.Issue88;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
-	/**
-	 *
-	 */
-	public GetActivityStreamsTest() {
-		this.getCallback = (api, id) -> api.getActivityStreams(id, StravaStreamType.DISTANCE.toString(), null, null);
-	}
-
 	/**
 	 * @return List of all valid stream types that can be requested
 	 */
@@ -266,5 +260,10 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
 			StravaStreamTest.validate(stream);
 		}
 
+	}
+
+	@Override
+	protected TestGetCallback<StravaStream[], Long> getCallback() {
+		return ((api, id) -> api.getActivityStreams(id, StravaStreamType.DISTANCE.toString(), null, null));
 	}
 }

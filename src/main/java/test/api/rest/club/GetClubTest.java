@@ -9,17 +9,11 @@ import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class GetClubTest extends APIGetTest<StravaClub, Integer> {
-	/**
-	 *
-	 */
-	public GetClubTest() {
-		this.getCallback = (api, id) -> api.getClub(id);
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -51,7 +45,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 			final StravaClub club = api().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
 			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
-		} );
+		});
 	}
 
 	// 4. Private club of which current authenticated athlete is NOT a member
@@ -65,7 +59,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 				return;
 			}
 			fail("Returned details of a private club of which the authenticated athlete is not a member");
-		} );
+		});
 	}
 
 	/**
@@ -91,6 +85,11 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected TestGetCallback<StravaClub, Integer> getCallback() {
+		return ((api, id) -> api.getClub(id));
 	}
 
 }

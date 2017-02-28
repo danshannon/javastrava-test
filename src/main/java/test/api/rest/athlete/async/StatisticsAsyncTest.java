@@ -6,16 +6,11 @@ import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
-	/**
-	 *
-	 */
-	public StatisticsAsyncTest() {
-		this.getCallback = (api, id) -> api.statisticsAsync(id).get();
-	}
 
 	@Override
 	public void get_validBelongsToOtherUser() throws Exception {
@@ -27,7 +22,7 @@ public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 				return;
 			}
 			fail("Returned statistics for another athlete");
-		} );
+		});
 	}
 
 	/**
@@ -77,5 +72,10 @@ public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return TestUtils.ATHLETE_VALID_ID;
+	}
+
+	@Override
+	protected TestGetCallback<StravaStatistics, Integer> getCallback() {
+		return ((api, id) -> api.statistics(id));
 	}
 }

@@ -3,16 +3,10 @@ package test.api.rest.athlete;
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
+import test.api.rest.TestGetCallback;
 import test.utils.TestUtils;
 
 public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integer> {
-	/**
-	 * No-arguments constructor provides the required callbacks
-	 */
-	public GetAuthenticatedAthleteTest() {
-		this.getCallback = (api, id) -> api.getAuthenticatedAthlete();
-	}
-
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -60,6 +54,11 @@ public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integ
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected TestGetCallback<StravaAthlete, Integer> getCallback() {
+		return ((api, id) -> api.getAuthenticatedAthlete());
 	}
 
 }

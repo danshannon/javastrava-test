@@ -6,9 +6,11 @@ package test.api.rest.segmenteffort.async;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.TestGetCallback;
 import test.api.rest.segmenteffort.GetSegmentEffortTest;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -18,11 +20,9 @@ import test.utils.TestUtils;
  *
  */
 public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
-	/**
-	 *
-	 */
-	public GetSegmentEffortAsyncTest() {
-		this.getCallback = (api, id) -> api.getSegmentEffortAsync(id).get();
+	@Override
+	protected TestGetCallback<StravaSegmentEffort, Long> getCallback() {
+		return ((api, id) -> api.getSegmentEffortAsync(id).get());
 	}
 
 	/**
@@ -51,7 +51,8 @@ public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
 	@Override
 	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffortAsync(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
+			final StravaSegmentEffort effort = apiWithViewPrivate()
+					.getSegmentEffortAsync(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
 		});
