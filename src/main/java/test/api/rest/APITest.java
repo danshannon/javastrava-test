@@ -9,30 +9,54 @@ import javastrava.api.v3.service.exception.NotFoundException;
 import test.utils.TestUtils;
 
 /**
- * @author Dan Shannon
+ * <p>
+ * API test specifications
+ * </p>
  *
+ * @author Dan Shannon
  */
 public abstract class APITest<T> {
+	/**
+	 * @return Get an API instance, without write access or view_private scope
+	 */
 	public static API api() {
 		final API api = new API(TestUtils.getValidToken());
 		return api;
 	}
 
+	/**
+	 * @return Get an API instance, without view_private scope
+	 */
 	public static API apiWithFullAccess() {
 		final API api = new API(TestUtils.getValidTokenWithFullAccess());
 		return api;
 	}
 
+	/**
+	 * @return Get an API instance, without write access
+	 */
 	public static API apiWithViewPrivate() {
 		final API api = new API(TestUtils.getValidTokenWithViewPrivate());
 		return api;
 	}
 
+	/**
+	 * @return Get an API instance, with full access
+	 */
 	public static API apiWithWriteAccess() {
 		final API api = new API(TestUtils.getValidTokenWithWriteAccess());
 		return api;
 	}
 
+	/**
+	 * <p>
+	 * Create a private activity
+	 * </p>
+	 * 
+	 * @param name
+	 *            Name to give to the activity
+	 * @return The activity created
+	 */
 	public static StravaActivity createPrivateActivity(final String name) {
 		final StravaActivity activity = TestUtils.createDefaultActivity(name);
 		activity.setPrivateActivity(Boolean.TRUE);

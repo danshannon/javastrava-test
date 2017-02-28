@@ -10,14 +10,12 @@ import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
-import test.issues.strava.Issue49;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
 	/**
-	 * No argument constructor sets up the callback to use to create the manual
-	 * activity
+	 * No argument constructor sets up the callback to use to create the manual activity
 	 */
 	public CreateManualActivityTest() {
 		super();
@@ -99,12 +97,6 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// This is only a workaround for issue javastravav3api#49
-			if (new Issue49().isIssue()) {
-				return;
-			}
-			// End of workaround
-
 			// Type must be one of the specified values
 			final StravaActivity activity = createObject();
 			StravaActivity stravaResponse = null;
@@ -119,7 +111,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			forceDelete(stravaResponse);
 			fail("Created an activity with invalid type in error (was " + StravaActivityType.UNKNOWN + ", is "
 					+ stravaResponse.getType() + ")");
-		} );
+		});
 	}
 
 	@Test
@@ -140,18 +132,16 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			forceDelete(stravaResponse);
 
 			fail("Created an activity with no elapsed time in error" + stravaResponse);
-		} );
+		});
 	}
 
 	/**
 	 * <p>
-	 * Attempt to create an incomplete manual {@link StravaActivity} for the
-	 * user where not all required attributes are set
+	 * Attempt to create an incomplete manual {@link StravaActivity} for the user where not all required attributes are set
 	 * </p>
 	 *
 	 * <p>
-	 * Should fail to create the activity in each case where a required
-	 * attribute is missing
+	 * Should fail to create the activity in each case where a required attribute is missing
 	 * </p>
 	 *
 	 * @throws Exception
@@ -179,7 +169,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			}
 
 			fail("Created an activity with no name in error" + stravaResponse);
-		} );
+		});
 	}
 
 	@Test
@@ -201,7 +191,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			forceDelete(stravaResponse);
 
 			fail("Created an activity with no start date in error" + stravaResponse);
-		} );
+		});
 	}
 
 	@Test
@@ -222,7 +212,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			forceDelete(stravaResponse);
 
 			fail("Created an activity with no type in error" + stravaResponse);
-		} );
+		});
 	}
 
 	/**
