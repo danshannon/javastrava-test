@@ -10,14 +10,12 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.StravaConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
-import test.issues.strava.Issue96;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -56,28 +54,45 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		return null;
 	}
 
+	/**
+	 * <p>
+	 * Check that activities flagged as private by the authenticated user aren't returned by default
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails for unexpected reasons
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			if (new Issue96().isIssue()) {
-				return;
-			}
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to the authenticated user");
+				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
+						&& activity.getPrivateActivity().booleanValue()) {
+					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
+	/**
+	 * <p>
+	 * Check that activities flagged as private by other users aren't returned by default
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails for unexpected reasons
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) && activity.getPrivateActivity()) {
-					fail("Returned private activities belonging to other users!");
+				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
+						&& activity.getPrivateActivity().booleanValue()) {
+					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
 				}
 			}
 		});
@@ -93,16 +108,15 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails for unexpected reasons
 	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testListFriendsActivities_hasFriends() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 
-			assertNotNull("Returned null array for latest friends' activities", activities);
+			assertNotNull("Returned null array for latest friends' activities", activities); //$NON-NLS-1$
 
 			// Check that the activities are returned in descending order of
 			// start date
@@ -112,7 +126,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 					lastStartDate = activity.getStartDate();
 				} else {
 					if (activity.getStartDate().isAfter(lastStartDate)) {
-						fail("Activities not returned in descending start date order");
+						fail("Activities not returned in descending start date order"); //$NON-NLS-1$
 					}
 				}
 				StravaActivityTest.validateActivity(activity);

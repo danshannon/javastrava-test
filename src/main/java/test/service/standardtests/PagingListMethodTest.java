@@ -46,6 +46,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 	 * @throws Exception
 	 *             if test fails in an unexpected wat
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {
@@ -82,6 +83,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 	 * @throws Exception
 	 *             if test fails in an unexpected way
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPageSize() throws Exception {
@@ -96,6 +98,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPageSizeTooLargeForStrava() throws Exception {
@@ -111,6 +114,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPagingIgnoreFirstN() throws Exception {
@@ -131,6 +135,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPagingIgnoreLastN() throws Exception {
@@ -159,6 +164,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 	 * @throws Exception
 	 *             if test fails in an unexpected way
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPagingOutOfRangeHigh() throws Exception {
@@ -180,6 +186,7 @@ public abstract class PagingListMethodTest<T extends StravaEntity, U> extends Li
 	 * @throws Exception
 	 *             if test fails in an unexpected way
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPagingOutOfRangeLow() throws Exception {

@@ -16,6 +16,7 @@ public abstract class IssueTest {
 	protected API	api		= new API(TestUtils.getValidToken());
 	private boolean	fixed	= true;
 
+	@SuppressWarnings("static-method")
 	public boolean isIntermittent() {
 		return false;
 	}
