@@ -10,7 +10,7 @@ import test.utils.TestUtils;
 public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected TestGetCallback<StravaSegment, Integer> getCallback() {
-		return ((api, id) -> APITest.apiWithFullAccess().starSegment(id, Boolean.TRUE));
+		return ((api, id) -> APITest.apiWithWriteAccess().starSegment(id, Boolean.TRUE));
 	}
 
 	@Override
