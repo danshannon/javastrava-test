@@ -5,17 +5,20 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaLap;
 import test.api.model.StravaLapTest;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.issues.strava.Issue105;
 import test.utils.TestUtils;
 
 public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
+	@Override
+	protected TestListArrayCallback<StravaLap, Long> listCallback() {
+		return ((api, id) -> api.listActivityLaps(id));
+	}
+
 	/**
 	 *
 	 */
 	public ListActivityLapsTest() {
-		this.listCallback = (api, id) -> api.listActivityLaps(id);
-		this.pagingCallback = null;
-		this.suppressPagingTests = true;
 		this.listOtherReturns401Unauthorised = true;
 	}
 

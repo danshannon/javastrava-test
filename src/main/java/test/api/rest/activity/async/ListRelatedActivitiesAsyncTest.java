@@ -1,14 +1,24 @@
 package test.api.rest.activity.async;
 
+import javastrava.api.v3.model.StravaActivity;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListRelatedActivitiesTest;
+import test.api.rest.util.ArrayCallback;
 
 public class ListRelatedActivitiesAsyncTest extends ListRelatedActivitiesTest {
 	/**
-	 * No-arguments constructor provides the required callbacks
+	 * @see test.api.rest.activity.ListRelatedActivitiesTest#pagingCallback()
 	 */
-	public ListRelatedActivitiesAsyncTest() {
-		this.listCallback = (api, id) -> api.listRelatedActivitiesAsync(id, null, null).get();
-		this.pagingCallback = paging -> api().listRelatedActivitiesAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRelatedActivitiesAsync(validId(), paging.getPage(), paging.getPageSize()).get();
 	}
 
+	/**
+	 * @see test.api.rest.activity.ListRelatedActivitiesTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaActivity, Long> listCallback() {
+		return (api, id) -> api.listRelatedActivitiesAsync(id, null, null).get();
+	}
 }

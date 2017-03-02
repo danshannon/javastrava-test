@@ -3,18 +3,29 @@
  */
 package test.api.rest.segment.async;
 
+import javastrava.api.v3.model.StravaSegment;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.segment.ListStarredSegmentsTest;
+import test.api.rest.util.ArrayCallback;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public class ListStarredSegmentsAsyncTest extends ListStarredSegmentsTest {
 	/**
-	 * No-args constructor provides the callbacks
+	 * @see test.api.rest.segment.ListStarredSegmentsTest#pagingCallback()
 	 */
-	public ListStarredSegmentsAsyncTest() {
-		this.listCallback = (api, id) -> api.listStarredSegmentsAsync(id, null, null).get();
-		this.pagingCallback = paging -> api().listStarredSegmentsAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	@Override
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listStarredSegmentsAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
+	 * @see test.api.rest.segment.ListStarredSegmentsTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+		return (api, id) -> api.listStarredSegmentsAsync(id, null, null).get();
 	}
 }

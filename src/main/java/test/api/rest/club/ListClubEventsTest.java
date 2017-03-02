@@ -1,12 +1,13 @@
 package test.api.rest.club;
 
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.StravaClubAnnouncement;
-import javastrava.api.v3.model.StravaClubEvent;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaClubAnnouncement;
+import javastrava.api.v3.model.StravaClubEvent;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.issues.strava.Issue112;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -17,11 +18,11 @@ import test.utils.TestUtils;
  */
 public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIListTest#listCallback()
 	 */
-	public ListClubEventsTest() {
-		this.listCallback = (api, id) -> api.listClubGroupEvents(id);
-		this.suppressPagingTests = true;
+	@Override
+	protected TestListArrayCallback<StravaClubEvent, Integer> listCallback() {
+		return (api, id) -> api.listClubGroupEvents(id);
 	}
 
 	/**

@@ -5,18 +5,21 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaPhoto;
 import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.issues.strava.Issue68;
 import test.utils.TestUtils;
 
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
+	@Override
+	protected TestListArrayCallback<StravaPhoto, Long> listCallback() {
+		return ((api, id) -> api.listActivityPhotos(id));
+	}
+
 	/**
 	 *
 	 */
 	public ListActivityPhotosTest() {
 		super();
-		this.listCallback = (api, id) -> api.listActivityPhotos(id);
-		this.pagingCallback = null;
-		this.suppressPagingTests = true;
 		this.listOtherReturns401Unauthorised = true;
 	}
 
@@ -95,4 +98,5 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 		}
 		super.list_private();
 	}
+
 }

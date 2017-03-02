@@ -4,16 +4,20 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.TestUtils;
 
-public class ListActivityKudoersTest extends APIListTest<StravaAthlete, Long> {
-	/**
-	 *
-	 */
-	public ListActivityKudoersTest() {
-		this.listCallback = (api, id) -> api.listActivityKudoers(id, null, null);
-		this.pagingCallback = paging -> api().listActivityKudoers(validId(), paging.getPage(), paging.getPageSize());
+public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Long> {
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return (paging -> api().listActivityKudoers(validId(), paging.getPage(), paging.getPageSize()));
+	}
+
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Long> listCallback() {
+		return ((api, id) -> api.listActivityKudoers(id, null, null));
 	}
 
 	/**

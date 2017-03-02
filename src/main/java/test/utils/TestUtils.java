@@ -87,6 +87,9 @@ public abstract class TestUtils {
 
 	public static String GEAR_OTHER_ATHLETE_ID;
 
+	public static Integer	RUNNING_RACE_VALID_ID;
+	public static Integer	RUNNING_RACE_INVALID_ID;
+
 	public static Long	SEGMENT_EFFORT_VALID_ID;
 	public static Long	SEGMENT_EFFORT_INVALID_ID;
 	public static Long	SEGMENT_EFFORT_PRIVATE_ID;
@@ -159,6 +162,9 @@ public abstract class TestUtils {
 		GEAR_VALID_ID = properties.getString("test.gearId"); //$NON-NLS-1$
 		GEAR_INVALID_ID = properties.getString("test.gearInvalidId"); //$NON-NLS-1$
 		GEAR_OTHER_ATHLETE_ID = properties.getString("test.gearOtherAthleteId"); //$NON-NLS-1$
+
+		RUNNING_RACE_VALID_ID = integerProperty("test.raceId"); //$NON-NLS-1$
+		RUNNING_RACE_INVALID_ID = integerProperty("test.raceInvalidId"); //$NON-NLS-1$
 
 		SEGMENT_EFFORT_INVALID_ID = longProperty("test.segmentEffortInvalidId"); //$NON-NLS-1$
 		SEGMENT_EFFORT_VALID_ID = longProperty("test.segmentEffortId"); //$NON-NLS-1$

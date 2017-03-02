@@ -4,17 +4,27 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.utils.TestUtils;
 
-public class ListStarredSegmentsTest extends APIListTest<StravaSegment, Integer> {
+public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListStarredSegmentsTest() {
-		this.listCallback = (api, id) -> api.listStarredSegments(id, null, null);
-		this.pagingCallback = paging -> api().listStarredSegments(validId(), paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listStarredSegments(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+		return (api, id) -> api.listStarredSegments(id, null, null);
 	}
 
 	/**

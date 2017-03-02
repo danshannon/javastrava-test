@@ -1,15 +1,26 @@
 package test.api.rest.activity.async;
 
+import javastrava.api.v3.model.StravaAthlete;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityKudoersTest;
+import test.api.rest.util.ArrayCallback;
 import test.utils.TestUtils;
 
 public class ListActivityKudoersAsyncTest extends ListActivityKudoersTest {
 	/**
-	 *
+	 * @see test.api.rest.activity.ListActivityKudoersTest#pagingCallback()
 	 */
-	public ListActivityKudoersAsyncTest() {
-		this.listCallback = (api, id) -> api.listActivityKudoersAsync(id, null, null).get();
-		this.pagingCallback = paging -> api().listActivityKudoersAsync(TestUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize()).get();
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listActivityKudoersAsync(TestUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize())
+				.get();
 	}
 
+	/**
+	 * @see test.api.rest.activity.ListActivityKudoersTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Long> listCallback() {
+		return (api, id) -> api.listActivityKudoersAsync(id, null, null).get();
+	}
 }

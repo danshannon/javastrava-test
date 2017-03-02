@@ -1,11 +1,12 @@
 package test.api.rest.club;
 
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.StravaClubAnnouncement;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaClubAnnouncement;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -15,11 +16,11 @@ import test.utils.TestUtils;
  */
 public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncement, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIListTest#listCallback()
 	 */
-	public ListClubAnnouncementsTest() {
-		this.listCallback = (api, id) -> api.listClubAnnouncements(id);
-		this.suppressPagingTests = true;
+	@Override
+	protected TestListArrayCallback<StravaClubAnnouncement, Integer> listCallback() {
+		return (api, id) -> api.listClubAnnouncements(id);
 	}
 
 	/**

@@ -6,32 +6,40 @@ import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.club.ListClubMembersTest;
+import test.api.rest.util.ArrayCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	/**
-	 *
+	 * @see test.api.rest.club.ListClubMembersTest#pagingCallback()
 	 */
-	public ListClubMembersAsyncTest() {
-		this.listCallback = (api, id) -> api.listClubMembersAsync(id, null, null).get();
-		this.pagingCallback = paging -> api().listClubMembersAsync(validId(), paging.getPage(), paging.getPageSize())
-				.get();
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listClubMembersAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
+	 * @see test.api.rest.club.ListClubMembersTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listClubMembersAsync(id, null, null).get();
 	}
 
 	// 3. Private club of which current authenticated athlete is a member
 	@Override
 	public void testListClubMembers_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete[] members = api().listClubMembersAsync(TestUtils.CLUB_PRIVATE_MEMBER_ID, null, null)
-					.get();
+			final StravaAthlete[] members = api().listClubMembersAsync(TestUtils.CLUB_PRIVATE_MEMBER_ID, null, null).get();
 			assertNotNull(members);
 			assertFalse(members.length == 0);
 			for (final StravaAthlete athlete : members) {
 				validate(athlete);
 			}
-		} );
+		});
 	}
 
 	// 4. Private club of which current authenticated athlete is NOT a member
@@ -44,8 +52,8 @@ public class ListClubMembersAsyncTest extends ListClubMembersTest {
 				// Expected
 				return;
 			}
-			fail("Returned list of members for a club of which the authenticated athlete is not a member!");
-		} );
+			fail("Returned list of members for a club of which the authenticated athlete is not a member!"); //$NON-NLS-1$
+		});
 	}
 
 }

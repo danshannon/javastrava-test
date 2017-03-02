@@ -4,17 +4,26 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.TestUtils;
 
-public class ListAthleteKOMsAsyncTest extends APIListTest<StravaSegmentEffort, Integer> {
+public class ListAthleteKOMsAsyncTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
-	 * No-args constructor provides the relevant callbacks
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListAthleteKOMsAsyncTest() {
-		this.listCallback = (api, id) -> api.listAthleteKOMsAsync(id, null, null).get();
-		this.pagingCallback = (paging) -> api().listAthleteKOMsAsync(validId(), paging.getPage(), paging.getPageSize())
-				.get();
+	@Override
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
+		return paging -> api().listAthleteKOMsAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegmentEffort, Integer> listCallback() {
+		return (api, id) -> api.listAthleteKOMsAsync(id, null, null).get();
 	}
 
 	/**

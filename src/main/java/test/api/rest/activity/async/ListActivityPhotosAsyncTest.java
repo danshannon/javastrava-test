@@ -1,17 +1,15 @@
 package test.api.rest.activity.async;
 
+import javastrava.api.v3.model.StravaPhoto;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityPhotosTest;
 
 public class ListActivityPhotosAsyncTest extends ListActivityPhotosTest {
 	/**
-	 *
+	 * @see test.api.rest.activity.ListActivityPhotosTest#listCallback()
 	 */
-	public ListActivityPhotosAsyncTest() {
-		super();
-		this.listCallback = (api, id) -> api.listActivityPhotosAsync(id).get();
-		this.pagingCallback = null;
-		this.suppressPagingTests = true;
-		this.listOtherReturns401Unauthorised = true;
+	@Override
+	protected TestListArrayCallback<StravaPhoto, Long> listCallback() {
+		return (api, id) -> api.listActivityPhotosAsync(id).get();
 	}
-
 }

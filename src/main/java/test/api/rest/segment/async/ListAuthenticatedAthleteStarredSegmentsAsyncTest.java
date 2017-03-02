@@ -5,25 +5,35 @@ package test.api.rest.segment.async;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.model.StravaSegment;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaSegment;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue71;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * @author Dan Shannon
  *
  */
 public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthenticatedAthleteStarredSegmentsTest {
 	/**
-	 *
+	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#pagingCallback()
 	 */
-	public ListAuthenticatedAthleteStarredSegmentsAsyncTest() {
-		this.listCallback = (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
-		this.pagingCallback = paging -> api().listAuthenticatedAthleteStarredSegmentsAsync(paging.getPage(), paging.getPageSize()).get();
+	@Override
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteStarredSegmentsAsync(paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
+	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
 	}
 
 	@Override
@@ -35,7 +45,7 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 		}
 		// End of workaround
 
-		final StravaSegment[] segments = this.listCallback.run(api(), null);
+		final StravaSegment[] segments = this.listCallback().run(api(), null);
 		for (final StravaSegment segment : segments) {
 			if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
 				fail("Returned at least one private starred segment");
@@ -47,7 +57,7 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 	@Test
 	public void list_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = this.listCallback.run(apiWithViewPrivate(), null);
+			final StravaSegment[] segments = this.listCallback().run(apiWithViewPrivate(), null);
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
 				if (segment.getPrivateSegment()) {

@@ -10,26 +10,35 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.exception.NotFoundException;
-
-import org.junit.Test;
-
 import test.api.model.StravaSegmentEffortTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue33;
 import test.issues.strava.Issue86;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Integer> {
+public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListSegmentEffortsTest() {
-		this.listCallback = (api, id) -> api.listSegmentEfforts(id, null, null, null, null, null);
-		this.pagingCallback = paging -> api().listSegmentEfforts(validId(), null, null, null, paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
+		return paging -> api().listSegmentEfforts(validId(), null, null, null, paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegmentEffort, Integer> listCallback() {
+		return (api, id) -> api.listSegmentEfforts(id, null, null, null, null, null);
 	}
 
 	/**
@@ -62,8 +71,8 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 			final LocalDateTime startDate = LocalDateTime.of(2009, Month.JANUARY, 1, 0, 0, 0);
 			final LocalDateTime endDate = LocalDateTime.of(2015, Month.JANUARY, 31, 23, 59, 59);
 
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID,
-					startDate.toString(), endDate.toString(), 1, 1);
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID,
+					TestUtils.ATHLETE_AUTHENTICATED_ID, startDate.toString(), endDate.toString(), 1, 1);
 			assertNotNull(efforts);
 			assertFalse(efforts.length == 0);
 			assertEquals(1, efforts.length);
@@ -84,8 +93,8 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 			final LocalDateTime startDate = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0, 0);
 			final LocalDateTime endDate = LocalDateTime.of(2014, Month.JANUARY, 31, 23, 59, 59);
 
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate.toString(), endDate.toString(), null,
-					null);
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, startDate.toString(),
+					endDate.toString(), null, null);
 			assertNotNull(efforts);
 			assertFalse(0 == efforts.length);
 			for (final StravaSegmentEffort effort : efforts) {
@@ -115,8 +124,8 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 	@Test
 	public void testListSegmentEfforts_filterByValidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, TestUtils.ATHLETE_AUTHENTICATED_ID, null, null, null,
-					null);
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID,
+					TestUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null);
 			assertNotNull(efforts);
 			assertFalse(0 == efforts.length);
 			for (final StravaSegmentEffort effort : efforts) {
@@ -136,7 +145,8 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 			}
 			// End of workaround
 
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null,
+					null);
 			assertNotNull(efforts);
 			assertEquals(0, efforts.length);
 		});
@@ -145,8 +155,10 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 	@Test
 	public void testListSegmentEfforts_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(segment.getId(), TestUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null);
+			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID)
+					.getSegment();
+			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(segment.getId(), TestUtils.ATHLETE_AUTHENTICATED_ID,
+					null, null, null, null);
 			assertNotNull(efforts);
 			assertEquals(0, efforts.length);
 		});
@@ -155,9 +167,10 @@ public class ListSegmentEffortsTest extends APIListTest<StravaSegmentEffort, Int
 	@Test
 	public void testListSegmentEfforts_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = apiWithViewPrivate().listSegmentEfforts(segment.getId(), TestUtils.ATHLETE_AUTHENTICATED_ID, null, null,
-					null, null);
+			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID)
+					.getSegment();
+			final StravaSegmentEffort[] efforts = apiWithViewPrivate().listSegmentEfforts(segment.getId(),
+					TestUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null);
 			assertNotNull(efforts);
 			assertFalse(efforts.length == 0);
 		});

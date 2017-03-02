@@ -5,25 +5,33 @@ import static org.junit.Assert.fail;
 
 import java.time.ZonedDateTime;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.config.StravaConfig;
-
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaAthlete;
+import javastrava.config.StravaConfig;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListFriendsActivitiesTest;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue96;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	/**
-	 * No-arguments constructor provides the required callbacks
+	 * @see test.api.rest.activity.ListFriendsActivitiesTest#pagingCallback()
 	 */
-	public ListFriendsActivitiesAsyncTest() {
-		this.listCallback = (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
-		this.pagingCallback = paging -> api().listFriendsActivitiesAsync(paging.getPage(), paging.getPageSize()).get();
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listFriendsActivitiesAsync(paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
+	 * @see test.api.rest.activity.ListFriendsActivitiesTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+		return (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
 	}
 
 	/**
@@ -36,9 +44,6 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
 	 */
 	@Override
 	@Test
@@ -50,17 +55,17 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 
 			// Check that the activities are returned in descending order of
 			// start date
-				ZonedDateTime lastStartDate = null;
-				for (final StravaActivity activity : activities) {
-					if (lastStartDate == null) {
-						lastStartDate = activity.getStartDate();
-					} else {
-						if (activity.getStartDate().isAfter(lastStartDate)) {
-							fail("Activities not returned in descending start date order");
-						}
+			ZonedDateTime lastStartDate = null;
+			for (final StravaActivity activity : activities) {
+				if (lastStartDate == null) {
+					lastStartDate = activity.getStartDate();
+				} else {
+					if (activity.getStartDate().isAfter(lastStartDate)) {
+						fail("Activities not returned in descending start date order");
 					}
 				}
-			});
+			}
+		});
 	}
 
 	@Override

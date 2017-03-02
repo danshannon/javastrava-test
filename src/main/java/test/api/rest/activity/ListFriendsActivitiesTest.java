@@ -6,27 +6,30 @@ import static org.junit.Assert.fail;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.StravaConfig;
-
-import org.junit.Test;
-
 import test.api.model.StravaActivityTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
 import test.issues.strava.Issue96;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListFriendsActivitiesTest extends APIListTest<StravaActivity, Integer> {
-	/**
-	 *
-	 */
-	public ListFriendsActivitiesTest() {
-		this.listCallback = (api, id) -> api.listFriendsActivities(null, null);
-		this.pagingCallback = paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize());
+public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return (paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize()));
+	}
+
+	@Override
+	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+		return ((api, id) -> api.listFriendsActivities(null, null));
 	}
 
 	/**

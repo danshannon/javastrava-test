@@ -13,20 +13,29 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
 import test.api.model.StravaActivityTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, Integer> {
+public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListRecentClubActivitiesTest() {
-		this.listCallback = (api, id) -> api.listRecentClubActivities(id, null, null);
-		this.pagingCallback = paging -> api().listRecentClubActivities(validId(), paging.getPage(),
-				paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRecentClubActivities(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+		return (api, id) -> api.listRecentClubActivities(id, null, null);
 	}
 
 	/**
@@ -59,14 +68,13 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 	@Test
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID, null,
-					null);
+			final StravaActivity[] activities = api().listRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID, null, null);
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
 					fail("List recent club activities returned an activity flagged as private!");
 				}
 			}
-		} );
+		});
 	}
 
 	// 4. StravaClub with > 200 activities (according to Strava, should only
@@ -81,7 +89,7 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 			assertNotNull(activities);
 			assertFalse(0 == activities.length);
 			validateArray(activities);
-		} );
+		});
 	}
 
 	// 3. StravaClub the current authenticated athlete is NOT a member of
@@ -96,7 +104,7 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 				return;
 			}
 			fail("Got list of recent activities for a club the authenticated user is not a member of");
-		} );
+		});
 	}
 
 	// This is a workaround for issue javastrava-api #18
@@ -107,15 +115,15 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 			if (new Issue94().isIssue()) {
 				return;
 			}
-			final StravaActivity[] bothPages = this.pagingCallback.getArray(new Paging(1, 2));
+			final StravaActivity[] bothPages = this.pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.length);
 			validateArray(bothPages);
-			final StravaActivity[] firstPage = this.pagingCallback.getArray(new Paging(1, 1));
+			final StravaActivity[] firstPage = this.pagingCallback().getArray(new Paging(1, 1));
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.length);
 			validateArray(firstPage);
-			final StravaActivity[] secondPage = this.pagingCallback.getArray(new Paging(2, 1));
+			final StravaActivity[] secondPage = this.pagingCallback().getArray(new Paging(2, 1));
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.length);
 			validateArray(secondPage);
@@ -127,7 +135,7 @@ public class ListRecentClubActivitiesTest extends APIListTest<StravaActivity, In
 			// The second entry in bothPages should be the same as the first
 			// entry in secondPage
 			assertEquals(bothPages[1], secondPage[0]);
-		} );
+		});
 	}
 
 	@Override

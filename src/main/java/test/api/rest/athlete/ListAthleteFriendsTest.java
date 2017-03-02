@@ -9,18 +9,28 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAthleteFriendsTest extends APIListTest<StravaAthlete, Integer> {
+public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListAthleteFriendsTest() {
-		this.listCallback = (api, id) -> api.listAthleteFriends(id, null, null);
-		this.pagingCallback = (paging) -> api().listAthleteFriends(validId(), paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAthleteFriends(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listAthleteFriends(id, null, null);
 	}
 
 	/**
@@ -64,7 +74,7 @@ public class ListAthleteFriendsTest extends APIListTest<StravaAthlete, Integer> 
 				return;
 			}
 			fail("Listed friends despite athlete being flagged as private");
-		} );
+		});
 	}
 
 	@Override

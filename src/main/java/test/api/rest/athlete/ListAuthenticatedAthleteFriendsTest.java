@@ -10,17 +10,27 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.api.model.StravaAthleteTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAuthenticatedAthleteFriendsTest extends APIListTest<StravaAthlete, Integer> {
+public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListAuthenticatedAthleteFriendsTest() {
-		this.listCallback = (api, id) -> api.listAuthenticatedAthleteFriends(null, null);
-		this.pagingCallback = (paging) -> api().listAuthenticatedAthleteFriends(paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteFriends(paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteFriends(null, null);
 	}
 
 	/**
@@ -56,7 +66,7 @@ public class ListAuthenticatedAthleteFriendsTest extends APIListTest<StravaAthle
 			for (final StravaAthlete athlete : friends) {
 				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
 			}
-		} );
+		});
 	}
 
 	/**

@@ -4,16 +4,20 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.TestUtils;
 
-public class ListRelatedActivitiesTest extends APIListTest<StravaActivity, Long> {
-	/**
-	 *
-	 */
-	public ListRelatedActivitiesTest() {
-		this.listCallback = (api, id) -> api.listRelatedActivities(id, null, null);
-		this.pagingCallback = paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
+public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity, Long> {
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	@Override
+	protected TestListArrayCallback<StravaActivity, Long> listCallback() {
+		return (api, id) -> api.listRelatedActivities(id, null, null);
 	}
 
 	/**

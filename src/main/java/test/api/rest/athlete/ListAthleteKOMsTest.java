@@ -9,17 +9,27 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListAthleteKOMsTest extends APIListTest<StravaSegmentEffort, Integer> {
+public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
-	 * No-args constructor provides the relevant callbacks
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListAthleteKOMsTest() {
-		this.listCallback = (api, id) -> api.listAthleteKOMs(id, null, null);
-		this.pagingCallback = (paging) -> api().listAthleteKOMs(validId(), paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
+		return paging -> api().listAthleteKOMs(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaSegmentEffort, Integer> listCallback() {
+		return (api, id) -> api.listAthleteKOMs(id, null, null);
 	}
 
 	/**
@@ -57,7 +67,7 @@ public class ListAthleteKOMsTest extends APIListTest<StravaSegmentEffort, Intege
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
@@ -71,7 +81,7 @@ public class ListAthleteKOMsTest extends APIListTest<StravaSegmentEffort, Intege
 					fail("Returned KOM for a private activity!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Test
@@ -85,7 +95,7 @@ public class ListAthleteKOMsTest extends APIListTest<StravaSegmentEffort, Intege
 					fail("Returned KOM for a private segment!");
 				}
 			}
-		} );
+		});
 	}
 
 	@Override

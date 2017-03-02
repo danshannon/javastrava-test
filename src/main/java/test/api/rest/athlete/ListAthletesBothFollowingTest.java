@@ -4,18 +4,27 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
 import test.utils.TestUtils;
 
-public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, Integer> {
+public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListAthletesBothFollowingTest() {
-		this.listCallback = (api, id) -> api.listAthletesBothFollowing(id, null, null);
-		this.pagingCallback = (paging) -> api().listAthletesBothFollowing(validId(), paging.getPage(),
-				paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAthletesBothFollowing(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listAthletesBothFollowing(id, null, null);
 	}
 
 	/**
@@ -29,11 +38,9 @@ public class ListAthletesBothFollowingTest extends APIListTest<StravaAthlete, In
 	// 3. Private athlete
 	@Override
 	public void list_privateBelongsToOtherUser() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#83
 		if (new Issue83().isIssue()) {
 			return;
 		}
-		// End of workaround
 		super.list_privateBelongsToOtherUser();
 	}
 

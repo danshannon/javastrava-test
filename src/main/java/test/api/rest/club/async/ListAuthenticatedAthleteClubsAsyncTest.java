@@ -1,15 +1,15 @@
 package test.api.rest.club.async;
 
+import javastrava.api.v3.model.StravaClub;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.club.ListAuthenticatedAthleteClubsTest;
 
 public class ListAuthenticatedAthleteClubsAsyncTest extends ListAuthenticatedAthleteClubsTest {
 	/**
-	 *
+	 * @see test.api.rest.club.ListAuthenticatedAthleteClubsTest#listCallback()
 	 */
-	public ListAuthenticatedAthleteClubsAsyncTest() {
-		super();
-		this.listCallback = (api, id) -> api.listAuthenticatedAthleteClubsAsync().get();
-		this.suppressPagingTests = true;
+	@Override
+	protected TestListArrayCallback<StravaClub, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteClubsAsync().get();
 	}
-
 }

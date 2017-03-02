@@ -5,17 +5,20 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaActivityZone;
 import test.api.model.StravaActivityZoneTest;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.utils.TestUtils;
 
 public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long> {
+	@Override
+	protected TestListArrayCallback<StravaActivityZone, Long> listCallback() {
+		return ((api, id) -> api.listActivityZones(id));
+	}
+
 	/**
 	 *
 	 */
 	public ListActivityZonesTest() {
 		super();
-		this.listCallback = (api, id) -> api.listActivityZones(id);
-		this.pagingCallback = null;
-		this.suppressPagingTests = true;
 		this.listOtherReturns401Unauthorised = true;
 	}
 
@@ -84,4 +87,5 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	protected Long validIdNoChildren() {
 		return TestUtils.ACTIVITY_WITHOUT_ZONES;
 	}
+
 }

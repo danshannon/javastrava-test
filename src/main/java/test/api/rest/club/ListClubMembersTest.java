@@ -11,17 +11,27 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
-public class ListClubMembersTest extends APIListTest<StravaAthlete, Integer> {
+public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
-	public ListClubMembersTest() {
-		this.listCallback = (api, id) -> api.listClubMembers(id, null, null);
-		this.pagingCallback = paging -> api().listClubMembers(validId(), paging.getPage(), paging.getPageSize());
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listClubMembers(validId(), paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listClubMembers(id, null, null);
 	}
 
 	/**
@@ -48,7 +58,12 @@ public class ListClubMembersTest extends APIListTest<StravaAthlete, Integer> {
 		return null;
 	}
 
-	// 3. Private club of which current authenticated athlete is a member
+	/**
+	 * Private club of which current authenticated athlete is a member
+	 * 
+	 * @throws Exception
+	 *             if the test fails for an unexpected reason
+	 */
 	@Test
 	public void testListClubMembers_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -58,7 +73,7 @@ public class ListClubMembersTest extends APIListTest<StravaAthlete, Integer> {
 			for (final StravaAthlete athlete : members) {
 				validate(athlete);
 			}
-		} );
+		});
 	}
 
 	// 4. Private club of which current authenticated athlete is NOT a member
@@ -72,7 +87,7 @@ public class ListClubMembersTest extends APIListTest<StravaAthlete, Integer> {
 				return;
 			}
 			fail("Returned list of members for a club of which the authenticated athlete is not a member!");
-		} );
+		});
 	}
 
 	@Override

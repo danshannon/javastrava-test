@@ -5,15 +5,16 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaClub;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIListTest;
+import test.api.rest.TestListArrayCallback;
 import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, Integer> {
 	/**
-	 *
+	 * @see test.api.rest.APIListTest#listCallback()
 	 */
-	public ListAuthenticatedAthleteClubsTest() {
-		this.listCallback = (api, id) -> api.listAuthenticatedAthleteClubs();
-		this.suppressPagingTests = true;
+	@Override
+	protected TestListArrayCallback<StravaClub, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteClubs();
 	}
 
 	/**

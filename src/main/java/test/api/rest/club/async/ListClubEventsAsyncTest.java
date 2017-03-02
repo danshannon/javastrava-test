@@ -1,5 +1,7 @@
 package test.api.rest.club.async;
 
+import javastrava.api.v3.model.StravaClubEvent;
+import test.api.rest.TestListArrayCallback;
 import test.api.rest.club.ListClubEventsTest;
 
 /**
@@ -8,11 +10,10 @@ import test.api.rest.club.ListClubEventsTest;
  */
 public class ListClubEventsAsyncTest extends ListClubEventsTest {
 	/**
-	 *
+	 * @see test.api.rest.club.ListClubEventsTest#listCallback()
 	 */
-	public ListClubEventsAsyncTest() {
-		this.listCallback = (api, id) -> api.listClubGroupEventsAsync(id).get();
-		this.suppressPagingTests = true;
+	@Override
+	protected TestListArrayCallback<StravaClubEvent, Integer> listCallback() {
+		return (api, id) -> api.listClubGroupEventsAsync(id).get();
 	}
-
 }

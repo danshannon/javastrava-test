@@ -2,18 +2,12 @@ package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaComment;
 import test.api.model.StravaCommentTest;
-import test.api.rest.APIListTest;
+import test.api.rest.APIPagingListTest;
+import test.api.rest.TestListArrayCallback;
+import test.api.rest.util.ArrayCallback;
 import test.utils.TestUtils;
 
-public class ListActivityCommentsTest extends APIListTest<StravaComment, Long> {
-	/**
-	 *
-	 */
-	public ListActivityCommentsTest() {
-		this.listCallback = (api, id) -> api.listActivityComments(id, null, null, null);
-		this.pagingCallback = paging -> api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(),
-				paging.getPageSize());
-	}
+public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, Long> {
 
 	/**
 	 * @see test.api.rest.APIListTest#invalidId()
@@ -50,8 +44,9 @@ public class ListActivityCommentsTest extends APIListTest<StravaComment, Long> {
 	 */
 	@Override
 	protected void validateArray(final StravaComment[] bigList) {
-		// TODO Auto-generated method stub
-
+		for (final StravaComment comment : bigList) {
+			StravaCommentTest.validateComment(comment);
+		}
 	}
 
 	/**
@@ -76,6 +71,17 @@ public class ListActivityCommentsTest extends APIListTest<StravaComment, Long> {
 	@Override
 	protected Long validIdNoChildren() {
 		return TestUtils.ACTIVITY_WITHOUT_COMMENTS;
+	}
+
+	@Override
+	protected TestListArrayCallback<StravaComment, Long> listCallback() {
+		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));
+	}
+
+	@Override
+	protected ArrayCallback<StravaComment> pagingCallback() {
+		return ((paging) -> api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(),
+				paging.getPageSize()));
 	}
 
 }
