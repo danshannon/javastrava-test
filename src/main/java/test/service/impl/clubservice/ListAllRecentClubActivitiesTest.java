@@ -61,7 +61,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 					.listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -101,7 +101,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 					.listAllRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -138,7 +138,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validateActivity(object);
+		StravaActivityTest.validate(object);
 	}
 
 }

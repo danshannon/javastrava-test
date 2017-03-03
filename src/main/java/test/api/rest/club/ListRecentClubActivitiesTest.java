@@ -140,7 +140,7 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 
 	}
 

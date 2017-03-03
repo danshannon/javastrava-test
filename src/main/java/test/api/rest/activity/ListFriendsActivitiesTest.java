@@ -129,7 +129,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 						fail("Activities not returned in descending start date order"); //$NON-NLS-1$
 					}
 				}
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -147,7 +147,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 
 	}
 

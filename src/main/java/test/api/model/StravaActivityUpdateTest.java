@@ -1,6 +1,7 @@
 package test.api.model;
 
 import static org.junit.Assert.assertFalse;
+
 import javastrava.api.v3.model.StravaActivityUpdate;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import test.utils.BeanTest;
@@ -11,6 +12,14 @@ import test.utils.BeanTest;
  */
 public class StravaActivityUpdateTest extends BeanTest<StravaActivityUpdate> {
 
+	/**
+	 * <p>
+	 * Validate the update structure and content
+	 * </p>
+	 *
+	 * @param update
+	 *            Update to be validated
+	 */
 	public static void validate(final StravaActivityUpdate update) {
 		if (update.getType() != null) {
 			assertFalse(StravaActivityType.UNKNOWN == update.getType());

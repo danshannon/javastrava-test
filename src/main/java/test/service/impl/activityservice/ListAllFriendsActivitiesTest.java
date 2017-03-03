@@ -38,7 +38,7 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 			assertNotNull(activities);
 			assertTrue(activities.size() <= 200);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -75,6 +75,6 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 
 	@Override
 	protected void validate(StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 }

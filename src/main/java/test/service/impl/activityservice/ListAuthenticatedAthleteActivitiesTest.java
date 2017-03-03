@@ -55,7 +55,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 					assertTrue(activity.getStartDateLocal().isAfter(calendar));
 					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -78,7 +78,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -103,7 +103,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -154,7 +154,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -180,14 +180,14 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 	@Override

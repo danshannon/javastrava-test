@@ -62,7 +62,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = this.getCallback().run(api(), TestUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
-			StravaActivityTest.validateActivity(activity);
+			StravaActivityTest.validate(activity);
 		});
 	}
 
@@ -71,7 +71,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected void validate(final StravaActivity activity) throws Exception {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 	/**

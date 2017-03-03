@@ -220,7 +220,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	 */
 	@Override
 	protected void validate(final StravaActivity activity) throws Exception {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 	/**

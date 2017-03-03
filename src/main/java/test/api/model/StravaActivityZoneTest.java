@@ -28,7 +28,7 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 		// Optional assertNotNull(zone.getCustomZones());
 		assertNotNull(zone.getDistributionBuckets());
 		for (final StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
-			StravaActivityZoneDistributionBucketTest.validateBucket(bucket);
+			StravaActivityZoneDistributionBucketTest.validate(bucket);
 		}
 		if (zone.getType() == StravaActivityZoneType.HEARTRATE) {
 			if (zone.getMax() != null) {
@@ -62,4 +62,5 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 	protected Class<StravaActivityZone> getClassUnderTest() {
 		return StravaActivityZone.class;
 	}
+
 }

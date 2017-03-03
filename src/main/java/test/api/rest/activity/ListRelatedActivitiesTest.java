@@ -46,7 +46,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 	/**

@@ -63,7 +63,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity);
 			assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.DETAILED, activity.getResourceState());
-			StravaActivityTest.validateActivity(activity, TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
+			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
 		});
 	}
 
@@ -85,7 +85,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity);
 			assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.SUMMARY, activity.getResourceState());
-			StravaActivityTest.validateActivity(activity, TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
+			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
 		});
 	}
 
@@ -111,7 +111,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity.getSegmentEfforts());
 			assertNotEquals("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is empty", 0, //$NON-NLS-1$ //$NON-NLS-2$
 					activity.getSegmentEfforts().size());
-			StravaActivityTest.validateActivity(activity);
+			StravaActivityTest.validate(activity);
 		});
 	}
 
@@ -133,7 +133,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
 			assertNotNull("Returned null segment efforts for known activity, when they were expected", //$NON-NLS-1$
 					activity.getSegmentEfforts());
-			StravaActivityTest.validateActivity(activity, TestUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
+			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
 		});
 	}
 
@@ -150,7 +150,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
-			StravaActivityTest.validateActivity(activity);
+			StravaActivityTest.validate(activity);
 		});
 	}
 
@@ -201,6 +201,6 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validateActivity(object);
+		StravaActivityTest.validate(object);
 	}
 }

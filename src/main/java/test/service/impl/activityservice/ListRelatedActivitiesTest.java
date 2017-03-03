@@ -23,7 +23,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 	@Override

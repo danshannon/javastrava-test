@@ -130,7 +130,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 
 	}
 

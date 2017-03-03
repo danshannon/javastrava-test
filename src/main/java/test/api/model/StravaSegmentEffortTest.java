@@ -47,7 +47,7 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 
 		if ((state == StravaResourceState.DETAILED) || (state == StravaResourceState.SUMMARY)) {
 			if (effort.getActivity() != null) {
-				StravaActivityTest.validateActivity(effort.getActivity(), effort.getActivity().getId(),
+				StravaActivityTest.validate(effort.getActivity(), effort.getActivity().getId(),
 						effort.getActivity().getResourceState());
 			}
 			if (effort.getAthlete() != null) {

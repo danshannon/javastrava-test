@@ -211,7 +211,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected void validate(final StravaActivity result) throws Exception {
-		StravaActivityTest.validateActivity(result);
+		StravaActivityTest.validate(result);
 
 	}
 

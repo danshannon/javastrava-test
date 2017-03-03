@@ -148,7 +148,7 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validateActivity(object);
+		StravaActivityTest.validate(object);
 	}
 
 }

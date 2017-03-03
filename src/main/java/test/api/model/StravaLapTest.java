@@ -28,7 +28,7 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			StravaActivityTest.validate(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
 			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {
@@ -70,7 +70,7 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(lap.getActivity());
-			StravaActivityTest.validateActivity(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
+			StravaActivityTest.validate(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
 			assertNotNull(lap.getAthlete());
 			StravaAthleteTest.validateAthlete(lap.getAthlete(), lap.getAthlete().getId(), lap.getAthlete().getResourceState());
 			if (lap.getAverageCadence() != null) {

@@ -42,7 +42,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 			final LocalDateTime after = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0);
 			final List<StravaActivity> activities = TestUtils.strava().listAllAuthenticatedAthleteActivities(null, after);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertTrue(activity.getStartDateLocal().isAfter(after));
 				}
@@ -65,7 +65,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 			final LocalDateTime before = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0);
 			final List<StravaActivity> activities = TestUtils.strava().listAllAuthenticatedAthleteActivities(before, null);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertTrue(activity.getStartDateLocal().isBefore(before));
 				}
@@ -109,7 +109,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 			final LocalDateTime after = LocalDateTime.of(2015, Month.JULY, 1, 0, 0);
 			final List<StravaActivity> activities = TestUtils.strava().listAllAuthenticatedAthleteActivities(before, after);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 			}
@@ -196,7 +196,7 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 
 	@Override
 	protected void validate(StravaActivity activity) {
-		StravaActivityTest.validateActivity(activity);
+		StravaActivityTest.validate(activity);
 	}
 
 }

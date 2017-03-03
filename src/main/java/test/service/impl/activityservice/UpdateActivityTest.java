@@ -117,7 +117,7 @@ public class UpdateActivityTest {
 
 			// Test the results
 			assertNull(stravaResponse.getAverageCadence());
-			StravaActivityTest.validateActivity(stravaResponse);
+			StravaActivityTest.validate(stravaResponse);
 		});
 	}
 
@@ -166,7 +166,7 @@ public class UpdateActivityTest {
 			final StravaActivity updateResponse = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(updateResponse);
+			StravaActivityTest.validate(updateResponse);
 			assertEquals(description, updateResponse.getDescription());
 
 			assertEquals(commute, updateResponse.getCommute());
@@ -194,7 +194,7 @@ public class UpdateActivityTest {
 			updateResponse = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(updateResponse);
+			StravaActivityTest.validate(updateResponse);
 			assertEquals(commute, updateResponse.getCommute());
 		});
 	}
@@ -215,7 +215,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Test the response
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(description, response.getDescription());
 		});
 	}
@@ -234,7 +234,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(gearId, response.getGearId());
 		});
 	}
@@ -255,7 +255,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertNull(response.getGearId());
 		});
 	}
@@ -294,7 +294,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(sentence, response.getName());
 
 		});
@@ -315,7 +315,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(privateFlag, response.getPrivateActivity());
 		});
 	}
@@ -361,7 +361,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(trainer, response.getTrainer());
 		});
 	}
@@ -382,7 +382,7 @@ public class UpdateActivityTest {
 			final StravaActivity response = createUpdateAndDelete(activity, update);
 
 			// Validate the results
-			StravaActivityTest.validateActivity(response);
+			StravaActivityTest.validate(response);
 			assertEquals(type, response.getType());
 		});
 	}

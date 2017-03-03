@@ -203,7 +203,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 			assertTrue(createdActivity.getPrivateActivity().booleanValue());
 
 			// Validate
-			StravaActivityTest.validateActivity(createdActivity);
+			StravaActivityTest.validate(createdActivity);
 
 			// Finally, delete it
 			forceDelete(createdActivity);
@@ -287,7 +287,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validateActivity(object);
+		StravaActivityTest.validate(object);
 	}
 
 }

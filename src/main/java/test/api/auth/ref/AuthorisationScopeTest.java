@@ -2,15 +2,24 @@ package test.api.auth.ref;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.auth.ref.AuthorisationScope;
 
 import org.junit.Test;
 
+import javastrava.api.v3.auth.ref.AuthorisationScope;
+
 /**
+ * <p>
+ * Tests for {@link AuthorisationScope}
+ * </p>
+ * 
  * @author Dan Shannon
  *
  */
 public class AuthorisationScopeTest {
+	/**
+	 * Test description
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetDescription() {
 		for (final AuthorisationScope type : AuthorisationScope.values()) {
@@ -18,6 +27,10 @@ public class AuthorisationScopeTest {
 		}
 	}
 
+	/**
+	 * Test id
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final AuthorisationScope type : AuthorisationScope.values()) {

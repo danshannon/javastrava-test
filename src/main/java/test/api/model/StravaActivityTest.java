@@ -24,11 +24,28 @@ import test.utils.BeanTest;
  */
 public class StravaActivityTest extends BeanTest<StravaActivity> {
 
-	public static void validateActivity(final StravaActivity activity) {
-		validateActivity(activity, activity.getId(), activity.getResourceState());
+	/**
+	 * Validate that the given activity's structure and data is as expected
+	 * 
+	 * @param activity
+	 *            The activity to validate
+	 */
+	public static void validate(final StravaActivity activity) {
+		validate(activity, activity.getId(), activity.getResourceState());
 	}
 
-	public static void validateActivity(final StravaActivity activity, final Long id, final StravaResourceState state) {
+	/**
+	 * Validate that the given activity's structure and data is as expected
+	 * 
+	 * @param activity
+	 *            The activity to validate
+	 * @param id
+	 *            Identifier
+	 * @param state
+	 *            Resource state
+	 */
+	@SuppressWarnings("boxing")
+	public static void validate(final StravaActivity activity, final Long id, final StravaResourceState state) {
 		assertNotNull(activity);
 		assertEquals(id, activity.getId());
 		assertEquals(state, activity.getResourceState());
@@ -294,7 +311,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getPhotos());
 			return;
 		}
-		fail("Unexpected activity state " + state + " for activity " + activity);
+		fail("Unexpected activity state " + state + " for activity " + activity); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override
@@ -302,9 +319,13 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 		return StravaActivity.class;
 	}
 
+	/**
+	 * @param activities
+	 *            List of activities to validate
+	 */
 	public static void validateList(final List<StravaActivity> activities) {
 		for (final StravaActivity activity : activities) {
-			validateActivity(activity);
+			validate(activity);
 		}
 	}
 

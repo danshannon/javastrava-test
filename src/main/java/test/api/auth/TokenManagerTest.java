@@ -32,7 +32,7 @@ public class TokenManagerTest {
 	}
 
 	/**
-	 * @return
+	 * @return Valid token
 	 */
 	private static Token getValidToken() {
 		final Token token = new Token();
@@ -45,6 +45,7 @@ public class TokenManagerTest {
 	/**
 	 * Attempt to remove a null token from the token manager - should fail
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRemoveToken_nullToken() {
 		final Token token = getValidToken();
@@ -56,6 +57,7 @@ public class TokenManagerTest {
 	/**
 	 * Attempt to remove a token from cache that's not there
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRemoveToken_tokenNotInCache() {
 		final Token token = getValidToken();
@@ -68,6 +70,7 @@ public class TokenManagerTest {
 	/**
 	 * Remove a valid token from the cache
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRemoveToken_validToken() {
 		final Token token = getValidToken();
@@ -78,6 +81,10 @@ public class TokenManagerTest {
 		manager.retrieveTokenWithScope(token.getAthlete().getEmail(), getNoScope());
 	}
 
+	/**
+	 * Retrieve token with precise permission scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_normal() {
 		final Token token = getValidToken();
@@ -87,20 +94,29 @@ public class TokenManagerTest {
 		tokenManager.storeToken(token);
 
 		final String username = token.getAthlete().getEmail();
-		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
+		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE,
+				AuthorisationScope.WRITE);
 		assertEquals(token, retrieved);
 
 	}
 
+	/**
+	 * Retrieve token with precise permission scope, where there isn't a token
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_noTokenRetrieved() {
-		final String username = "b@example.com";
+		final String username = "b@example.com"; //$NON-NLS-1$
 		final TokenManager manager = TokenManager.instance();
 		manager.clearTokenCache();
 		final Token token = manager.retrieveTokenWithExactScope(username, getAllScopes());
 		assertNull(token);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_nullScope() {
 		final Token token = getValidToken();
@@ -115,6 +131,10 @@ public class TokenManagerTest {
 		assertNull(retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope, but a null username
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_nullUsername() {
 		final Token token = getValidToken();
@@ -128,6 +148,10 @@ public class TokenManagerTest {
 		assertNull(retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope, where token has insufficient scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_tokenHasTooLittleScope() {
 		final Token token = getValidToken();
@@ -141,6 +165,10 @@ public class TokenManagerTest {
 		assertNull(retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope, where stored token has too much scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithExactScope_tokenHasTooMuchScope() {
 		final Token token = getValidToken();
@@ -154,6 +182,10 @@ public class TokenManagerTest {
 		assertNull(retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithScope_normal() {
 		final Token token = getValidToken();
@@ -167,6 +199,10 @@ public class TokenManagerTest {
 		assertEquals(token, retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithScope_nullScopes() {
 		final Token token = getValidToken();
@@ -179,6 +215,10 @@ public class TokenManagerTest {
 		assertEquals(token, retrieved);
 	}
 
+	/**
+	 * Retrieve token with precise permission scope
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testRetrieveTokenWithScope_nullUsername() {
 		final Token token = getValidToken();
@@ -191,6 +231,10 @@ public class TokenManagerTest {
 		assertNull(retrieved);
 	}
 
+	/**
+	 * Attempt to store token with no athlete email - should not work
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStoreToken_noAthleteEmailInToken() {
 		final Token token = getValidToken();
@@ -203,9 +247,13 @@ public class TokenManagerTest {
 			// Expected
 			return;
 		}
-		fail("Stored a null token which had no athlete email");
+		fail("Stored a null token which had no athlete email"); //$NON-NLS-1$
 	}
 
+	/**
+	 * Attempt to store token with no athlete email - should not work
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStoreToken_noAthleteInToken() {
 		final Token token = getValidToken();
@@ -218,10 +266,14 @@ public class TokenManagerTest {
 			// Expected
 			return;
 		}
-		fail("Stored a null token which had no athlete");
+		fail("Stored a null token which had no athlete"); //$NON-NLS-1$
 
 	}
 
+	/**
+	 * Attempt to store token which is ok
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStoreToken_normal() {
 		final Token token = getValidToken();
@@ -232,6 +284,10 @@ public class TokenManagerTest {
 		assertEquals(token, retrieved);
 	}
 
+	/**
+	 * Attempt to store token with no auth scopes
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStoreToken_nullScopes() {
 		final Token token = getValidToken();
@@ -244,9 +300,13 @@ public class TokenManagerTest {
 			// Expected
 			return;
 		}
-		fail("Stored a null token which had null scopes");
+		fail("Stored a null token which had null scopes"); //$NON-NLS-1$
 	}
 
+	/**
+	 * Attempt to store token with no auth token value
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStoreToken_nullToken() {
 		final Token token = null;
@@ -258,7 +318,7 @@ public class TokenManagerTest {
 			// Expected
 			return;
 		}
-		fail("Successfully saved a null token, that shouldn't work!");
+		fail("Successfully saved a null token, that shouldn't work!"); //$NON-NLS-1$
 	}
 
 }

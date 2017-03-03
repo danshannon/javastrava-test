@@ -56,7 +56,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -82,7 +82,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -109,7 +109,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -153,7 +153,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}
@@ -180,7 +180,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 		});
 	}

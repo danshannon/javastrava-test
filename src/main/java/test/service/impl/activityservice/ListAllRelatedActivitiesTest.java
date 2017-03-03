@@ -37,7 +37,7 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 					TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validateActivity(activity);
+				StravaActivityTest.validate(activity);
 			}
 
 		});
@@ -75,7 +75,7 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validateActivity(object);
+		StravaActivityTest.validate(object);
 
 	}
 

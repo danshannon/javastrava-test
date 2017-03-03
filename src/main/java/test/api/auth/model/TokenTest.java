@@ -3,6 +3,14 @@ package test.api.auth.model;
 import javastrava.api.v3.auth.model.Token;
 import test.utils.BeanTest;
 
+/**
+ * <p>
+ * Token bean tests
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class TokenTest extends BeanTest<Token> {
 
 	@Override
@@ -10,4 +18,12 @@ public class TokenTest extends BeanTest<Token> {
 		return Token.class;
 	}
 
+	/**
+	 * @param object
+	 *            Object to be validated
+	 */
+	public static void validate(Token object) {
+		validate(object);
+
+	}
 }
