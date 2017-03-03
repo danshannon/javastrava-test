@@ -3,6 +3,7 @@ package test.api.rest.activity;
 import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;
 
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
@@ -191,7 +192,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	@Override
 	protected Long privateParentId() {
 		// Create a private activity
-		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
+		StravaActivity activity = ActivityDataUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
 		activity.setPrivateActivity(Boolean.TRUE);
 		activity = apiWithFullAccess().createManualActivity(activity);
 		return activity.getId();
@@ -220,7 +221,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	@Override
 	protected Long validParentId() {
 		// Create a private activity
-		StravaActivity activity = TestUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
+		StravaActivity activity = ActivityDataUtils.createDefaultActivity("DeleteActivityTest.privateParentId");
 		activity = apiWithFullAccess().createManualActivity(activity);
 		return activity.getId();
 	}

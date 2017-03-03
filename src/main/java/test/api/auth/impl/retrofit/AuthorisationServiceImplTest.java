@@ -16,6 +16,7 @@ import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
 
 import org.junit.Test;
 
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestHttpUtils;
 import test.utils.TestUtils;
@@ -238,7 +239,7 @@ public class AuthorisationServiceImplTest {
 
 				// test case to prove we've got write access
 				final Strava strava = new Strava(token);
-				final StravaActivity activity = TestUtils.createDefaultActivity("AuthorisationServiceImplTest.testTokenExchange_writeScope");
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("AuthorisationServiceImplTest.testTokenExchange_writeScope");
 				final StravaActivity response = strava.createManualActivity(activity);
 				strava.deleteActivity(response.getId());
 			});

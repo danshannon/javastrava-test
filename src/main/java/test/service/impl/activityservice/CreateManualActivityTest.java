@@ -38,7 +38,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Type must be one of the specified values
-			final StravaActivity activity = TestUtils
+			final StravaActivity activity = ActivityDataUtils
 					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType"); //$NON-NLS-1$
 			StravaActivity stravaResponse = null;
 			activity.setType(StravaActivityType.UNKNOWN);
@@ -67,7 +67,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	@Test
 	public void testCreateManualActivity_noElapsedTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils
+			final StravaActivity activity = ActivityDataUtils
 					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime"); //$NON-NLS-1$
 			StravaActivity stravaResponse = null;
 			// Elapsed time is required
@@ -102,7 +102,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	public void testCreateManualActivity_noName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Name is required
-			final StravaActivity activity = TestUtils
+			final StravaActivity activity = ActivityDataUtils
 					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName"); //$NON-NLS-1$
 			StravaActivity stravaResponse = null;
 			activity.setDescription(activity.getName());
@@ -134,7 +134,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	@Test
 	public void testCreateManualActivity_noStartDate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils
+			final StravaActivity activity = ActivityDataUtils
 					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate"); //$NON-NLS-1$
 			StravaActivity stravaResponse = null;
 			// Start date is required
@@ -165,7 +165,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	public void testCreateManualActivity_noType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Type is required
-			final StravaActivity activity = TestUtils
+			final StravaActivity activity = ActivityDataUtils
 					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noType"); //$NON-NLS-1$
 			StravaActivity stravaResponse = null;
 			activity.setType(null);

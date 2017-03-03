@@ -45,7 +45,6 @@ public class TokenManagerTest {
 	/**
 	 * Attempt to remove a null token from the token manager - should fail
 	 */
-	@SuppressWarnings("static-method")
 	@Test
 	public void testRemoveToken_nullToken() {
 		final Token token = getValidToken();
@@ -54,6 +53,9 @@ public class TokenManagerTest {
 		manager.revokeToken(token);
 	}
 
+	/**
+	 * Attempt to remove a token from cache that's not there
+	 */
 	@Test
 	public void testRemoveToken_tokenNotInCache() {
 		final Token token = getValidToken();
@@ -63,6 +65,9 @@ public class TokenManagerTest {
 		manager.revokeToken(token);
 	}
 
+	/**
+	 * Remove a valid token from the cache
+	 */
 	@Test
 	public void testRemoveToken_validToken() {
 		final Token token = getValidToken();
@@ -82,8 +87,7 @@ public class TokenManagerTest {
 		tokenManager.storeToken(token);
 
 		final String username = token.getAthlete().getEmail();
-		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE,
-				AuthorisationScope.WRITE);
+		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		assertEquals(token, retrieved);
 
 	}

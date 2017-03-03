@@ -32,6 +32,9 @@ public interface PrivacyTests {
 	 * <p>
 	 * For create methods, the test should catch an {@link UnauthorizedException}
 	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception;
@@ -52,6 +55,9 @@ public interface PrivacyTests {
 	 * <p>
 	 * For create methods, the test should complete successfully (assuming of course that the session has write scope)
 	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception;
@@ -72,6 +78,9 @@ public interface PrivacyTests {
 	 * <p>
 	 * For create methods, the test should catch an {@link UnauthorizedException}
 	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception;

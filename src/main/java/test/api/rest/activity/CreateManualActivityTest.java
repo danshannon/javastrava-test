@@ -10,8 +10,8 @@ import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
 	/**
@@ -59,7 +59,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	 */
 	@Override
 	protected StravaActivity createObject() {
-		return TestUtils.createDefaultActivity("CreateManualActivityTest");
+		return ActivityDataUtils.createDefaultActivity("CreateManualActivityTest");
 	}
 
 	/**

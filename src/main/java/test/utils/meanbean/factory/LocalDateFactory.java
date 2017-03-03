@@ -8,6 +8,10 @@ import java.time.LocalDate;
 import org.meanbean.lang.Factory;
 
 /**
+ * <p>
+ * Meanbean requires a factory to create test objects of type {@link LocalDate}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */

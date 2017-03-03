@@ -1,7 +1,6 @@
 package test.utils;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javastrava.api.v3.auth.TokenManager;
@@ -10,9 +9,7 @@ import javastrava.api.v3.auth.impl.retrofit.TokenServiceImpl;
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.auth.model.TokenResponse;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
-import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -178,20 +175,6 @@ public abstract class TestUtils {
 		SEGMENT_OTHER_USER_PRIVATE_ID = integerProperty("test.segmentOtherUserPrivateId"); //$NON-NLS-1$
 		SEGMENT_HAZARDOUS_ID = integerProperty("test.segmentHazardousId"); //$NON-NLS-1$
 		SEGMENT_PRIVATE_STARRED_ID = integerProperty("test.segmentPrivateStarredId"); //$NON-NLS-1$
-	}
-
-	/**
-	 * @return
-	 */
-	public static StravaActivity createDefaultActivity(final String name) {
-		final StravaActivity activity = new StravaActivity();
-		activity.setName(name);
-		activity.setType(StravaActivityType.RIDE);
-		activity.setStartDateLocal(LocalDateTime.now());
-		activity.setElapsedTime(new Integer(1000));
-		activity.setDescription("Created by Strava API v3 Java"); //$NON-NLS-1$
-		activity.setDistance(new Float(1000.1F));
-		return activity;
 	}
 
 	/**

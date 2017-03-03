@@ -3,13 +3,10 @@
  */
 package test.service.standardtests.callbacks;
 
+import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.Strava;
 
-/**
- * @author danshannon
- *
- */
-public interface GetCallback<T, U> {
+public interface GetCallback<T extends StravaEntity, U> {
 	/**
 	 * @param strava
 	 *            The Strava instance

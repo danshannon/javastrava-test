@@ -6,6 +6,7 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -14,6 +15,8 @@ import test.utils.TestUtils;
  * </p>
  *
  * @author Dan Shannon
+ * @param <T>
+ *            The Strava model class returned by API methods under test
  */
 public abstract class APITest<T> {
 	/**
@@ -52,13 +55,13 @@ public abstract class APITest<T> {
 	 * <p>
 	 * Create a private activity
 	 * </p>
-	 * 
+	 *
 	 * @param name
 	 *            Name to give to the activity
 	 * @return The activity created
 	 */
 	public static StravaActivity createPrivateActivity(final String name) {
-		final StravaActivity activity = TestUtils.createDefaultActivity(name);
+		final StravaActivity activity = ActivityDataUtils.createDefaultActivity(name);
 		activity.setPrivateActivity(Boolean.TRUE);
 		final StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
 		assertEquals(Boolean.TRUE, response.getPrivateActivity());
@@ -66,23 +69,44 @@ public abstract class APITest<T> {
 	}
 
 	/**
-	 * @return
+	 * <p>
+	 * Create a private activity and add a comment to it
+	 * </p>
+	 *
+	 * @param name
+	 *            Name of the activity to be created
+	 *
+	 * @return Strava comment created
+	 * @throws Exception
 	 */
 	public static StravaComment createPrivateActivityWithComment(final String name) throws Exception {
 		final StravaActivity activity = createPrivateActivity(name);
-		final StravaComment comment = forceCreateComment(activity.getId(), "name");
+		final StravaComment comment = forceCreateComment(activity.getId(), name);
 		return comment;
 	}
 
 	/**
+	 * <p>
+	 * Force create a comment on an activity
+	 * </p>
+	 *
 	 * @param activityId
 	 * @param comment
-	 * @return
+	 * @return The comment created
+	 * @throws Exception
 	 */
 	public static StravaComment forceCreateComment(final Long activityId, final String comment) throws Exception {
 		return apiWithFullAccess().createComment(activityId, comment);
 	}
 
+	/**
+	 * <p>
+	 * Force delete an activity
+	 * </p>
+	 *
+	 * @param activityId
+	 *            the id of the activity to be deleted
+	 */
 	public static void forceDeleteActivity(final Long activityId) {
 		if (activityId == null) {
 			return;
@@ -94,6 +118,15 @@ public abstract class APITest<T> {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Force delete an activity
+	 * </p>
+	 *
+	 * @param activity
+	 *            The activity to be deleted
+	 * @return The activity deleted
+	 */
 	public static StravaActivity forceDeleteActivity(final StravaActivity activity) {
 		if (activity == null) {
 			return null;
@@ -106,6 +139,13 @@ public abstract class APITest<T> {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Force delete a comment
+	 * </p>
+	 *
+	 * @param comment
+	 */
 	public static void forceDeleteComment(final StravaComment comment) {
 		try {
 			apiWithFullAccess().deleteComment(comment.getActivityId(), comment.getId());

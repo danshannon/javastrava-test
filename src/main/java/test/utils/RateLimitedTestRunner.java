@@ -3,12 +3,12 @@
  */
 package test.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javastrava.api.v3.service.exception.StravaAPINetworkException;
 import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
 import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * @author Dan Shannon
@@ -17,6 +17,15 @@ import org.apache.logging.log4j.Logger;
 public class RateLimitedTestRunner {
 	private static Logger log = LogManager.getLogger();
 
+	/**
+	 * <p>
+	 * Runs a test method (the callback provided) and handles Strava rate limiting, Strava outages, or network outages gracefully, therefore ensuring that the test gets run regardless of transient
+	 * issues on the network
+	 * </p>
+	 *
+	 * @param t
+	 * @throws Exception
+	 */
 	public static void run(final TestCallback t) throws Exception {
 		boolean loop = true;
 		while (loop) {
@@ -35,13 +44,13 @@ public class RateLimitedTestRunner {
 	}
 
 	/**
-	 *
+	 * Wait until network connection to Strava is restored
 	 */
 	private static void waitForNetworkRestoration() {
 		boolean loop = true;
 		while (loop) {
 			try {
-				log.error("Network failure - pausing test for 15 seconds");
+				log.error("Network failure - pausing test for 15 seconds"); //$NON-NLS-1$
 				Thread.sleep(15000l);
 			} catch (final InterruptedException e) {
 				// ignore
@@ -57,11 +66,14 @@ public class RateLimitedTestRunner {
 
 	}
 
+	/**
+	 * Wait until Strava rate limiting resets
+	 */
 	private static void waitForRateLimit() {
 		boolean loop = true;
 		while (loop) {
 			try {
-				log.error("Rate limit exceeded - pausing test execution for 15 seconds");
+				log.error("Rate limit exceeded - pausing test execution for 15 seconds"); //$NON-NLS-1$
 				Thread.sleep(15000l);
 			} catch (final InterruptedException e) {
 				// ignore
@@ -77,13 +89,13 @@ public class RateLimitedTestRunner {
 	}
 
 	/**
-	 *
+	 * Wait for Strava service outage
 	 */
 	private static void waitForServiceRestoration() {
 		boolean loop = true;
 		while (loop) {
 			try {
-				log.error("Strava temporarily unavailable (503 error) - pausing execution for 60 seconds");
+				log.error("Strava temporarily unavailable (503 error) - pausing execution for 60 seconds"); //$NON-NLS-1$
 				Thread.sleep(60000l);
 			} catch (final InterruptedException e) {
 				// ignore

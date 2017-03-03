@@ -4,6 +4,14 @@ import java.util.Calendar;
 
 import org.meanbean.lang.Factory;
 
+/**
+ * <p>
+ * Meanbean requires a factory to create test objects of type {@link Calendar}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class CalendarFactory implements Factory<Calendar> {
 
 	@Override

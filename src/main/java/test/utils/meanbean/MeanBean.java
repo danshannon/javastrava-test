@@ -6,10 +6,9 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javastrava.api.v3.model.StravaSegment;
-
 import org.meanbean.test.BeanTester;
 
+import javastrava.api.v3.model.StravaSegment;
 import test.utils.meanbean.factory.CalendarFactory;
 import test.utils.meanbean.factory.LocalDateFactory;
 import test.utils.meanbean.factory.LocalDateTimeFactory;
@@ -17,8 +16,22 @@ import test.utils.meanbean.factory.StravaSegmentFactory;
 import test.utils.meanbean.factory.TimeZoneFactory;
 import test.utils.meanbean.factory.ZonedDateTimeFactory;
 
+/**
+ * <p>
+ * Provides default test configuration for MeanBean testing
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class MeanBean {
 
+	/**
+	 * Test configuration and execution
+	 *
+	 * @param class1
+	 *            The class under test
+	 */
 	public static <T> void testBean(final Class<T> class1) {
 		final BeanTester tester = new BeanTester();
 		tester.setIterations(1);

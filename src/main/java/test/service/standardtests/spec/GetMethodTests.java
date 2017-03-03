@@ -19,12 +19,12 @@ import javastrava.api.v3.model.StravaEntity;
  *            The type of the Strava object's identifier
  *
  */
-public interface GetMethodTests<T extends StravaEntity, U> extends PrivacyTests, StandardTests, ValidationTests<T, U> {
+public interface GetMethodTests<T extends StravaEntity, U> extends PrivacyTests, StandardTests {
 	/**
 	 * <p>
 	 * Test that an invalid parent id returns <code>null</code>
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test

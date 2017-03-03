@@ -3,16 +3,15 @@
  */
 package test.service.standardtests.callbacks;
 
+import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.Strava;
 
 /**
  * @author Dan Shannon
  * @param <T>
  *            The type of object being deleted
- * @param <U>
- *            The type of its id
  */
-public interface DeleteCallback<T> {
+public interface DeleteCallback<T extends StravaEntity> {
 	/**
 	 * <p>
 	 * Delete the given object
