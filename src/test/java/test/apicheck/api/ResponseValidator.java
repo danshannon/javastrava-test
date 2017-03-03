@@ -59,7 +59,8 @@ public class ResponseValidator {
 
 	/**
 	 * @param errors
-	 * @return
+	 *            Set containing error messages
+	 * @return Concatenated string representation of the strings in the set
 	 */
 	private static String errors(final Set<String> errors) {
 		String errorString = ""; //$NON-NLS-1$
@@ -83,8 +84,7 @@ public class ResponseValidator {
 	 * @param response
 	 *            response to be validated
 	 * @param class1
-	 *            class of the element (or of the array contents if the input is
-	 *            a JsonArray)
+	 *            class of the element (or of the array contents if the input is a JsonArray)
 	 * @param prefix
 	 * @throws JsonSerialisationException
 	 * @throws IOException
@@ -105,10 +105,13 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param activity
-	 * @param activity2
+	 * Validate the activity as returned
+	 *
+	 * @param element
+	 *            JSON element containing the activity
 	 * @param errors
-	 * @param string
+	 *            Set containing detected errors
+	 * @param prefix
 	 */
 	private static void validateActivity(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaActivity.class), element, errors, prefix);
@@ -169,7 +172,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -177,16 +180,15 @@ public class ResponseValidator {
 		compareJsonObjects(roundTrip(element, StravaActivityZone.class), element, errors, prefix);
 		final JsonElement buckets = element.getAsJsonObject().get("distribution_buckets"); //$NON-NLS-1$
 		if (buckets != null) {
-			validateElement(buckets, errors, StravaActivityZoneDistributionBucket.class, prefix + ".distributoin_buckets"); //$NON-NLS-1$
+			validateElement(buckets, errors, StravaActivityZoneDistributionBucket.class, prefix + ".distribution_buckets"); //$NON-NLS-1$
 		}
 
 	}
 
 	/**
-	 * @param athlete
-	 * @param athlete2
+	 * @param element
 	 * @param errors
-	 * @param string
+	 * @param prefix
 	 */
 	private static void validateAthlete(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaAthlete.class), element, errors, prefix);
@@ -206,7 +208,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -228,7 +230,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -366,7 +368,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -380,7 +382,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -398,7 +400,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
@@ -412,7 +414,7 @@ public class ResponseValidator {
 	}
 
 	/**
-	 * @param inputElement
+	 * @param element
 	 * @param errors
 	 * @param prefix
 	 */
