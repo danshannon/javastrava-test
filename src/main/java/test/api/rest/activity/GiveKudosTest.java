@@ -11,6 +11,14 @@ import test.issues.strava.Issue29;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Test giveKudos methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	/**
 	 *
@@ -47,12 +55,9 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 
 	@Override
 	public void create_validParentNoWriteAccess() throws Exception {
-		// TODO This is a workaround for issue javastrava-api #29
-		// (https://github.com/danshannon/javastravav3api/issues/29)
 		if (new Issue29().isIssue()) {
 			return;
 		}
-		// End of workaround
 
 		super.create_validParentNoWriteAccess();
 	}
@@ -77,7 +82,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	/**
 	 * @param activityId
 	 * @param athleteId
-	 * @return
+	 * @return true if the athlete has given kudos to the activity
 	 */
 	@SuppressWarnings("static-method")
 	private boolean hasGivenKudos(final Long activityId, final Integer athleteId) {

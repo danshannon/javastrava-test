@@ -49,57 +49,57 @@ public abstract class TestUtils {
 
 	public static Long ACTIVITY_WITHOUT_KUDOS;
 
-	public static Long	ACTIVITY_WITH_LAPS;
-	public static Long	ACTIVITY_WITHOUT_LAPS;
-	public static Long	ACTIVITY_WITH_ZONES;
-	public static Long	ACTIVITY_WITHOUT_ZONES;
-	public static Long	ACTIVITY_PRIVATE_OTHER_USER;
-	public static Long	ACTIVITY_PRIVATE;
-	public static Long	ACTIVITY_PRIVATE_WITH_PHOTOS;
+	public static Long ACTIVITY_WITH_LAPS;
+	public static Long ACTIVITY_WITHOUT_LAPS;
+	public static Long ACTIVITY_WITH_ZONES;
+	public static Long ACTIVITY_WITHOUT_ZONES;
+	public static Long ACTIVITY_PRIVATE_OTHER_USER;
+	public static Long ACTIVITY_PRIVATE;
+	public static Long ACTIVITY_PRIVATE_WITH_PHOTOS;
 
-	public static Long	ACTIVITY_PRIVATE_WITH_KUDOS;
-	public static Long	ACTIVITY_PRIVATE_WITH_LAPS;
-	public static Long	ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
-	public static Long	ACTIVITY_WITH_RELATED_ACTIVITIES;
-	public static Long	ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
-	public static Long	ACTIVITY_RUN_OTHER_USER;
-	public static Long	ACTIVITY_RUN_WITH_SEGMENTS;
+	public static Long ACTIVITY_PRIVATE_WITH_KUDOS;
+	public static Long ACTIVITY_PRIVATE_WITH_LAPS;
+	public static Long ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+	public static Long ACTIVITY_WITH_RELATED_ACTIVITIES;
+	public static Long ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
+	public static Long ACTIVITY_RUN_OTHER_USER;
+	public static Long ACTIVITY_RUN_WITH_SEGMENTS;
 
-	public static Integer	ATHLETE_AUTHENTICATED_ID;
-	public static Integer	ATHLETE_VALID_ID;
+	public static Integer ATHLETE_AUTHENTICATED_ID;
+	public static Integer ATHLETE_VALID_ID;
 
-	public static Integer	ATHLETE_INVALID_ID;
-	public static Integer	ATHLETE_WITHOUT_KOMS;
-	public static Integer	ATHLETE_WITHOUT_FRIENDS;
-	public static Integer	ATHLETE_PRIVATE_ID;
-	public static Integer	CLUB_VALID_ID;
-	public static Integer	CLUB_INVALID_ID;
+	public static Integer ATHLETE_INVALID_ID;
+	public static Integer ATHLETE_WITHOUT_KOMS;
+	public static Integer ATHLETE_WITHOUT_FRIENDS;
+	public static Integer ATHLETE_PRIVATE_ID;
+	public static Integer CLUB_VALID_ID;
+	public static Integer CLUB_INVALID_ID;
 
-	public static Integer	CLUB_PUBLIC_MEMBER_ID;
-	public static Integer	CLUB_PUBLIC_NON_MEMBER_ID;
-	public static Integer	CLUB_PRIVATE_MEMBER_ID;
-	public static Integer	CLUB_PRIVATE_NON_MEMBER_ID;
-	public static String	GEAR_VALID_ID;
-	public static String	GEAR_INVALID_ID;
+	public static Integer CLUB_PUBLIC_MEMBER_ID;
+	public static Integer CLUB_PUBLIC_NON_MEMBER_ID;
+	public static Integer CLUB_PRIVATE_MEMBER_ID;
+	public static Integer CLUB_PRIVATE_NON_MEMBER_ID;
+	public static String GEAR_VALID_ID;
+	public static String GEAR_INVALID_ID;
 
 	public static String GEAR_OTHER_ATHLETE_ID;
 
-	public static Integer	RUNNING_RACE_VALID_ID;
-	public static Integer	RUNNING_RACE_INVALID_ID;
+	public static Integer RUNNING_RACE_VALID_ID;
+	public static Integer RUNNING_RACE_INVALID_ID;
 
-	public static Long	SEGMENT_EFFORT_VALID_ID;
-	public static Long	SEGMENT_EFFORT_INVALID_ID;
-	public static Long	SEGMENT_EFFORT_PRIVATE_ID;
-	public static Long	SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+	public static Long SEGMENT_EFFORT_VALID_ID;
+	public static Long SEGMENT_EFFORT_INVALID_ID;
+	public static Long SEGMENT_EFFORT_PRIVATE_ID;
+	public static Long SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 
-	public static Long		SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
-	public static Integer	SEGMENT_VALID_ID;
-	public static Integer	SEGMENT_INVALID_ID;
-	public static Integer	SEGMENT_PRIVATE_ID;
-	public static Integer	SEGMENT_OTHER_USER_PRIVATE_ID;
+	public static Long SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID;
+	public static Integer SEGMENT_VALID_ID;
+	public static Integer SEGMENT_INVALID_ID;
+	public static Integer SEGMENT_PRIVATE_ID;
+	public static Integer SEGMENT_OTHER_USER_PRIVATE_ID;
 
-	public static Integer	SEGMENT_HAZARDOUS_ID;
-	public static Integer	SEGMENT_PRIVATE_STARRED_ID;
+	public static Integer SEGMENT_HAZARDOUS_ID;
+	public static Integer SEGMENT_PRIVATE_STARRED_ID;
 
 	private static final String PROPERTIES_FILE = "test-config"; //$NON-NLS-1$
 
@@ -178,8 +178,12 @@ public abstract class TestUtils {
 	}
 
 	/**
+	 * Create token from scratch
+	 *
 	 * @param accessToken
-	 * @return
+	 * @param username
+	 *            User name
+	 * @return Token created
 	 */
 	private static Token createToken(final String accessToken, final String username) {
 		final TokenResponse tokenResponse = new TokenResponse();
@@ -192,6 +196,12 @@ public abstract class TestUtils {
 		return token;
 	}
 
+	/**
+	 * Get a revoked token
+	 *
+	 * @return A Token whose authorization has been revoked
+	 * @throws UnauthorizedException
+	 */
 	public static Token getRevokedToken() throws UnauthorizedException {
 		final Token token = getValidToken();
 		final TokenService service = TokenServiceImpl.instance(token);

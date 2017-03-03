@@ -28,7 +28,7 @@ public class PagingUtilsTest {
 	private final Random random = new Random(System.currentTimeMillis());
 
 	/**
-	 * @return
+	 * @return A random list of strings of random size
 	 */
 	private List<String> getRandomList() {
 		final List<String> result = new ArrayList<String>();
