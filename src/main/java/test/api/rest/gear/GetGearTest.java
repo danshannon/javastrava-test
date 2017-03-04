@@ -9,8 +9,8 @@ import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.model.StravaGearTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
+import test.service.standardtests.data.GearDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetGearTest extends APIGetTest<StravaGear, String> {
 	/**
@@ -18,7 +18,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	 */
 	@Override
 	protected String invalidId() {
-		return TestUtils.GEAR_INVALID_ID;
+		return GearDataUtils.GEAR_INVALID_ID;
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	public void testGetGear_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
+				api().getGear(GearDataUtils.GEAR_OTHER_ATHLETE_ID);
 			} catch (final NotFoundException e) {
 				// expected
 				return;
@@ -64,7 +64,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	 */
 	@Override
 	protected String validId() {
-		return TestUtils.GEAR_VALID_ID;
+		return GearDataUtils.GEAR_VALID_ID;
 	}
 
 	/**

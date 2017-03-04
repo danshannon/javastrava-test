@@ -14,6 +14,7 @@ import org.junit.Test;
 import retrofit.client.Response;
 import test.apicheck.api.AthleteAPI;
 import test.apicheck.api.ResponseValidator;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -29,25 +30,25 @@ public class AthleteAPITest {
 	
 	@Test
 	public void testAPI_getAthlete() throws JsonSerialisationException, IOException, NotFoundException {
-		Response response = api().getAthlete(TestUtils.ATHLETE_VALID_ID);
+		Response response = api().getAthlete(AthleteDataUtils.ATHLETE_VALID_ID);
 		ResponseValidator.validate(response, StravaAthlete.class, "getAthlete");
 	}
 	
 	@Test
 	public void testAPI_listAthleteFriends() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().listAthleteFriends(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+		Response response = api().listAthleteFriends(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null);
 		ResponseValidator.validate(response, StravaAthlete.class, "listAthleteFriends");
 	}
 	
 	@Test
 	public void testAPI_listAthleteKOMs() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().listAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID, null, null);
+		Response response = api().listAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null);
 		ResponseValidator.validate(response, StravaSegmentEffort.class, "listAthleteKOMs");
 	}
 	
 	@Test
 	public void testAPI_listAthletesBothFollowing() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().listAthletesBothFollowing(TestUtils.ATHLETE_VALID_ID, null, null);
+		Response response = api().listAthletesBothFollowing(AthleteDataUtils.ATHLETE_VALID_ID, null, null);
 		ResponseValidator.validate(response, StravaAthlete.class, "listAthletesNothFollowing");
 	}
 	
@@ -59,7 +60,7 @@ public class AthleteAPITest {
 	
 	@Test
 	public void testAPI_getStatistics() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
+		Response response = api().statistics(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 		ResponseValidator.validate(response, StravaStatistics.class, "getStatistics" );
 	}
 	

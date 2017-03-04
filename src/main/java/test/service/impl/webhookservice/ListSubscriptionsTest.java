@@ -8,7 +8,7 @@ import javastrava.api.v3.service.Strava;
 import test.api.model.webhook.StravaEventSubscriptionTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 /**
  * <p>
@@ -36,7 +36,7 @@ public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscriptio
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

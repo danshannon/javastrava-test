@@ -19,6 +19,7 @@ public class Issue94 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		final StravaActivity[] both = this.api.listRecentClubActivities(2130, 1, 2);

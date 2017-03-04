@@ -8,6 +8,7 @@ import javastrava.api.v3.model.StravaGear;
 import test.api.model.StravaGearTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
+import test.service.standardtests.data.GearDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -28,7 +29,7 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 	@Test
 	public void testGetGear_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaGear gear = TestUtils.strava().getGear(TestUtils.GEAR_OTHER_ATHLETE_ID);
+			final StravaGear gear = TestUtils.strava().getGear(GearDataUtils.GEAR_OTHER_ATHLETE_ID);
 
 			assertNull(gear);
 		});
@@ -36,12 +37,12 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 
 	@Override
 	protected String getIdValid() {
-		return TestUtils.GEAR_VALID_ID;
+		return GearDataUtils.GEAR_VALID_ID;
 	}
 
 	@Override
 	protected String getIdInvalid() {
-		return TestUtils.GEAR_INVALID_ID;
+		return GearDataUtils.GEAR_INVALID_ID;
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 
 	@Override
 	protected String getIdPrivateBelongsToOtherUser() {
-		return TestUtils.GEAR_OTHER_ATHLETE_ID;
+		return GearDataUtils.GEAR_OTHER_ATHLETE_ID;
 	}
 
 	@Override

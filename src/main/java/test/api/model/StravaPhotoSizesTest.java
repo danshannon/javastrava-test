@@ -7,6 +7,10 @@ import javastrava.api.v3.model.StravaPhotoSizes;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaPhotoSizes}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */

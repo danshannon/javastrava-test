@@ -13,6 +13,7 @@ import test.api.model.StravaAthleteTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -41,7 +42,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 	@Test
 	public void testListClubMembers_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> members = TestUtils.strava().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final List<StravaAthlete> members = TestUtils.strava().listClubMembers(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(members);
 			assertFalse(members.size() == 0);
 			for (final StravaAthlete athlete : members) {
@@ -62,7 +63,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 	@Test
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> members = TestUtils.strava().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final List<StravaAthlete> members = TestUtils.strava().listClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			assertNotNull(members);
 			assertEquals(0, members.size());
 		});
@@ -90,7 +91,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 }

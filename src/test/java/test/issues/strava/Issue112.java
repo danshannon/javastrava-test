@@ -8,7 +8,11 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.utils.TestUtils;
 
 /**
- * @author danshannon
+ * <p>
+ * Tests for issue #112
+ * </p>
+ *
+ * @author Dan Shannon
  *
  */
 public class Issue112 extends IssueTest {
@@ -16,6 +20,7 @@ public class Issue112 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		try {

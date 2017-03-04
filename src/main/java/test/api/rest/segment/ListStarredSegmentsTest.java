@@ -8,7 +8,7 @@ import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
@@ -32,7 +32,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	/**

@@ -13,6 +13,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.service.StreamService;
 import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.impl.StreamServiceImpl;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -53,7 +54,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final StreamService service = StreamServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
-				service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				service.getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;
@@ -68,7 +69,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final StreamService service = StreamServiceImpl.instance(TestUtils.getRevokedToken());
 			try {
-				service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				service.getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;
@@ -83,7 +84,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final StreamService service = StreamServiceImpl.instance(TestUtils.getValidToken());
 			assertNotNull("Didn't get a service implementation using a valid token", service); //$NON-NLS-1$
-			final List<StravaStream> streams = service.getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final List<StravaStream> streams = service.getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			assertNotNull(streams);
 		});
 	}

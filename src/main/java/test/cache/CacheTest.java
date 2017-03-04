@@ -16,6 +16,7 @@ import javastrava.api.v3.service.Strava;
 import javastrava.cache.StravaCache;
 import javastrava.cache.impl.StravaCacheImpl;
 import test.api.rest.APITest;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -216,7 +217,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			final StravaCache<StravaAthlete, Integer> cache = athleteCache(false);
 			StravaAthlete athlete = api().getAuthenticatedAthlete();
 			cache.put(athlete);
-			athlete = cache.get(TestUtils.ATHLETE_INVALID_ID);
+			athlete = cache.get(AthleteDataUtils.ATHLETE_INVALID_ID);
 			assertNull(athlete);
 		});
 	}
@@ -236,9 +237,9 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			final StravaCache<StravaAthlete, Integer> cache = athleteCache(false);
 			final StravaAthlete athlete = api().getAuthenticatedAthlete();
 			cache.put(athlete);
-			final StravaAthlete athleteCached = cache.get(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final StravaAthlete athleteCached = cache.get(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(athleteCached);
-			assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, athleteCached.getId());
+			assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, athleteCached.getId());
 		});
 
 	}
@@ -259,7 +260,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			final StravaAthlete athlete = api().getAuthenticatedAthlete();
 			cache.put(athlete);
 			cache.removeAll();
-			final StravaAthlete athleteCached = cache.get(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final StravaAthlete athleteCached = cache.get(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNull(athleteCached);
 
 		});

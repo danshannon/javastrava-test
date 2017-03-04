@@ -14,10 +14,11 @@ public class Issue91 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		try {
-			this.api.getEffortStreams(5614162014l, "UNKNOWN", null, null);
+			this.api.getEffortStreams(5614162014L, "UNKNOWN", null, null); //$NON-NLS-1$
 		} catch (final BadRequestException e) {
 			return false;
 		}

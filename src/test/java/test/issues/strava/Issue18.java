@@ -6,6 +6,10 @@ package test.issues.strava;
 import javastrava.api.v3.model.StravaActivity;
 
 /**
+ * <p>
+ * Tests for issue #18
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
@@ -22,6 +26,7 @@ public class Issue18 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		final StravaActivity[] both = this.api.listFriendsActivities(1, 2);

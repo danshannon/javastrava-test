@@ -10,6 +10,7 @@ import org.junit.Test;
 import javastrava.api.v3.service.SegmentService;
 import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.impl.SegmentServiceImpl;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -76,7 +77,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
-				service.getSegment(TestUtils.SEGMENT_VALID_ID);
+				service.getSegment(SegmentDataUtils.SEGMENT_VALID_ID);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;
@@ -99,7 +100,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentService service = SegmentServiceImpl.instance(TestUtils.getRevokedToken());
 			try {
-				service.getSegment(TestUtils.SEGMENT_VALID_ID);
+				service.getSegment(SegmentDataUtils.SEGMENT_VALID_ID);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;

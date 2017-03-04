@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaComment;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityCommentsTest;
 import test.api.rest.util.ArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 
@@ -22,6 +22,6 @@ public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 	@Override
 	protected ArrayCallback<StravaComment> pagingCallback() {
 		return paging -> api()
-				.listActivityCommentsAsync(TestUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize()).get();
+				.listActivityCommentsAsync(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize()).get();
 	}
 }

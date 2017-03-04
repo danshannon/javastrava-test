@@ -12,8 +12,8 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.TestGetCallback;
 import test.api.rest.segmenteffort.GetSegmentEffortTest;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * @author danshannon
@@ -34,7 +34,7 @@ public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
 	public void testGetSegmentEffort_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentEffortAsync(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
+				api().getSegmentEffortAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -52,7 +52,7 @@ public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
 	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentEffort effort = apiWithViewPrivate()
-					.getSegmentEffortAsync(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
+					.getSegmentEffortAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
 		});

@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -68,7 +69,7 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTe
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

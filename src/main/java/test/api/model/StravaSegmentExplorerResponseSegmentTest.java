@@ -3,16 +3,28 @@ package test.api.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
 import javastrava.api.v3.model.reference.StravaClimbCategory;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaSegmentExplorerResponseSegment}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaSegmentExplorerResponseSegmentTest extends BeanTest<StravaSegmentExplorerResponseSegment> {
 
+	/**
+	 * Validate the structure and content of a response segment
+	 *
+	 * @param segment
+	 *            The segment to be validated
+	 */
+	@SuppressWarnings("boxing")
 	public static void validate(final StravaSegmentExplorerResponseSegment segment) {
 		assertNotNull(segment);
 		assertNotNull(segment.getAvgGrade());

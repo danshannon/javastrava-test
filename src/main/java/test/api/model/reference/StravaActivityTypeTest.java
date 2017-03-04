@@ -2,9 +2,10 @@ package test.api.model.reference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.reference.StravaActivityType;
 
 import org.junit.Test;
+
+import javastrava.api.v3.model.reference.StravaActivityType;
 
 /**
  * @author Dan Shannon
@@ -12,8 +13,9 @@ import org.junit.Test;
  */
 public class StravaActivityTypeTest {
 	/**
-	 * @see test.api.model.reference.StravaReferenceTypeTest#testGetId()
+	 * Test the integrity of the id
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
@@ -23,8 +25,9 @@ public class StravaActivityTypeTest {
 	}
 
 	/**
-	 * @see test.api.model.reference.StravaReferenceTypeTest#testGetValue()
+	 * Test the getValue method
 	 */
+	@SuppressWarnings("static-method")
 	public void testGetValue() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
 			assertNotNull(type.getValue());
@@ -34,8 +37,9 @@ public class StravaActivityTypeTest {
 	}
 
 	/**
-	 * @see test.api.model.reference.StravaReferenceTypeTest#testCreate()
+	 * Test the create method
 	 */
+	@SuppressWarnings("static-method")
 	public void testCreate() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
 			assertEquals(type, StravaActivityType.create(type.getValue()));

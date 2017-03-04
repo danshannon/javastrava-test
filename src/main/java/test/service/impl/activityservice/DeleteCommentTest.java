@@ -15,6 +15,7 @@ import test.service.standardtests.DeleteMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -113,9 +114,9 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 	@Test
 	public void testDeleteNonExistentParent() throws Exception {
 		final List<StravaComment> comments = TestUtils.stravaWithFullAccess()
-				.listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS);
+				.listActivityComments(ActivityDataUtils.ACTIVITY_WITH_COMMENTS);
 		final StravaComment comment = comments.get(0);
-		comment.setActivityId(TestUtils.ACTIVITY_INVALID);
+		comment.setActivityId(ActivityDataUtils.ACTIVITY_INVALID);
 
 		try {
 			deleter().delete(TestUtils.stravaWithFullAccess(), comment);
@@ -133,7 +134,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 	public void testInvalidId() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.stravaWithFullAccess().deleteComment(TestUtils.ACTIVITY_INVALID, new Integer(0));
+				TestUtils.stravaWithFullAccess().deleteComment(ActivityDataUtils.ACTIVITY_INVALID, new Integer(0));
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -156,7 +157,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 		RateLimitedTestRunner.run(() -> {
 			// Set up test data
 			final StravaComment comment = CommentDataUtils.generateValidObject();
-			comment.setActivityId(TestUtils.ACTIVITY_PRIVATE);
+			comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE);
 			final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
 
 			// Now delete it again
@@ -170,7 +171,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 		RateLimitedTestRunner.run(() -> {
 			// Set up test data
 			final StravaComment comment = CommentDataUtils.generateValidObject();
-			comment.setActivityId(TestUtils.ACTIVITY_PRIVATE);
+			comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE);
 			final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
 
 			// Attempt to delete it without private scope
@@ -189,7 +190,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 
 	@Override
 	protected CreateCallback<StravaComment> creator() throws Exception {
-		return CommentDataUtils.creator();
+		return CommentDataUtils.stravaCreator();
 	}
 
 	@Override

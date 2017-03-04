@@ -18,6 +18,7 @@ import javastrava.api.v3.service.Strava;
 import test.api.model.StravaStreamTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -43,7 +44,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final List<StravaStream> streams = TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID,
+					final List<StravaStream> streams = TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID,
 							resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
 					validateList(streams);
 				}
@@ -64,7 +65,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-					final List<StravaStream> streams = TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID,
+					final List<StravaStream> streams = TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID,
 							resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					validateList(streams);
 				}
@@ -85,7 +86,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetEffortStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
+				TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.UNKNOWN, null);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -107,7 +108,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetEffortStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW,
+				TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamResolutionType.LOW,
 						StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
@@ -129,7 +130,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Test
 	public void testGetEffortStreams_invalidEffort() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_INVALID_ID);
+			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID);
 			assertNull(streams);
 		});
 	}
@@ -147,7 +148,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetEffortStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
+				TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID, null, null, StravaStreamType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -167,7 +168,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Test
 	public void testGetEffortStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID, null, null,
+			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID, null, null,
 					StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
@@ -188,7 +189,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Test
 	public void testGetEffortStreams_validEffortAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(TestUtils.SEGMENT_EFFORT_VALID_ID);
+			final List<StravaStream> streams = TestUtils.strava().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID);
 			validateList(streams);
 		});
 	}
@@ -206,7 +207,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaStream> streams = TestUtils.stravaWithViewPrivate()
-					.getEffortStreams(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
+					.getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			assertNotNull(streams);
 			assertFalse(streams.isEmpty());
 		});
@@ -219,17 +220,17 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.SEGMENT_EFFORT_PRIVATE_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID;
 	}
 
 	@Override
 	protected Long idPrivateBelongsToOtherUser() {
-		return TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 	}
 
 	@Override
 	protected Long idValidWithEntries() {
-		return TestUtils.SEGMENT_EFFORT_VALID_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID;
 	}
 
 	@Override
@@ -239,7 +240,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 
 	@Override
 	protected Long idInvalid() {
-		return TestUtils.SEGMENT_EFFORT_INVALID_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
 	}
 
 	@Override

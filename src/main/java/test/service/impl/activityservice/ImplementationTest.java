@@ -12,6 +12,7 @@ import javastrava.api.v3.service.ActivityService;
 import javastrava.api.v3.service.exception.InvalidTokenException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.ActivityServiceImpl;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -87,7 +88,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final ActivityService service = ActivityServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
-				service.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				service.getActivity(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;
@@ -113,7 +114,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 
 			// Check that it can't be used
 			try {
-				activityServices.getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+				activityServices.getActivity(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			} catch (final InvalidTokenException e) {
 				// expected
 				return;

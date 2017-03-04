@@ -10,6 +10,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Int
 	@Test
 	public void testListAllAthleteFriends_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthleteFriends(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthleteFriends(AthleteDataUtils.ATHLETE_VALID_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
 				StravaAthleteTest.validateAthlete(athlete);
@@ -54,22 +55,22 @@ public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Int
 
 	@Override
 	protected Integer idPrivateBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override
 	protected Integer idValidWithoutEntries() {
-		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
+		return AthleteDataUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override

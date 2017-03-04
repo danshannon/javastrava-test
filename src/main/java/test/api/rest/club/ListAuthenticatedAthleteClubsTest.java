@@ -6,7 +6,7 @@ import javastrava.api.v3.model.StravaClub;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIListTest;
 import test.api.rest.TestListArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, Integer> {
 	/**
@@ -64,7 +64,7 @@ public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, I
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

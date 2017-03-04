@@ -78,6 +78,7 @@ public abstract class APITest<T> {
 	 *
 	 * @return Strava comment created
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	public static StravaComment createPrivateActivityWithComment(final String name) throws Exception {
 		final StravaActivity activity = createPrivateActivity(name);
@@ -91,9 +92,12 @@ public abstract class APITest<T> {
 	 * </p>
 	 *
 	 * @param activityId
+	 *            The identifier of the activity to be commented on
 	 * @param comment
+	 *            The comment to be made
 	 * @return The comment created
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	public static StravaComment forceCreateComment(final Long activityId, final String comment) throws Exception {
 		return apiWithFullAccess().createComment(activityId, comment);
@@ -145,6 +149,7 @@ public abstract class APITest<T> {
 	 * </p>
 	 *
 	 * @param comment
+	 *            The comment to be deleted
 	 */
 	public static void forceDeleteComment(final StravaComment comment) {
 		try {
@@ -156,6 +161,9 @@ public abstract class APITest<T> {
 
 	/**
 	 * @param result
+	 *            The object to be validated
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	protected abstract void validate(T result) throws Exception;
 }

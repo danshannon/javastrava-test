@@ -9,8 +9,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.club.ListClubMembersTest;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	/**
@@ -33,7 +33,7 @@ public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	@Override
 	public void testListClubMembers_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete[] members = api().listClubMembersAsync(TestUtils.CLUB_PRIVATE_MEMBER_ID, null, null).get();
+			final StravaAthlete[] members = api().listClubMembersAsync(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, null, null).get();
 			assertNotNull(members);
 			assertFalse(members.length == 0);
 			for (final StravaAthlete athlete : members) {
@@ -47,7 +47,7 @@ public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listClubMembersAsync(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null).get();
+				api().listClubMembersAsync(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null).get();
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;

@@ -6,29 +6,46 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.reference.StravaFollowerState;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.BeanTest;
-import test.utils.TestUtils;
 
 /**
+ * <p>
+ * Tests for StravaAthlete
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 
+	/**
+	 * Validate structure and content of an athlete
+	 *
+	 * @param athlete
+	 *            Athlete to be validated
+	 */
 	public static void validateAthlete(final StravaAthlete athlete) {
 		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
 	}
 
-	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId,
-			final StravaResourceState state) {
+	/**
+	 * Validate structure and content of an athlete
+	 *
+	 * @param athlete
+	 *            Athlete to be validated
+	 * @param expectedId
+	 *            Expected id of the athlete
+	 * @param state
+	 *            Expected resource state
+	 */
+	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId, final StravaResourceState state) {
 		assertNotNull(athlete);
 		assertEquals(expectedId, athlete.getId());
 		assertEquals(state, athlete.getResourceState());
@@ -71,7 +88,7 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			// Optional assertNotNull(athlete.getState());
 			assertNotNull(athlete.getUpdatedAt());
 			// Not part of detailed data
-			if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+			if (athlete.getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) {
 				assertNotNull(athlete.getWeight());
 			} else {
 				assertNull(athlete.getWeight());
@@ -157,17 +174,7 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			assertNull(athlete.getBadgeTypeId());
 			return;
 		}
-		fail("Athlete returned with unexpected resource state " + state + " : " + athlete);
-	}
-
-	/**
-	 * @param results
-	 */
-	public static void validateList(final List<StravaAthlete> athletes) {
-		for (final StravaAthlete athlete : athletes) {
-			validateAthlete(athlete);
-		}
-
+		fail("Athlete returned with unexpected resource state " + state + " : " + athlete); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

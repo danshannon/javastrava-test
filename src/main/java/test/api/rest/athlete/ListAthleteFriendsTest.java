@@ -2,8 +2,6 @@ package test.api.rest.athlete;
 
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
@@ -13,8 +11,8 @@ import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
@@ -38,7 +36,7 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -60,20 +58,18 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	@Test
 	public void testListAthleteFriends_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#83
 			final Issue83 issue83 = new Issue83();
 			if (issue83.isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			try {
-				api().listAthleteFriends(TestUtils.ATHLETE_PRIVATE_ID, null, null);
+				api().listAthleteFriends(AthleteDataUtils.ATHLETE_PRIVATE_ID, null, null);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}
-			fail("Listed friends despite athlete being flagged as private");
+			fail("Listed friends despite athlete being flagged as private"); //$NON-NLS-1$
 		});
 	}
 
@@ -87,8 +83,10 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] list) {
-		StravaAthleteTest.validateList(Arrays.asList(list));
+	protected void validateArray(final StravaAthlete[] athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			StravaAthleteTest.validateAthlete(athlete);
+		}
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -104,7 +102,7 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	 */
 	@Override
 	protected Integer validIdNoChildren() {
-		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
+		return AthleteDataUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 }

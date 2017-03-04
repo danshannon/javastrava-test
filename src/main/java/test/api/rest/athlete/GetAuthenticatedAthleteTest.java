@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	/**
@@ -45,7 +45,7 @@ public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integ
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

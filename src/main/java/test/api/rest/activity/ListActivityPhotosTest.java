@@ -7,7 +7,7 @@ import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
 import test.api.rest.TestListArrayCallback;
 import test.issues.strava.Issue68;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	@Override
@@ -28,7 +28,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_WITH_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_WITH_PHOTOS;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected Long validIdNoChildren() {
-		return TestUtils.ACTIVITY_WITHOUT_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_PHOTOS;
 	}
 
 	/**

@@ -3,16 +3,28 @@ package test.api.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.model.reference.StravaGender;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaSegmentLeaderboardEntry}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaSegmentLeaderboardEntryTest extends BeanTest<StravaSegmentLeaderboardEntry> {
 
+	/**
+	 * Validate the structure and content of a leaderboard entry
+	 *
+	 * @param entry
+	 *            The entry to be validated
+	 */
+	@SuppressWarnings("boxing")
 	public static void validate(final StravaSegmentLeaderboardEntry entry) {
 		assertNotNull(entry);
 		assertNotNull(entry.getActivityId());

@@ -17,6 +17,7 @@ public class Issue21 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		final StravaStream[] streams = this.api.getActivityStreams(245713183L, StravaStreamType.DISTANCE.toString(), null, null);

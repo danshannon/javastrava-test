@@ -7,9 +7,11 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
+import test.api.rest.TestCreateCallback;
 import test.issues.strava.Issue29;
+import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * <p>
@@ -20,13 +22,9 @@ import test.utils.TestUtils;
  *
  */
 public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
-	/**
-	 *
-	 */
-	public GiveKudosTest() {
-		super();
-		this.creationCallback = (api, response, activityId) -> api.giveKudos(activityId);
-		this.createAPIResponseIsNull = true;
+	@Override
+	protected TestCreateCallback<StravaResponse, Long> creator() {
+		return ((api, response, id) -> api.giveKudos(id));
 	}
 
 	/**
@@ -41,7 +39,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	public void create_valid() throws Exception {
 		super.create_valid();
 		RateLimitedTestRunner.run(() -> {
-			assertFalse(hasGivenKudos(validParentId(), TestUtils.ATHLETE_AUTHENTICATED_ID));
+			assertFalse(hasGivenKudos(validParentId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
 		});
 	}
 
@@ -49,7 +47,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	public void create_validParentBelongsToOtherUser() throws Exception {
 		super.create_validParentBelongsToOtherUser();
 		RateLimitedTestRunner.run(() -> {
-			assertTrue(hasGivenKudos(validParentOtherUserId(), TestUtils.ATHLETE_AUTHENTICATED_ID));
+			assertTrue(hasGivenKudos(validParentOtherUserId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
 		});
 	}
 
@@ -105,7 +103,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	 */
 	@Override
 	protected Long invalidParentId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -113,7 +111,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	 */
 	@Override
 	protected Long privateParentId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	/**
@@ -121,7 +119,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	 */
 	@Override
 	protected Long privateParentOtherUserId() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
@@ -137,7 +135,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	 */
 	@Override
 	protected Long validParentId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	/**
@@ -145,7 +143,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	 */
 	@Override
 	protected Long validParentOtherUserId() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 }

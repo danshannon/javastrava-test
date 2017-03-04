@@ -10,8 +10,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	/**
@@ -19,7 +19,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	/**
@@ -42,9 +42,9 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	@Test
 	public void testGetClub_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = api().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final StravaClub club = api().getClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
-			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
+			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
@@ -53,7 +53,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				api().getClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -76,7 +76,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	/**

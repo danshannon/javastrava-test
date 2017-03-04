@@ -7,7 +7,7 @@ import javastrava.api.v3.model.StravaComment;
 import test.api.model.StravaCommentTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -26,27 +26,27 @@ public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, L
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	@Override
 	protected Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	protected Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_COMMENTS;
+		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
 	}
 
 	@Override
 	protected Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_COMMENTS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
 	}
 
 	@Override
 	protected Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override

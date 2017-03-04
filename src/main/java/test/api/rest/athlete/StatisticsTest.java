@@ -7,8 +7,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 
@@ -30,7 +30,7 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	@Override

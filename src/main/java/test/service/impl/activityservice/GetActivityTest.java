@@ -36,9 +36,9 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_caching() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			final int requests = StravaServiceImpl.requestRate;
-			final StravaActivity activity2 = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final StravaActivity activity2 = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			assertEquals(StravaServiceImpl.requestRate, requests);
 			assertEquals(activity, activity2);
 		});
@@ -57,13 +57,13 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_knownActivityBelongsToAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
-			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, //$NON-NLS-1$
+			assertNotNull("Returned null StravaActivity for known activity with id " + ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, //$NON-NLS-1$
 					activity);
 			assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.DETAILED, activity.getResourceState());
-			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
+			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
 		});
 	}
 
@@ -79,13 +79,13 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_knownActivityBelongsToUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
-			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, //$NON-NLS-1$
+			assertNotNull("Returned null StravaActivity for known activity with id " + ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, //$NON-NLS-1$
 					activity);
 			assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.SUMMARY, activity.getResourceState());
-			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
+			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
 		});
 	}
 
@@ -104,12 +104,12 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_knownActivityWithEfforts() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.strava().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE);
+			final StravaActivity activity = TestUtils.strava().getActivity(ActivityDataUtils.ACTIVITY_WITH_EFFORTS, Boolean.TRUE);
 
-			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
-			assertNotNull("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is null", //$NON-NLS-1$ //$NON-NLS-2$
+			assertNotNull("Returned null StravaActivity for known activity with id " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
+			assertNotNull("StravaActivity " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is null", //$NON-NLS-1$ //$NON-NLS-2$
 					activity.getSegmentEfforts());
-			assertNotEquals("StravaActivity " + TestUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is empty", 0, //$NON-NLS-1$ //$NON-NLS-2$
+			assertNotEquals("StravaActivity " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is empty", 0, //$NON-NLS-1$ //$NON-NLS-2$
 					activity.getSegmentEfforts().size());
 			StravaActivityTest.validate(activity);
 		});
@@ -128,12 +128,12 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_knownActivityWithoutEfforts() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = TestUtils.strava().getActivity(TestUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE);
+			final StravaActivity activity = TestUtils.strava().getActivity(ActivityDataUtils.ACTIVITY_WITH_EFFORTS, Boolean.FALSE);
 
-			assertNotNull("Returned null StravaActivity for known activity with id " + TestUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
+			assertNotNull("Returned null StravaActivity for known activity with id " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
 			assertNotNull("Returned null segment efforts for known activity, when they were expected", //$NON-NLS-1$
 					activity.getSegmentEfforts());
-			StravaActivityTest.validate(activity, TestUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
+			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
 		});
 	}
 
@@ -148,7 +148,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = getter().get(TestUtils.strava(), TestUtils.ACTIVITY_RUN_OTHER_USER);
+			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validate(activity);
 		});
@@ -181,22 +181,22 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 
 	@Override
 	protected Long getIdValid() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	@Override
 	protected Long getIdInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
 	protected Long getIdPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	@Override
 	protected Long getIdPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override

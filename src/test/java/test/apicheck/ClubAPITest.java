@@ -14,6 +14,7 @@ import javastrava.json.exception.JsonSerialisationException;
 import retrofit.client.Response;
 import test.apicheck.api.ClubAPI;
 import test.apicheck.api.ResponseValidator;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -27,7 +28,7 @@ public class ClubAPITest {
 
 	@Test
 	public void testAPI_getClub() throws NotFoundException, JsonSerialisationException, IOException {
-		final Response response = api().getClub(TestUtils.CLUB_VALID_ID);
+		final Response response = api().getClub(ClubDataUtils.CLUB_VALID_ID);
 		ResponseValidator.validate(response, StravaClub.class, "getClub");
 	}
 
@@ -39,19 +40,19 @@ public class ClubAPITest {
 
 	@Test
 	public void testAPI_listClubAnnouncements() throws JsonSerialisationException, IOException {
-		final Response response = api().listClubAnnouncements(TestUtils.CLUB_VALID_ID);
+		final Response response = api().listClubAnnouncements(ClubDataUtils.CLUB_VALID_ID);
 		ResponseValidator.validate(response, StravaClubAnnouncement.class, "listClubAnnouncements");
 	}
 
 	@Test
 	public void testAPI_listClubMembers() throws JsonSerialisationException, IOException, NotFoundException {
-		final Response response = api().listClubMembers(TestUtils.CLUB_VALID_ID, null, null);
+		final Response response = api().listClubMembers(ClubDataUtils.CLUB_VALID_ID, null, null);
 		ResponseValidator.validate(response, StravaAthlete.class, "listClubMembers");
 	}
 
 	@Test
 	public void testAPI_listRecentClubactivities() throws JsonSerialisationException, IOException, NotFoundException {
-		final Response response = api().listRecentClubActivities(TestUtils.CLUB_VALID_ID, null, null);
+		final Response response = api().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID, null, null);
 		ResponseValidator.validate(response, StravaActivity.class, "listRecentClubActivities");
 	}
 

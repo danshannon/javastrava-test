@@ -1,13 +1,11 @@
 package test.api.rest.activity;
 
-import java.util.Arrays;
-
 import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity, Long> {
 	@Override
@@ -25,7 +23,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -33,7 +31,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
 	}
 
 	/**
@@ -41,7 +39,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
@@ -53,8 +51,11 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaActivity[] list) {
-		StravaActivityTest.validateList(Arrays.asList(list));
+	protected void validateArray(final StravaActivity[] activities) {
+		for (final StravaActivity activity : activities) {
+			StravaActivityTest.validate(activity);
+		}
+
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	/**
@@ -70,7 +71,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**

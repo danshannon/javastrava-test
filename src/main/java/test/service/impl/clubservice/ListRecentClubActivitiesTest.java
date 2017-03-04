@@ -17,6 +17,7 @@ import test.issues.strava.Issue18;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -46,7 +47,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	@Test
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID);
+			final List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
 					fail("List recent club activities returned an activity flagged as private!"); //$NON-NLS-1$
@@ -66,11 +67,11 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	@Test
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID,
+			List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID,
 					new Paging(2, 200));
 			assertNotNull(activities);
 			assertEquals(0, activities.size());
-			activities = TestUtils.strava().listRecentClubActivities(TestUtils.CLUB_VALID_ID, new Paging(1, 200));
+			activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID, new Paging(1, 200));
 			assertNotNull(activities);
 			assertFalse(0 == activities.size());
 			validateList(activities);
@@ -90,7 +91,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> activities = TestUtils.strava()
-					.listRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+					.listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 
 			assertTrue(activities.isEmpty());
 		});
@@ -101,17 +102,17 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 2),
-					TestUtils.CLUB_VALID_ID);
+					ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.size());
 			validateList(bothPages);
 			final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1),
-					TestUtils.CLUB_VALID_ID);
+					ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.size());
 			validateList(firstPage);
 			final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1),
-					TestUtils.CLUB_VALID_ID);
+					ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.size());
 			validateList(secondPage);
@@ -151,7 +152,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
@@ -161,6 +162,6 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 }

@@ -5,7 +5,7 @@ import javastrava.api.v3.service.Strava;
 import test.api.model.StravaAthleteZonesTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public class GetAuthenticatedAthleteZonesTest extends GetMethodTest<StravaAthlet
 
 	@Override
 	protected Integer getIdValid() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

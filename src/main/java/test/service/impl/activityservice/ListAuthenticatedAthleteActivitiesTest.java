@@ -18,6 +18,7 @@ import test.api.model.StravaActivityTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -53,7 +54,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			for (final StravaActivity activity : activities) {
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertTrue(activity.getStartDateLocal().isAfter(calendar));
-					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+					assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
 				StravaActivityTest.validate(activity);
 			}
@@ -77,7 +78,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(calendar, null);
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -102,7 +103,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -153,7 +154,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -178,7 +179,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.size()); //$NON-NLS-1$
 			for (final StravaActivity activity : activities) {
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
-					assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+					assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
 				StravaActivityTest.validate(activity);
 			}
@@ -207,7 +208,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

@@ -15,13 +15,20 @@ import javastrava.api.v3.model.reference.StravaSegmentActivityType;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaSegment}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
 	/**
+	 * Validate a list of segments
+	 *
 	 * @param segments
+	 *            The list of segments to be validated
 	 */
 	public static void validateList(final List<StravaSegment> segments) {
 		for (final StravaSegment segment : segments) {
@@ -30,15 +37,26 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
 	}
 
+	/**
+	 * Validate the structure and content of a segment
+	 *
+	 * @param segment
+	 *            The segment to be validated
+	 */
 	public static void validateSegment(final StravaSegment segment) {
 		assertNotNull(segment);
 		validateSegment(segment, segment.getId(), segment.getResourceState());
 	}
 
 	/**
+	 * Validate the structure and content of a segment
+	 *
 	 * @param segment
+	 *            The segment to be validated
 	 * @param id
+	 *            The expected identifier of the segment
 	 * @param state
+	 *            The expected resource state of the segment
 	 */
 	public static void validateSegment(final StravaSegment segment, final Integer id, final StravaResourceState state) {
 		assertNotNull(segment);
@@ -47,14 +65,15 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 
 		if ((state == StravaResourceState.DETAILED) || (state == StravaResourceState.SUMMARY)) {
 			assertNotNull(segment.getActivityType());
-			assertFalse("Segment " + segment.getId() + " has an unknown activity type", segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
-			// Optional sassertNull(segment.getAthleteCount());
+			assertFalse("Segment " + segment.getId() + " has an unknown activity type", //$NON-NLS-1$ //$NON-NLS-2$
+					segment.getActivityType() == StravaSegmentActivityType.UNKNOWN);
+			// Optional assertNull(segment.getAthleteCount());
 
 			// Can be null, if the athlete's never done the segment (and it's
 			// only returned with starred segments anyway)
 			if (segment.getAthletePrEffort() != null) {
-				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(), segment.getAthletePrEffort()
-						.getResourceState());
+				StravaSegmentEffortTest.validateSegmentEffort(segment.getAthletePrEffort(), segment.getAthletePrEffort().getId(),
+						segment.getAthletePrEffort().getResourceState());
 			}
 
 			assertNotNull(segment.getAverageGrade());
@@ -127,7 +146,7 @@ public class StravaSegmentTest extends BeanTest<StravaSegment> {
 			assertNull(segment.getUpdatedAt());
 			return;
 		}
-		fail("Unexpected segment state " + state + " for segment " + segment);
+		fail("Unexpected segment state " + state + " for segment " + segment); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

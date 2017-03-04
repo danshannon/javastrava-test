@@ -17,8 +17,8 @@ import test.api.model.StravaActivityTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListAuthenticatedAthleteActivitiesTest;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticatedAthleteActivitiesTest {
 	/**
@@ -55,7 +55,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -81,7 +81,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -108,7 +108,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -152,7 +152,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -179,7 +179,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});

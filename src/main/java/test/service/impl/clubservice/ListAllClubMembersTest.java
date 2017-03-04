@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -35,7 +36,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 	@Test
 	public void testListAllClubMembers_privateMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
 				StravaAthleteTest.validateAthlete(athlete);
@@ -55,7 +56,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 	@Test
 	public void testListAllClubMembers_privateNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			assertNotNull(athletes);
 			assertEquals(0, athletes.size());
 		});
@@ -73,7 +74,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 	@Test
 	public void testListAllClubMembers_publicNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
 				StravaAthleteTest.validateAthlete(athlete);
@@ -98,7 +99,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
@@ -108,7 +109,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	@Override

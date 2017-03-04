@@ -3,19 +3,26 @@ package test.api.rest.athlete;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Tests for {@link Strava#listAuthenticatedAthleteFriends()} methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
 	 * @see test.api.rest.APIPagingListTest#pagingCallback()
@@ -57,6 +64,11 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 		return null;
 	}
 
+	/**
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteFriends_friends() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -81,8 +93,10 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] list) {
-		StravaAthleteTest.validateList(Arrays.asList(list));
+	protected void validateArray(final StravaAthlete[] athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			StravaAthleteTest.validateAthlete(athlete);
+		}
 	}
 
 	/**
@@ -90,7 +104,7 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

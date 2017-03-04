@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import javastrava.api.v3.model.StravaActivityZone;
 import javastrava.api.v3.model.StravaActivityZoneDistributionBucket;
 import javastrava.api.v3.model.reference.StravaActivityZoneType;
@@ -22,6 +20,7 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 	 * @param zone
 	 *            The zone to validate
 	 */
+	@SuppressWarnings("boxing")
 	public static void validate(final StravaActivityZone zone) {
 		assertNotNull(zone);
 
@@ -46,16 +45,6 @@ public class StravaActivityZoneTest extends BeanTest<StravaActivityZone> {
 		assertNotNull(zone.getType());
 		assertFalse(zone.getType() == StravaActivityZoneType.UNKNOWN);
 		return;
-	}
-
-	/**
-	 * @param asList
-	 */
-	public static void validateList(final List<StravaActivityZone> asList) {
-		for (final StravaActivityZone zone : asList) {
-			validate(zone);
-		}
-
 	}
 
 	@Override

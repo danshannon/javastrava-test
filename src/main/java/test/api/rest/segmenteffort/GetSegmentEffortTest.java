@@ -13,8 +13,8 @@ import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue78;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> {
 	/**
@@ -22,7 +22,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.SEGMENT_EFFORT_INVALID_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.SEGMENT_EFFORT_PRIVATE_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	public void testGetSegmentEffort_privateActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
+				api().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;
@@ -67,7 +67,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	@Test
 	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffort(TestUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
+			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
 		});
@@ -105,7 +105,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.SEGMENT_EFFORT_VALID_ID;
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.api.model.StravaClubTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,9 +35,9 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 	@Test
 	public void testGetClub_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = TestUtils.strava().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final StravaClub club = TestUtils.strava().getClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
-			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
+			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
@@ -53,34 +54,34 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 	@Test
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = TestUtils.strava().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final StravaClub club = TestUtils.strava().getClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			final StravaClub comparison = new StravaClub();
-			comparison.setId(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			comparison.setId(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			comparison.setResourceState(StravaResourceState.PRIVATE);
 			assertNotNull(club);
 			assertEquals(comparison, club);
-			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
+			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
 		});
 	}
 
 	@Override
 	protected Integer getIdValid() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
 	protected Integer getIdInvalid() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	@Override
 	protected Integer getIdPrivate() {
-		return TestUtils.CLUB_PRIVATE_MEMBER_ID;
+		return ClubDataUtils.CLUB_PRIVATE_MEMBER_ID;
 	}
 
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
-		return TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 	}
 
 	@Override

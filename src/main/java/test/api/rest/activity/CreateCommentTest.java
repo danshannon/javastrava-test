@@ -9,24 +9,32 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APICreateTest;
+import test.api.rest.TestCreateCallback;
 import test.issues.strava.Issue30;
+import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
+/**
+ * <p>
+ * API tests for {@link API#createComment(Long, String)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
-	public CreateCommentTest() {
-		super();
-		this.creationCallback = (api, objectToCreate, id) -> api.createComment(id, objectToCreate.getText());
+	@Override
+	protected TestCreateCallback<StravaComment, Long> creator() {
+		return ((api, object, id) -> api.createComment(id, object.getText()));
 	}
 
 	@Override
 	public void create_validParentNoWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#30
 			if (new Issue30().isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			super.create_validParentNoWriteAccess();
 
@@ -38,9 +46,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected StravaComment createObject() {
-		final StravaComment comment = new StravaComment();
-		comment.setText("Test - ignore!");
-		return comment;
+		return CommentDataUtils.generateValidObject();
 	}
 
 	/**
@@ -56,7 +62,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long invalidParentId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -64,7 +70,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long privateParentId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	/**
@@ -72,17 +78,23 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long privateParentOtherUserId() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
+	/**
+	 * Attempt to create an empty comment. Create call should fail with a {@link BadRequestException}.
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testCreateComment_invalidComment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
 			StravaComment comment = new StravaComment();
-			comment.setText("");
+			comment.setText(""); //$NON-NLS-1$
 			try {
-				comment = this.creationCallback.run(api, comment, TestUtils.ACTIVITY_WITH_COMMENTS);
+				comment = creator().run(api, comment, ActivityDataUtils.ACTIVITY_WITH_COMMENTS);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -90,7 +102,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 
 			// If it got added in error, delete it again
 			forceDeleteComment(comment);
-			fail("Added an invalid comment to an activity");
+			fail("Added an invalid comment to an activity"); //$NON-NLS-1$
 		});
 	}
 
@@ -108,7 +120,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long validParentId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	/**
@@ -116,7 +128,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long validParentOtherUserId() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 }

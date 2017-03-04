@@ -15,8 +15,8 @@ import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.issues.strava.Issue71;
 import test.issues.strava.Issue81;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
@@ -119,7 +119,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

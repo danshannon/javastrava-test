@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class JoinClubTest {
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_INVALID_ID;
+			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().joinClub(id);
 			assertEquals(Boolean.FALSE, response.getSuccess());
@@ -45,7 +46,7 @@ public class JoinClubTest {
 	@Test
 	public void testJoinClub_member() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().joinClub(id);
 
@@ -65,7 +66,7 @@ public class JoinClubTest {
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().joinClub(id);
 
@@ -87,7 +88,7 @@ public class JoinClubTest {
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.strava().joinClub(id);
 			assertNotNull(response);
@@ -99,7 +100,7 @@ public class JoinClubTest {
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().joinClub(id);
 			assertNotNull(response);

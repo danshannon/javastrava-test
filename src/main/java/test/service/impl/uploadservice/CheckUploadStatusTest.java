@@ -7,6 +7,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaUploadResponse;
 import javastrava.api.v3.service.Strava;
 import test.api.model.StravaUploadResponseTest;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -27,7 +28,7 @@ public class CheckUploadStatusTest {
 	@Test
 	public void testCheckUploadStatus() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaUploadResponse response = TestUtils.strava().checkUploadStatus(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final StravaUploadResponse response = TestUtils.strava().checkUploadStatus(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 			assertNotNull(response);
 			StravaUploadResponseTest.validate(response);
 		});

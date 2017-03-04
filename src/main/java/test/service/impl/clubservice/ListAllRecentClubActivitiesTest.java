@@ -12,6 +12,7 @@ import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -36,7 +37,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 	@Test
 	public void testListAllRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = TestUtils.strava().listAllRecentClubActivities(TestUtils.CLUB_PUBLIC_MEMBER_ID);
+			final List<StravaActivity> activities = TestUtils.strava().listAllRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
 					fail("List recent club activities returned an activity flagged as private!"); //$NON-NLS-1$
@@ -58,7 +59,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 	public void testListAllRecentClubActivities_privateClubMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> activities = TestUtils.strava()
-					.listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+					.listAllRecentClubActivities(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
 				StravaActivityTest.validate(activity);
@@ -79,7 +80,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 	public void testListAllRecentClubActivities_privateClubNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> activities = TestUtils.strava()
-					.listAllRecentClubActivities(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+					.listAllRecentClubActivities(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			assertNotNull(activities);
 			assertEquals(0, activities.size());
 		});
@@ -98,7 +99,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 	public void testListAllRecentClubActivities_publicClubNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> activities = TestUtils.strava()
-					.listAllRecentClubActivities(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+					.listAllRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
 				StravaActivityTest.validate(activity);
@@ -123,7 +124,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
@@ -133,7 +134,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override

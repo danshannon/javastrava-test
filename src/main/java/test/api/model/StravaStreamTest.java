@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
@@ -13,11 +14,22 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaStream}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaStreamTest extends BeanTest<StravaStream> {
 
+	/**
+	 * Validate the structure and content of a Strava stream
+	 *
+	 * @param stream
+	 *            The stream to be validated
+	 */
+	@SuppressWarnings("boxing")
 	public static void validate(final StravaStream stream) {
 		assertNotNull(stream);
 		assertNotNull(stream.getOriginalSize());
@@ -64,8 +76,10 @@ public class StravaStreamTest extends BeanTest<StravaStream> {
 			assertNull(stream.getMoving());
 			assertNotNull(stream.getData());
 			if (stream.getResolution() != null) {
-				assertTrue("Resolution restricted to " + stream.getResolution().getSize() + " but returned "
-						+ stream.getData().size() + " data points", stream.getResolution().getSize() >= stream.getData().size());
+				assertTrue(
+						"Resolution restricted to " + stream.getResolution().getSize() + " but returned " //$NON-NLS-1$ //$NON-NLS-2$
+								+ stream.getData().size() + " data points", //$NON-NLS-1$
+						stream.getResolution().getSize() >= stream.getData().size());
 				assertTrue(stream.getOriginalSize().intValue() >= stream.getData().size());
 			} else {
 				assertEquals(stream.getOriginalSize().intValue(), stream.getData().size());

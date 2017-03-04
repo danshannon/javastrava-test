@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityKudoersTest;
 import test.api.rest.util.ArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class ListActivityKudoersAsyncTest extends ListActivityKudoersTest {
 	/**
@@ -12,7 +12,7 @@ public class ListActivityKudoersAsyncTest extends ListActivityKudoersTest {
 	 */
 	@Override
 	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listActivityKudoersAsync(TestUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize())
+		return paging -> api().listActivityKudoersAsync(ActivityDataUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize())
 				.get();
 	}
 

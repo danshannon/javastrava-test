@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class LeaveClubTest {
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_INVALID_ID;
+			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().leaveClub(id);
 			assertEquals(Boolean.FALSE, response.getSuccess());
@@ -45,7 +46,7 @@ public class LeaveClubTest {
 	@Test
 	public void testLeaveClub_member() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			TestUtils.stravaWithWriteAccess().leaveClub(id);
 
@@ -64,7 +65,7 @@ public class LeaveClubTest {
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
 			TestUtils.stravaWithWriteAccess().leaveClub(id);
 
@@ -79,7 +80,7 @@ public class LeaveClubTest {
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = TestUtils.strava().leaveClub(id);
 			assertNotNull(response);

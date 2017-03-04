@@ -5,7 +5,7 @@ import test.api.model.StravaAthleteTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 /**
  * <p>
@@ -38,22 +38,22 @@ public class ListAthletesBothFollowingTest extends PagingListMethodTest<StravaAt
 
 	@Override
 	protected Integer idPrivateBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override
 	protected Integer idValidWithoutEntries() {
-		return TestUtils.ATHLETE_WITHOUT_KOMS;
+		return AthleteDataUtils.ATHLETE_WITHOUT_KOMS;
 	}
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 }

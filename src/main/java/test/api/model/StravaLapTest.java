@@ -12,15 +12,36 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for StravaLap
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaLapTest extends BeanTest<StravaLap> {
 
+	/**
+	 * Validate a single lap
+	 *
+	 * @param lap
+	 *            The lap to be validated
+	 */
 	public static void validateLap(final StravaLap lap) {
 		validateLap(lap, lap.getId(), lap.getResourceState());
 	}
 
+	/**
+	 * Validate a single lap
+	 * 
+	 * @param lap
+	 *            The lap to be validated
+	 * @param id
+	 *            Expected id of the lap
+	 * @param state
+	 *            Expected resource state of the lap
+	 */
+	@SuppressWarnings("boxing")
 	public static void validateLap(final StravaLap lap, final Long id, final StravaResourceState state) {
 		assertNotNull(lap);
 		assertEquals(id, lap.getId());
@@ -135,6 +156,12 @@ public class StravaLapTest extends BeanTest<StravaLap> {
 		}
 	}
 
+	/**
+	 * Validate a list of laps
+	 *
+	 * @param laps
+	 *            The list of laps to be validated
+	 */
 	public static void validateList(final List<StravaLap> laps) {
 		for (final StravaLap lap : laps) {
 			validateLap(lap);

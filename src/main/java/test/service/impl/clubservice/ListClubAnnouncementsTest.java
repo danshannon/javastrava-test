@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaClubAnnouncement;
 import test.api.model.StravaClubAnnouncementTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ClubDataUtils;
 
 /**
  * @author Dan Shannon
@@ -13,7 +13,7 @@ import test.utils.TestUtils;
 public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnouncement, Integer> {
 	@Override
 	public Integer idValidWithEntries() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	@Override
@@ -23,12 +23,12 @@ public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnounce
 
 	@Override
 	public Integer idPrivateBelongsToOtherUser() {
-		return TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 	}
 
 	@Override
 	public Integer idInvalid() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	@Override

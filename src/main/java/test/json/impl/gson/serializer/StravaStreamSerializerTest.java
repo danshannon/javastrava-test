@@ -16,6 +16,7 @@ import javastrava.json.exception.JsonSerialisationException;
 
 import org.junit.Test;
 
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;
 
 public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
@@ -31,7 +32,7 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
 		// Get a stream
-		final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+		final List<StravaStream> streams = service().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
 				StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.DISTANCE);
 		assertNotNull(streams);
 		assertTrue(streams.size() > 0);
@@ -52,7 +53,7 @@ public class StravaStreamSerializerTest extends SerializerTest<StravaStream> {
 	@Override
 	public void testRoundTrip() throws UnauthorizedException, JsonSerialisationException {
 		// Get a stream
-		final List<StravaStream> streams = service().getActivityStreams(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
+		final List<StravaStream> streams = service().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
 				StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.DISTANCE);
 		assertNotNull(streams);
 		assertTrue(streams.size() > 0);

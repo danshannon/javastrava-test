@@ -10,6 +10,10 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for StravaBestRunningEffort
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
@@ -17,11 +21,13 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 
 	/**
 	 * @param effort
+	 *            Effort to validate
 	 * @param id
-	 * @param resourceState
+	 *            Effort identifier
+	 * @param state
+	 *            Resource state
 	 */
-	public static void validateBestEffort(final StravaBestRunningEffort effort, final Integer id,
-			final StravaResourceState state) {
+	public static void validateBestEffort(final StravaBestRunningEffort effort, final Integer id, final StravaResourceState state) {
 		assertNotNull(effort);
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
@@ -83,7 +89,7 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNull(effort.getStartDateLocal());
 			return;
 		}
-		fail("Unexpected state " + state + " for best effort " + effort);
+		fail("Unexpected state " + state + " for best effort " + effort); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 

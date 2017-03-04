@@ -18,8 +18,8 @@ import test.api.model.StravaActivityTest;
 import test.api.rest.activity.UpdateActivityTest;
 import test.issues.strava.Issue72;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.GearDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class UpdateActivityAsyncTest extends UpdateActivityTest {
 
@@ -76,7 +76,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_accessTokenDoesNotHaveWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final TextProducer text = Fairy.create().textProducer();
-			final StravaActivity activity = api().getActivityAsync(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).get();
+			final StravaActivity activity = api().getActivityAsync(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).get();
 			activity.setDescription(text.paragraph(1));
 
 			try {
@@ -93,7 +93,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_invalidActivity");
-			activity.setId(TestUtils.ACTIVITY_INVALID);
+			activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
 			StravaActivity response = null;
 			try {
@@ -110,7 +110,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_nullUpdate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				apiWithWriteAccess().updateActivityAsync(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).get();
+				apiWithWriteAccess().updateActivityAsync(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).get();
 			} catch (final StravaUnknownAPIException e) {
 				// Expected
 				return;
@@ -141,7 +141,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	@Override
 	public void testUpdateActivity_unauthenticatedAthletesActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = apiWithWriteAccess().getActivityAsync(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).get();
+			final StravaActivity activity = apiWithWriteAccess().getActivityAsync(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).get();
 
 			try {
 				apiWithWriteAccess().updateActivityAsync(activity.getId(), new StravaActivityUpdate(activity)).get();
@@ -166,7 +166,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 				final Boolean privateActivity = Boolean.TRUE;
 				final Boolean commute = Boolean.TRUE;
 				final Boolean trainer = Boolean.TRUE;
-				final String gearId = TestUtils.GEAR_VALID_ID;
+				final String gearId = GearDataUtils.GEAR_VALID_ID;
 
 				final StravaActivityUpdate update = new StravaActivityUpdate();
 				update.setDescription(description);
@@ -240,7 +240,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 			// set up the test data
 				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId");
 				final StravaActivityUpdate update = new StravaActivityUpdate();
-				final String gearId = TestUtils.GEAR_VALID_ID;
+				final String gearId = GearDataUtils.GEAR_VALID_ID;
 				update.setGearId(gearId);
 
 				// Do all the Strava API interaction at once

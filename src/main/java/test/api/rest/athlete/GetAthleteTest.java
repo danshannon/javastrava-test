@@ -6,8 +6,8 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	@Override
@@ -18,7 +18,7 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	@Test
 	public void testGetAthlete_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete athlete = api().getAthlete(TestUtils.ATHLETE_PRIVATE_ID);
+			final StravaAthlete athlete = api().getAthlete(AthleteDataUtils.ATHLETE_PRIVATE_ID);
 			StravaAthleteTest.validateAthlete(athlete);
 		});
 	}
@@ -28,7 +28,7 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	/**

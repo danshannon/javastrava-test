@@ -5,7 +5,7 @@ import test.api.model.StravaActivityTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -33,27 +33,27 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	protected Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_WITH_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 }

@@ -1,19 +1,27 @@
 package test.service.exception;
 
 import static org.junit.Assert.assertEquals;
-import javastrava.api.v3.model.StravaResponse;
-import javastrava.api.v3.service.exception.BadRequestException;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaResponse;
+import javastrava.api.v3.service.exception.BadRequestException;
+
+/**
+ * Tests for {@link BadRequestException}
+ *
+ * @author Dan Shannon
+ *
+ */
 public class BadRequestExceptionTest {
 
 	/**
 	 * Test constructor
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testConstructor_normal() {
-		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), new IllegalArgumentException());
+		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), new IllegalArgumentException()); //$NON-NLS-1$
 		try {
 			throw e;
 		} catch (final BadRequestException ex) {
@@ -22,16 +30,24 @@ public class BadRequestExceptionTest {
 		}
 	}
 
+	/**
+	 * Test that the constructor is null-safe
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testConstructor_nullSafety() {
 		new BadRequestException(null, null, null);
 	}
 
+	/**
+	 * Test get/set of response
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSetResponse() {
 		final StravaResponse response = new StravaResponse();
-		response.setMessage("Test");
-		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), null);
+		response.setMessage("Test"); //$NON-NLS-1$
+		final BadRequestException e = new BadRequestException("Test", new StravaResponse(), null); //$NON-NLS-1$
 		e.setResponse(response);
 		final StravaResponse testResponse = e.getResponse();
 		assertEquals(response, testResponse);

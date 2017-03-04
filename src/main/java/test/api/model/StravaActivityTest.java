@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaBestRunningEffort;
 import javastrava.api.v3.model.StravaSegmentEffort;
@@ -26,7 +24,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 
 	/**
 	 * Validate that the given activity's structure and data is as expected
-	 * 
+	 *
 	 * @param activity
 	 *            The activity to validate
 	 */
@@ -36,7 +34,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 
 	/**
 	 * Validate that the given activity's structure and data is as expected
-	 * 
+	 *
 	 * @param activity
 	 *            The activity to validate
 	 * @param id
@@ -317,16 +315,6 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 	@Override
 	protected Class<StravaActivity> getClassUnderTest() {
 		return StravaActivity.class;
-	}
-
-	/**
-	 * @param activities
-	 *            List of activities to validate
-	 */
-	public static void validateList(final List<StravaActivity> activities) {
-		for (final StravaActivity activity : activities) {
-			validate(activity);
-		}
 	}
 
 }

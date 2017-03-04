@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 	@Test
 	public void testListAllFriendsActivities() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(activities);
 			assertTrue(activities.size() <= 200);
 			for (final StravaActivity activity : activities) {
@@ -60,7 +61,7 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

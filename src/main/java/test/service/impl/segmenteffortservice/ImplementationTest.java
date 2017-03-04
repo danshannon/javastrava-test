@@ -12,6 +12,7 @@ import javastrava.api.v3.service.impl.SegmentEffortServiceImpl;
 
 import org.junit.Test;
 
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -83,7 +84,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 			SegmentEffortService service = null;
 			service = SegmentEffortServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
-				service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
+				service.getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID);
 			} catch (InvalidTokenException e) {
 				// expected
 				return;
@@ -105,7 +106,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final SegmentEffortService service = SegmentEffortServiceImpl.instance(getRevokedToken());
 			try {
-				service.getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
+				service.getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID);
 			} catch (InvalidTokenException e) {
 				// Expected
 				return;

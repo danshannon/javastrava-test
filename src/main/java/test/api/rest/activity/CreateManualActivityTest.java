@@ -6,65 +6,53 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
+import test.api.rest.TestCreateCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Tests for {@link API#createManualActivity(StravaActivity)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
-	/**
-	 * No argument constructor sets up the callback to use to create the manual activity
-	 */
-	public CreateManualActivityTest() {
-		super();
-		this.creationCallback = (api, activity, id) -> api.createManualActivity(activity);
+	@Override
+	protected TestCreateCallback<StravaActivity, Integer> creator() {
+		return ((api, activity, id) -> api.createManualActivity(activity));
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#create_invalidParent()
-	 */
 	@Override
 	public void create_invalidParent() throws Exception {
 		return;
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#create_privateParentBelongsToOtherUser()
-	 */
 	@Override
 	public void create_privateParentBelongsToOtherUser() throws Exception {
 		return;
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#create_privateParentWithoutViewPrivate()
-	 */
 	@Override
 	public void create_privateParentWithoutViewPrivate() throws Exception {
 		return;
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#create_privateParentWithViewPrivate()
-	 */
 	@Override
 	public void create_privateParentWithViewPrivate() throws Exception {
 		return;
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#createObject()
-	 */
 	@Override
 	protected StravaActivity createObject() {
-		return ActivityDataUtils.createDefaultActivity("CreateManualActivityTest");
+		return ActivityDataUtils.createDefaultActivity("CreateManualActivityTest"); //$NON-NLS-1$
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#forceDelete(java.lang.Object)
-	 */
 	@Override
 	protected void forceDelete(final StravaActivity activity) {
 		forceDeleteActivity(activity);
@@ -94,6 +82,12 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 		return null;
 	}
 
+	/**
+	 * Attempt to create a manual activity with an invalid type. Call to create API should return a {@link BadRequestException}
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -102,18 +96,25 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			StravaActivity stravaResponse = null;
 			activity.setType(StravaActivityType.UNKNOWN);
 			try {
-				stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
 			}
 			// If it did get created, delete it again
 			forceDelete(stravaResponse);
-			fail("Created an activity with invalid type in error (was " + StravaActivityType.UNKNOWN + ", is "
-					+ stravaResponse.getType() + ")");
+			fail("Created an activity with invalid type in error (was " + StravaActivityType.UNKNOWN + ", is " //$NON-NLS-1$ //$NON-NLS-2$
+					+ stravaResponse.getType() + ")"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Attempt to create a manual activity with no elapsed time specified. Call to create API should return a
+	 * {@link BadRequestException}
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testCreateManualActivity_noElapsedTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -122,7 +123,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// Elapsed time is required
 			activity.setElapsedTime(null);
 			try {
-				stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -131,13 +132,13 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// If it did get created, delete it again
 			forceDelete(stravaResponse);
 
-			fail("Created an activity with no elapsed time in error" + stravaResponse);
+			fail("Created an activity with no elapsed time in error" + stravaResponse); //$NON-NLS-1$
 		});
 	}
 
 	/**
 	 * <p>
-	 * Attempt to create an incomplete manual {@link StravaActivity} for the user where not all required attributes are set
+	 * Attempt to create an incomplete manual {@link StravaActivity} for the user without a name
 	 * </p>
 	 *
 	 * <p>
@@ -145,8 +146,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testCreateManualActivity_noName() throws Exception {
@@ -157,7 +157,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			activity.setDescription(activity.getName());
 			activity.setName(null);
 			try {
-				stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -168,20 +168,26 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 				forceDelete(stravaResponse);
 			}
 
-			fail("Created an activity with no name in error" + stravaResponse);
+			fail("Created an activity with no name in error" + stravaResponse); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Attempt to create a manual activity with no start time specified. Call to create API should return a
+	 * {@link BadRequestException}
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testCreateManualActivity_noStartDate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = createObject();
-			;
 			StravaActivity stravaResponse = null;
 			// Start date is required
 			activity.setStartDateLocal(null);
 			try {
-				stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e) {
 				// Expected behaviour
 				return;
@@ -190,10 +196,17 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// If it did get created, delete it again
 			forceDelete(stravaResponse);
 
-			fail("Created an activity with no start date in error" + stravaResponse);
+			fail("Created an activity with no start date in error" + stravaResponse); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Attempt to create a manual activity with no start time specified. Call to create API should return a
+	 * {@link BadRequestException}
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testCreateManualActivity_noType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -202,7 +215,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			StravaActivity stravaResponse = null;
 			activity.setType(null);
 			try {
-				stravaResponse = this.creationCallback.run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -211,7 +224,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// If it did get created, delete it again
 			forceDelete(stravaResponse);
 
-			fail("Created an activity with no type in error" + stravaResponse);
+			fail("Created an activity with no type in error" + stravaResponse); //$NON-NLS-1$
 		});
 	}
 

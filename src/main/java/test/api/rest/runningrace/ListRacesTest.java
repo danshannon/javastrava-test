@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaRunningRace;
 import test.api.model.StravaRunningRaceTest;
 import test.api.rest.APIListTest;
 import test.api.rest.TestListArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.RunningRaceDataUtils;
 
 public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
@@ -18,7 +18,7 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.RUNNING_RACE_INVALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer validId() {
-		return TestUtils.RUNNING_RACE_VALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
 	}
 
 	@Override

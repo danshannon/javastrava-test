@@ -12,6 +12,7 @@ import org.junit.Test;
 import retrofit.client.Response;
 import test.apicheck.api.ResponseValidator;
 import test.apicheck.api.SegmentEffortAPI;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -21,7 +22,7 @@ import test.utils.TestUtils;
 public class SegmentEffortAPITest {
 	@Test
 	public void testAPI_getSegmentEffort() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().getSegmentEffort(TestUtils.SEGMENT_EFFORT_VALID_ID);
+		Response response = api().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID);
 		ResponseValidator.validate(response, StravaSegmentEffort.class, "getSegmentEffort");
 	}
 	

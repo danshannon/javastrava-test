@@ -5,7 +5,7 @@ import test.api.model.StravaPhotoTest;
 import test.issues.strava.Issue68;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -19,27 +19,27 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 
 	@Override
 	public Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_WITH_PHOTOS;
 	}
 
 	@Override
 	public Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_PHOTOS;
 	}
 
 	@Override
 	public Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	public Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
 	}
 
 	@Override
 	public Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override

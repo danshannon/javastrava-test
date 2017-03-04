@@ -1,14 +1,12 @@
 package test.api.rest.athlete;
 
-import java.util.Arrays;
-
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
@@ -32,7 +30,7 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	// 3. Private athlete
@@ -57,7 +55,7 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override
@@ -69,9 +67,10 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] list) {
-		StravaAthleteTest.validateList(Arrays.asList(list));
-
+	protected void validateArray(final StravaAthlete[] athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			StravaAthleteTest.validateAthlete(athlete);
+		}
 	}
 
 	/**
@@ -79,7 +78,7 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	/**

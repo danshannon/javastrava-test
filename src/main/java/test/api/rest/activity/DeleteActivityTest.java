@@ -4,7 +4,6 @@ import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
 import test.service.standardtests.data.ActivityDataUtils;
-import test.utils.TestUtils;
 
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	/**
@@ -183,7 +182,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long invalidParentId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -203,7 +202,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long privateParentOtherUserId() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**

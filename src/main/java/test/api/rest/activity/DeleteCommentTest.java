@@ -7,8 +7,8 @@ import test.api.model.StravaCommentTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.APITest;
 import test.issues.strava.Issue63;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * @author Dan Shannon
@@ -29,7 +29,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	 */
 	@Override
 	protected StravaComment createObject() {
-		return apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+		return apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long invalidParentId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long privateParentId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	/**
@@ -73,13 +73,13 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long privateParentOtherUserId() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Test
 	public void testDeleteComment_byIds() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaComment comment = apiWithWriteAccess().createComment(TestUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
+			final StravaComment comment = apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, "Test - ignore");
 			apiWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
 		});
 	}
@@ -98,6 +98,6 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	 */
 	@Override
 	protected Long validParentId() {
-		return TestUtils.ACTIVITY_WITH_COMMENTS;
+		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
 	}
 }

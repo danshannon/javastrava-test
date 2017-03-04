@@ -10,8 +10,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	/**
@@ -19,7 +19,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = this.getCallback().run(api(), TestUtils.ACTIVITY_RUN_WITH_SEGMENTS);
+			final StravaActivity activity = this.getCallback().run(api(), ActivityDataUtils.ACTIVITY_RUN_WITH_SEGMENTS);
 			assertNotNull(activity);
 			validate(activity);
 		});
@@ -60,7 +60,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Test
 	public void testGetActivity_runOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = this.getCallback().run(api(), TestUtils.ACTIVITY_RUN_OTHER_USER);
+			final StravaActivity activity = this.getCallback().run(api(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validate(activity);
 		});
@@ -79,7 +79,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	@Override

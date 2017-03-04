@@ -1,14 +1,21 @@
 package test.api.rest.activity;
 
-import java.util.Arrays;
-
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
+/**
+ * <p>
+ * Tests for {@link Strava#listActivityKudoers(Long)} methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Long> {
 	@Override
 	protected ArrayCallback<StravaAthlete> pagingCallback() {
@@ -25,7 +32,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -33,7 +40,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_KUDOS;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_KUDOS;
 	}
 
 	/**
@@ -41,7 +48,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
@@ -54,9 +61,10 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] bigList) {
-		StravaAthleteTest.validateList(Arrays.asList(bigList));
-
+	protected void validateArray(final StravaAthlete[] athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			StravaAthleteTest.validateAthlete(athlete);
+		}
 	}
 
 	/**
@@ -64,7 +72,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_WITH_KUDOS;
+		return ActivityDataUtils.ACTIVITY_WITH_KUDOS;
 	}
 
 	/**
@@ -72,7 +80,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**
@@ -80,7 +88,7 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	 */
 	@Override
 	protected Long validIdNoChildren() {
-		return TestUtils.ACTIVITY_WITHOUT_KUDOS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_KUDOS;
 	}
 
 }

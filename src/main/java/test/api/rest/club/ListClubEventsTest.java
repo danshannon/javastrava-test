@@ -9,8 +9,8 @@ import javastrava.api.v3.model.StravaClubEvent;
 import test.api.rest.APIListTest;
 import test.api.rest.TestListArrayCallback;
 import test.issues.strava.Issue112;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * @author Dan Shannon
@@ -30,7 +30,7 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	/**
@@ -46,13 +46,13 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 	}
 
 	@Test
 	public void testListClubAnnouncements_privateClubMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClubAnnouncement[] announcements = api().listClubAnnouncements(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final StravaClubAnnouncement[] announcements = api().listClubAnnouncements(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(announcements);
 		});
 	}
@@ -82,7 +82,7 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	/**

@@ -15,13 +15,20 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaSegmentEffort}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 
 	/**
-	 * @param asList
+	 * Validate a list of efforts
+	 * 
+	 * @param list
+	 *            The list to be validated
 	 */
 	public static void validateList(final List<StravaSegmentEffort> list) {
 		for (final StravaSegmentEffort effort : list) {
@@ -30,17 +37,28 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 
 	}
 
+	/**
+	 * Validate the structure and content of an effort
+	 * 
+	 * @param effort
+	 *            The effort to be validated
+	 */
 	public static void validateSegmentEffort(final StravaSegmentEffort effort) {
 		validateSegmentEffort(effort, effort.getId(), effort.getResourceState());
 	}
 
 	/**
+	 * Validate the structure and content of an effort
+	 * 
 	 * @param effort
+	 *            The effort to be validated
 	 * @param id
+	 *            The expected identifier of the effort
 	 * @param state
+	 *            The expected resource state of the effort
 	 */
-	public static void validateSegmentEffort(final StravaSegmentEffort effort, final Long id,
-			final StravaResourceState state) {
+	@SuppressWarnings("boxing")
+	public static void validateSegmentEffort(final StravaSegmentEffort effort, final Long id, final StravaResourceState state) {
 		assertNotNull(effort);
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
@@ -181,7 +199,7 @@ public class StravaSegmentEffortTest extends BeanTest<StravaSegmentEffort> {
 			assertNull(effort.getStartIndex());
 			return;
 		}
-		fail("Unexpected state for segment effort " + state + " " + effort);
+		fail("Unexpected state for segment effort " + state + " " + effort); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

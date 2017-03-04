@@ -20,7 +20,10 @@ import test.utils.BeanTest;
 public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 
 	/**
+	 * Validate the structure and content of a photo is as expected
+	 * 
 	 * @param photo
+	 *            The photo to be validated
 	 */
 	public static void validate(final StravaPhoto photo) {
 		validatePhoto(photo, photo.getId(), photo.getResourceState());
@@ -28,7 +31,10 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 	}
 
 	/**
-	 * @param asList
+	 * Validate a list of photos
+	 * 
+	 * @param list
+	 *            The list of photos to be validated
 	 */
 	public static void validateList(final List<StravaPhoto> list) {
 		for (final StravaPhoto photo : list) {
@@ -37,6 +43,16 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 
 	}
 
+	/**
+	 * Validate the structure and content of a photo is as expected
+	 * 
+	 * @param photo
+	 *            The photo to be validated
+	 * @param id
+	 *            The expected id of the photo
+	 * @param state
+	 *            The expected resource state of the photo
+	 */
 	public static void validatePhoto(final StravaPhoto photo, final Integer id, final StravaResourceState state) {
 		assertNotNull(photo);
 		assertEquals(id, photo.getId());
@@ -83,7 +99,7 @@ public class StravaPhotoTest extends BeanTest<StravaPhoto> {
 			assertNull(photo.getUrls());
 			return;
 		}
-		fail("Unexpected resource state " + state + " for photo " + photo);
+		fail("Unexpected resource state " + state + " for photo " + photo); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

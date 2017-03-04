@@ -74,18 +74,17 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
-			assertNotNull(club.getCity());
+			// OPTIONAL assertNotNull(club.getCity());
 			assertNull(club.getClubType());
-			assertNotNull(club.getCountry());
-			// Optional
-			// assertNull(club.getDescription());
+			// Optional assertNotNull(club.getCountry());
+			// Optional assertNull(club.getDescription());
 			assertNull(club.getMemberCount());
 			assertNotNull(club.getName());
 			assertNotNull(club.getPrivateClub());
 			assertNotNull(club.getProfile());
 			assertNotNull(club.getProfileMedium());
 			assertNull(club.getSportType());
-			assertNotNull(club.getState());
+			// Optional assertNotNull(club.getState());
 			assertNull(club.getUrl());
 			assertNull(club.getVerified());
 			return;

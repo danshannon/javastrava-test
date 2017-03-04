@@ -6,6 +6,7 @@ import javastrava.api.v3.model.StravaStatistics;
 import test.api.model.StravaStatisticsTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -29,19 +30,19 @@ public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
 	@Test
 	public void testStatistics_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaStatistics stats = TestUtils.strava().statistics(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final StravaStatistics stats = TestUtils.strava().statistics(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			StravaStatisticsTest.validate(stats);
 		});
 	}
 
 	@Override
 	protected Integer getIdValid() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	@Override
 	protected Integer getIdInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
 
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override

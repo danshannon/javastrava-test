@@ -12,6 +12,8 @@ import test.api.model.StravaSegmentTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -45,7 +47,7 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 	@Test
 	public void testListStarredSegments_authenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(segments);
 		});
 	}
@@ -57,17 +59,17 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 
 	@Override
 	protected Integer idPrivate() {
-		return TestUtils.SEGMENT_PRIVATE_ID;
+		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
 	}
 
 	@Override
 	protected Integer idPrivateBelongsToOtherUser() {
-		return TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.SEGMENT_VALID_ID;
+		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
 
 	@Override
@@ -77,6 +79,6 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.SEGMENT_INVALID_ID;
+		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
 }

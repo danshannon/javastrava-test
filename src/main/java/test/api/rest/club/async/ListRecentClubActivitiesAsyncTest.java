@@ -12,8 +12,8 @@ import test.api.rest.TestListArrayCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesTest {
 
@@ -39,7 +39,7 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	@Override
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivitiesAsync(TestUtils.CLUB_PUBLIC_MEMBER_ID, null, null)
+			final StravaActivity[] activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null)
 					.get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
@@ -55,10 +55,10 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	@Override
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			StravaActivity[] activities = api().listRecentClubActivitiesAsync(TestUtils.CLUB_VALID_ID, 2, 200).get();
+			StravaActivity[] activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_VALID_ID, 2, 200).get();
 			assertNotNull(activities);
 			assertEquals(0, activities.length);
-			activities = api().listRecentClubActivitiesAsync(TestUtils.CLUB_VALID_ID, 1, 200).get();
+			activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_VALID_ID, 1, 200).get();
 			assertNotNull(activities);
 			assertFalse(0 == activities.length);
 			validateArray(activities);
@@ -71,7 +71,7 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listRecentClubActivitiesAsync(TestUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null).get();
+				api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID, null, null).get();
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;

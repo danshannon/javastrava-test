@@ -12,6 +12,7 @@ import javastrava.api.v3.model.reference.StravaFollowerState;
 import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -35,7 +36,7 @@ public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<Strav
 	@Test
 	public void testListAllAuthenticatedAthleteFriends() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = lister().getList(TestUtils.strava(), TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaAthlete> athletes = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			int friendCount = 0;
 			for (final StravaAthlete athlete : athletes) {
 				if (athlete.getFriend() == StravaFollowerState.ACCEPTED) {
@@ -67,7 +68,7 @@ public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<Strav
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

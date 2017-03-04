@@ -22,8 +22,9 @@ import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
 import test.api.rest.TestGetCallback;
 import test.api.rest.segment.GetSegmentLeaderboardTest;
+import test.service.standardtests.data.ClubDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 /**
  * @author Dan Shanon
@@ -55,7 +56,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null,
 					StravaAgeGroup.AGE35_44, null, null, null, null, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -67,8 +68,8 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID,
-					StravaGender.MALE, StravaAgeGroup.AGE45_54, StravaWeightClass.KG85_94, Boolean.FALSE, TestUtils.CLUB_VALID_ID,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID,
+					StravaGender.MALE, StravaAgeGroup.AGE45_54, StravaWeightClass.KG85_94, Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID,
 					StravaLeaderboardDateRange.THIS_YEAR, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -80,8 +81,8 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null, null,
-					null, null, TestUtils.CLUB_VALID_ID, null, null, null, null).get();
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null, null,
+					null, null, ClubDataUtils.CLUB_VALID_ID, null, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
 			StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -92,7 +93,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null, null,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null, null,
 					null, Boolean.TRUE, null, null, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -104,7 +105,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID,
 					StravaGender.FEMALE, null, null, null, null, null, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -120,7 +121,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null, null, null, null, TestUtils.CLUB_INVALID_ID,
+				api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, ClubDataUtils.CLUB_INVALID_ID,
 						null, null, null, null).get();
 			} catch (final NotFoundException e) {
 				// expected
@@ -134,7 +135,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByLeaderboardDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null, null,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null, null,
 					null, null, null, StravaLeaderboardDateRange.THIS_YEAR, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -146,7 +147,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
 	public void testGetSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_VALID_ID, null, null,
+			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, null, null,
 					StravaWeightClass.KG75_84, null, null, null, null, null, null).get();
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
@@ -158,7 +159,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	public void testGetSegmentLeaderboard_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getSegmentLeaderboardAsync(TestUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null, null, null, null,
+				api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null, null, null, null,
 						null).get();
 			} catch (final NotFoundException e) {
 				// expected

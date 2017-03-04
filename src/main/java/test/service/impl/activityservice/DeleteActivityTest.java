@@ -39,7 +39,7 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 		RateLimitedTestRunner.run(() -> {
 			// Fake activity
 			final StravaActivity activity = generateValidObject();
-			activity.setId(TestUtils.ACTIVITY_INVALID);
+			activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
 			// Attempt to delete
 			final StravaActivity deletedActivity;
@@ -62,7 +62,7 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 		RateLimitedTestRunner.run(() -> {
 			// Fake activity
 			final StravaActivity activity = generateValidObject();
-			activity.setId(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+			activity.setId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
 			// Attempt to delete
 			final StravaActivity deletedActivity;

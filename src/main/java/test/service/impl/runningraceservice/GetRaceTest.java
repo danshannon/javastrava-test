@@ -4,18 +4,18 @@ import javastrava.api.v3.model.StravaRunningRace;
 import test.api.model.StravaRunningRaceTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.RunningRaceDataUtils;
 
 public class GetRaceTest extends GetMethodTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer getIdValid() {
-		return TestUtils.RUNNING_RACE_VALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
 	}
 
 	@Override
 	protected Integer getIdInvalid() {
-		return TestUtils.RUNNING_RACE_INVALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
 	}
 
 	@Override

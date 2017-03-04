@@ -12,8 +12,8 @@ import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
@@ -37,7 +37,7 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	 */
 	@Override
 	protected Integer validIdNoChildren() {
-		return TestUtils.ATHLETE_WITHOUT_FRIENDS;
+		return AthleteDataUtils.ATHLETE_WITHOUT_FRIENDS;
 	}
 
 }

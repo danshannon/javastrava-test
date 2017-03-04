@@ -17,6 +17,7 @@ import test.api.model.StravaSegmentEffortTest;
 import test.issues.strava.Issue32;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -35,12 +36,12 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
-				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_AUTHENTICATED_ID
-						+ " is not the KOM!", isKom(effort.getSegment(), TestUtils.ATHLETE_AUTHENTICATED_ID));
+				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_AUTHENTICATED_ID
+						+ " is not the KOM!", isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
 			}
 		});
 	}
@@ -48,7 +49,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getActivity(kom.getActivity().getId());
@@ -63,7 +64,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
-					.listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+					.listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getActivity(kom.getActivity().getId());
@@ -77,7 +78,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getSegment(kom.getSegment().getId());
@@ -92,7 +93,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
-					.listAllAthleteKOMs(TestUtils.ATHLETE_AUTHENTICATED_ID);
+					.listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getSegment(kom.getSegment().getId());
@@ -106,7 +107,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_otherAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_VALID_ID);
 			assertNotNull(efforts);
 			// TODO workaround for issue javastrava-api #32 - see
 			// https://github.com/danshannon/javastravav3api/issues/32
@@ -117,8 +118,8 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
-				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + TestUtils.ATHLETE_VALID_ID + " is not the KOM!",
-						isKom(effort.getSegment(), TestUtils.ATHLETE_VALID_ID));
+				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_VALID_ID + " is not the KOM!",
+						isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_VALID_ID));
 			}
 		});
 	}
@@ -126,7 +127,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_otherAthletePrivateActivities() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_VALID_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
 					TestUtils.strava().getActivity(effort.getActivity().getId());
@@ -140,7 +141,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_otherAthletePrivateSegments() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(TestUtils.ATHLETE_VALID_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_VALID_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
 					TestUtils.strava().getSegment(effort.getSegment().getId());
@@ -158,7 +159,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 	@Override
 	protected Integer idPrivate() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override
@@ -178,7 +179,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override

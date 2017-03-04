@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long> {
 	/**
@@ -36,7 +36,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long
 	 */
 	@Override
 	protected Long validId() {
-		return api().getActivity(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).getUploadId();
+		return api().getActivity(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null).getUploadId();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return api().getActivity(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).getUploadId();
+		return api().getActivity(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).getUploadId();
 	}
 
 	/**

@@ -12,8 +12,10 @@ import test.utils.TestUtils;
  *
  */
 public class Issue32 extends IssueTest {
-	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
-		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken()).getSegmentLeaderboard(segment.getId());
+	@SuppressWarnings("boxing")
+	private static boolean isKom(final StravaSegment segment, final Integer athleteId) {
+		final StravaSegmentLeaderboard leaderboard = SegmentServiceImpl.instance(TestUtils.getValidToken())
+				.getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
 		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 			if (entry.getAthleteId().equals(athleteId) && entry.getRank().equals(1)) {
@@ -26,16 +28,17 @@ public class Issue32 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
-		StravaSegmentEffort[] efforts = api.listAthleteKOMs(200384, 1, 200);
+		final StravaSegmentEffort[] efforts = this.api.listAthleteKOMs(200384, 1, 200);
 		for (final StravaSegmentEffort effort : efforts) {
 			if (!isKom(effort.getSegment(), 200384)) {
 				return true;
 			}
 		}
 		return false;
-		
+
 	}
 
 	/**

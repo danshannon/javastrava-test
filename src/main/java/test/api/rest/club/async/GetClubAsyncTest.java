@@ -10,8 +10,8 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.TestGetCallback;
 import test.api.rest.club.GetClubTest;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class GetClubAsyncTest extends GetClubTest {
 	@Override
@@ -24,9 +24,9 @@ public class GetClubAsyncTest extends GetClubTest {
 	@Test
 	public void testGetClub_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClub club = api().getClub(TestUtils.CLUB_PRIVATE_MEMBER_ID);
+			final StravaClub club = api().getClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
-			StravaClubTest.validate(club, TestUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
+			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
@@ -36,7 +36,7 @@ public class GetClubAsyncTest extends GetClubTest {
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().getClub(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+				api().getClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			} catch (final UnauthorizedException e) {
 				// expected
 				return;

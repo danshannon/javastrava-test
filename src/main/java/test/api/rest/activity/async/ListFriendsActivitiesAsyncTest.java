@@ -13,8 +13,8 @@ import javastrava.config.StravaConfig;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListFriendsActivitiesTest;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	/**
@@ -76,7 +76,7 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
 			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
+				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)
 						&& activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
 				}
@@ -91,7 +91,7 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
 			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
+				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID))
 						&& activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
 				}

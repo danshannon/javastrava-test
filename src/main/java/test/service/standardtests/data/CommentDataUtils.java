@@ -1,10 +1,10 @@
 package test.service.standardtests.data;
 
 import javastrava.api.v3.model.StravaComment;
+import test.api.rest.TestCreateCallback;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;
-import test.utils.TestUtils;
 
 /**
  * <p>
@@ -24,10 +24,19 @@ public class CommentDataUtils {
 	 * @throws Exception
 	 *             if creator cannot be instantiated
 	 */
-	public static CreateCallback<StravaComment> creator() throws Exception {
+	public static CreateCallback<StravaComment> stravaCreator() throws Exception {
 		return ((strava, comment) -> {
 			return strava.createComment(comment.getActivityId(), comment.getText());
 		});
+	}
+
+	/**
+	 * @return the create callback
+	 * @throws Exception
+	 *             if creator cannot be instantiated
+	 */
+	public static TestCreateCallback<StravaComment, Long> apiCreator() throws Exception {
+		return ((api, comment, id) -> api.createComment(id, comment.getText()));
 	}
 
 	/**
@@ -70,7 +79,7 @@ public class CommentDataUtils {
 	 */
 	public static StravaComment generateValidObject() {
 		final StravaComment comment = new StravaComment();
-		comment.setActivityId(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+		comment.setActivityId(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 		comment.setText("Javastrava test comment - please ignore!"); //$NON-NLS-1$
 		return comment;
 	}
@@ -84,7 +93,7 @@ public class CommentDataUtils {
 	 */
 	public static StravaComment generateInvalidObject() {
 		final StravaComment comment = new StravaComment();
-		comment.setActivityId(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+		comment.setActivityId(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 		comment.setText(""); //$NON-NLS-1$
 		return comment;
 	}

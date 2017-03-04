@@ -12,6 +12,7 @@ import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -87,7 +88,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
 		final StravaComment comment = generateValidObject();
-		comment.setActivityId(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
 		// Attempt to make the comment
 		final StravaComment createdComment;
@@ -135,7 +136,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 
 	@Override
 	protected CreateCallback<StravaComment> creator() throws Exception {
-		return CommentDataUtils.creator();
+		return CommentDataUtils.stravaCreator();
 	}
 
 	@Override

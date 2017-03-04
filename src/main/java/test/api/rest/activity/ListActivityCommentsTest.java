@@ -5,7 +5,7 @@ import test.api.model.StravaCommentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, Long> {
 
@@ -14,7 +14,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	 */
 	@Override
 	protected Long validIdNoChildren() {
-		return TestUtils.ACTIVITY_WITHOUT_COMMENTS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 
 	@Override
 	protected ArrayCallback<StravaComment> pagingCallback() {
-		return ((paging) -> api().listActivityComments(TestUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(),
+		return ((paging) -> api().listActivityComments(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(),
 				paging.getPageSize()));
 	}
 

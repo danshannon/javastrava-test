@@ -10,6 +10,7 @@ import javastrava.api.v3.model.StravaActivity;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 	public void testListAllRelatedActivities_otherUserActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> activities = lister().getList(TestUtils.strava(),
-					TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+					ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
 				StravaActivityTest.validate(activity);
@@ -50,27 +51,27 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	protected Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_WITH_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_RELATED_ACTIVITIES;
 	}
 
 	@Override
 	protected Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override

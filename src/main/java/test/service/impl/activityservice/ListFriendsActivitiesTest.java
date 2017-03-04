@@ -14,6 +14,7 @@ import test.issues.strava.Issue18;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -40,22 +41,22 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		if (new Issue18().isIssue()) {
 			RateLimitedTestRunner.run(() -> {
 				final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 3),
-						TestUtils.ATHLETE_AUTHENTICATED_ID);
+						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(bothPages);
 				assertEquals(3, bothPages.size());
 				validateList(bothPages);
 				final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1),
-						TestUtils.ATHLETE_AUTHENTICATED_ID);
+						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(firstPage);
 				assertEquals(1, firstPage.size());
 				validateList(firstPage);
 				final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1),
-						TestUtils.ATHLETE_AUTHENTICATED_ID);
+						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(secondPage);
 				assertEquals(1, secondPage.size());
 				validateList(secondPage);
 				final List<StravaActivity> thirdPage = pagingLister().getList(TestUtils.strava(), new Paging(3, 1),
-						TestUtils.ATHLETE_AUTHENTICATED_ID);
+						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(thirdPage);
 				assertEquals(1, thirdPage.size());
 
@@ -95,7 +96,7 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

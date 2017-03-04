@@ -14,6 +14,7 @@ import org.junit.Test;
 import retrofit.client.Response;
 import test.apicheck.api.ResponseValidator;
 import test.apicheck.api.SegmentAPI;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -23,13 +24,13 @@ import test.utils.TestUtils;
 public class SegmentAPITest {
 	@Test
 	public void testAPI_getSegment() throws NotFoundException, JsonSerialisationException, IOException {
-		final Response response = api().getSegment(TestUtils.SEGMENT_VALID_ID);
+		final Response response = api().getSegment(SegmentDataUtils.SEGMENT_VALID_ID);
 		ResponseValidator.validate(response, StravaSegment.class, "getSegment");
 	}
 
 	@Test
 	public void testAPI_getSegmentLeaderboard() throws NotFoundException, JsonSerialisationException, IOException {
-		final Response response = api().getSegmentLeaderboard(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null, null, null, null, null);
+		final Response response = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, null, null, null, null, null);
 		ResponseValidator.validate(response, StravaSegmentLeaderboard.class, "getSegmentLeaderboard");
 	}
 
@@ -41,7 +42,7 @@ public class SegmentAPITest {
 
 	@Test
 	public void testAPI_listSegmentEfforts() throws NotFoundException, JsonSerialisationException, IOException {
-		final Response response = api().listSegmentEfforts(TestUtils.SEGMENT_VALID_ID, null, null, null, null, null);
+		final Response response = api().listSegmentEfforts(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, null);
 		ResponseValidator.validate(response, StravaSegmentEffort.class, "listSegmentEfforts");
 	}
 

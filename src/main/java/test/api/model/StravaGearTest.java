@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+
 import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.model.reference.StravaFrameType;
 import javastrava.api.v3.model.reference.StravaGearType;
@@ -12,11 +13,21 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for StravaGear
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaGearTest extends BeanTest<StravaGear> {
 
+	/**
+	 * Validate the given gear
+	 * 
+	 * @param gear
+	 *            The gear to validate
+	 */
 	public static void validateGear(final StravaGear gear) {
 		assertNotNull(gear);
 		validateGear(gear, gear.getId(), gear.getResourceState());
@@ -24,8 +35,11 @@ public class StravaGearTest extends BeanTest<StravaGear> {
 
 	/**
 	 * @param gear
+	 *            The gear to validate
 	 * @param id
+	 *            Expected id of the gear
 	 * @param resourceState
+	 *            Expected resource state of the gear
 	 */
 	public static void validateGear(final StravaGear gear, final String id, final StravaResourceState resourceState) {
 		assertNotNull(gear);
@@ -63,8 +77,8 @@ public class StravaGearTest extends BeanTest<StravaGear> {
 			assertNull(gear.getName());
 			assertNull(gear.getPrimary());
 		}
-		if (resourceState == StravaResourceState.UNKNOWN || resourceState == StravaResourceState.UPDATING) {
-			fail("Unexpected resource state " + resourceState);
+		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
+			fail("Unexpected resource state " + resourceState); //$NON-NLS-1$
 		}
 	}
 

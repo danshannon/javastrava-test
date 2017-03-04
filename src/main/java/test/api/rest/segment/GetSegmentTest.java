@@ -1,19 +1,28 @@
 package test.api.rest.segment;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.TestGetCallback;
 import test.issues.strava.Issue70;
-import test.utils.TestUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 
+/**
+ * <p>
+ * Tests for {@link API#getSegment(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.SEGMENT_INVALID_ID;
+		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
 
 	/**
@@ -21,7 +30,7 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	 */
 	@Override
 	protected Integer privateId() {
-		return TestUtils.SEGMENT_PRIVATE_ID;
+		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
 	}
 
 	/**
@@ -29,7 +38,7 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		return TestUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
 	// 4. Private segment belonging to the authenticated user
@@ -58,7 +67,7 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.SEGMENT_VALID_ID;
+		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
 
 	/**

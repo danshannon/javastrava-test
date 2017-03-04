@@ -2,30 +2,31 @@ package test.issues.strava;
 
 import javastrava.api.v3.service.exception.UnauthorizedException;
 
-
 /**
  * <p>
  * Issue test for issue javastrava-api #78
  * </p>
- * 
+ *
  * <p>
  * Tests will PASS if this is still an ongoing issue
  * </p>
- * 
+ *
  * @author Dan Shannon
- * @see <a href="https://github.com/danshannon/javastravav3api/issues/78">https://github.com/danshannon/javastravav3api/issues/78</a>
+ * @see <a href=
+ *      "https://github.com/danshannon/javastravav3api/issues/78">https://github.com/danshannon/javastravav3api/issues/78</a>
  */
 public class Issue78 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		try {
-			api.getSegmentEffort(120026887L);
-		} catch (UnauthorizedException e) {
+			this.api.getSegmentEffort(120026887L);
+		} catch (final UnauthorizedException e) {
 			return false;
-		} 
+		}
 		return true;
 	}
 

@@ -6,16 +6,19 @@ import test.utils.TestUtils;
 
 /**
  * <p>
- * These tests will PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/81">javastrava-api #25</a> is still an issue
- * 
+ * These tests will PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/81">javastrava-api #25</a> is still
+ * an issue
+ *
  * @author Dan Shannon
- * @see <a href="https://github.com/danshannon/javastravav3api/issues/81">https://github.com/danshannon/javastravav3api/issues/81</a>
+ * @see <a href=
+ *      "https://github.com/danshannon/javastravav3api/issues/81">https://github.com/danshannon/javastravav3api/issues/81</a>
  *
  */
 public class Issue81 extends IssueTest {
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
 		final API api = new API(TestUtils.getValidToken());

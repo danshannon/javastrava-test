@@ -24,6 +24,7 @@ public class StravaRunningRaceTest extends BeanTest<StravaRunningRace> {
 	 * </p>
 	 *
 	 * @param race
+	 *            The race to be validated
 	 */
 	public static void validate(final StravaRunningRace race) {
 		assertNotNull(race.getResourceState());

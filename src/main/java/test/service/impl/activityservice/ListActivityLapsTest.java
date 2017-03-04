@@ -5,7 +5,7 @@ import test.api.model.StravaLapTest;
 import test.issues.strava.Issue105;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -19,17 +19,17 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
 	public Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_LAPS;
+		return ActivityDataUtils.ACTIVITY_WITH_LAPS;
 	}
 
 	@Override
 	public Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_LAPS;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_LAPS;
 	}
 
 	@Override
 	public Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
@@ -52,12 +52,12 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	@Override
 	protected Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 }

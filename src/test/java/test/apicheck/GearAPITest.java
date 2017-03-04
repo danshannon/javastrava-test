@@ -12,6 +12,7 @@ import org.junit.Test;
 import retrofit.client.Response;
 import test.apicheck.api.GearAPI;
 import test.apicheck.api.ResponseValidator;
+import test.service.standardtests.data.GearDataUtils;
 import test.utils.TestUtils;
 
 /**
@@ -21,7 +22,7 @@ import test.utils.TestUtils;
 public class GearAPITest {
 	@Test
 	public void testAPI_getGear() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().getGear(TestUtils.GEAR_VALID_ID);
+		Response response = api().getGear(GearDataUtils.GEAR_VALID_ID);
 		ResponseValidator.validate(response, StravaGear.class, "getGear");
 	}
 	

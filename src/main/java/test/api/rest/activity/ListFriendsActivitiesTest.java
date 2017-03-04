@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -16,8 +15,8 @@ import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 	@Override
@@ -68,7 +67,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)
+				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)
 						&& activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
 				}
@@ -90,7 +89,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID))
+				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID))
 						&& activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
 				}
@@ -155,8 +154,10 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaActivity[] athletes) {
-		StravaActivityTest.validateList(Arrays.asList(athletes));
+	protected void validateArray(final StravaActivity[] activities) {
+		for (final StravaActivity activity : activities) {
+			StravaActivityTest.validate(activity);
+		}
 	}
 
 	/**
@@ -164,7 +165,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

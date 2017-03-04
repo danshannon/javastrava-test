@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -18,8 +17,8 @@ import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 	@Override
@@ -79,7 +78,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -104,7 +103,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -131,7 +130,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -174,7 +173,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -200,7 +199,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
-				assertEquals(TestUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
+				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				StravaActivityTest.validate(activity);
 			}
 		});
@@ -217,7 +216,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 */
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
-		StravaActivityTest.validateList(Arrays.asList(activities));
+		for (final StravaActivity activity : activities) {
+			StravaActivityTest.validate(activity);
+		}
 
 	}
 
@@ -228,7 +229,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	protected Integer validId() {
 		// Return the authenticated athlete's ID (even though it's not actually
 		// used, we need something that's not null)
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	/**

@@ -3,7 +3,7 @@ package test.issues.strava;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.APITest;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -15,7 +15,8 @@ import test.utils.TestUtils;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href="https://github.com/danshannon/javastravav3api/issues/63">https://github.com/danshannon/javastravav3api/issues/63</a>
+ * @see <a href=
+ *      "https://github.com/danshannon/javastravav3api/issues/63">https://github.com/danshannon/javastravav3api/issues/63</a>
  */
 public class Issue63 extends IssueTest {
 	/**
@@ -23,10 +24,10 @@ public class Issue63 extends IssueTest {
 	 */
 	@Override
 	public boolean isIssue() throws Exception {
-		final StravaComment comment = APITest.forceCreateComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore");
+		final StravaComment comment = APITest.forceCreateComment(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, "Test - ignore"); //$NON-NLS-1$
 		try {
-			api.deleteComment(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER, comment.getId());
-		} catch (UnauthorizedException e) {
+			this.api.deleteComment(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, comment.getId());
+		} catch (final UnauthorizedException e) {
 			APITest.forceDeleteComment(comment);
 			return false;
 		}

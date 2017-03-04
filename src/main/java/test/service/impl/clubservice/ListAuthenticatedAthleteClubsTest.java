@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaClub;
 import test.api.model.StravaClubTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -61,7 +62,7 @@ public class ListAuthenticatedAthleteClubsTest extends ListMethodTest<StravaClub
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

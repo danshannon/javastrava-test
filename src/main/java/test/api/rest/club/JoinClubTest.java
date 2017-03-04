@@ -12,15 +12,15 @@ import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.APITest;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class JoinClubTest extends APITest<StravaClub> {
 	// 3. Invalid club
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_INVALID_ID;
+			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
 			try {
 				apiWithWriteAccess().joinClub(id);
@@ -36,7 +36,7 @@ public class JoinClubTest extends APITest<StravaClub> {
 	@Test
 	public void testJoinClub_member() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = apiWithWriteAccess().joinClub(id);
 
@@ -56,7 +56,7 @@ public class JoinClubTest extends APITest<StravaClub> {
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_NON_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
 			final StravaClubMembershipResponse response = apiWithWriteAccess().joinClub(id);
 
@@ -78,7 +78,7 @@ public class JoinClubTest extends APITest<StravaClub> {
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PUBLIC_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
 			try {
 				api().joinClub(id);
@@ -94,7 +94,7 @@ public class JoinClubTest extends APITest<StravaClub> {
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final Integer id = TestUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
 			try {
 				apiWithWriteAccess().joinClub(id);

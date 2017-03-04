@@ -20,7 +20,8 @@ import test.utils.TestUtils;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href="https://github.com/danshannon/javastravav3api/issues/72">https://github.com/danshannon/javastravav3api/issues/72</a>
+ * @see <a href=
+ *      "https://github.com/danshannon/javastravav3api/issues/72">https://github.com/danshannon/javastravav3api/issues/72</a>
  *
  */
 public class Issue72 extends IssueTest {
@@ -30,15 +31,15 @@ public class Issue72 extends IssueTest {
 	@Override
 	public boolean isIssue() throws Exception {
 		// Create a private activity
-		final StravaActivity activity = APITest.createPrivateActivity("Issue72.testIssue()");
-		
+		final StravaActivity activity = APITest.createPrivateActivity("Issue72.testIssue()"); //$NON-NLS-1$
+
 		// 2 instances of the API: one with and one without view_private
 		final API apiWithWriteAccess = new API(TestUtils.getValidTokenWithWriteAccess());
 
 		// Attempt to update the activity
 		final StravaActivityUpdate activityUpdate = new StravaActivityUpdate();
-		activityUpdate.setDescription("Test issue 72");
-		
+		activityUpdate.setDescription("Test issue 72"); //$NON-NLS-1$
+
 		// This should throw a 401 Unauthorised, but if the issue is current it won't have
 		try {
 			apiWithWriteAccess.updateActivity(activity.getId(), activityUpdate);

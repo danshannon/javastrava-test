@@ -11,6 +11,7 @@ import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
+import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -75,7 +76,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			ClubService service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
-				service.getClub(TestUtils.CLUB_VALID_ID);
+				service.getClub(ClubDataUtils.CLUB_VALID_ID);
 			} catch (InvalidTokenException e) {
 				// expected
 				return;
@@ -99,7 +100,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final ClubService service = getRevokedTokenService();
 			try {
-				service.getClub(TestUtils.CLUB_VALID_ID);
+				service.getClub(ClubDataUtils.CLUB_VALID_ID);
 			} catch (InvalidTokenException e) {
 				// expected
 				return;

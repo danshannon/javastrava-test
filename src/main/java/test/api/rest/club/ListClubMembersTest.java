@@ -4,8 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
@@ -14,8 +12,8 @@ import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
-import test.utils.TestUtils;
 
 public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
@@ -39,7 +37,7 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	 */
 	@Override
 	protected Integer invalidId() {
-		return TestUtils.CLUB_INVALID_ID;
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	/**
@@ -60,14 +58,14 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 
 	/**
 	 * Private club of which current authenticated athlete is a member
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails for an unexpected reason
 	 */
 	@Test
 	public void testListClubMembers_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaAthlete[] members = api().listClubMembers(TestUtils.CLUB_PRIVATE_MEMBER_ID, null, null);
+			final StravaAthlete[] members = api().listClubMembers(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, null, null);
 			assertNotNull(members);
 			assertFalse(members.length == 0);
 			for (final StravaAthlete athlete : members) {
@@ -81,7 +79,7 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				api().listClubMembers(TestUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null);
+				api().listClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -100,9 +98,10 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
 	 */
 	@Override
-	protected void validateArray(final StravaAthlete[] list) {
-		StravaAthleteTest.validateList(Arrays.asList(list));
-
+	protected void validateArray(final StravaAthlete[] athletes) {
+		for (final StravaAthlete athlete : athletes) {
+			StravaAthleteTest.validateAthlete(athlete);
+		}
 	}
 
 	/**
@@ -110,7 +109,7 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	 */
 	@Override
 	protected Integer validId() {
-		return TestUtils.CLUB_VALID_ID;
+		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
 	/**

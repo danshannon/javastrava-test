@@ -1,13 +1,19 @@
 package test.api.rest.activity;
 
-import java.util.Arrays;
-
 import javastrava.api.v3.model.StravaActivityZone;
 import test.api.model.StravaActivityZoneTest;
 import test.api.rest.APIListTest;
 import test.api.rest.TestListArrayCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
+/**
+ * <p>
+ * Specific tests for API listActivityZones methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long> {
 	@Override
 	protected TestListArrayCallback<StravaActivityZone, Long> listCallback() {
@@ -27,7 +33,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long invalidId() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	/**
@@ -35,7 +41,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long privateId() {
-		return TestUtils.ACTIVITY_PRIVATE_WITH_LAPS;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_LAPS;
 	}
 
 	/**
@@ -43,7 +49,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	/**
@@ -60,7 +66,9 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected void validateArray(final StravaActivityZone[] list) {
-		StravaActivityZoneTest.validateList(Arrays.asList(list));
+		for (final StravaActivityZone zone : list) {
+			StravaActivityZoneTest.validate(zone);
+		}
 
 	}
 
@@ -69,7 +77,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long validId() {
-		return TestUtils.ACTIVITY_WITH_ZONES;
+		return ActivityDataUtils.ACTIVITY_WITH_ZONES;
 	}
 
 	/**
@@ -77,7 +85,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
 	}
 
 	/**
@@ -85,7 +93,7 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	 */
 	@Override
 	protected Long validIdNoChildren() {
-		return TestUtils.ACTIVITY_WITHOUT_ZONES;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_ZONES;
 	}
 
 }

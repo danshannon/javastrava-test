@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaActivityZone;
 import test.api.model.StravaActivityZoneTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
@@ -17,22 +17,22 @@ import test.utils.TestUtils;
 public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Long> {
 	@Override
 	public Long idValidWithEntries() {
-		return TestUtils.ACTIVITY_WITH_ZONES;
+		return ActivityDataUtils.ACTIVITY_WITH_ZONES;
 	}
 
 	@Override
 	public Long idValidWithoutEntries() {
-		return TestUtils.ACTIVITY_WITHOUT_ZONES;
+		return ActivityDataUtils.ACTIVITY_WITHOUT_ZONES;
 	}
 
 	@Override
 	public Long idPrivateBelongsToOtherUser() {
-		return TestUtils.ACTIVITY_PRIVATE_OTHER_USER;
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override
 	public Long idInvalid() {
-		return TestUtils.ACTIVITY_INVALID;
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Lo
 
 	@Override
 	protected Long idPrivate() {
-		return TestUtils.ACTIVITY_PRIVATE;
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	@Override

@@ -1,16 +1,28 @@
 package test.api.model;
 
 import static org.junit.Assert.assertNotNull;
+
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import test.utils.BeanTest;
 
 /**
+ * <p>
+ * Tests for {@link StravaSegmentLeaderboard}
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
 public class StravaSegmentLeaderboardTest extends BeanTest<StravaSegmentLeaderboard> {
 
+	/**
+	 * Validate the structure and content of a leaderboard
+	 *
+	 * @param leaderboard
+	 *            the leaderboard to be validated
+	 */
+	@SuppressWarnings("boxing")
 	public static void validate(final StravaSegmentLeaderboard leaderboard) {
 		assertNotNull(leaderboard);
 		// Optional (if using API only) assertNotNull(leaderboard.getAthleteEntries());

@@ -13,6 +13,8 @@ import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
 import test.issues.strava.Issue29;
+import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.spec.PrivacyTests;
 import test.service.standardtests.spec.StandardTests;
 import test.utils.RateLimitedTestRunner;
@@ -36,15 +38,15 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	@Test
 	public void testGiveKudos_activityAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			TestUtils.stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 			// Check that kudos was NOT given
-			final List<StravaAthlete> kudoers = TestUtils.strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
+			final List<StravaAthlete> kudoers = TestUtils.strava().listActivityKudoers(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
 
 			boolean found = false;
 			for (final StravaAthlete athlete : kudoers) {
 				StravaAthleteTest.validateAthlete(athlete);
-				if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+				if (athlete.getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) {
 					found = true;
 				}
 			}
@@ -57,7 +59,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	public void testInvalidId() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_INVALID);
+				TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_INVALID);
 			} catch (final NotFoundException e) {
 				// Expected behaviour
 				return;
@@ -76,15 +78,15 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	@Test
 	public void testGiveKudos_activityOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			TestUtils.stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 			// Check that kudos is now given
-			final List<StravaAthlete> kudoers = TestUtils.strava().listActivityKudoers(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			final List<StravaAthlete> kudoers = TestUtils.strava().listActivityKudoers(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 
 			boolean found = false;
 			for (final StravaAthlete athlete : kudoers) {
 				StravaAthleteTest.validateAthlete(athlete);
-				if (athlete.getId().equals(TestUtils.ATHLETE_AUTHENTICATED_ID)) {
+				if (athlete.getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) {
 					found = true;
 				}
 			}
@@ -97,7 +99,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	public void testPrivateBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -115,7 +117,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	public void testGiveKudos_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().giveKudos(TestUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+				TestUtils.strava().giveKudos(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -132,7 +134,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.stravaWithWriteAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE);
+				TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_PRIVATE);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -145,7 +147,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			TestUtils.stravaWithFullAccess().giveKudos(TestUtils.ACTIVITY_PRIVATE);
+			TestUtils.stravaWithFullAccess().giveKudos(ActivityDataUtils.ACTIVITY_PRIVATE);
 		});
 	}
 

@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -34,7 +35,7 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 	@Test
 	public void listAllStarredSegments_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), TestUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(segments);
 
 			final List<StravaSegment> starredSegments = TestUtils.strava().listAllAuthenticatedAthleteStarredSegments();
@@ -60,7 +61,7 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 
 	@Override
 	protected Integer idInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override

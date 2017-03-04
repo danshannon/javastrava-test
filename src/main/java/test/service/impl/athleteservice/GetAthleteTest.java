@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
-import test.utils.TestUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 /**
  * <p>
@@ -18,12 +18,12 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 	@Override
 	protected Integer getIdValid() {
-		return TestUtils.ATHLETE_VALID_ID;
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	@Override
 	protected Integer getIdInvalid() {
-		return TestUtils.ATHLETE_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
-		return TestUtils.ATHLETE_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override

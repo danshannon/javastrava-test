@@ -12,6 +12,7 @@ import javastrava.api.v3.service.impl.GearServiceImpl;
 
 import org.junit.Test;
 
+import test.service.standardtests.data.GearDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -82,7 +83,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			GearService service = null;
 			service = GearServiceImpl.instance(TestUtils.INVALID_TOKEN);
-			final StravaGear gear = service.getGear(TestUtils.GEAR_VALID_ID);
+			final StravaGear gear = service.getGear(GearDataUtils.GEAR_VALID_ID);
 			assertEquals(StravaResourceState.PRIVATE, gear.getResourceState());
 		});
 	}
@@ -103,7 +104,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 			final Token token = getRevokedToken();
 			final GearService service = GearServiceImpl.instance(token);
 
-			final StravaGear gear = service.getGear(TestUtils.GEAR_VALID_ID);
+			final StravaGear gear = service.getGear(GearDataUtils.GEAR_VALID_ID);
 			assertEquals(StravaResourceState.PRIVATE, gear.getResourceState());
 		});
 	}
