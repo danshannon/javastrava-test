@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.service.standardtests.callbacks.ListCallback;
@@ -49,6 +51,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	protected abstract void validate(T object);
 
 	@Override
+	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
 		// Don't run if there's no id
 		if (idPrivateBelongsToOtherUser() == null) {
@@ -70,6 +73,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	}
 
 	@Override
+	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception {
 		// Don't run if there's no id to run against
 		if (idPrivate() == null) {
@@ -87,6 +91,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	}
 
 	@Override
+	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		// Don't run if there's no id to run against
 		if (idPrivate() == null) {
@@ -108,6 +113,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	}
 
 	@Override
+	@Test
 	public void testInvalidId() throws Exception {
 		// Don't run if there's no id to run against
 		if (idInvalid() == null) {
@@ -123,6 +129,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	}
 
 	@Override
+	@Test
 	public void testValidParentWithEntries() throws Exception {
 		// Don't run if there's no id to run against
 		if (idValidWithEntries() == null) {
@@ -144,6 +151,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 	}
 
 	@Override
+	@Test
 	public void testValidParentWithNoEntries() throws Exception {
 		// Don't run if there's no id to run against
 		if (idValidWithoutEntries() == null) {
