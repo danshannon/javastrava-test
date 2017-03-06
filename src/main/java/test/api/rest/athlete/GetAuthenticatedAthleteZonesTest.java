@@ -3,7 +3,7 @@ package test.api.rest.athlete;
 import javastrava.api.v3.model.StravaAthleteZones;
 import test.api.model.StravaAthleteZonesTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
 public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZones, Integer> {
@@ -40,7 +40,7 @@ public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZo
 	}
 
 	@Override
-	protected TestGetCallback<StravaAthleteZones, Integer> getCallback() {
+	protected TestGetCallback<StravaAthleteZones, Integer> getter() {
 		return ((api, id) -> api.getAuthenticatedAthleteZones());
 	}
 

@@ -20,7 +20,7 @@ import javastrava.util.Paging;
 import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue73;
 import test.service.standardtests.data.ClubDataUtils;
@@ -286,7 +286,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 	}
 
 	@Override
-	protected TestGetCallback<StravaSegmentLeaderboard, Integer> getCallback() {
+	protected TestGetCallback<StravaSegmentLeaderboard, Integer> getter() {
 		return ((api, id) -> api.getSegmentLeaderboard(id, null, null, null, null, null, null, null, null, null));
 	}
 

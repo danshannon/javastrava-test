@@ -1,8 +1,8 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaComment;
-import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityCommentsTest;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 

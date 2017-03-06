@@ -11,15 +11,23 @@ import java.time.Month;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.v3.rest.API;
 import javastrava.util.StravaDateUtils;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 	@Override
 	protected ArrayCallback<StravaActivity> pagingCallback() {
@@ -28,8 +36,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 
 	@Override
 	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
-		// TODO Auto-generated method stub
-		return null;
+		return ((api, id) -> api.listAuthenticatedAthleteActivities(null, null, null, null));
 	}
 
 	/**
@@ -65,9 +72,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_afterActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -90,9 +97,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -115,9 +122,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterCombination() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -143,9 +150,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterInvalidCombination() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -154,11 +161,20 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(
 					StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
-			assertNotNull("Returned null collection of activities", activities);
+			assertNotNull("Returned null collection of activities", activities); //$NON-NLS-1$
 			assertEquals(0, activities.length);
 		});
 	}
 
+	/**
+	 * <p>
+	 * Test listing of {@link StravaActivity activities} between two given times
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterPaging() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -186,17 +202,16 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAuthenticatedAthleteActivities_default() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, null, null, null);
 
-			assertNotNull("Authenticated athlete's activities returned as null", activities);
-			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);
+			assertNotNull("Authenticated athlete's activities returned as null", activities); //$NON-NLS-1$
+			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length); //$NON-NLS-1$
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());

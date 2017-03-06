@@ -5,18 +5,40 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.callback.TestGetCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
+ * <p>
+ * Tests for API get methods
+ * </p>
+ *
  * @author Dan Shannon
+ * @param <T>
+ *            Class of object being retrieved
+ * @param <U>
+ *            Class of identifier of the parent (so mostly, Integer or Long)
  *
  */
 public abstract class APIGetTest<T, U> extends APITest<T> {
 
-	protected abstract TestGetCallback<T, U> getCallback();
+	/**
+	 * Callback used to call the API get method
+	 *
+	 * @return The callback
+	 *
+	 */
+	protected abstract TestGetCallback<T, U> getter();
 
+	/**
+	 * Test getting an invalid object (i.e. one that doesn't exist)
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_invalid() throws Exception {
 		if (invalidId() == null) {
@@ -24,27 +46,41 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				getCallback().run(api(), invalidId());
+				getter().run(api(), invalidId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
 			}
-			fail("Returned an object with an invalid ID");
+			fail("Returned an object with an invalid ID"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Test getting a valid object is private and belongs to the authenticated user, with {@link AuthorisationScope#VIEW_PRIVATE}
+	 * scope
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_private() throws Exception {
 		if (privateId() == null) {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback().run(apiWithViewPrivate(), privateId());
+			final T result = this.getter().run(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
 			validate(result);
 		});
 	}
 
+	/**
+	 * Test getting a valid object is private and belongs to someone other than the authenticated user, with
+	 * {@link AuthorisationScope#VIEW_PRIVATE} scope
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_privateBelongsToOtherUser() throws Exception {
 		if (privateIdBelongsToOtherUser() == null) {
@@ -52,15 +88,22 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getCallback().run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
+				this.getter().run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}
-			fail("Returned a private object belonging to another user!");
+			fail("Returned a private object belonging to another user!"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Test getting a valid object is private and belongs to the authenticated user, without {@link AuthorisationScope#VIEW_PRIVATE}
+	 * scope
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_privateWithoutViewPrivate() throws Exception {
 		if (privateId() == null) {
@@ -68,43 +111,80 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getCallback().run(api(), privateId());
+				this.getter().run(api(), privateId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}
-			fail("Returned a private object, but don't have view_private access!");
+			fail("Returned a private object, but don't have view_private access!"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Test getting a valid object that belongs to the authenticated user
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback().run(api(), validId());
+			final T result = this.getter().run(api(), validId());
 			assertNotNull(result);
 			validate(result);
 		});
 	}
 
+	/**
+	 * Test getting a valid object that belongs to someone other than the authenticated user
+	 *
+	 * @throws Exception
+	 *             if an unexpected error occurs
+	 */
 	@Test
 	public void get_validBelongsToOtherUser() throws Exception {
 		if (validIdBelongsToOtherUser() == null) {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getCallback().run(api(), validIdBelongsToOtherUser());
+			final T result = this.getter().run(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);
 			validate(result);
 		});
 	}
 
+	/**
+	 * Get an invalid identifier of an object that does not exist
+	 *
+	 * @return The id
+	 */
 	protected abstract U invalidId();
 
+	/**
+	 * Get a valid identifier of an object that is private and belongs to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U privateId();
 
+	/**
+	 * Get a valid identifier of an object that is private and belongs to someone other than the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U privateIdBelongsToOtherUser();
 
+	/**
+	 * Get a valid identifier of an object (i.e. one that doesn't exist) that belongs to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U validId();
 
+	/**
+	 * Get a valid identifier of an object (i.e. one that doesn't exist) that does NOT belong to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U validIdBelongsToOtherUser();
 }

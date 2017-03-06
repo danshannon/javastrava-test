@@ -14,7 +14,7 @@ import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.api.rest.stream.GetSegmentStreamsTest;
 import test.issues.strava.Issue89;
 import test.issues.strava.Issue90;
@@ -28,7 +28,7 @@ import test.utils.RateLimitedTestRunner;
 public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 
 	@Override
-	protected TestGetCallback<StravaStream[], Integer> getCallback() {
+	protected TestGetCallback<StravaStream[], Integer> getter() {
 		return ((api, id) -> api.getSegmentStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get());
 	}
 

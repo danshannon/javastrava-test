@@ -3,12 +3,21 @@ package test.api.rest.activity;
 import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaPhoto;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.issues.strava.Issue68;
 import test.service.standardtests.data.ActivityDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listActivityPhotos(Long)} methods
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	@Override
 	protected TestListArrayCallback<StravaPhoto, Long> listCallback() {

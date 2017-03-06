@@ -10,7 +10,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.issues.strava.Issue71;

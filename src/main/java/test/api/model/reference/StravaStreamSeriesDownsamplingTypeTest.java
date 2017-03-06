@@ -2,15 +2,20 @@ package test.api.model.reference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 
 import org.junit.Test;
+
+import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 
 /**
  * @author Dan Shannon
  *
  */
 public class StravaStreamSeriesDownsamplingTypeTest {
+	/**
+	 * Test returning the description
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetDescription() {
 		for (final StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {
@@ -18,6 +23,10 @@ public class StravaStreamSeriesDownsamplingTypeTest {
 		}
 	}
 
+	/**
+	 * Test returning the id
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final StravaStreamSeriesDownsamplingType type : StravaStreamSeriesDownsamplingType.values()) {

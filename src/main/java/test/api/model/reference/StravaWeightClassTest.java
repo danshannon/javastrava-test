@@ -5,16 +5,20 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaWeightClass;
-
-import org.junit.Test;
 
 /**
  * @author Dan Shannon
  *
  */
 public class StravaWeightClassTest {
+	/**
+	 * Test returning the description
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetDescription() {
 		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
@@ -22,6 +26,10 @@ public class StravaWeightClassTest {
 		}
 	}
 
+	/**
+	 * Test returning the id
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
@@ -30,6 +38,10 @@ public class StravaWeightClassTest {
 		}
 	}
 
+	/**
+	 * Test returning the measurement method
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetMeasurementMethod() {
 		for (final StravaWeightClass weightClass : StravaWeightClass.values()) {
@@ -37,6 +49,10 @@ public class StravaWeightClassTest {
 		}
 	}
 
+	/**
+	 * Test returning the list of weight classes with a particular measurement method
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListByMeasurementMethod() {
 		for (final StravaMeasurementMethod method : StravaMeasurementMethod.values()) {

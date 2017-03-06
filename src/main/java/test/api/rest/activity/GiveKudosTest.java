@@ -7,7 +7,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
-import test.api.rest.TestCreateCallback;
+import test.api.rest.callback.TestCreateCallback;
 import test.issues.strava.Issue29;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;

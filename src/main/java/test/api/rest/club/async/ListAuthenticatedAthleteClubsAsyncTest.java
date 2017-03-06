@@ -1,7 +1,7 @@
 package test.api.rest.club.async;
 
 import javastrava.api.v3.model.StravaClub;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.club.ListAuthenticatedAthleteClubsTest;
 
 public class ListAuthenticatedAthleteClubsAsyncTest extends ListAuthenticatedAthleteClubsTest {

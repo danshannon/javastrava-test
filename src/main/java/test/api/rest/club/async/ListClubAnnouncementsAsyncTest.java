@@ -3,7 +3,7 @@ package test.api.rest.club.async;
 import static org.junit.Assert.assertNotNull;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.club.ListClubAnnouncementsTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;

@@ -8,14 +8,14 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.api.rest.club.GetClubTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 public class GetClubAsyncTest extends GetClubTest {
 	@Override
-	protected TestGetCallback<StravaClub, Integer> getCallback() {
+	protected TestGetCallback<StravaClub, Integer> getter() {
 		return ((api, id) -> api.getClubAsync(id).get());
 	}
 

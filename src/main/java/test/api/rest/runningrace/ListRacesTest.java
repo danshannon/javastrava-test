@@ -3,7 +3,7 @@ package test.api.rest.runningrace;
 import javastrava.api.v3.model.StravaRunningRace;
 import test.api.model.StravaRunningRaceTest;
 import test.api.rest.APIListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.service.standardtests.data.RunningRaceDataUtils;
 
 public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {

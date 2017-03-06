@@ -9,15 +9,24 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.rest.API;
 import javastrava.config.StravaConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listFriendsActivities(Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 	@Override
 	protected ArrayCallback<StravaActivity> pagingCallback() {
@@ -83,7 +92,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 	 * @throws Exception
 	 *             if the test fails for unexpected reasons
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -135,12 +144,9 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	@Override
 	public void testPageNumberAndSize() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#18
-		// When the issue is fixed, remove this method altogether
 		if (new Issue18().isIssue()) {
 			return;
 		}
-		// End of workaround
 		super.testPageNumberAndSize();
 	}
 

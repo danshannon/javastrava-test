@@ -1,8 +1,8 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaActivity;
-import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListRelatedActivitiesTest;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 
 public class ListRelatedActivitiesAsyncTest extends ListRelatedActivitiesTest {

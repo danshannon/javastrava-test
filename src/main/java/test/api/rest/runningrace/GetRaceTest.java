@@ -3,7 +3,7 @@ package test.api.rest.runningrace;
 import javastrava.api.v3.model.StravaRunningRace;
 import test.api.model.StravaRunningRaceTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.RunningRaceDataUtils;
 
 /**
@@ -17,7 +17,7 @@ import test.service.standardtests.data.RunningRaceDataUtils;
 public class GetRaceTest extends APIGetTest<StravaRunningRace, Integer> {
 
 	@Override
-	protected TestGetCallback<StravaRunningRace, Integer> getCallback() {
+	protected TestGetCallback<StravaRunningRace, Integer> getter() {
 		return ((api, id) -> api.getRace(id));
 	}
 

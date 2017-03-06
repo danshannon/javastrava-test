@@ -1,4 +1,4 @@
-package test.api.rest;
+package test.api.rest.callback;
 
 import javastrava.api.v3.rest.API;
 

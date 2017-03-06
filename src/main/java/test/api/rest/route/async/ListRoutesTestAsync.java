@@ -2,7 +2,7 @@ package test.api.rest.route.async;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.route.ListRoutesTest;
 
 /**

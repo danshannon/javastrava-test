@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.club.ListClubMembersTest;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ClubDataUtils;

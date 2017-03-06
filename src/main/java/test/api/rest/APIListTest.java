@@ -11,6 +11,7 @@ import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.callback.TestListArrayCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -72,7 +73,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.listCallback().run(api(), invalidId());
+				this.listCallback().list(api(), invalidId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -103,7 +104,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T[] results = this.listCallback().run(apiWithViewPrivate(), privateId());
+			final T[] results = this.listCallback().list(apiWithViewPrivate(), privateId());
 			assertNotNull(results);
 			assertNotEquals(0, results.length);
 			validateArray(results);
@@ -134,7 +135,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.listCallback().run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
+				this.listCallback().list(apiWithViewPrivate(), privateIdBelongsToOtherUser());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -167,7 +168,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 			}
 
 			try {
-				this.listCallback().run(api(), privateId());
+				this.listCallback().list(api(), privateId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -205,7 +206,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 		RateLimitedTestRunner.run(() -> {
 			T[] results = null;
 			try {
-				results = this.listCallback().run(api(), validIdBelongsToOtherUser());
+				results = this.listCallback().list(api(), validIdBelongsToOtherUser());
 			} catch (final UnauthorizedException e) {
 				if (this.listOtherReturns401Unauthorised) {
 					// Expected
@@ -235,7 +236,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	@Test
 	public void list_validParent() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final T[] results = this.listCallback().run(api(), validId());
+			final T[] results = this.listCallback().list(api(), validId());
 			assertNotNull(results);
 			assertNotEquals(0, results.length);
 			validateArray(results);
@@ -264,7 +265,7 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T[] results = this.listCallback().run(api(), validIdNoChildren());
+			final T[] results = this.listCallback().list(api(), validIdNoChildren());
 			assertNotNull(results);
 			assertEquals(0, results.length);
 		});
@@ -286,7 +287,9 @@ public abstract class APIListTest<T, U> extends APITest<T> {
 	 * </p>
 	 *
 	 * @param list
+	 *            List of objects to be validated
 	 * @throws Exception
+	 *             if the validation fails
 	 */
 	protected abstract void validateArray(final T[] list) throws Exception;
 

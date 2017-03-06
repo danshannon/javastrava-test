@@ -1,8 +1,8 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaResponse;
-import test.api.rest.TestCreateCallback;
 import test.api.rest.activity.GiveKudosTest;
+import test.api.rest.callback.TestCreateCallback;
 
 public class GiveKudosAsyncTest extends GiveKudosTest {
 	@Override

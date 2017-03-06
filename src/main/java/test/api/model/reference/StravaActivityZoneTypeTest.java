@@ -2,9 +2,10 @@ package test.api.model.reference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.reference.StravaActivityZoneType;
 
 import org.junit.Test;
+
+import javastrava.api.v3.model.reference.StravaActivityZoneType;
 
 /**
  * @author Dan Shannon
@@ -12,6 +13,10 @@ import org.junit.Test;
  */
 public class StravaActivityZoneTypeTest {
 
+	/**
+	 * Test returning the description
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetDescription() {
 		for (final StravaActivityZoneType type : StravaActivityZoneType.values()) {
@@ -19,6 +24,10 @@ public class StravaActivityZoneTypeTest {
 		}
 	}
 
+	/**
+	 * Test returning the id
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final StravaActivityZoneType type : StravaActivityZoneType.values()) {

@@ -10,7 +10,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
-import test.api.rest.TestCreateCallback;
+import test.api.rest.callback.TestCreateCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 

@@ -3,7 +3,7 @@ package test.api.rest.activity;
 import javastrava.api.v3.model.StravaActivityZone;
 import test.api.model.StravaActivityZoneTest;
 import test.api.rest.APIListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
 /**

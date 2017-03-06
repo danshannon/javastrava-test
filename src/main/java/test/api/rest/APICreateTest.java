@@ -12,10 +12,15 @@ import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.api.rest.callback.TestCreateCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * <p>
+ * Tests for API create methods
+ * </p>
+ *
+ * @author Dan Shannon
  * @param <T>
  *            Class of object being created
  * @param <U>
@@ -192,15 +197,46 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 	 */
 	protected abstract T createObject();
 
+	/**
+	 * Force delete the object
+	 *
+	 * @param objectToDelete
+	 *            The object to be deleted
+	 */
 	protected abstract void forceDelete(T objectToDelete);
 
+	/**
+	 * Get an invalid identifier of a parent (i.e. one that doesn't exist)
+	 *
+	 * @return The id
+	 */
 	protected abstract U invalidParentId();
 
+	/**
+	 * Get an identifier of a private parent object that belongs to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U privateParentId();
 
+	/**
+	 * Get an identifier of a private parent object that does NOT to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U privateParentOtherUserId();
 
+	/**
+	 * Get a valid identifier of a parent object that belongs to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U validParentId();
 
+	/**
+	 * Get a valid identifier of a parent object that does NOT belong to the authenticated user
+	 *
+	 * @return The id
+	 */
 	protected abstract U validParentOtherUserId();
 }

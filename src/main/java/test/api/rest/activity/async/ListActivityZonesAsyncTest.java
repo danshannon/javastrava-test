@@ -1,8 +1,8 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaActivityZone;
-import test.api.rest.TestListArrayCallback;
 import test.api.rest.activity.ListActivityZonesTest;
+import test.api.rest.callback.TestListArrayCallback;
 
 public class ListActivityZonesAsyncTest extends ListActivityZonesTest {
 	/**

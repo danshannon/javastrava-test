@@ -1,7 +1,7 @@
 package test.service.standardtests.data;
 
 import javastrava.api.v3.model.StravaComment;
-import test.api.rest.TestCreateCallback;
+import test.api.rest.callback.TestCreateCallback;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;

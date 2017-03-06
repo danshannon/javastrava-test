@@ -78,7 +78,7 @@ public class StravaClubTest extends BeanTest<StravaClub> {
 			assertNull(club.getClubType());
 			// Optional assertNotNull(club.getCountry());
 			// Optional assertNull(club.getDescription());
-			assertNull(club.getMemberCount());
+			// Optional assertNull(club.getMemberCount());
 			assertNotNull(club.getName());
 			assertNotNull(club.getPrivateClub());
 			assertNotNull(club.getProfile());

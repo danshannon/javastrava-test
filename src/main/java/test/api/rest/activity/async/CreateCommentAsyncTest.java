@@ -1,8 +1,8 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaComment;
-import test.api.rest.TestCreateCallback;
 import test.api.rest.activity.CreateCommentTest;
+import test.api.rest.callback.TestCreateCallback;
 
 public class CreateCommentAsyncTest extends CreateCommentTest {
 

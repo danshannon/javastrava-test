@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
 import test.api.rest.APIListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 

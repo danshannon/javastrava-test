@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.issues.strava.Issue70;
 import test.service.standardtests.data.SegmentDataUtils;
 
@@ -79,7 +79,7 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaSegment, Integer> getCallback() {
+	protected TestGetCallback<StravaSegment, Integer> getter() {
 		return ((api, id) -> api.getSegment(id));
 	}
 

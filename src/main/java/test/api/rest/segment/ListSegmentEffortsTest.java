@@ -17,7 +17,7 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue33;
 import test.issues.strava.Issue86;

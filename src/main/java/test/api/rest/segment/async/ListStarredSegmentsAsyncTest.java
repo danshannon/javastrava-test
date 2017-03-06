@@ -4,7 +4,7 @@
 package test.api.rest.segment.async;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.segment.ListStarredSegmentsTest;
 import test.api.rest.util.ArrayCallback;
 

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaClub;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, Integer> {

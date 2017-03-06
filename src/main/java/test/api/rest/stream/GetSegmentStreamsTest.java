@@ -13,7 +13,7 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.issues.strava.Issue87;
 import test.issues.strava.Issue89;
 import test.issues.strava.Issue90;
@@ -211,7 +211,7 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaStream[], Integer> getCallback() {
+	protected TestGetCallback<StravaStream[], Integer> getter() {
 		return ((api, id) -> api.getSegmentStreams(id, StravaStreamType.DISTANCE.toString(), null, null));
 	}
 }

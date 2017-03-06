@@ -5,15 +5,20 @@ package test.api.model.reference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import javastrava.api.v3.model.webhook.reference.StravaSubscriptionObjectType;
 
 import org.junit.Test;
+
+import javastrava.api.v3.model.webhook.reference.StravaSubscriptionObjectType;
 
 /**
  * @author danshannon
  *
  */
 public class StravaSubscriptionObjectTypeTest {
+	/**
+	 * Test returning the description
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetDescription() {
 		for (final StravaSubscriptionObjectType type : StravaSubscriptionObjectType.values()) {
@@ -21,6 +26,10 @@ public class StravaSubscriptionObjectTypeTest {
 		}
 	}
 
+	/**
+	 * Test returning the id
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetId() {
 		for (final StravaSubscriptionObjectType type : StravaSubscriptionObjectType.values()) {

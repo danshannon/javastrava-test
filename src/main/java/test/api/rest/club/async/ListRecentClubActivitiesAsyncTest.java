@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;

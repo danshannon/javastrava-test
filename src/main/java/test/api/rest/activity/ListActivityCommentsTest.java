@@ -1,33 +1,33 @@
 package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaComment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listActivityComments(Long, Boolean, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, Long> {
 
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
 	protected Long privateId() {
 		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
 		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
@@ -39,9 +39,6 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaComment[] bigList) {
 		for (final StravaComment comment : bigList) {
@@ -49,17 +46,11 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 		}
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
 	@Override
 	protected Long validId() {
 		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
 		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
@@ -73,6 +64,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	protected TestListArrayCallback<StravaComment, Long> listCallback() {
 		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));

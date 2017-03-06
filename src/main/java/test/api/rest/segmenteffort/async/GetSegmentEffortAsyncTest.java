@@ -10,7 +10,7 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.api.rest.segmenteffort.GetSegmentEffortTest;
 import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -21,7 +21,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
 	@Override
-	protected TestGetCallback<StravaSegmentEffort, Long> getCallback() {
+	protected TestGetCallback<StravaSegmentEffort, Long> getter() {
 		return ((api, id) -> api.getSegmentEffortAsync(id).get());
 	}
 

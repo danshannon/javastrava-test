@@ -1,8 +1,8 @@
 package test.api.rest.athlete.async;
 
 import javastrava.api.v3.model.StravaAthlete;
-import test.api.rest.TestListArrayCallback;
 import test.api.rest.athlete.ListAthleteFriendsTest;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 
 public class ListAthleteFriendsAsyncTest extends ListAthleteFriendsTest {

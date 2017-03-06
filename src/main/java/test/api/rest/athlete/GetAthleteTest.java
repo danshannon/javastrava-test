@@ -5,13 +5,13 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.TestGetCallback;
+import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	@Override
-	protected TestGetCallback<StravaAthlete, Integer> getCallback() {
+	protected TestGetCallback<StravaAthlete, Integer> getter() {
 		return ((api, id) -> api.getAthlete(id));
 	}
 

@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.rest.TestListArrayCallback;
+import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue71;
@@ -45,7 +45,7 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 		}
 		// End of workaround
 
-		final StravaSegment[] segments = this.listCallback().run(api(), null);
+		final StravaSegment[] segments = this.listCallback().list(api(), null);
 		for (final StravaSegment segment : segments) {
 			if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
 				fail("Returned at least one private starred segment");
@@ -57,7 +57,7 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 	@Test
 	public void list_private() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = this.listCallback().run(apiWithViewPrivate(), null);
+			final StravaSegment[] segments = this.listCallback().list(apiWithViewPrivate(), null);
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
 				if (segment.getPrivateSegment()) {
