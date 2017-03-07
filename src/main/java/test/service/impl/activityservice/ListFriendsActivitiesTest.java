@@ -22,7 +22,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for list friends activities methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -32,6 +32,7 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		return ((strava, paging, id) -> strava.listFriendsActivities(paging));
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	// TODO This is only here as a TEST workaround for issue #18 (https://github.com/danshannon/javastravav3api/issues/18). When the
@@ -40,23 +41,19 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 	public void testPageNumberAndSize() throws Exception {
 		if (new Issue18().isIssue()) {
 			RateLimitedTestRunner.run(() -> {
-				final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 3),
-						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 3), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(bothPages);
 				assertEquals(3, bothPages.size());
 				validateList(bothPages);
-				final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1),
-						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(firstPage);
 				assertEquals(1, firstPage.size());
 				validateList(firstPage);
-				final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1),
-						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(secondPage);
 				assertEquals(1, secondPage.size());
 				validateList(secondPage);
-				final List<StravaActivity> thirdPage = pagingLister().getList(TestUtils.strava(), new Paging(3, 1),
-						AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+				final List<StravaActivity> thirdPage = pagingLister().getList(TestUtils.strava(), new Paging(3, 1), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 				assertNotNull(thirdPage);
 				assertEquals(1, thirdPage.size());
 

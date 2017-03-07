@@ -46,7 +46,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				getter().run(api(), invalidId());
+				getter().get(api(), invalidId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -68,7 +68,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getter().run(apiWithViewPrivate(), privateId());
+			final T result = this.getter().get(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
 			validate(result);
 		});
@@ -88,7 +88,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getter().run(apiWithViewPrivate(), privateIdBelongsToOtherUser());
+				this.getter().get(apiWithViewPrivate(), privateIdBelongsToOtherUser());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -111,7 +111,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 		}
 		RateLimitedTestRunner.run(() -> {
 			try {
-				this.getter().run(api(), privateId());
+				this.getter().get(api(), privateId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -129,7 +129,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	@Test
 	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getter().run(api(), validId());
+			final T result = this.getter().get(api(), validId());
 			assertNotNull(result);
 			validate(result);
 		});
@@ -147,7 +147,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T result = this.getter().run(api(), validIdBelongsToOtherUser());
+			final T result = this.getter().get(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);
 			validate(result);
 		});

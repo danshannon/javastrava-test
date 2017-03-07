@@ -64,9 +64,6 @@ public class ListAthleteKOMsAsyncTest extends APIPagingListTest<StravaSegmentEff
 		StravaSegmentEffortTest.validateSegmentEffort(effort);
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaSegmentEffort[] list) {
 		StravaSegmentEffortTest.validateList(Arrays.asList(list));

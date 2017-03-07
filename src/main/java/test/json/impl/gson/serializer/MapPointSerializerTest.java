@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNull;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.json.exception.JsonSerialisationException;
-
-import org.junit.Test;
 
 /**
  * @author Dan Shannon
@@ -27,6 +27,7 @@ public class MapPointSerializerTest extends SerializerTest<StravaMapPoint> {
 	/**
 	 * @see test.json.impl.gson.serializer.SerializerTest#testDeserialiseInputStream()
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
 		final StravaMapPoint point = new StravaMapPoint(111.11f, -43f);
@@ -40,10 +41,11 @@ public class MapPointSerializerTest extends SerializerTest<StravaMapPoint> {
 	@Override
 	@Test
 	public void testNullDeserialisationSafety() throws JsonSerialisationException {
-		final StravaMapPoint prompt = this.util.deserialise("", StravaMapPoint.class);
+		final StravaMapPoint prompt = this.util.deserialise("", StravaMapPoint.class); //$NON-NLS-1$
 		assertNull(prompt);
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testRoundTrip() throws JsonSerialisationException {

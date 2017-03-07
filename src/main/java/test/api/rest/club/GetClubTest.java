@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIGetTest;
@@ -13,6 +14,14 @@ import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#getClub(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
@@ -38,7 +47,13 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 		return null;
 	}
 
-	// 3. Private club of which current authenticated athlete is a member
+	/**
+	 * Private club of which current authenticated athlete is a member
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetClub_privateClubIsMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -48,7 +63,13 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 		});
 	}
 
-	// 4. Private club of which current authenticated athlete is NOT a member
+	/**
+	 * Private club of which current authenticated athlete is NOT a member
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -58,7 +79,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 				// expected
 				return;
 			}
-			fail("Returned details of a private club of which the authenticated athlete is not a member");
+			fail("Returned details of a private club of which the authenticated athlete is not a member"); //$NON-NLS-1$
 		});
 	}
 

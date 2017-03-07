@@ -76,8 +76,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)
-						&& activity.getPrivateActivity().booleanValue()) {
+				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
 				}
 			}
@@ -98,8 +97,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listFriendsActivities(1, StravaConfig.MAX_PAGE_SIZE);
 			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID))
-						&& activity.getPrivateActivity().booleanValue()) {
+				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) && activity.getPrivateActivity().booleanValue()) {
 					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
 				}
 			}
@@ -156,9 +154,6 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {

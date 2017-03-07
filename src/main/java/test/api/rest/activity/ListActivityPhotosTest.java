@@ -25,8 +25,7 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	}
 
 	/**
-	 * Attempts to list photos for an activity belonging to someone other than the authorised user returns true, unless the
-	 * authenticated user is following them
+	 * Attempts to list photos for an activity belonging to someone other than the authorised user returns true, unless the authenticated user is following them
 	 */
 	public ListActivityPhotosTest() {
 		super();
@@ -63,9 +62,6 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaPhoto[] list) {
 		StravaPhotoTest.validateList(Arrays.asList(list));

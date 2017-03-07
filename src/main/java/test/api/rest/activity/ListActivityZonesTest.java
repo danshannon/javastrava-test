@@ -61,9 +61,6 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaActivityZone[] list) {
 		for (final StravaActivityZone zone : list) {

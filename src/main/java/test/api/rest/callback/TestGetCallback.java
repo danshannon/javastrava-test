@@ -4,8 +4,21 @@ import javastrava.api.v3.rest.API;
 
 /**
  * @author Dan Shannon
+ * @param <T>
+ *            The type of Strava entity being retrieved
+ * @param <U>
+ *            The type of the entity's identifier
  *
  */
 public interface TestGetCallback<T, U> {
-	public T run(API api, U id);
+	/**
+	 * Get the object from the API
+	 *
+	 * @param api
+	 *            The API instance to use
+	 * @param id
+	 *            The identifier of the object
+	 * @return The object retrieved
+	 */
+	public T get(API api, U id);
 }

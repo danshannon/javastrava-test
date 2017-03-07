@@ -111,8 +111,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 	/**
 	 * <p>
-	 * Test listing of {@link StravaActivity activities} between two given times (i.e. before and after parameters in combination)
-	 * BUT WITH AN INVALID COMBINATION OF BEFORE AND AFTER
+	 * Test listing of {@link StravaActivity activities} between two given times (i.e. before and after parameters in combination) BUT WITH AN INVALID COMBINATION OF BEFORE AND AFTER
 	 * </p>
 	 *
 	 * @throws Exception
@@ -139,7 +138,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
-	@SuppressWarnings("static-method")
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterPaging() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -147,8 +146,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 			final Paging pagingInstruction = new Paging(1, 1);
 
-			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(before, after,
-					pagingInstruction);
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities(before, after, pagingInstruction);
 			assertNotNull(activities);
 			assertEquals(1, activities.size());
 			for (final StravaActivity activity : activities) {
@@ -162,8 +160,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 
 	/**
 	 * <p>
-	 * Default test to list {@link StravaActivity activities} for the currently authenticated athlete (i.e. the one who corresponds
-	 * to the current token)
+	 * Default test to list {@link StravaActivity activities} for the currently authenticated athlete (i.e. the one who corresponds to the current token)
 	 * </p>
 	 *
 	 * @throws Exception

@@ -49,6 +49,13 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 	}
 
+	/**
+	 * List club announcements for a club which is private, and the authenticated user is a member
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListClubAnnouncements_privateClubMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -62,17 +69,14 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	protected void validate(final StravaClubEvent result) throws Exception {
-		// TODO
+		// TODO #138
 		return;
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaClubEvent[] list) {
-		// TODO
+		// TODO #138
 		return;
 
 	}

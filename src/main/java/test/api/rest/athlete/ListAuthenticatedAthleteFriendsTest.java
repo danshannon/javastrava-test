@@ -89,9 +89,6 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 		StravaAthleteTest.validateAthlete(athlete);
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {

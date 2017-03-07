@@ -48,7 +48,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = this.getter().run(api(), ActivityDataUtils.ACTIVITY_RUN_WITH_SEGMENTS);
+			final StravaActivity activity = this.getter().get(api(), ActivityDataUtils.ACTIVITY_RUN_WITH_SEGMENTS);
 			assertNotNull(activity);
 			validate(activity);
 		});
@@ -65,7 +65,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Test
 	public void testGetActivity_runOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = this.getter().run(api(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
+			final StravaActivity activity = this.getter().get(api(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
 			StravaActivityTest.validate(activity);
 		});

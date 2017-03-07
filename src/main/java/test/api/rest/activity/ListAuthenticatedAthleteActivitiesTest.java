@@ -80,8 +80,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null,
-					StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(null, StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null);
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isAfter(calendar));
@@ -105,8 +104,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 		RateLimitedTestRunner.run(() -> {
 			final LocalDateTime calendar = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api()
-					.listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(calendar), null, null, null);
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
@@ -131,8 +129,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(
-					StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertTrue(activity.getStartDateLocal().isBefore(before));
@@ -145,8 +142,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 
 	/**
 	 * <p>
-	 * Test listing of {@link StravaActivity activities} between two given times (i.e. before and after parameters in combination)
-	 * BUT WITH AN INVALID COMBINATION OF BEFORE AND AFTER
+	 * Test listing of {@link StravaActivity activities} between two given times (i.e. before and after parameters in combination) BUT WITH AN INVALID COMBINATION OF BEFORE AND AFTER
 	 * </p>
 	 *
 	 * @throws Exception
@@ -159,8 +155,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			final LocalDateTime before = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 			final LocalDateTime after = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(
-					StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null);
 			assertNotNull("Returned null collection of activities", activities); //$NON-NLS-1$
 			assertEquals(0, activities.length);
 		});
@@ -181,8 +176,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 			final LocalDateTime before = LocalDateTime.of(2015, Month.JANUARY, 1, 0, 0);
 			final LocalDateTime after = LocalDateTime.of(2014, Month.JANUARY, 1, 0, 0);
 
-			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(
-					StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), 1, 1);
+			final StravaActivity[] activities = api().listAuthenticatedAthleteActivities(StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), 1, 1);
 			assertNotNull(activities);
 			assertEquals(1, activities.length);
 			for (final StravaActivity activity : activities) {
@@ -197,8 +191,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 
 	/**
 	 * <p>
-	 * Default test to list {@link StravaActivity activities} for the currently authenticated athlete (i.e. the one who corresponds
-	 * to the current token)
+	 * Default test to list {@link StravaActivity activities} for the currently authenticated athlete (i.e. the one who corresponds to the current token)
 	 * </p>
 	 *
 	 * @throws Exception
@@ -226,9 +219,6 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {

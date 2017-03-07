@@ -42,7 +42,6 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
-	// 3. Private athlete
 	@Override
 	public void list_privateBelongsToOtherUser() throws Exception {
 		if (new Issue83().isIssue()) {
@@ -72,9 +71,6 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 		StravaAthleteTest.validateAthlete(athlete);
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {
