@@ -15,6 +15,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.GearDataUtils;
@@ -40,7 +41,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if not found
 	 */
-	private StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception {
+	private static StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception {
 		final StravaActivity response = TestUtils.stravaWithWriteAccess().createManualActivity(activity);
 		StravaActivity updateResponse = null;
 		try {
@@ -63,7 +64,7 @@ public class UpdateActivityTest {
 	 * <p>
 	 * Test attempting to update an activity using a token that doesn't have write access
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 *
@@ -110,6 +111,13 @@ public class UpdateActivityTest {
 		});
 	}
 
+	/**
+	 * Test that a null update works OK
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_nullUpdate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -118,25 +126,42 @@ public class UpdateActivityTest {
 		});
 	}
 
+	/**
+	 * Check that passing in too many attributes still works, even thought they're not updatable attributes
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_tooManyActivityAttributes() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes"); //$NON-NLS-1$
-			final StravaActivity update = new StravaActivity();
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final Float cadence = Float.valueOf(67.2f);
-			update.setAverageCadence(cadence);
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes"); //$NON-NLS-1$
+				final StravaActivity update = new StravaActivity();
 
-			// Do all the interaction with the Strava API at once
-			final StravaActivity stravaResponse = createUpdateAndDelete(activity, new StravaActivityUpdate(update));
+				final Float cadence = Float.valueOf(67.2f);
+				update.setAverageCadence(cadence);
 
-			// Test the results
-			assertNull(stravaResponse.getAverageCadence());
-			StravaActivityTest.validate(stravaResponse);
-		});
+				// Do all the interaction with the Strava API at once
+				final StravaActivity stravaResponse = createUpdateAndDelete(activity, new StravaActivityUpdate(update));
+
+				// Test the results
+				assertNull(stravaResponse.getAverageCadence());
+				StravaActivityTest.validate(stravaResponse);
+			});
+		}
 	}
 
+	/**
+	 * Attempt to update an activity that doesn't belong to the authenticated athlete.
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_unauthenticatedAthletesActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -152,251 +177,339 @@ public class UpdateActivityTest {
 		});
 	}
 
+	/**
+	 * Perform a valid update of all updatable attributes of an activity at the same time
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateAllAtOnce() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce"); //$NON-NLS-1$
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final TextProducer text = Fairy.create().textProducer();
-			final String description = text.sentence();
-			final String name = text.sentence();
-			final StravaActivityType type = StravaActivityType.RIDE;
-			final Boolean privateActivity = Boolean.FALSE;
-			final Boolean commute = Boolean.TRUE;
-			final Boolean trainer = Boolean.TRUE;
-			final String gearId = GearDataUtils.GEAR_VALID_ID;
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce"); //$NON-NLS-1$
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			update.setDescription(description);
-			update.setCommute(commute);
-			update.setGearId(gearId);
-			update.setName(name);
-			update.setPrivateActivity(privateActivity);
-			update.setTrainer(trainer);
-			update.setType(type);
+				final TextProducer text = Fairy.create().textProducer();
+				final String description = text.sentence();
+				final String name = text.sentence();
+				final StravaActivityType type = StravaActivityType.RIDE;
+				final Boolean privateActivity = Boolean.FALSE;
+				final Boolean commute = Boolean.TRUE;
+				final Boolean trainer = Boolean.TRUE;
+				final String gearId = GearDataUtils.GEAR_VALID_ID;
 
-			// Do all the interaction with the Strava API at once
-			final StravaActivity updateResponse = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				update.setDescription(description);
+				update.setCommute(commute);
+				update.setGearId(gearId);
+				update.setName(name);
+				update.setPrivateActivity(privateActivity);
+				update.setTrainer(trainer);
+				update.setType(type);
 
-			// Validate the results
-			StravaActivityTest.validate(updateResponse);
-			assertEquals(description, updateResponse.getDescription());
+				// Do all the interaction with the Strava API at once
+				final StravaActivity updateResponse = createUpdateAndDelete(activity, update);
 
-			assertEquals(commute, updateResponse.getCommute());
-			assertEquals(gearId, updateResponse.getGearId());
-			assertEquals(name, updateResponse.getName());
-			assertEquals(privateActivity, updateResponse.getPrivateActivity());
-			assertEquals(trainer, updateResponse.getTrainer());
-			assertEquals(type, updateResponse.getType());
-		});
+				// Validate the results
+				StravaActivityTest.validate(updateResponse);
+				assertEquals(description, updateResponse.getDescription());
+
+				assertEquals(commute, updateResponse.getCommute());
+				assertEquals(gearId, updateResponse.getGearId());
+				assertEquals(name, updateResponse.getName());
+				assertEquals(privateActivity, updateResponse.getPrivateActivity());
+				assertEquals(trainer, updateResponse.getTrainer());
+				assertEquals(type, updateResponse.getType());
+			});
+		}
 	}
 
+	/**
+	 * Update the commute flag only
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateCommute() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute"); //$NON-NLS-1$
-			StravaActivity updateResponse = null;
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final Boolean commute = Boolean.TRUE;
-			update.setCommute(commute);
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute"); //$NON-NLS-1$
+				StravaActivity updateResponse = null;
 
-			// Do all the interaction with the Strava API at once
-			updateResponse = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final Boolean commute = Boolean.TRUE;
+				update.setCommute(commute);
 
-			// Validate the results
-			StravaActivityTest.validate(updateResponse);
-			assertEquals(commute, updateResponse.getCommute());
-		});
+				// Do all the interaction with the Strava API at once
+				updateResponse = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(updateResponse);
+				assertEquals(commute, updateResponse.getCommute());
+			});
+		}
 	}
 
+	/**
+	 * Update the description only
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateDescription() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up test date
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription"); //$NON-NLS-1$
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final TextProducer text = Fairy.create().textProducer();
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final String description = text.sentence();
-			update.setDescription(description);
+			RateLimitedTestRunner.run(() -> {
+				// Set up test date
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription"); //$NON-NLS-1$
 
-			// Do all the interaction with the Strava API at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final TextProducer text = Fairy.create().textProducer();
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final String description = text.sentence();
+				update.setDescription(description);
 
-			// Test the response
-			StravaActivityTest.validate(response);
-			assertEquals(description, response.getDescription());
-		});
+				// Do all the interaction with the Strava API at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Test the response
+				StravaActivityTest.validate(response);
+				assertEquals(description, response.getDescription());
+			});
+		}
 	}
 
+	/**
+	 * Update the gear id only
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateGearId() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId"); //$NON-NLS-1$
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final String gearId = GearDataUtils.GEAR_VALID_ID;
-			update.setGearId(gearId);
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+			RateLimitedTestRunner.run(() -> {
+				// set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId"); //$NON-NLS-1$
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final String gearId = GearDataUtils.GEAR_VALID_ID;
+				update.setGearId(gearId);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertEquals(gearId, response.getGearId());
-		});
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertEquals(gearId, response.getGearId());
+			});
+		}
 	}
 
+	/**
+	 * Update the gear to "none" - that is, no gear
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateGearIDNone() throws Exception {
-		RateLimitedTestRunner.run(() -> {
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Set up all the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone"); //$NON-NLS-1$
+			RateLimitedTestRunner.run(() -> {
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final String gearId = "none"; //$NON-NLS-1$
-			update.setGearId(gearId);
+				// Set up all the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone"); //$NON-NLS-1$
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final String gearId = "none"; //$NON-NLS-1$
+				update.setGearId(gearId);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertNull(response.getGearId());
-		});
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertNull(response.getGearId());
+			});
+		}
 	}
 
 	/**
 	 * <p>
-	 * Test cases: allowed to update the following attributes:
+	 * Update the name only
 	 * </p>
-	 * <ol>
-	 * <li>name</li>
-	 * <li>type</li>
-	 * <li>private</li>
-	 * <li>commute</li>
-	 * <li>trainer</li>
-	 * <li>gear_id (also allows special case of 'none' which should remove the gear)</li>
-	 * <li>description</li>
-	 * </ol>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 *
 	 */
 	@Test
 	public void testUpdateActivity_validUpdateName() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName"); //$NON-NLS-1$
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final TextProducer text = Fairy.create().textProducer();
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName"); //$NON-NLS-1$
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final String sentence = text.sentence();
-			update.setName(sentence);
+				final TextProducer text = Fairy.create().textProducer();
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final String sentence = text.sentence();
+				update.setName(sentence);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertEquals(sentence, response.getName());
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
 
-		});
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertEquals(sentence, response.getName());
+
+			});
+		}
 	}
 
+	/**
+	 * Update a private activity
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdatePrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate"); //$NON-NLS-1$
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final Boolean privateFlag = Boolean.TRUE;
-			update.setPrivateActivity(privateFlag);
+			RateLimitedTestRunner.run(() -> {
+				// set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate"); //$NON-NLS-1$
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final Boolean privateFlag = Boolean.TRUE;
+				update.setPrivateActivity(privateFlag);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertEquals(privateFlag, response.getPrivateActivity());
-		});
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertEquals(privateFlag, response.getPrivateActivity());
+			});
+		}
 	}
 
+	/**
+	 * Attempt to update a private activity using a token that does not have view_private scope
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdatePrivateNoViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate"); //$NON-NLS-1$
-			activity.setPrivateActivity(Boolean.TRUE);
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Create the activity
-			StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
-			assertEquals(Boolean.TRUE, response.getPrivateActivity());
+			RateLimitedTestRunner.run(() -> {
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate"); //$NON-NLS-1$
+				activity.setPrivateActivity(Boolean.TRUE);
 
-			// Try to update it without view private
-			activity.setDescription("Updated description"); //$NON-NLS-1$
-			try {
-				response = TestUtils.stravaWithWriteAccess().updateActivity(response.getId(), new StravaActivityUpdate(activity));
-			} catch (final UnauthorizedException e) {
-				// expected
+				// Create the activity
+				StravaActivity response = TestUtils.stravaWithFullAccess().createManualActivity(activity);
+				assertEquals(Boolean.TRUE, response.getPrivateActivity());
+
+				// Try to update it without view private
+				activity.setDescription("Updated description"); //$NON-NLS-1$
+				try {
+					response = TestUtils.stravaWithWriteAccess().updateActivity(response.getId(), new StravaActivityUpdate(activity));
+				} catch (final UnauthorizedException e) {
+					// expected
+					forceDeleteActivity(response);
+					return;
+				}
 				forceDeleteActivity(response);
-				return;
-			}
-			forceDeleteActivity(response);
-			fail("Updated private activity without view_private authorisation"); //$NON-NLS-1$
+				fail("Updated private activity without view_private authorisation"); //$NON-NLS-1$
 
-		});
+			});
+		}
 	}
 
+	/**
+	 * Update the trainer flag only
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateTrainer() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer"); //$NON-NLS-1$
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final Boolean trainer = Boolean.TRUE;
-			update.setTrainer(trainer);
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer"); //$NON-NLS-1$
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final Boolean trainer = Boolean.TRUE;
+				update.setTrainer(trainer);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertEquals(trainer, response.getTrainer());
-		});
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertEquals(trainer, response.getTrainer());
+			});
+		}
 	}
 
+	/**
+	 * Update the activity type only
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
 	@Test
 	public void testUpdateActivity_validUpdateType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType"); //$NON-NLS-1$
-			activity.setType(StravaActivityType.ALPINE_SKI);
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			final StravaActivityUpdate update = new StravaActivityUpdate();
-			final StravaActivityType type = StravaActivityType.RIDE;
-			update.setType(type);
+			RateLimitedTestRunner.run(() -> {
+				// Set up the test data
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType"); //$NON-NLS-1$
+				activity.setType(StravaActivityType.ALPINE_SKI);
 
-			// Do all the Strava API interaction at once
-			final StravaActivity response = createUpdateAndDelete(activity, update);
+				final StravaActivityUpdate update = new StravaActivityUpdate();
+				final StravaActivityType type = StravaActivityType.RIDE;
+				update.setType(type);
 
-			// Validate the results
-			StravaActivityTest.validate(response);
-			assertEquals(type, response.getType());
-		});
+				// Do all the Strava API interaction at once
+				final StravaActivity response = createUpdateAndDelete(activity, update);
+
+				// Validate the results
+				StravaActivityTest.validate(response);
+				assertEquals(type, response.getType());
+			});
+		}
 	}
 
 	/**
 	 * @param id
-	 * @return
+	 *            The id of the activity being updated
+	 * @return The activity, when it's completed being updated, or 10 minutes has passed
 	 */
-	private StravaActivity waitForUpdateToComplete(final Long id) {
+	private static StravaActivity waitForUpdateToComplete(final Long id) {
 		int i = 0;
 		StravaActivity activity = null;
 		while (i < 600) {

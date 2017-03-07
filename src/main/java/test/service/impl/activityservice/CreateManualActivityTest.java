@@ -8,6 +8,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
@@ -36,24 +37,27 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	 */
 	@Test
 	public void testCreateManualActivity_invalidType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Type must be one of the specified values
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType"); //$NON-NLS-1$
-			StravaActivity stravaResponse = null;
-			activity.setType(StravaActivityType.UNKNOWN);
-			try {
-				stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final IllegalArgumentException e1) {
-				// Expected behaviour
-				return;
-			}
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// If it did get created, delete it again
-			forceDelete(stravaResponse);
+			RateLimitedTestRunner.run(() -> {
+				// Type must be one of the specified values
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_invalidType"); //$NON-NLS-1$
+				StravaActivity stravaResponse = null;
+				activity.setType(StravaActivityType.UNKNOWN);
+				try {
+					stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final IllegalArgumentException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			fail("Created an activity with invalid type in error"); //$NON-NLS-1$
-		});
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
+
+				fail("Created an activity with invalid type in error"); //$NON-NLS-1$
+			});
+		}
 	}
 
 	/**
@@ -66,24 +70,27 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	 */
 	@Test
 	public void testCreateManualActivity_noElapsedTime() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime"); //$NON-NLS-1$
-			StravaActivity stravaResponse = null;
-			// Elapsed time is required
-			activity.setElapsedTime(null);
-			try {
-				stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final IllegalArgumentException e1) {
-				// Expected behaviour
-				return;
-			}
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// If it did get created, delete it again
-			forceDelete(stravaResponse);
+			RateLimitedTestRunner.run(() -> {
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noElapsedTime"); //$NON-NLS-1$
+				StravaActivity stravaResponse = null;
+				// Elapsed time is required
+				activity.setElapsedTime(null);
+				try {
+					stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final IllegalArgumentException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			fail("Created an activity with no elapsed time in error" + stravaResponse); //$NON-NLS-1$
-		});
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
+
+				fail("Created an activity with no elapsed time in error" + stravaResponse); //$NON-NLS-1$
+			});
+		}
 	}
 
 	/**
@@ -100,27 +107,30 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	 */
 	@Test
 	public void testCreateManualActivity_noName() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Name is required
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName"); //$NON-NLS-1$
-			StravaActivity stravaResponse = null;
-			activity.setDescription(activity.getName());
-			activity.setName(null);
-			try {
-				stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final IllegalArgumentException e1) {
-				// Expected behaviour
-				return;
-			}
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// If it did get created, delete it again
-			if (stravaResponse != null) {
-				forceDelete(stravaResponse);
-			}
+			RateLimitedTestRunner.run(() -> {
+				// Name is required
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noName"); //$NON-NLS-1$
+				StravaActivity stravaResponse = null;
+				activity.setDescription(activity.getName());
+				activity.setName(null);
+				try {
+					stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final IllegalArgumentException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			fail("Created an activity with no type in error" + stravaResponse); //$NON-NLS-1$
-		});
+				// If it did get created, delete it again
+				if (stravaResponse != null) {
+					forceDelete(stravaResponse);
+				}
+
+				fail("Created an activity with no type in error" + stravaResponse); //$NON-NLS-1$
+			});
+		}
 	}
 
 	/**
@@ -133,24 +143,27 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	 */
 	@Test
 	public void testCreateManualActivity_noStartDate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate"); //$NON-NLS-1$
-			StravaActivity stravaResponse = null;
-			// Start date is required
-			activity.setStartDateLocal(null);
-			try {
-				stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final IllegalArgumentException e1) {
-				// Expected behaviour
-				return;
-			}
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// If it did get created, delete it again
-			forceDelete(stravaResponse);
+			RateLimitedTestRunner.run(() -> {
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noStartDate"); //$NON-NLS-1$
+				StravaActivity stravaResponse = null;
+				// Start date is required
+				activity.setStartDateLocal(null);
+				try {
+					stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final IllegalArgumentException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			fail("Created an activity with no start date in error" + stravaResponse); //$NON-NLS-1$
-		});
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
+
+				fail("Created an activity with no start date in error" + stravaResponse); //$NON-NLS-1$
+			});
+		}
 	}
 
 	/**
@@ -163,24 +176,27 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	 */
 	@Test
 	public void testCreateManualActivity_noType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Type is required
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noType"); //$NON-NLS-1$
-			StravaActivity stravaResponse = null;
-			activity.setType(null);
-			try {
-				stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final IllegalArgumentException e1) {
-				// Expected behaviour
-				return;
-			}
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// If it did get created, delete it again
-			forceDelete(stravaResponse);
+			RateLimitedTestRunner.run(() -> {
+				// Type is required
+				final StravaActivity activity = ActivityDataUtils.createDefaultActivity("CreateManualActivityTest.testCreateManualActivity_noType"); //$NON-NLS-1$
+				StravaActivity stravaResponse = null;
+				activity.setType(null);
+				try {
+					stravaResponse = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final IllegalArgumentException e1) {
+					// Expected behaviour
+					return;
+				}
 
-			fail("Created an activity with no type in error" + stravaResponse); //$NON-NLS-1$
-		});
+				// If it did get created, delete it again
+				forceDelete(stravaResponse);
+
+				fail("Created an activity with no type in error" + stravaResponse); //$NON-NLS-1$
+			});
+		}
 	}
 
 	@Override
@@ -193,21 +209,25 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	@Override
 	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create the object test data
-			final StravaActivity activity = generateValidObject();
-			activity.setPrivateActivity(Boolean.TRUE);
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Create it in Strava
-			final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
-			assertTrue(createdActivity.getPrivateActivity().booleanValue());
+			RateLimitedTestRunner.run(() -> {
+				// Create the object test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
 
-			// Validate
-			StravaActivityTest.validate(createdActivity);
+				// Create it in Strava
+				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				assertTrue(createdActivity.getPrivateActivity().booleanValue());
 
-			// Finally, delete it
-			forceDelete(createdActivity);
-		});
+				// Validate
+				StravaActivityTest.validate(createdActivity);
+
+				// Finally, delete it
+				forceDelete(createdActivity);
+			});
+		}
 	}
 
 	/**
@@ -233,25 +253,29 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	@Override
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create the object test data
-			final StravaActivity activity = generateValidObject();
-			activity.setPrivateActivity(Boolean.TRUE);
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Create it in Strava
-			final StravaActivity createdActivity;
+			RateLimitedTestRunner.run(() -> {
+				// Create the object test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
 
-			try {
-				createdActivity = creator().create(TestUtils.stravaWithWriteAccess(), activity);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
+				// Create it in Strava
+				final StravaActivity createdActivity;
 
-			// Finally, delete it
-			forceDelete(createdActivity);
-			fail("Created a manual activity set to private, but don't have view_private scope in token"); //$NON-NLS-1$
-		});
+				try {
+					createdActivity = creator().create(TestUtils.stravaWithWriteAccess(), activity);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+
+				// Finally, delete it
+				forceDelete(createdActivity);
+				fail("Created a manual activity set to private, but don't have view_private scope in token"); //$NON-NLS-1$
+			});
+		}
 	}
 
 	@Override

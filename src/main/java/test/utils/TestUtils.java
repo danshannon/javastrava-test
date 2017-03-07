@@ -97,58 +97,96 @@ public abstract class TestUtils {
 		return token;
 	}
 
+	/**
+	 * @return A valid token with no additional scopes
+	 */
 	public static Token getValidToken() {
 		return tokenWithExactScope();
 	}
 
+	/**
+	 * @return A valid token with write and view_private scopes
+	 */
 	public static Token getValidTokenWithFullAccess() {
 		return tokenWithExactScope(AuthorisationScope.WRITE, AuthorisationScope.VIEW_PRIVATE);
 	}
 
+	/**
+	 * @return A valid token with view_private scope
+	 */
 	public static Token getValidTokenWithViewPrivate() {
 		return tokenWithExactScope(AuthorisationScope.VIEW_PRIVATE);
 	}
 
+	/**
+	 * @return A valid token with write scope
+	 */
 	public static Token getValidTokenWithWriteAccess() {
 		return tokenWithExactScope(AuthorisationScope.WRITE);
 	}
 
 	/**
 	 * @param key
-	 * @return
+	 *            Name in the properties file
+	 * @return The value of the named property
 	 */
 	public static Integer integerProperty(final String key) {
 		return new Integer(properties.getString(key));
 	}
 
+	/**
+	 * @param key
+	 *            Name in the properties file
+	 * @return The value of the named property
+	 */
 	public static String stringProperty(final String key) {
 		return new String(properties.getString(key));
 	}
 
 	/**
 	 * @param propertiesFile
-	 * @return
+	 *            Name of the properties file
+	 * @return Resource bundle associated with the file
+	 * @throws IOException
+	 *             File can't be read
 	 */
 	private static ResourceBundle loadPropertiesFile(final String propertiesFile) throws IOException {
 		return ResourceBundle.getBundle(propertiesFile);
 	}
 
+	/**
+	 * @param key
+	 *            Name in the properties file
+	 * @return The value of the named property
+	 */
 	public static Long longProperty(final String key) {
 		return new Long(properties.getString(key));
 	}
 
+	/**
+	 * @return A Strava instance with no additional scopes
+	 */
 	public static Strava strava() {
 		return new Strava(getValidToken());
 	}
 
+	/**
+	 * @return A Strava instance with write and view_private scopes
+	 */
 	public static Strava stravaWithFullAccess() {
 		return new Strava(getValidTokenWithFullAccess());
 	}
 
+	/**
+	 * @return A Strava instance with view_private scope
+	 */
 	public static Strava stravaWithViewPrivate() {
 		return new Strava(getValidTokenWithViewPrivate());
 	}
 
+	/**
+	 * @return A Strava instance with write scope
+	 */
 	public static Strava stravaWithWriteAccess() {
 		return new Strava(getValidTokenWithWriteAccess());
 	}

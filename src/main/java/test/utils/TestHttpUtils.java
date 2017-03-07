@@ -42,8 +42,7 @@ public class TestHttpUtils {
 
 	/**
 	 * <p>
-	 * Indicate that the user has allowed the application to access their Strava
-	 * data
+	 * Indicate that the user has allowed the application to access their Strava data
 	 * </p>
 	 *
 	 * <p>
@@ -51,10 +50,10 @@ public class TestHttpUtils {
 	 * </p>
 	 *
 	 * @param authenticityToken
-	 *            The hidden value of the authenticity token which must be
-	 *            returned with the form to Strava
-	 * @return The code used by {@link #tokenExchange(Integer, String, String)}
-	 *         to get an access token
+	 *            The hidden value of the authenticity token which must be returned with the form to Strava
+	 * @param scopes
+	 *            The authorisation scopes to accept
+	 * @return The code used by {@link AuthorisationService#tokenExchange(Integer, String, String, AuthorisationScope...)} to get an access token
 	 */
 	private static String acceptApplication(final String authenticityToken, final AuthorisationScope... scopes) {
 		String scopeString = ""; //$NON-NLS-1$
@@ -99,6 +98,7 @@ public class TestHttpUtils {
 
 	/**
 	 * @param scopes
+	 *            Authorisation scopes to approve
 	 * @return The approval code returned by Strava
 	 */
 	public static String approveApplication(final AuthorisationScope... scopes) {
@@ -116,7 +116,6 @@ public class TestHttpUtils {
 	 * @param scopes
 	 *            The authorisation scopes required
 	 * @return The authenticity token
-	 * @throws IOException
 	 */
 	private static String getAuthorisationPageAuthenticityToken(final AuthorisationScope... scopes) {
 		String scopeString = ""; //$NON-NLS-1$
@@ -140,9 +139,8 @@ public class TestHttpUtils {
 						new BasicNameValuePair("client_id", TestUtils.STRAVA_APPLICATION_ID.toString()), //$NON-NLS-1$
 						new BasicNameValuePair("response_type", //$NON-NLS-1$
 								DEFAULT_RESPONSE_TYPE.toString()),
-						new BasicNameValuePair("redirect_uri", DEFAULT_REDIRECT_URI), new BasicNameValuePair( //$NON-NLS-1$
-								"approval_prompt", AuthorisationApprovalPrompt.FORCE.toString()), //$NON-NLS-1$
-						new BasicNameValuePair("scope", scopeString)); //$NON-NLS-1$
+						new BasicNameValuePair("redirect_uri", DEFAULT_REDIRECT_URI), //$NON-NLS-1$
+						new BasicNameValuePair("approval_prompt", AuthorisationApprovalPrompt.FORCE.toString()), new BasicNameValuePair("scope", scopeString)); //$NON-NLS-1$//$NON-NLS-2$
 
 			}
 		} catch (final IOException e) {
@@ -157,13 +155,10 @@ public class TestHttpUtils {
 
 	/**
 	 * <p>
-	 * Get the login page and extract the authenticity token that Strava
-	 * cunningly hides in the login form
+	 * Get the login page and extract the authenticity token that Strava cunningly hides in the login form
 	 * </p>
 	 *
-	 * @return The value of the authenticity token, which should be included
-	 *         when posting the form to log in
-	 * @throws IOException
+	 * @return The value of the authenticity token, which should be included when posting the form to log in
 	 */
 	private static String getLoginAuthenticityToken() {
 		final BasicNameValuePair[] params = null;
@@ -182,15 +177,18 @@ public class TestHttpUtils {
 
 	/**
 	 * <p>
-	 * This utility method will log in to Strava with the provided credentials
-	 * and return a valid token which has the provided scopes
+	 * This utility method will log in to Strava with the provided credentials and return a valid token which has the provided scopes
 	 * </p>
 	 *
 	 * @param username
+	 *            Strava account username
 	 * @param password
+	 *            Strava account password
 	 * @param scopes
+	 *            Authorisation scopes to get a token for
 	 * @return The Strava access token
 	 * @throws BadRequestException
+	 *             If something bad happens(!)
 	 * @throws UnauthorizedException
 	 *             If client secret is invalid
 	 */
@@ -240,8 +238,7 @@ public class TestHttpUtils {
 	 * </p>
 	 *
 	 * <p>
-	 * This method is provided FOR TESTING PURPOSES ONLY as it's not genuinely
-	 * useful and you shouldn't be asking other people for their Strava password
+	 * This method is provided FOR TESTING PURPOSES ONLY as it's not genuinely useful and you shouldn't be asking other people for their Strava password
 	 * </p>
 	 *
 	 * <p>
@@ -253,8 +250,7 @@ public class TestHttpUtils {
 	 * @param password
 	 *            Password associated with the user account
 	 * @param authenticityToken
-	 *            token handed out by the Strava login page within the login
-	 *            form
+	 *            token handed out by the Strava login page within the login form
 	 * @return The string URL to redirect to next
 	 */
 	private static String login(final String email, final String password, final String authenticityToken) {

@@ -6,6 +6,16 @@ package test.service.standardtests.callbacks;
 import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.service.Strava;
 
+/**
+ * Callback used to get an object from Strava
+ *
+ * @author Dan Shannon
+ *
+ * @param <T>
+ *            The type of Strava entity being returned
+ * @param <U>
+ *            The type of the Strava entity's identifier
+ */
 public interface GetCallback<T extends StravaEntity, U> {
 	/**
 	 * @param strava
