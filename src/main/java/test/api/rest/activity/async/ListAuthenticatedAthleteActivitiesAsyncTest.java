@@ -11,7 +11,7 @@ import java.time.Month;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.v3.rest.API;
 import javastrava.util.StravaDateUtils;
 import test.api.model.StravaActivityTest;
 import test.api.rest.activity.ListAuthenticatedAthleteActivitiesTest;
@@ -20,18 +20,20 @@ import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listAuthenticatedAthleteActivitiesAsync(Integer, Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticatedAthleteActivitiesTest {
-	/**
-	 * @see test.api.rest.activity.ListAuthenticatedAthleteActivitiesTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaActivity> pagingCallback() {
 		return paging -> api().listAuthenticatedAthleteActivitiesAsync(null, null, paging.getPage(), paging.getPageSize()).get();
 	}
 
-	/**
-	 * @see test.api.rest.activity.ListAuthenticatedAthleteActivitiesTest#listCallback()
-	 */
 	@Override
 	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteActivitiesAsync(null, null, null, null).get();
@@ -43,6 +45,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	public void testListAuthenticatedAthleteActivities_afterActivity() throws Exception {
@@ -67,8 +70,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	public void testListAuthenticatedAthleteActivities_beforeActivity() throws Exception {
@@ -93,8 +95,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	public void testListAuthenticatedAthleteActivities_beforeAfterCombination() throws Exception {
@@ -121,8 +122,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	public void testListAuthenticatedAthleteActivities_beforeAfterInvalidCombination() throws Exception {
@@ -132,11 +132,12 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivitiesAsync(
 					StravaDateUtils.secondsSinceUnixEpoch(before), StravaDateUtils.secondsSinceUnixEpoch(after), null, null).get();
-			assertNotNull("Returned null collection of activities", activities);
+			assertNotNull("Returned null collection of activities", activities); //$NON-NLS-1$
 			assertEquals(0, activities.length);
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testListAuthenticatedAthleteActivities_beforeAfterPaging() throws Exception {
@@ -165,9 +166,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -175,8 +174,8 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listAuthenticatedAthleteActivitiesAsync(null, null, null, null).get();
 
-			assertNotNull("Authenticated athlete's activities returned as null", activities);
-			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length);
+			assertNotNull("Authenticated athlete's activities returned as null", activities); //$NON-NLS-1$
+			assertNotEquals("No activities returned for the authenticated athlete", 0, activities.length); //$NON-NLS-1$
 			for (final StravaActivity activity : activities) {
 				assertNotEquals(Boolean.TRUE, activity.getPrivateActivity());
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());

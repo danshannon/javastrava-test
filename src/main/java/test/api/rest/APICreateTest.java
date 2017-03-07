@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.auth.ref.AuthorisationScope;
+import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -27,7 +28,7 @@ import test.utils.RateLimitedTestRunner;
  *            Class of identifier of the parent (so mostly, Integer)
  *
  */
-public abstract class APICreateTest<T, U> extends APITest<T> {
+public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
 	 * Callback used to call the API create method
 	 *
@@ -52,7 +53,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 			final API api = apiWithWriteAccess();
 			T createdObject = null;
 			try {
-				createdObject = creator().run(api, createObject(), invalidParentId());
+				createdObject = creator().create(api, createObject(), invalidParentId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -75,7 +76,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 			final API api = apiWithFullAccess();
 			T createdObject = null;
 			try {
-				createdObject = creator().run(api, createObject(), privateParentOtherUserId());
+				createdObject = creator().create(api, createObject(), privateParentOtherUserId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -98,7 +99,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 			final API api = apiWithWriteAccess();
 			T createdObject = null;
 			try {
-				createdObject = creator().run(api, createObject(), privateParentId());
+				createdObject = creator().create(api, createObject(), privateParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -119,7 +120,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 	public void create_privateParentWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithFullAccess();
-			final T result = creator().run(api, createObject(), privateParentId());
+			final T result = creator().create(api, createObject(), privateParentId());
 			if (!this.createAPIResponseIsNull) {
 				forceDelete(result);
 				assertNotNull(result);
@@ -138,7 +139,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 	public void create_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
-			final T result = creator().run(api, createObject(), validParentId());
+			final T result = creator().create(api, createObject(), validParentId());
 			if (!this.createAPIResponseIsNull) {
 				forceDelete(result);
 				assertNotNull(result);
@@ -158,7 +159,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 	public void create_validParentBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
-			final T result = creator().run(api, createObject(), validParentOtherUserId());
+			final T result = creator().create(api, createObject(), validParentOtherUserId());
 			if (!this.createAPIResponseIsNull) {
 				forceDelete(result);
 				assertNotNull(result);
@@ -180,7 +181,7 @@ public abstract class APICreateTest<T, U> extends APITest<T> {
 			final API api = api();
 			T createdObject = null;
 			try {
-				createdObject = creator().run(api, createObject(), validParentId());
+				createdObject = creator().create(api, createObject(), validParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;

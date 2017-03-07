@@ -3,6 +3,7 @@ package test.api.rest.activity;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaComment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.APITest;
@@ -17,10 +18,6 @@ import test.utils.RateLimitedTestRunner;
  * </p>
  *
  * @author Dan Shannon
- *
- */
-/**
- * @author danshannon
  *
  */
 public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {

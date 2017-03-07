@@ -1,11 +1,20 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaComment;
+import javastrava.api.v3.rest.API;
 import test.api.rest.activity.ListActivityCommentsTest;
 import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listActivityCommentsAsync(Long, Boolean, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 
 	/**
@@ -22,6 +31,7 @@ public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 	@Override
 	protected ArrayCallback<StravaComment> pagingCallback() {
 		return paging -> api()
-				.listActivityCommentsAsync(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize()).get();
+				.listActivityCommentsAsync(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize())
+				.get();
 	}
 }

@@ -3,12 +3,21 @@ package test.api.rest.athlete.async;
 import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listAthleteKOMsAsync(Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAthleteKOMsAsyncTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
 	 * @see test.api.rest.APIPagingListTest#pagingCallback()

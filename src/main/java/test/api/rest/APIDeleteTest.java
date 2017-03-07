@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.auth.ref.AuthorisationScope;
+import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -27,7 +28,7 @@ import test.utils.RateLimitedTestRunner;
  *            Class of identifier of the parent (so mostly, Integer or Long)
  *
  */
-public abstract class APIDeleteTest<T, U> extends APITest<T> {
+public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
 	 * Callback used to call the API delete method
 	 *
@@ -54,7 +55,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 			final API api = apiWithWriteAccess();
 			T deletedObject = null;
 			try {
-				deletedObject = deleter().run(api, createObject(), invalidParentId());
+				deletedObject = deleter().delete(api, createObject(), invalidParentId());
 			} catch (final NotFoundException e) {
 				// Expected
 				return;
@@ -83,7 +84,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 			final API api = apiWithFullAccess();
 			T result = null;
 			try {
-				result = deleter().run(api, createObject(), privateParentId());
+				result = deleter().delete(api, createObject(), privateParentId());
 			} catch (final NotFoundException e) {
 				return;
 			}
@@ -109,7 +110,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 			final API api = apiWithWriteAccess();
 			T deletedObject = null;
 			try {
-				deletedObject = deleter().run(api, createObject(), privateParentId());
+				deletedObject = deleter().delete(api, createObject(), privateParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				forceDelete(deletedObject);
@@ -138,7 +139,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 			final API api = api();
 			T deletedObject = null;
 			try {
-				deletedObject = deleter().run(api, createObject(), validParentId());
+				deletedObject = deleter().delete(api, createObject(), validParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				forceDelete(deletedObject);
@@ -167,7 +168,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 			final API api = apiWithFullAccess();
 			T deletedObject = null;
 			try {
-				deletedObject = deleter().run(api, createObject(), privateParentOtherUserId());
+				deletedObject = deleter().delete(api, createObject(), privateParentOtherUserId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				forceDelete(deletedObject);
@@ -188,7 +189,7 @@ public abstract class APIDeleteTest<T, U> extends APITest<T> {
 	public void delete_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
-			final T result = deleter().run(api, createObject(), validParentId());
+			final T result = deleter().delete(api, createObject(), validParentId());
 			assertNull(result);
 		});
 	}

@@ -1,7 +1,7 @@
 package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.Strava;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.TestListArrayCallback;
@@ -10,7 +10,7 @@ import test.service.standardtests.data.ActivityDataUtils;
 
 /**
  * <p>
- * Tests for {@link Strava#listActivityKudoers(Long)} methods
+ * Tests for {@link API#listActivityKudoers(Long, Integer, Integer)} methods
  * </p>
  *
  * @author Dan Shannon
@@ -57,9 +57,6 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {

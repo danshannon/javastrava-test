@@ -1,11 +1,20 @@
 package test.api.rest.athlete;
 
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#getAuthenticatedAthlete()}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()

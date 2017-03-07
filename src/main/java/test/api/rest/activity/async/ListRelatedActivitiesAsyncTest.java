@@ -1,10 +1,19 @@
 package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.rest.API;
 import test.api.rest.activity.ListRelatedActivitiesTest;
 import test.api.rest.callback.TestListArrayCallback;
 import test.api.rest.util.ArrayCallback;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listRelatedActivitiesAsync(Long, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListRelatedActivitiesAsyncTest extends ListRelatedActivitiesTest {
 	/**
 	 * @see test.api.rest.activity.ListRelatedActivitiesTest#pagingCallback()

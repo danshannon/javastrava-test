@@ -96,7 +96,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			StravaActivity stravaResponse = null;
 			activity.setType(StravaActivityType.UNKNOWN);
 			try {
-				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().create(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -123,7 +123,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// Elapsed time is required
 			activity.setElapsedTime(null);
 			try {
-				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().create(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -157,7 +157,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			activity.setDescription(activity.getName());
 			activity.setName(null);
 			try {
-				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().create(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -187,7 +187,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			// Start date is required
 			activity.setStartDateLocal(null);
 			try {
-				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().create(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e) {
 				// Expected behaviour
 				return;
@@ -215,7 +215,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 			StravaActivity stravaResponse = null;
 			activity.setType(null);
 			try {
-				stravaResponse = creator().run(apiWithWriteAccess(), activity, null);
+				stravaResponse = creator().create(apiWithWriteAccess(), activity, null);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;

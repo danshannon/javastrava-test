@@ -41,33 +41,21 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 		});
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#createObject()
-	 */
 	@Override
 	protected StravaComment createObject() {
 		return CommentDataUtils.generateValidObject();
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#forceDelete(java.lang.Object)
-	 */
 	@Override
 	protected void forceDelete(final StravaComment comment) {
 		forceDeleteComment(comment);
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#invalidParentId()
-	 */
 	@Override
 	protected Long invalidParentId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
-	/**
-	 * @see test.api.rest.APICreateTest#privateParentId()
-	 */
 	@Override
 	protected Long privateParentId() {
 		return ActivityDataUtils.ACTIVITY_PRIVATE;
@@ -94,7 +82,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 			StravaComment comment = new StravaComment();
 			comment.setText(""); //$NON-NLS-1$
 			try {
-				comment = creator().run(api, comment, ActivityDataUtils.ACTIVITY_WITH_COMMENTS);
+				comment = creator().create(api, comment, ActivityDataUtils.ACTIVITY_WITH_COMMENTS);
 			} catch (final BadRequestException e1) {
 				// Expected behaviour
 				return;
@@ -106,9 +94,6 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 		});
 	}
 
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
 	@Override
 	protected void validate(final StravaComment comment) throws Exception {
 		StravaCommentTest.validateComment(comment);

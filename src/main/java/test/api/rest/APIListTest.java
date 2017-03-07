@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
@@ -29,7 +30,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <U>
  *            Class of the object's id
  */
-public abstract class APIListTest<T, U> extends APITest<T> {
+public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
 	 * Callback code for a test class to execute a non-paged request (used by the list tests)
 	 *

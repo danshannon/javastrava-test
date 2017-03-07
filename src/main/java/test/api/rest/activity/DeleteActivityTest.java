@@ -21,33 +21,21 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 		return ((api, activity, id) -> api.deleteActivity(id));
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#createObject()
-	 */
 	@Override
 	protected StravaActivity createObject() {
 		return ActivityDataUtils.createDefaultActivity("DeleteActivityTest"); //$NON-NLS-1$
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#forceDelete(java.lang.Object)
-	 */
 	@Override
 	protected void forceDelete(final StravaActivity activity) {
 		forceDeleteActivity(activity);
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#invalidParentId()
-	 */
 	@Override
 	protected Long invalidParentId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#privateParentId()
-	 */
 	@Override
 	protected Long privateParentId() {
 		// Create a private activity
@@ -57,26 +45,17 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 		return activity.getId();
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#privateParentOtherUserId()
-	 */
 	@Override
 	protected Long privateParentOtherUserId() {
 		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
 	@Override
 	protected void validate(final StravaActivity result) throws Exception {
 		StravaActivityTest.validate(result);
 
 	}
 
-	/**
-	 * @see test.api.rest.APIDeleteTest#validParentId()
-	 */
 	@Override
 	protected Long validParentId() {
 		// Create a private activity

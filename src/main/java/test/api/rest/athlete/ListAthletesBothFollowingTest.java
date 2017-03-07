@@ -1,6 +1,7 @@
 package test.api.rest.athlete;
 
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.TestListArrayCallback;
@@ -8,6 +9,14 @@ import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
 import test.service.standardtests.data.AthleteDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listAthletesBothFollowing(Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
 	 * @see test.api.rest.APIPagingListTest#pagingCallback()

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.rest.API;
 import javastrava.config.StravaConfig;
 import test.api.rest.activity.ListFriendsActivitiesTest;
 import test.api.rest.callback.TestListArrayCallback;
@@ -16,6 +17,14 @@ import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#listFriendsActivitiesAsync(Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	/**
 	 * @see test.api.rest.activity.ListFriendsActivitiesTest#pagingCallback()

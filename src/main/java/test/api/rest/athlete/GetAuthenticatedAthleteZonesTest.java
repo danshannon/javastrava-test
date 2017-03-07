@@ -1,11 +1,20 @@
 package test.api.rest.athlete;
 
 import javastrava.api.v3.model.StravaAthleteZones;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteZonesTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
+/**
+ * <p>
+ * Specific tests for {@link API#getAuthenticatedAthleteZones()}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZones, Integer> {
 
 	@Override

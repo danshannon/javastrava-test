@@ -25,16 +25,14 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	}
 
 	/**
-	 *
+	 * Attempts to list photos for an activity belonging to someone other than the authorised user returns true, unless the
+	 * authenticated user is following them
 	 */
 	public ListActivityPhotosTest() {
 		super();
 		this.listOtherReturns401Unauthorised = true;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;

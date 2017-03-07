@@ -3,6 +3,7 @@ package test.api.rest.athlete.async;
 import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaStatistics;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
@@ -10,6 +11,14 @@ import test.api.rest.callback.TestGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#statisticsAsync(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 
 	@Override
@@ -21,7 +30,7 @@ public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 				// Expected
 				return;
 			}
-			fail("Returned statistics for another athlete");
+			fail("Returned statistics for another athlete"); //$NON-NLS-1$
 		});
 	}
 
