@@ -7,6 +7,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.service.standardtests.DeleteMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
@@ -36,89 +37,122 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 	@Override
 	@Test
 	public void testInvalidId() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Fake activity
-			final StravaActivity activity = generateValidObject();
-			activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Attempt to delete
-			final StravaActivity deletedActivity;
-			try {
-				deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
+			RateLimitedTestRunner.run(() -> {
+				// Fake activity
+				final StravaActivity activity = generateValidObject();
+				activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
-			// Failure
-			fail("Successfully deleted an activity " + deletedActivity.getId() + " that does not exist!"); //$NON-NLS-1$ //$NON-NLS-2$
-		});
+				// Attempt to delete
+				final StravaActivity deletedActivity;
+				try {
+					deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final NotFoundException e) {
+					// Expected
+					return;
+				}
+
+				// Failure
+				fail("Successfully deleted an activity " + deletedActivity.getId() + " that does not exist!"); //$NON-NLS-1$ //$NON-NLS-2$
+			});
+		}
 
 	}
 
 	@Override
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Fake activity
-			final StravaActivity activity = generateValidObject();
-			activity.setId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Attempt to delete
-			final StravaActivity deletedActivity;
-			try {
-				deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
+			RateLimitedTestRunner.run(() -> {
+				// Fake activity
+				final StravaActivity activity = generateValidObject();
+				activity.setId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
 
-			// Failure
-			fail("Successfully deleted an activity " + deletedActivity.getId() + " that is private and belongs to another user!"); //$NON-NLS-1$ //$NON-NLS-2$
-		});
+				// Attempt to delete
+				final StravaActivity deletedActivity;
+				try {
+					deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+
+				// Failure
+				fail("Successfully deleted an activity " + deletedActivity.getId() + " that is private and belongs to another user!"); //$NON-NLS-1$ //$NON-NLS-2$
+			});
+
+		}
 	}
 
 	@Override
 	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Generate test data
-			final StravaActivity activity = generateValidObject();
-			activity.setPrivateActivity(Boolean.TRUE);
-			final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-			// Now delete it
-			deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
+			RateLimitedTestRunner.run(() -> {
+				// Generate test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
+				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
 
-			// If that worked, it's all good
-			return;
-		});
+				// Now delete it
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
+
+				// If that worked, it's all good
+				return;
+			});
+		}
+	}
+
+	@Override
+	public void testDeleteValidObject() throws Exception {
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.testDeleteValidObject();
+		}
+
+	}
+
+	@Override
+	public void testDeleteNoWriteAccess() throws Exception {
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.testDeleteNoWriteAccess();
+		}
 	}
 
 	@Override
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Generate test data
-			final StravaActivity activity = generateValidObject();
-			activity.setPrivateActivity(Boolean.TRUE);
-			final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			RateLimitedTestRunner.run(() -> {
+				// Generate test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
+				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
 
-			// Now try to delete it
-			try {
-				deleter().delete(TestUtils.stravaWithWriteAccess(), createdActivity);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
+				// Now try to delete it
+				try {
+					deleter().delete(TestUtils.stravaWithWriteAccess(), createdActivity);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
+					return;
+				}
+
+				// Fail
+				fail("Successfully deleted a private activity, but don't have view_private scope in token!"); //$NON-NLS-1$
+
+				// If that worked, it's all good
 				return;
-			}
-
-			// Fail
-			fail("Successfully deleted a private activity, but don't have view_private scope in token!"); //$NON-NLS-1$
-
-			// If that worked, it's all good
-			return;
-		});
+			});
+		}
 	}
 
 	@Override

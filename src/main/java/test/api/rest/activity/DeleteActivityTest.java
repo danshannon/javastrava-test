@@ -2,6 +2,7 @@ package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.callback.TestDeleteCallback;
@@ -16,6 +17,54 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
+	@Override
+	public void delete_invalidParent() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_invalidParent();
+		}
+	}
+
+	@Override
+	public void delete_privateParentWithViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_privateParentWithViewPrivate();
+		}
+	}
+
+	@Override
+	public void delete_privateParentWithoutViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_privateParentWithoutViewPrivate();
+		}
+	}
+
+	@Override
+	public void delete_validParentNoWriteAccess() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_validParentNoWriteAccess();
+		}
+	}
+
+	@Override
+	public void delete_privateParentBelongsToOtherUser() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_privateParentBelongsToOtherUser();
+		}
+	}
+
+	@Override
+	public void delete_valid() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_valid();
+		}
+	}
+
 	@Override
 	protected TestDeleteCallback<StravaActivity, Long> deleter() {
 		return ((api, activity, id) -> api.deleteActivity(id));

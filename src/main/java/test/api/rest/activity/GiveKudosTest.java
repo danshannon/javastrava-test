@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import javastrava.api.v3.rest.API;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
 import test.api.rest.callback.TestCreateCallback;
@@ -28,37 +29,73 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 		return ((api, response, id) -> api.giveKudos(id));
 	}
 
+	@Override
+	public void create_invalidParent() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_invalidParent();
+		}
+	}
+
+	@Override
+	public void create_privateParentBelongsToOtherUser() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_privateParentBelongsToOtherUser();
+		}
+	}
+
+	@Override
+	public void create_privateParentWithViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_privateParentWithViewPrivate();
+		}
+	}
+
 	/**
 	 * @see test.api.rest.APICreateTest#create_privateParentWithoutViewPrivate()
 	 */
 	@Override
 	public void create_privateParentWithoutViewPrivate() throws Exception {
-		super.create_privateParentWithoutViewPrivate();
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_privateParentWithoutViewPrivate();
+		}
 	}
 
 	@Override
 	public void create_valid() throws Exception {
-		super.create_valid();
-		RateLimitedTestRunner.run(() -> {
-			assertFalse(hasGivenKudos(validParentId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
-		});
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_valid();
+			RateLimitedTestRunner.run(() -> {
+				assertFalse(hasGivenKudos(validParentId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
+			});
+		}
 	}
 
 	@Override
 	public void create_validParentBelongsToOtherUser() throws Exception {
-		super.create_validParentBelongsToOtherUser();
-		RateLimitedTestRunner.run(() -> {
-			assertTrue(hasGivenKudos(validParentOtherUserId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
-		});
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_validParentBelongsToOtherUser();
+			RateLimitedTestRunner.run(() -> {
+				assertTrue(hasGivenKudos(validParentOtherUserId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
+			});
+		}
 	}
 
 	@Override
 	public void create_validParentNoWriteAccess() throws Exception {
-		if (new Issue29().isIssue()) {
-			return;
-		}
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			if (new Issue29().isIssue()) {
+				return;
+			}
 
-		super.create_validParentNoWriteAccess();
+			super.create_validParentNoWriteAccess();
+		}
 	}
 
 	/**

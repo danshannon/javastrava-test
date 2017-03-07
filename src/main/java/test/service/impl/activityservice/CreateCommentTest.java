@@ -7,6 +7,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaCommentTest;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
@@ -39,41 +40,49 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	@Override
 	@Test
 	public void testCreateValidObject() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create a comment
-			final StravaComment comment = generateValidObject();
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-			// Add to Strava
-			final StravaComment createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
+			RateLimitedTestRunner.run(() -> {
+				// Create a comment
+				final StravaComment comment = generateValidObject();
 
-			// Validate
-			StravaCommentTest.validateComment(createdComment);
+				// Add to Strava
+				final StravaComment createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
 
-			// Delete it again
-			deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
-		});
+				// Validate
+				StravaCommentTest.validateComment(createdComment);
+
+				// Delete it again
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
+			});
+		}
 	}
 
 	@Override
 	@Test
 	public void testCreateNonExistentParent() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create a comment
-			final StravaComment comment = generateValidObject();
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-			// Add to Strava
-			final StravaComment createdComment;
-			try {
-				createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
+			RateLimitedTestRunner.run(() -> {
+				// Create a comment
+				final StravaComment comment = generateValidObject();
 
-			// Delete it again and fail
-			deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
-			fail("Created a comment against a non-existent parent activity!"); //$NON-NLS-1$
-		});
+				// Add to Strava
+				final StravaComment createdComment;
+				try {
+					createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
+				} catch (final NotFoundException e) {
+					// Expected
+					return;
+				}
+
+				// Delete it again and fail
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
+				fail("Created a comment against a non-existent parent activity!"); //$NON-NLS-1$
+			});
+		}
 	}
 
 	@Override
@@ -87,21 +96,45 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	@Override
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
-		final StravaComment comment = generateValidObject();
-		comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-		// Attempt to make the comment
-		final StravaComment createdComment;
-		try {
-			createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
-		} catch (final UnauthorizedException e) {
-			// Expected
-			return;
+			RateLimitedTestRunner.run(() -> {
+				final StravaComment comment = generateValidObject();
+				comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
+
+				// Attempt to make the comment
+				final StravaComment createdComment;
+				try {
+					createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+
+				// Delete it again and fail
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
+				fail("Created a comment against a private activity belongoing to another user!"); //$NON-NLS-1$
+			});
 		}
+	}
 
-		// Delete it again and fail
-		deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
-		fail("Created a comment against a private activity belongoing to another user!"); //$NON-NLS-1$
+	@Override
+	public void testCreateInvalidObject() throws Exception {
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+
+			super.testCreateInvalidObject();
+		}
+	}
+
+	@Override
+	public void testCreateNoWriteAccess() throws Exception {
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+
+			super.testCreateNoWriteAccess();
+		}
 	}
 
 	@Override
@@ -115,23 +148,27 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	@Override
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create a comment
-			final StravaComment comment = generateValidObject();
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-			// Add to Strava
-			final StravaComment createdComment;
-			try {
-				createdComment = creator().create(TestUtils.stravaWithWriteAccess(), comment);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
+			RateLimitedTestRunner.run(() -> {
+				// Create a comment
+				final StravaComment comment = generateValidObject();
 
-			// Delete it again
-			deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
-			fail("Created a comment on a private activity, but don't have view_private scope in token"); //$NON-NLS-1$
-		});
+				// Add to Strava
+				final StravaComment createdComment;
+				try {
+					createdComment = creator().create(TestUtils.stravaWithWriteAccess(), comment);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+
+				// Delete it again
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
+				fail("Created a comment on a private activity, but don't have view_private scope in token"); //$NON-NLS-1$
+			});
+		}
 	}
 
 	@Override
