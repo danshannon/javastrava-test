@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
@@ -66,7 +66,7 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 
 	@SuppressWarnings("boxing")
 	@Override
-	protected TestListArrayCallback<StravaComment, Long> listCallback() {
+	protected APIListCallback<StravaComment, Long> listCallback() {
 		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));
 	}
 

@@ -10,7 +10,7 @@ import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -36,7 +36,7 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteFriends(null, null);
 	}
 

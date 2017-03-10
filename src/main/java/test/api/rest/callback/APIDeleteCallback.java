@@ -18,7 +18,7 @@ import javastrava.api.v3.rest.API;
  *            the type of its parent's identifier
  *
  */
-public interface TestDeleteCallback<T extends StravaEntity, U> {
+public interface APIDeleteCallback<T extends StravaEntity, U> {
 	/**
 	 * Delete an object using the provided API call
 	 *

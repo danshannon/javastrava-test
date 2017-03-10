@@ -12,7 +12,7 @@ import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -36,7 +36,7 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	 *
 	 * @return The callback to be used for non-paging requests
 	 */
-	protected abstract TestListArrayCallback<T, U> listCallback();
+	protected abstract APIListCallback<T, U> listCallback();
 
 	/**
 	 * <p>

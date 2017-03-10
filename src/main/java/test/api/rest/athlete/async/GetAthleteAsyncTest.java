@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.athlete.GetAthleteTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -18,7 +18,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetAthleteAsyncTest extends GetAthleteTest {
 	@Override
-	protected TestGetCallback<StravaAthlete, Integer> getter() {
+	protected APIGetCallback<StravaAthlete, Integer> getter() {
 		return ((api, id) -> api.getAthleteAsync(id).get());
 	}
 

@@ -3,7 +3,7 @@ package test.api.rest.upload;
 import javastrava.api.v3.model.StravaUploadResponse;
 import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
 public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long> {
@@ -57,7 +57,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long
 	}
 
 	@Override
-	protected TestGetCallback<StravaUploadResponse, Long> getter() {
+	protected APIGetCallback<StravaUploadResponse, Long> getter() {
 		return ((api, id) -> api.checkUploadStatus(id));
 	}
 

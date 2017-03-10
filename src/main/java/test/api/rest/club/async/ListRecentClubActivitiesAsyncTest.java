@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;
@@ -29,7 +29,7 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	 * @see test.api.rest.club.ListRecentClubActivitiesTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listRecentClubActivitiesAsync(id, null, null).get();
 	}
 

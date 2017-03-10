@@ -13,7 +13,7 @@ import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -34,7 +34,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	 *
 	 * @return The creator
 	 */
-	protected abstract TestCreateCallback<T, U> creator();
+	protected abstract APICreateCallback<T, U> creator();
 
 	/**
 	 * <code>true</code> if the response from the API when creating an object is null

@@ -3,7 +3,7 @@ package test.api.rest.activity.async;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import test.api.rest.activity.ListActivityCommentsTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
@@ -21,7 +21,7 @@ public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 	 * @see test.api.rest.activity.ListActivityCommentsTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaComment, Long> listCallback() {
+	protected APIListCallback<StravaComment, Long> listCallback() {
 		return (api, id) -> api.listActivityCommentsAsync(id, null, null, null).get();
 	}
 

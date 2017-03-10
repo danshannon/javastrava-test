@@ -3,7 +3,7 @@ package test.api.rest.activity.async;
 import javastrava.api.v3.model.StravaResponse;
 import javastrava.api.v3.rest.API;
 import test.api.rest.activity.GiveKudosTest;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import test.api.rest.callback.TestCreateCallback;
  */
 public class GiveKudosAsyncTest extends GiveKudosTest {
 	@Override
-	protected TestCreateCallback<StravaResponse, Long> creator() {
+	protected APICreateCallback<StravaResponse, Long> creator() {
 		return ((api, response, activityId) -> api.giveKudosAsync(activityId).get());
 	}
 

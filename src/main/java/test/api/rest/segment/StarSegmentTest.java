@@ -4,12 +4,12 @@ import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.APITest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.SegmentDataUtils;
 
 public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
-	protected TestGetCallback<StravaSegment, Integer> getter() {
+	protected APIGetCallback<StravaSegment, Integer> getter() {
 		return ((api, id) -> APITest.apiWithWriteAccess().starSegment(id, Boolean.TRUE));
 	}
 

@@ -2,7 +2,7 @@ package test.api.rest.route.async;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.route.ListRoutesTest;
 
 /**
@@ -15,7 +15,7 @@ import test.api.rest.route.ListRoutesTest;
  */
 public class ListRoutesTestAsync extends ListRoutesTest {
 	@Override
-	protected TestListArrayCallback<StravaRoute, Integer> listCallback() {
+	protected APIListCallback<StravaRoute, Integer> listCallback() {
 		return ((api, id) -> api.listAthleteRoutesAsync(id).get());
 	}
 

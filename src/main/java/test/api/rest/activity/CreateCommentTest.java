@@ -10,7 +10,7 @@ import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APICreateTest;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 import test.issues.strava.Issue30;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.CommentDataUtils;
@@ -26,7 +26,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	@Override
-	protected TestCreateCallback<StravaComment, Long> creator() {
+	protected APICreateCallback<StravaComment, Long> creator() {
 		return ((api, object, id) -> api.createComment(id, object.getText()));
 	}
 

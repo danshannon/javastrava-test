@@ -9,7 +9,7 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -87,7 +87,7 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaActivity, Long> getter() {
+	protected APIGetCallback<StravaActivity, Long> getter() {
 		return ((api, id) -> api.getActivity(id, Boolean.FALSE));
 	}
 }

@@ -4,7 +4,8 @@ import javastrava.api.v3.model.StravaChallenge;
 import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
+import test.service.standardtests.data.ChallengeDataUtils;
 
 /**
  * <p>
@@ -17,45 +18,38 @@ import test.api.rest.callback.TestGetCallback;
 public class GetChallengeTest extends APIGetTest<StravaChallenge, Integer> {
 
 	@Override
-	protected TestGetCallback<StravaChallenge, Integer> getter() {
-		return (api, id) -> {
-			return api.getChallenge(id);
-		};
+	protected APIGetCallback<StravaChallenge, Integer> getter() {
+		return ChallengeDataUtils.apiGetter();
 	}
 
 	@Override
 	protected Integer invalidId() {
-		// TODO Auto-generated method stub
-		return null;
+		return ChallengeDataUtils.CHALLENGE_INVALID_ID;
 	}
 
 	@Override
 	protected Integer privateId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Integer validId() {
-		// TODO Auto-generated method stub
-		return 1;
+		return ChallengeDataUtils.CHALLENGE_VALID_ID;
 	}
 
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void validate(StravaChallenge result) throws Exception {
-		// TODO Auto-generated method stub
+		ChallengeDataUtils.validate(result);
 
 	}
 

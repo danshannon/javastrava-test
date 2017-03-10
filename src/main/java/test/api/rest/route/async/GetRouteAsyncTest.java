@@ -2,7 +2,7 @@ package test.api.rest.route.async;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.api.rest.route.GetRouteTest;
 
 /**
@@ -16,7 +16,7 @@ import test.api.rest.route.GetRouteTest;
 public class GetRouteAsyncTest extends GetRouteTest {
 
 	@Override
-	protected TestGetCallback<StravaRoute, Integer> getter() {
+	protected APIGetCallback<StravaRoute, Integer> getter() {
 		return ((api, id) -> api.getRouteAsync(id).get());
 	}
 

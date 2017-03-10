@@ -3,7 +3,7 @@ package test.api.rest.activity.async;
 import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.rest.API;
 import test.api.rest.activity.ListActivityPhotosTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 
 /**
  * <p>
@@ -18,7 +18,7 @@ public class ListActivityPhotosAsyncTest extends ListActivityPhotosTest {
 	 * @see test.api.rest.activity.ListActivityPhotosTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaPhoto, Long> listCallback() {
+	protected APIListCallback<StravaPhoto, Long> listCallback() {
 		return (api, id) -> api.listActivityPhotosAsync(id).get();
 	}
 }

@@ -1,7 +1,7 @@
 package test.api.rest.segment.async;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.api.rest.segment.GetSegmentTest;
 
 /**
@@ -11,7 +11,7 @@ import test.api.rest.segment.GetSegmentTest;
 public class GetSegmentAsyncTest extends GetSegmentTest {
 
 	@Override
-	protected TestGetCallback<StravaSegment, Integer> getter() {
+	protected APIGetCallback<StravaSegment, Integer> getter() {
 		return ((api, id) -> api.getSegmentAsync(id).get());
 	}
 }

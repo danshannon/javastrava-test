@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
@@ -23,7 +23,7 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	}
 
 	@Override
-	protected TestListArrayCallback<StravaActivity, Long> listCallback() {
+	protected APIListCallback<StravaActivity, Long> listCallback() {
 		return (api, id) -> api.listRelatedActivities(id, null, null);
 	}
 

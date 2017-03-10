@@ -3,7 +3,7 @@ package test.api.rest.athlete.async;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import test.api.rest.athlete.ListAthletesBothFollowingTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 
 /**
@@ -27,7 +27,7 @@ public class ListAthletesBothFollowingAsyncTest extends ListAthletesBothFollowin
 	 * @see test.api.rest.athlete.ListAthletesBothFollowingTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAthletesBothFollowingAsync(id, null, null).get();
 	}
 

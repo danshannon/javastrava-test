@@ -10,7 +10,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -24,7 +24,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
 	@Override
-	protected TestCreateCallback<StravaActivity, Integer> creator() {
+	protected APICreateCallback<StravaActivity, Integer> creator() {
 		return ((api, activity, id) -> api.createManualActivity(activity));
 	}
 

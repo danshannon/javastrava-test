@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javastrava.api.v3.model.StravaSegment;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -23,7 +23,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+	protected APIListCallback<StravaSegment, Integer> listCallback() {
 		return (api, id) -> api.listStarredSegments(id, null, null);
 	}
 

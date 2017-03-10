@@ -4,7 +4,7 @@
 package test.api.rest.segment.async;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.segment.ListStarredSegmentsTest;
 import test.api.rest.util.ArrayCallback;
 
@@ -25,7 +25,7 @@ public class ListStarredSegmentsAsyncTest extends ListStarredSegmentsTest {
 	 * @see test.api.rest.segment.ListStarredSegmentsTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+	protected APIListCallback<StravaSegment, Integer> listCallback() {
 		return (api, id) -> api.listStarredSegmentsAsync(id, null, null).get();
 	}
 }

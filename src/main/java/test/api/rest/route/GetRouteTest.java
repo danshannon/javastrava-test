@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaRouteTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.RouteDataUtils;
 
 /**
@@ -18,7 +18,7 @@ import test.service.standardtests.data.RouteDataUtils;
 public class GetRouteTest extends APIGetTest<StravaRoute, Integer> {
 
 	@Override
-	protected TestGetCallback<StravaRoute, Integer> getter() {
+	protected APIGetCallback<StravaRoute, Integer> getter() {
 		return ((api, id) -> api.getRoute(id));
 	}
 

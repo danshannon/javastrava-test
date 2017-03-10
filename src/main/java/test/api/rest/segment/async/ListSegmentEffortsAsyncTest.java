@@ -17,7 +17,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.exception.NotFoundException;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.segment.ListSegmentEffortsTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue33;
@@ -44,7 +44,7 @@ public class ListSegmentEffortsAsyncTest extends ListSegmentEffortsTest {
 	 * @see test.api.rest.segment.ListSegmentEffortsTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaSegmentEffort, Integer> listCallback() {
+	protected APIListCallback<StravaSegmentEffort, Integer> listCallback() {
 		return (api, id) -> api.listSegmentEffortsAsync(id, null, null, null, null, null).get();
 	}
 

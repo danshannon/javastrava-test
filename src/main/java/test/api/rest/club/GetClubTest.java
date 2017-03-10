@@ -10,7 +10,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -109,7 +109,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaClub, Integer> getter() {
+	protected APIGetCallback<StravaClub, Integer> getter() {
 		return ((api, id) -> api.getClub(id));
 	}
 

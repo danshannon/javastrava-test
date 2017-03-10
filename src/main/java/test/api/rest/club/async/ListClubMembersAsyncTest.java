@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListClubMembersTest;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ClubDataUtils;
@@ -25,7 +25,7 @@ public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	 * @see test.api.rest.club.ListClubMembersTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listClubMembersAsync(id, null, null).get();
 	}
 

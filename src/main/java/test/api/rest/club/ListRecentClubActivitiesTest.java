@@ -12,7 +12,7 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;
 import test.service.standardtests.data.ClubDataUtils;
@@ -32,7 +32,7 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listRecentClubActivities(id, null, null);
 	}
 

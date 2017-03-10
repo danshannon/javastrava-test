@@ -13,7 +13,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.config.StravaConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -34,7 +34,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 	}
 
 	@Override
-	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return ((api, id) -> api.listFriendsActivities(null, null));
 	}
 

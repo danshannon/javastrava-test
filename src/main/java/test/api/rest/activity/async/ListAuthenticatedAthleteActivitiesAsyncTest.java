@@ -15,7 +15,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.util.StravaDateUtils;
 import test.api.model.StravaActivityTest;
 import test.api.rest.activity.ListAuthenticatedAthleteActivitiesTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -35,7 +35,7 @@ public class ListAuthenticatedAthleteActivitiesAsyncTest extends ListAuthenticat
 	}
 
 	@Override
-	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteActivitiesAsync(null, null, null, null).get();
 	}
 

@@ -1,7 +1,7 @@
 package test.service.standardtests.data;
 
 import javastrava.api.v3.model.StravaComment;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;
@@ -35,7 +35,7 @@ public class CommentDataUtils {
 	 * @throws Exception
 	 *             if creator cannot be instantiated
 	 */
-	public static TestCreateCallback<StravaComment, Long> apiCreator() throws Exception {
+	public static APICreateCallback<StravaComment, Long> apiCreator() throws Exception {
 		return ((api, comment, id) -> api.createComment(id, comment.getText()));
 	}
 

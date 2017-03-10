@@ -3,7 +3,7 @@ package test.api.rest.activity.async;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
 import test.api.rest.activity.CreateManualActivityTest;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import test.api.rest.callback.TestCreateCallback;
  */
 public class CreateManualActivityAsyncTest extends CreateManualActivityTest {
 	@Override
-	protected TestCreateCallback<StravaActivity, Integer> creator() {
+	protected APICreateCallback<StravaActivity, Integer> creator() {
 		return ((api, activity, id) -> api.createManualActivityAsync(activity).get());
 	}
 }

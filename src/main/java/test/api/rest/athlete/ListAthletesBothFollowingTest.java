@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -30,7 +30,7 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAthletesBothFollowing(id, null, null);
 	}
 

@@ -10,7 +10,7 @@ import javastrava.api.v3.rest.API;
  *            The type of the entity's identifier
  *
  */
-public interface TestGetCallback<T, U> {
+public interface APIGetCallback<T, U> {
 	/**
 	 * Get the object from the API
 	 *

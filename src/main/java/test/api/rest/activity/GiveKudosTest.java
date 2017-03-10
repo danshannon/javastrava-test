@@ -9,7 +9,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
-import test.api.rest.callback.TestCreateCallback;
+import test.api.rest.callback.APICreateCallback;
 import test.issues.strava.Issue29;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -25,7 +25,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	@Override
-	protected TestCreateCallback<StravaResponse, Long> creator() {
+	protected APICreateCallback<StravaResponse, Long> creator() {
 		return ((api, response, id) -> api.giveKudos(id));
 	}
 

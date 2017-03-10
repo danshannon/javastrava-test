@@ -12,16 +12,6 @@ import test.utils.BeanTest;
  *
  */
 public class StravaChallengeTest extends BeanTest<StravaChallenge> {
-	/**
-	 * Validate an achievement matches the expected structure
-	 *
-	 * @param achievement
-	 *            The achievement to validate
-	 */
-	public static void validate(final StravaChallenge achievement) {
-		// TODO
-	}
-
 	@Override
 	protected Class<StravaChallenge> getClassUnderTest() {
 		return StravaChallenge.class;

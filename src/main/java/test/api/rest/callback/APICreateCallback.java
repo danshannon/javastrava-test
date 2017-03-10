@@ -16,7 +16,7 @@ import javastrava.api.v3.rest.API;
  *            the type of its parent's identifier
  *
  */
-public interface TestCreateCallback<T extends StravaEntity, U> {
+public interface APICreateCallback<T extends StravaEntity, U> {
 	/**
 	 * Create an object
 	 *

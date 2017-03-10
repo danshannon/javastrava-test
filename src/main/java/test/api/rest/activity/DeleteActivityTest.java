@@ -5,7 +5,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
-import test.api.rest.callback.TestDeleteCallback;
+import test.api.rest.callback.APIDeleteCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 
 /**
@@ -66,7 +66,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	}
 
 	@Override
-	protected TestDeleteCallback<StravaActivity, Long> deleter() {
+	protected APIDeleteCallback<StravaActivity, Long> deleter() {
 		return ((api, activity, id) -> api.deleteActivity(id));
 	}
 

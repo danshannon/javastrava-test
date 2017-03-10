@@ -20,7 +20,7 @@ import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.util.Paging;
 import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.api.rest.segment.GetSegmentLeaderboardTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
@@ -32,7 +32,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	@Override
-	protected TestGetCallback<StravaSegmentLeaderboard, Integer> getter() {
+	protected APIGetCallback<StravaSegmentLeaderboard, Integer> getter() {
 		return ((api, id) -> api.getSegmentLeaderboardAsync(id, null, null, null, null, null, null, null, null, null).get());
 	}
 

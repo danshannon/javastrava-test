@@ -3,7 +3,7 @@ package test.api.rest.activity.async;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
 import test.api.rest.activity.ListRelatedActivitiesTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 
 /**
@@ -27,7 +27,7 @@ public class ListRelatedActivitiesAsyncTest extends ListRelatedActivitiesTest {
 	 * @see test.api.rest.activity.ListRelatedActivitiesTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaActivity, Long> listCallback() {
+	protected APIListCallback<StravaActivity, Long> listCallback() {
 		return (api, id) -> api.listRelatedActivitiesAsync(id, null, null).get();
 	}
 }

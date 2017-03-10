@@ -8,7 +8,7 @@ import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaCommentTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.APITest;
-import test.api.rest.callback.TestDeleteCallback;
+import test.api.rest.callback.APIDeleteCallback;
 import test.issues.strava.Issue63;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -64,7 +64,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	}
 
 	@Override
-	public TestDeleteCallback<StravaComment, Long> deleter() {
+	public APIDeleteCallback<StravaComment, Long> deleter() {
 		return ((api, comment, id) -> {
 			api.deleteComment(id, comment.getId());
 			return comment;

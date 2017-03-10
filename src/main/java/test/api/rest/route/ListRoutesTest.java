@@ -4,7 +4,7 @@ import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaRouteTest;
 import test.api.rest.APIListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
 /**
@@ -18,7 +18,7 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 
 	@Override
-	protected TestListArrayCallback<StravaRoute, Integer> listCallback() {
+	protected APIListCallback<StravaRoute, Integer> listCallback() {
 		return ((api, id) -> api.listAthleteRoutes(id));
 	}
 

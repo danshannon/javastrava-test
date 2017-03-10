@@ -14,7 +14,7 @@ import javastrava.api.v3.rest.API;
  *            The type of the entity's parent's identifier
  *
  */
-public interface TestListArrayCallback<T, U> {
+public interface APIListCallback<T, U> {
 	/**
 	 * List the entities
 	 *

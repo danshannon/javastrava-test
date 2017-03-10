@@ -8,7 +8,7 @@ import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.model.StravaGearTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.GearDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -76,7 +76,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaGear, String> getter() {
+	protected APIGetCallback<StravaGear, String> getter() {
 		return ((api, id) -> api.getGear(id));
 	}
 

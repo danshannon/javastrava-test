@@ -7,7 +7,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -84,7 +84,7 @@ public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 	}
 
 	@Override
-	protected TestGetCallback<StravaStatistics, Integer> getter() {
+	protected APIGetCallback<StravaStatistics, Integer> getter() {
 		return ((api, id) -> api.statistics(id));
 	}
 }

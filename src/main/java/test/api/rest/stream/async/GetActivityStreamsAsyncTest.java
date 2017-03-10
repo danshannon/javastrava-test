@@ -16,7 +16,7 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStreamTest;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.api.rest.stream.GetActivityStreamsTest;
 import test.issues.strava.Issue21;
 import test.issues.strava.Issue88;
@@ -29,7 +29,7 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 	@Override
-	protected TestGetCallback<StravaStream[], Long> getter() {
+	protected APIGetCallback<StravaStream[], Long> getter() {
 		return ((api, id) -> api.getActivityStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get());
 	}
 

@@ -7,7 +7,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaClubAnnouncement;
 import javastrava.api.v3.model.StravaClubEvent;
 import test.api.rest.APIListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.issues.strava.Issue112;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -21,7 +21,7 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaClubEvent, Integer> listCallback() {
+	protected APIListCallback<StravaClubEvent, Integer> listCallback() {
 		return (api, id) -> api.listClubGroupEvents(id);
 	}
 

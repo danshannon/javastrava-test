@@ -2,7 +2,7 @@ package test.api.rest.activity.async;
 
 import javastrava.api.v3.model.StravaComment;
 import test.api.rest.activity.DeleteCommentTest;
-import test.api.rest.callback.TestDeleteCallback;
+import test.api.rest.callback.APIDeleteCallback;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -13,7 +13,7 @@ import test.utils.RateLimitedTestRunner;
 public class DeleteCommentAsyncTest extends DeleteCommentTest {
 
 	@Override
-	public TestDeleteCallback<StravaComment, Long> deleter() {
+	public APIDeleteCallback<StravaComment, Long> deleter() {
 		return ((api, comment, id) -> {
 			api.deleteCommentAsync(id, comment.getId()).get();
 			return comment;

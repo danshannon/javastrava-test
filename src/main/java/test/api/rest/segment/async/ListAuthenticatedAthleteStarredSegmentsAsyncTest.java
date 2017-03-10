@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue71;
@@ -32,7 +32,7 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaSegment, Integer> listCallback() {
+	protected APIListCallback<StravaSegment, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
 	}
 

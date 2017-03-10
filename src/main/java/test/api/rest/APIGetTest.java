@@ -8,7 +8,7 @@ import org.junit.Test;
 import javastrava.api.v3.auth.ref.AuthorisationScope;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.callback.TestGetCallback;
+import test.api.rest.callback.APIGetCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -31,7 +31,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 * @return The callback
 	 *
 	 */
-	protected abstract TestGetCallback<T, U> getter();
+	protected abstract APIGetCallback<T, U> getter();
 
 	/**
 	 * Test getting an invalid object (i.e. one that doesn't exist)

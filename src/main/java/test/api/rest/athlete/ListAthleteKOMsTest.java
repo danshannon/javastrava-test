@@ -6,7 +6,7 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 
@@ -25,7 +25,7 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	}
 
 	@Override
-	protected TestListArrayCallback<StravaSegmentEffort, Integer> listCallback() {
+	protected APIListCallback<StravaSegmentEffort, Integer> listCallback() {
 		return (api, id) -> api.listAthleteKOMs(id, null, null);
 	}
 

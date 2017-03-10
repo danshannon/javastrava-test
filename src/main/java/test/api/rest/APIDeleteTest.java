@@ -13,7 +13,7 @@ import javastrava.api.v3.model.StravaEntity;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.rest.callback.TestDeleteCallback;
+import test.api.rest.callback.APIDeleteCallback;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -35,7 +35,7 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 * @return The callback
 	 *
 	 */
-	protected abstract TestDeleteCallback<T, U> deleter();
+	protected abstract APIDeleteCallback<T, U> deleter();
 
 	/**
 	 * <p>

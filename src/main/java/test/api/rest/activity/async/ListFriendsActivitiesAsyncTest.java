@@ -12,7 +12,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import javastrava.config.StravaConfig;
 import test.api.rest.activity.ListFriendsActivitiesTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -38,7 +38,7 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	 * @see test.api.rest.activity.ListFriendsActivitiesTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaActivity, Integer> listCallback() {
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
 	}
 

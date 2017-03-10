@@ -6,7 +6,7 @@ import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.rest.API;
 import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.issues.strava.Issue68;
 import test.service.standardtests.data.ActivityDataUtils;
 
@@ -20,7 +20,7 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	@Override
-	protected TestListArrayCallback<StravaPhoto, Long> listCallback() {
+	protected APIListCallback<StravaPhoto, Long> listCallback() {
 		return ((api, id) -> api.listActivityPhotos(id));
 	}
 

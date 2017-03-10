@@ -9,7 +9,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue83;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -30,7 +30,7 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	}
 
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAthleteFriends(id, null, null);
 	}
 

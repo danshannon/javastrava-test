@@ -10,7 +10,7 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
-import test.api.rest.callback.TestListArrayCallback;
+import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -28,7 +28,7 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
-	protected TestListArrayCallback<StravaAthlete, Integer> listCallback() {
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listClubMembers(id, null, null);
 	}
 
