@@ -22,32 +22,32 @@ import test.utils.TestUtils;
  * @author Dan Shannon
  *
  */
-public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
+public class LeaveChallengeTest extends MethodTest<StravaChallenge, Integer> {
 
 	/**
-	 * Callback used to join the challenge
+	 * Callback used to leave the challenge
 	 *
 	 * @return The callback
 	 */
 	@Override
 	protected GetCallback<StravaChallenge, Integer> getter() {
 		return (strava, id) -> {
-			strava.joinChallenge(id);
+			strava.leaveChallenge(id);
 			return null;
 		};
 	}
 
 	/**
-	 * Test that you can't join a challenge that doesn't exist
+	 * Test that you can't leave a challenge that doesn't exist
 	 *
 	 * @throws Exception
 	 *             if the test fails for an unexpected reason
 	 */
 	@Test
-	public void testJoinChallenge_invalidChallenge() throws Exception {
+	public void testLeaveChallenge_invalidChallenge() throws Exception {
 		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
-			// Try to join it
+			// Try to leave it
 			final Integer id = ChallengeDataUtils.CHALLENGE_INVALID_ID;
 			try {
 				getter().get(TestUtils.stravaWithWriteAccess(), id);
@@ -57,7 +57,7 @@ public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
 			}
 
 			// If it works, it fails
-			fail("Succeeded in joining a non-existent challenge"); //$NON-NLS-1$
+			fail("Succeeded in leaving a non-existent challenge"); //$NON-NLS-1$
 		}
 	}
 
@@ -68,13 +68,13 @@ public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
 	 *             if the test fails for an unexpected reason
 	 */
 	@Test
-	public void testJoinChallenge_validChallengeNoWriteAccess() throws Exception {
+	public void testLeaveChallenge_validChallengeNoWriteAccess() throws Exception {
 		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
 
-			// Leave the challenge first, to be sure
+			// Join the challenge first, to be sure
 			final Integer id = ChallengeDataUtils.CHALLENGE_VALID_ID;
-			TestUtils.stravaWithWriteAccess().leaveChallenge(id);
+			TestUtils.stravaWithWriteAccess().joinChallenge(id);
 
 			// Then try to join it
 			try {
@@ -96,16 +96,16 @@ public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
 	 *             if the test fails for an unexpected reason
 	 */
 	@Test
-	public void testJoinChallenge_validChallenge() throws Exception {
+	public void testLeaveChallenge_validChallenge() throws Exception {
 		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
 
-			// Leave the challenge first, to be sure
+			// Join the challenge first, to be sure
 			final Integer id = ChallengeDataUtils.CHALLENGE_VALID_ID;
 			final Strava strava = TestUtils.stravaWithWriteAccess();
-			strava.leaveChallenge(id);
+			strava.joinChallenge(id);
 
-			// Then join it
+			// Then leave it
 			getter().get(strava, id);
 
 			// If it works, it works.
