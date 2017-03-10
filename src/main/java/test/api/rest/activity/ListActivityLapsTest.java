@@ -19,14 +19,8 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
-	@Override
-	protected APIListCallback<StravaLap, Long> listCallback() {
-		return ((api, id) -> api.listActivityLaps(id));
-	}
-
 	/**
-	 * Set flag to indicate that list activity laps for an activity belonging a user other than the authenticated one returns a 401
-	 * Unauthorised error
+	 * Set flag to indicate that list activity laps for an activity belonging a user other than the authenticated one returns a 401 Unauthorised error
 	 */
 	public ListActivityLapsTest() {
 		this.listOtherReturns401Unauthorised = true;
@@ -35,6 +29,19 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
 	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	public void list_validParentNoChildren() throws Exception {
+		if (new Issue105().isIssue()) {
+			return;
+		}
+		super.list_validParentNoChildren();
+	}
+
+	@Override
+	protected APIListCallback<StravaLap, Long> listCallback() {
+		return ((api, id) -> api.listActivityLaps(id));
 	}
 
 	@Override
@@ -72,14 +79,6 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
 	@Override
 	protected Long validIdNoChildren() {
 		return ActivityDataUtils.ACTIVITY_WITHOUT_LAPS;
-	}
-
-	@Override
-	public void list_validParentNoChildren() throws Exception {
-		if (new Issue105().isIssue()) {
-			return;
-		}
-		super.list_validParentNoChildren();
 	}
 
 }

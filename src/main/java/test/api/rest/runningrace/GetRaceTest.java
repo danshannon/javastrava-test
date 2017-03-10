@@ -37,6 +37,11 @@ public class GetRaceTest extends APIGetTest<StravaRunningRace, Integer> {
 	}
 
 	@Override
+	protected void validate(StravaRunningRace result) throws Exception {
+		StravaRunningRaceTest.validate(result);
+	}
+
+	@Override
 	protected Integer validId() {
 		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
 	}
@@ -44,11 +49,6 @@ public class GetRaceTest extends APIGetTest<StravaRunningRace, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaRunningRace result) throws Exception {
-		StravaRunningRaceTest.validate(result);
 	}
 
 }

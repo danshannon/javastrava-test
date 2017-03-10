@@ -9,11 +9,6 @@ import test.service.standardtests.data.RunningRaceDataUtils;
 public class GetRaceTest extends GetMethodTest<StravaRunningRace, Integer> {
 
 	@Override
-	protected Integer getIdValid() {
-		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
 	}
@@ -26,6 +21,11 @@ public class GetRaceTest extends GetMethodTest<StravaRunningRace, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
 	}
 
 	@Override

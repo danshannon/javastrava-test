@@ -17,18 +17,8 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity, Long> {
 	@Override
-	protected PagingListCallback<StravaActivity, Long> pagingLister() {
-		return ((strava, paging, id) -> strava.listRelatedActivities(id, paging));
-	}
-
-	@Override
-	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
-	}
-
-	@Override
-	protected ListCallback<StravaActivity, Long> lister() {
-		return ((strava, id) -> strava.listRelatedActivities(id));
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -52,8 +42,18 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 	}
 
 	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ListCallback<StravaActivity, Long> lister() {
+		return ((strava, id) -> strava.listRelatedActivities(id));
+	}
+
+	@Override
+	protected PagingListCallback<StravaActivity, Long> pagingLister() {
+		return ((strava, paging, id) -> strava.listRelatedActivities(id, paging));
+	}
+
+	@Override
+	protected void validate(final StravaActivity activity) {
+		StravaActivityTest.validate(activity);
 	}
 
 }

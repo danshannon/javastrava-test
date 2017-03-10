@@ -19,12 +19,12 @@ public abstract class UpdatableGetMethodTest<T extends StravaEntity, U> extends 
 
 	protected abstract DeleteCallback<T> deleter() throws Exception;
 
-	protected abstract T generateValidObject();
-
-	protected abstract T generateInvalidObject();
-
 	protected void forceDelete(T object) throws Exception {
 		this.deleter().delete(TestUtils.stravaWithFullAccess(), object);
 	}
+
+	protected abstract T generateInvalidObject();
+
+	protected abstract T generateValidObject();
 
 }

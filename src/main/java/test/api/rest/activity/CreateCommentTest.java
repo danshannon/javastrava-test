@@ -26,11 +26,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	@Override
-	protected APICreateCallback<StravaComment, Long> creator() {
-		return ((api, object, id) -> api.createComment(id, object.getText()));
-	}
-
-	@Override
 	public void create_invalidParent() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to write comments
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
@@ -96,6 +91,11 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 	@Override
 	protected StravaComment createObject() {
 		return CommentDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected APICreateCallback<StravaComment, Long> creator() {
+		return ((api, object, id) -> api.createComment(id, object.getText()));
 	}
 
 	@Override

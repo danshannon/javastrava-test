@@ -16,19 +16,19 @@ import test.api.rest.util.ArrayCallback;
  */
 public class ListAthletesBothFollowingAsyncTest extends ListAthletesBothFollowingTest {
 	/**
-	 * @see test.api.rest.athlete.ListAthletesBothFollowingTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listAthletesBothFollowingAsync(validId(), paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
 	 * @see test.api.rest.athlete.ListAthletesBothFollowingTest#listCallback()
 	 */
 	@Override
 	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAthletesBothFollowingAsync(id, null, null).get();
+	}
+
+	/**
+	 * @see test.api.rest.athlete.ListAthletesBothFollowingTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAthletesBothFollowingAsync(validId(), paging.getPage(), paging.getPageSize()).get();
 	}
 
 }

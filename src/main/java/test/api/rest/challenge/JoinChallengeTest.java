@@ -23,11 +23,6 @@ import test.service.standardtests.data.ChallengeDataUtils;
  */
 public class JoinChallengeTest extends APITest<StravaChallenge> {
 
-	@Override
-	protected void validate(StravaChallenge result) throws Exception {
-		ChallengeDataUtils.validate(result);
-	}
-
 	/**
 	 * Callback used to join the challenge
 	 *
@@ -39,6 +34,30 @@ public class JoinChallengeTest extends APITest<StravaChallenge> {
 			api.joinChallenge(id);
 			return null;
 		};
+	}
+
+	/**
+	 * Test that you can't join a challenge that doesn't exist
+	 *
+	 * @throws Exception
+	 *             if the test fails for an unexpected reason
+	 */
+	@Test
+	public void testJoinChallenge_invalidChallenge() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			// Try to join it
+			final Integer id = ChallengeDataUtils.CHALLENGE_INVALID_ID;
+			try {
+				callback().get(apiWithWriteAccess(), id);
+			} catch (final NotFoundException e) {
+				// Expected
+				return;
+			}
+
+			// If it works, it fails
+			fail("Succeeded in joining a non-existent challenge"); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -92,28 +111,9 @@ public class JoinChallengeTest extends APITest<StravaChallenge> {
 		}
 	}
 
-	/**
-	 * Test that you can't join a challenge that doesn't exist
-	 *
-	 * @throws Exception
-	 *             if the test fails for an unexpected reason
-	 */
-	@Test
-	public void testJoinChallenge_invalidChallenge() throws Exception {
-		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
-			// Try to join it
-			final Integer id = ChallengeDataUtils.CHALLENGE_INVALID_ID;
-			try {
-				callback().get(apiWithWriteAccess(), id);
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-
-			// If it works, it fails
-			fail("Succeeded in joining a non-existent challenge"); //$NON-NLS-1$
-		}
+	@Override
+	protected void validate(StravaChallenge result) throws Exception {
+		ChallengeDataUtils.validate(result);
 	}
 
 }

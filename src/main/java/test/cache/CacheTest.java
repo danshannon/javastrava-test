@@ -153,8 +153,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 		RateLimitedTestRunner.run(() -> {
 			final Token token1 = TestUtils.getValidToken();
 			final API api1 = new API(token1);
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token1);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token1);
 			final StravaAthlete[] athletes = api1.listAthleteFriends(token1.getAthlete().getId(), null, null);
 			for (final StravaAthlete athlete : athletes) {
 				cache1.put(athlete);
@@ -162,8 +161,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 
 			final Token token2 = TestUtils.getValidTokenWithFullAccess();
 			final API api2 = new API(token1);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token2);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token2);
 			final StravaAthlete[] athletes2 = api2.listAthleteFriends(token1.getAthlete().getId(), null, null);
 			for (final StravaAthlete athlete : athletes2) {
 				cache2.put(athlete);
@@ -268,8 +266,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 
 	/**
 	 * <p>
-	 * Test that attempting to overwrite an item in cache with one that is LESS detailed than the one that's already there doesn't
-	 * work
+	 * Test that attempting to overwrite an item in cache with one that is LESS detailed than the one that's already there doesn't work
 	 * </p>
 	 *
 	 * @throws Exception
@@ -314,8 +311,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 
 	/**
 	 * <p>
-	 * Test that putting an object with one cache instance, then getting it with another cache instance associated with a different
-	 * token, returns null
+	 * Test that putting an object with one cache instance, then getting it with another cache instance associated with a different token, returns null
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -327,10 +323,8 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			final Token token1 = TestUtils.getValidTokenWithFullAccess();
 			final Token token2 = TestUtils.getValidToken();
 			assertFalse(token1.equals(token2));
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token1);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token2);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token1);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token2);
 			cache1.put(token1.getAthlete());
 			final StravaAthlete athlete = cache2.get(token1.getAthlete().getId());
 			assertNull(athlete);
@@ -340,8 +334,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 
 	/**
 	 * <p>
-	 * Test that putting an object with one cache instance, then getting it with another instance associated with the same token,
-	 * returns the object successfully
+	 * Test that putting an object with one cache instance, then getting it with another instance associated with the same token, returns the object successfully
 	 * </p>
 	 *
 	 * @throws Exception
@@ -352,10 +345,8 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	public void testCache_putWithOneInstanceGetWithAnotherSameToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Token token = TestUtils.getValidToken();
-			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token);
-			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token);
+			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
+			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 			cache1.put(token.getAthlete());
 			final StravaAthlete athlete = cache2.get(token.getAthlete().getId());
 			assertNotNull(athlete);
@@ -377,8 +368,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	public void testCache_revokeTokenEmptiesCache() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final Token token = TestUtils.getValidToken();
-			final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class,
-					token);
+			final StravaCache<StravaAthlete, Integer> cache = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token);
 			cache.put(token.getAthlete());
 			final Strava strava = new Strava(token);
 			strava.deauthorise(token);

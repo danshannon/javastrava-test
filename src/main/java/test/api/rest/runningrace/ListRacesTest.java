@@ -8,17 +8,17 @@ import test.service.standardtests.data.RunningRaceDataUtils;
 
 public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
+	@Override
+	protected Integer invalidId() {
+		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
+	}
+
 	/**
 	 * @see test.api.rest.APIListTest#listCallback()
 	 */
 	@Override
 	protected APIListCallback<StravaRunningRace, Integer> listCallback() {
 		return (api, id) -> api.listRaces(null);
-	}
-
-	@Override
-	protected Integer invalidId() {
-		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
 	}
 
 	@Override
@@ -29,6 +29,12 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected void validate(StravaRunningRace result) throws Exception {
+		StravaRunningRaceTest.validate(result);
+
 	}
 
 	@Override
@@ -52,12 +58,6 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaRunningRace result) throws Exception {
-		StravaRunningRaceTest.validate(result);
-
 	}
 
 }

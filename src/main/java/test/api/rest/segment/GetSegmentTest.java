@@ -17,6 +17,23 @@ import test.service.standardtests.data.SegmentDataUtils;
  *
  */
 public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
+	// 4. Private segment belonging to the authenticated user
+	@Override
+	public void get_privateWithoutViewPrivate() throws Exception {
+		// TODO This is a workaround for issue javastravav3api#70
+		if (new Issue70().isIssue()) {
+			return;
+		}
+		// End of workaround
+
+		super.get_privateWithoutViewPrivate();
+	}
+
+	@Override
+	protected APIGetCallback<StravaSegment, Integer> getter() {
+		return ((api, id) -> api.getSegment(id));
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -39,18 +56,6 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
-	}
-
-	// 4. Private segment belonging to the authenticated user
-	@Override
-	public void get_privateWithoutViewPrivate() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#70
-		if (new Issue70().isIssue()) {
-			return;
-		}
-		// End of workaround
-
-		super.get_privateWithoutViewPrivate();
 	}
 
 	/**
@@ -76,11 +81,6 @@ public class GetSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected APIGetCallback<StravaSegment, Integer> getter() {
-		return ((api, id) -> api.getSegment(id));
 	}
 
 }

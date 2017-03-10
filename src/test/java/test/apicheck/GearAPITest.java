@@ -20,14 +20,14 @@ import test.utils.TestUtils;
  *
  */
 public class GearAPITest {
+	private GearAPI api() {
+		return API.instance(GearAPI.class, TestUtils.getValidToken());
+	}
+
 	@Test
 	public void testAPI_getGear() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().getGear(GearDataUtils.GEAR_VALID_ID);
 		ResponseValidator.validate(response, StravaGear.class, "getGear");
-	}
-	
-	private GearAPI api() {
-		return API.instance(GearAPI.class, TestUtils.getValidToken());
 	}
 
 }

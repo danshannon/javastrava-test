@@ -8,16 +8,6 @@ import test.service.standardtests.data.SegmentDataUtils;
 
 public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	@Override
-	protected GetCallback<StravaSegment, Integer> getter() {
-		return ((strava, id) -> strava.starSegment(id, Boolean.TRUE));
-	}
-
-	@Override
-	protected Integer getIdValid() {
-		return SegmentDataUtils.SEGMENT_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
@@ -30,6 +20,16 @@ public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return SegmentDataUtils.SEGMENT_VALID_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaSegment, Integer> getter() {
+		return ((strava, id) -> strava.starSegment(id, Boolean.TRUE));
 	}
 
 	@Override

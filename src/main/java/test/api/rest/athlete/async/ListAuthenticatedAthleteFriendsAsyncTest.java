@@ -22,19 +22,19 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListAuthenticatedAthleteFriendsAsyncTest extends ListAuthenticatedAthleteFriendsTest {
 	/**
-	 * @see test.api.rest.athlete.ListAuthenticatedAthleteFriendsTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listAuthenticatedAthleteFriendsAsync(paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
 	 * @see test.api.rest.athlete.ListAuthenticatedAthleteFriendsTest#listCallback()
 	 */
 	@Override
 	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteFriendsAsync(null, null).get();
+	}
+
+	/**
+	 * @see test.api.rest.athlete.ListAuthenticatedAthleteFriendsTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteFriendsAsync(paging.getPage(), paging.getPageSize()).get();
 	}
 
 	@Override

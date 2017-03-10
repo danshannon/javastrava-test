@@ -23,8 +23,8 @@ import test.utils.TestUtils;
  * </p>
  *
  * <p>
- * The approach for deletion testing assumes that you don't want to delete real data; therefore it creates its own test data on the
- * fly. If tests fail, then we at least *attempt* to force delete the data that was created.
+ * The approach for deletion testing assumes that you don't want to delete real data; therefore it creates its own test data on the fly. If tests fail, then we at least *attempt* to force delete the
+ * data that was created.
  * </p>
  *
  * @author Dan Shannon
@@ -33,41 +33,18 @@ import test.utils.TestUtils;
  * @param <U>
  *            The class of the object's identifier (e.g. for comments, the class of the id of the comment - so an Integer)
  */
-public abstract class DeleteMethodTest<T extends StravaEntity, U> extends MethodTest<T, U>
-		implements DeleteTests, StandardTests, PrivacyTests {
+public abstract class DeleteMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements DeleteTests, StandardTests, PrivacyTests {
 	protected abstract CreateCallback<T> creator() throws Exception;
 
 	protected abstract DeleteCallback<T> deleter() throws Exception;
-
-	protected abstract T generateValidObject();
-
-	protected abstract T generateInvalidObject();
 
 	protected void forceDelete(T object) throws Exception {
 		this.deleter().delete(TestUtils.stravaWithFullAccess(), object);
 	}
 
-	@Override
-	@Test
-	public void testDeleteValidObject() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Generate the object
-			final T object = generateValidObject();
+	protected abstract T generateInvalidObject();
 
-			// Put it on Strava
-			final T createdObject = creator().create(TestUtils.stravaWithFullAccess(), object);
-
-			// Try to delete it
-			try {
-				deleter().delete(TestUtils.stravaWithFullAccess(), createdObject);
-			} catch (final Exception e) {
-				forceDelete(createdObject);
-				throw e;
-			}
-
-			// If we get here, then we're done successfully
-		});
-	}
+	protected abstract T generateValidObject();
 
 	@Override
 	@Test
@@ -90,6 +67,28 @@ public abstract class DeleteMethodTest<T extends StravaEntity, U> extends Method
 
 			// If we get here, then we've got a problem
 			fail("Succeeded in deleting an object with a token with no write access!"); //$NON-NLS-1$
+		});
+	}
+
+	@Override
+	@Test
+	public void testDeleteValidObject() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Generate the object
+			final T object = generateValidObject();
+
+			// Put it on Strava
+			final T createdObject = creator().create(TestUtils.stravaWithFullAccess(), object);
+
+			// Try to delete it
+			try {
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdObject);
+			} catch (final Exception e) {
+				forceDelete(createdObject);
+				throw e;
+			}
+
+			// If we get here, then we're done successfully
 		});
 	}
 

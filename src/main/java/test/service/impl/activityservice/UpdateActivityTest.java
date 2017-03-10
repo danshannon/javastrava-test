@@ -61,6 +61,29 @@ public class UpdateActivityTest {
 	}
 
 	/**
+	 * @param id
+	 *            The id of the activity being updated
+	 * @return The activity, when it's completed being updated, or 10 minutes has passed
+	 */
+	private static StravaActivity waitForUpdateToComplete(final Long id) {
+		int i = 0;
+		StravaActivity activity = null;
+		while (i < 600) {
+			activity = TestUtils.stravaWithFullAccess().getActivity(id);
+			if (activity.getResourceState() != StravaResourceState.UPDATING) {
+				return activity;
+			}
+			i++;
+			try {
+				Thread.sleep(1000);
+			} catch (final InterruptedException e) {
+				// ignore
+			}
+		}
+		return activity;
+	}
+
+	/**
 	 * <p>
 	 * Test attempting to update an activity using a token that doesn't have write access
 	 * </p>
@@ -502,29 +525,6 @@ public class UpdateActivityTest {
 				assertEquals(type, response.getType());
 			});
 		}
-	}
-
-	/**
-	 * @param id
-	 *            The id of the activity being updated
-	 * @return The activity, when it's completed being updated, or 10 minutes has passed
-	 */
-	private static StravaActivity waitForUpdateToComplete(final Long id) {
-		int i = 0;
-		StravaActivity activity = null;
-		while (i < 600) {
-			activity = TestUtils.stravaWithFullAccess().getActivity(id);
-			if (activity.getResourceState() != StravaResourceState.UPDATING) {
-				return activity;
-			}
-			i++;
-			try {
-				Thread.sleep(1000);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-		}
-		return activity;
 	}
 
 }

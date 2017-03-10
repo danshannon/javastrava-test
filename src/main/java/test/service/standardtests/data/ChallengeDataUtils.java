@@ -31,17 +31,6 @@ public class ChallengeDataUtils {
 
 	/**
 	 * <p>
-	 * Callback for getting challenges from the Strava service
-	 * </p>
-	 *
-	 * @return The callback
-	 */
-	public static GetCallback<StravaChallenge, Integer> getter() {
-		return (strava, id) -> strava.getChallenge(id);
-	}
-
-	/**
-	 * <p>
 	 * Callback for getting challenges from the Strava API directly
 	 * </p>
 	 *
@@ -60,6 +49,17 @@ public class ChallengeDataUtils {
 	 */
 	public static APIGetCallback<StravaChallenge, Integer> apiGetterAsync() {
 		return (api, id) -> api.getChallengeAsync(id).get();
+	}
+
+	/**
+	 * <p>
+	 * Callback for getting challenges from the Strava service
+	 * </p>
+	 *
+	 * @return The callback
+	 */
+	public static GetCallback<StravaChallenge, Integer> getter() {
+		return (strava, id) -> strava.getChallenge(id);
 	}
 
 	/**

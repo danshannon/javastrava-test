@@ -7,8 +7,7 @@ import javastrava.api.v3.service.exception.UnauthorizedException;
  *
  * @author Dan Shannon
  *
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/70">https://github.com/danshannon/javastravav3api/issues/70</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/70">https://github.com/danshannon/javastravav3api/issues/70</a>
  */
 public class Issue70 extends IssueTest {
 	/**

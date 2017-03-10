@@ -51,8 +51,7 @@ public class GetSegmentEffortAsyncTest extends GetSegmentEffortTest {
 	@Override
 	public void testGetSegmentEffort_privateActivityViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentEffort effort = apiWithViewPrivate()
-					.getSegmentEffortAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
+			final StravaSegmentEffort effort = apiWithViewPrivate().getSegmentEffortAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).get();
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.DETAILED, effort.getResourceState());
 		});

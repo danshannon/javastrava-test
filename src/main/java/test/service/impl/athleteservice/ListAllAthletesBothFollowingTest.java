@@ -25,37 +25,9 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllAthletesBothFollowingTest extends ListMethodTest<StravaAthlete, Integer> {
-	/**
-	 * <p>
-	 * Test it works even if you specify yourself
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListAllAthletesBothFollowing_sameAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava()
-					.listAllAthletesBothFollowing(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			assertNotNull(athletes);
-			int friendCount = 0;
-
-			// Will have returned all the athletes that the authenticated user is following
-			final List<StravaAthlete> friends = TestUtils.strava().listAllAuthenticatedAthleteFriends();
-			for (final StravaAthlete athlete : friends) {
-				if (athlete.getFriend() == StravaFollowerState.ACCEPTED) {
-					friendCount++;
-				}
-			}
-			assertEquals(friendCount, athletes.size());
-		});
-	}
-
 	@Override
-	protected ListCallback<StravaAthlete, Integer> lister() {
-		return ((strava, id) -> strava.listAllAthletesBothFollowing(id));
+	protected Integer idInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -79,8 +51,35 @@ public class ListAllAthletesBothFollowingTest extends ListMethodTest<StravaAthle
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ListCallback<StravaAthlete, Integer> lister() {
+		return ((strava, id) -> strava.listAllAthletesBothFollowing(id));
+	}
+
+	/**
+	 * <p>
+	 * Test it works even if you specify yourself
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testListAllAthletesBothFollowing_sameAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthletesBothFollowing(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			assertNotNull(athletes);
+			int friendCount = 0;
+
+			// Will have returned all the athletes that the authenticated user is following
+			final List<StravaAthlete> friends = TestUtils.strava().listAllAuthenticatedAthleteFriends();
+			for (final StravaAthlete athlete : friends) {
+				if (athlete.getFriend() == StravaFollowerState.ACCEPTED) {
+					friendCount++;
+				}
+			}
+			assertEquals(friendCount, athletes.size());
+		});
 	}
 
 	@Override

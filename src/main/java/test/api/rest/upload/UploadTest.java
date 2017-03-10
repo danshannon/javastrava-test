@@ -24,8 +24,8 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
 			final TypedFile typedFile = new TypedFile("text/xml", file);
-			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.UNKNOWN,
-					"UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, "gpx", "ABC", typedFile);
+			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, "gpx", "ABC",
+					typedFile);
 			waitForCompletionAndDelete(response);
 		});
 	}
@@ -37,8 +37,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 			final TypedFile typedFile = new TypedFile("text/xml", file);
 			StravaUploadResponse response = null;
 			try {
-				response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType",
-						null, null, null, null, "UNKNOWN", "ABC", typedFile);
+				response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null, null, "UNKNOWN", "ABC", typedFile);
 			} catch (final BadRequestException e) {
 				// Expected
 				return;
@@ -54,8 +53,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("baddata.gpx");
 			final TypedFile typedFile = new TypedFile("text/xml", file);
-			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE,
-					"UploadServicesImplTest.testUpload_noName", null, null, null, null, "gpx", "ABC", typedFile);
+			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, null, "gpx", "ABC", typedFile);
 
 			final StravaUploadResponse status = waitForUploadStatus(response);
 			APITest.forceDeleteActivity(response.getActivityId());
@@ -71,8 +69,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		RateLimitedTestRunner.run(() -> {
 			StravaUploadResponse response = null;
 			try {
-				response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null,
-						null, null, null, "gpx", "ABC", null);
+				response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, null, "gpx", "ABC", null);
 			} catch (final BadRequestException e) {
 				// Expected
 				return;
@@ -88,8 +85,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
 			final TypedFile typedFile = new TypedFile("text/xml", file);
-			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, null,
-					"UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", typedFile);
+			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", typedFile);
 			waitForCompletionAndDelete(response);
 		});
 	}
@@ -101,8 +97,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 			final TypedFile typedFile = new TypedFile("text/xml", file);
 			StravaUploadResponse response = null;
 			try {
-				response = api().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null,
-						Boolean.TRUE, null, null, "gpx", "testUpload_noWriteAccess", typedFile);
+				response = api().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpoad_noWriteAccess", null, Boolean.TRUE, null, null, "gpx", "testUpload_noWriteAccess", typedFile);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
@@ -123,10 +118,18 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx");
 			final TypedFile typedFile = new TypedFile("text/xml", file);
-			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest",
-					null, null, null, null, "gpx", "ABC", typedFile);
+			final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest", null, null, null, null, "gpx", "ABC", typedFile);
 			waitForCompletionAndDelete(response);
 		});
+	}
+
+	/**
+	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 */
+	@Override
+	protected void validate(final StravaUploadResponse result) throws Exception {
+		StravaUploadResponseTest.validate(result);
+
 	}
 
 	protected void waitForCompletionAndDelete(final StravaUploadResponse response) throws NotFoundException {
@@ -185,15 +188,6 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 			}
 		}
 		return status;
-	}
-
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
-	@Override
-	protected void validate(final StravaUploadResponse result) throws Exception {
-		StravaUploadResponseTest.validate(result);
-
 	}
 
 }

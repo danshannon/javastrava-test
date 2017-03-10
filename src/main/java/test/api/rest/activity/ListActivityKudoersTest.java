@@ -17,9 +17,12 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Long> {
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return (paging -> api().listActivityKudoers(validId(), paging.getPage(), paging.getPageSize()));
+	protected Long invalidId() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -27,12 +30,9 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 		return ((api, id) -> api.listActivityKudoers(id, null, null));
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
-	protected Long invalidId() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return (paging -> api().listActivityKudoers(validId(), paging.getPage(), paging.getPageSize()));
 	}
 
 	/**

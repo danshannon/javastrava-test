@@ -19,22 +19,6 @@ import test.service.standardtests.data.AthleteDataUtils;
  */
 public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listAthletesBothFollowing(validId(), paging.getPage(), paging.getPageSize());
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaAthlete, Integer> listCallback() {
-		return (api, id) -> api.listAthletesBothFollowing(id, null, null);
-	}
-
-	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
@@ -48,6 +32,22 @@ public class ListAthletesBothFollowingTest extends APIPagingListTest<StravaAthle
 			return;
 		}
 		super.list_privateBelongsToOtherUser();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listAthletesBothFollowing(id, null, null);
+	}
+
+	/**
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAthletesBothFollowing(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	/**

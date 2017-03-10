@@ -28,6 +28,36 @@ import test.utils.TestUtils;
  */
 public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Override
+	protected Integer idInvalid() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaSegment, Integer> lister() {
+		return ((strava, id) -> strava.listAuthenticatedAthleteStarredSegments());
+	}
+
+	@Override
 	protected PagingListCallback<StravaSegment, Integer> pagingLister() {
 		return ((strava, paging, id) -> strava.listAuthenticatedAthleteStarredSegments(paging));
 	}
@@ -64,36 +94,6 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 	protected void validate(final StravaSegment segment) {
 		StravaSegmentTest.validateSegment(segment);
 
-	}
-
-	@Override
-	protected ListCallback<StravaSegment, Integer> lister() {
-		return ((strava, id) -> strava.listAuthenticatedAthleteStarredSegments());
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return null;
 	}
 
 }

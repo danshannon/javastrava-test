@@ -5,13 +5,11 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 
 /**
  * <p>
- * These tests should PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/21">javastrava-api #21</a> is
- * still current
+ * These tests should PASS if issue <a href="https://github.com/danshannon/javastravav3api/issues/21">javastrava-api #21</a> is still current
  * </p>
  *
  * @author Dan Shannon
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/21">https://github.com/danshannon/javastravav3api/issues/21</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/21">https://github.com/danshannon/javastravav3api/issues/21</a>
  */
 public class Issue21 extends IssueTest {
 	/**

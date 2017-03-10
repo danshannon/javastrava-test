@@ -28,9 +28,12 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
+	/**
+	 * @see test.api.rest.APIListTest#invalidId()
+	 */
 	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return (paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize()));
+	protected Integer invalidId() {
+		return null;
 	}
 
 	@Override
@@ -38,12 +41,9 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 		return ((api, id) -> api.listFriendsActivities(null, null));
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
-	protected Integer invalidId() {
-		return null;
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return (paging -> api().listFriendsActivities(paging.getPage(), paging.getPageSize()));
 	}
 
 	/**

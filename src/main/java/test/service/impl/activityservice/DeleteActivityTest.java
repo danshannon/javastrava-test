@@ -28,10 +28,52 @@ import test.utils.TestUtils;
 public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 
 	@Override
+	protected CreateCallback<StravaActivity> creator() throws Exception {
+		return ActivityDataUtils.creator();
+	}
+
+	@Override
+	protected DeleteCallback<StravaActivity> deleter() throws Exception {
+		return ActivityDataUtils.deleter();
+	}
+
+	@Override
+	protected StravaActivity generateInvalidObject() {
+		return ActivityDataUtils.generateInvalidObject();
+	}
+
+	@Override
+	protected StravaActivity generateValidObject() {
+		return ActivityDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected GetCallback<StravaActivity, Long> getter() throws Exception {
+		return ActivityDataUtils.getter();
+	}
+
+	@Override
 	@Test
 	public void testDeleteNonExistentParent() throws Exception {
 		// Activities don't have parents so this isn't relevant
 		return;
+	}
+
+	@Override
+	public void testDeleteNoWriteAccess() throws Exception {
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.testDeleteNoWriteAccess();
+		}
+	}
+
+	@Override
+	public void testDeleteValidObject() throws Exception {
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.testDeleteValidObject();
+		}
+
 	}
 
 	@Override
@@ -90,44 +132,6 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 
 	@Override
 	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Can't run this test if we don't have permission to delete activities from Strava
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-
-			RateLimitedTestRunner.run(() -> {
-				// Generate test data
-				final StravaActivity activity = generateValidObject();
-				activity.setPrivateActivity(Boolean.TRUE);
-				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
-
-				// Now delete it
-				deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
-
-				// If that worked, it's all good
-				return;
-			});
-		}
-	}
-
-	@Override
-	public void testDeleteValidObject() throws Exception {
-		// Can't run this test if we don't have permission to delete activities from Strava
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-			super.testDeleteValidObject();
-		}
-
-	}
-
-	@Override
-	public void testDeleteNoWriteAccess() throws Exception {
-		// Can't run this test if we don't have permission to delete activities from Strava
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-			super.testDeleteNoWriteAccess();
-		}
-	}
-
-	@Override
-	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		// Can't run this test if we don't have permission to delete activities from Strava
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
@@ -156,28 +160,24 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 	}
 
 	@Override
-	protected CreateCallback<StravaActivity> creator() throws Exception {
-		return ActivityDataUtils.creator();
-	}
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Can't run this test if we don't have permission to delete activities from Strava
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-	@Override
-	protected DeleteCallback<StravaActivity> deleter() throws Exception {
-		return ActivityDataUtils.deleter();
-	}
+			RateLimitedTestRunner.run(() -> {
+				// Generate test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
+				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
 
-	@Override
-	protected GetCallback<StravaActivity, Long> getter() throws Exception {
-		return ActivityDataUtils.getter();
-	}
+				// Now delete it
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdActivity);
 
-	@Override
-	protected StravaActivity generateValidObject() {
-		return ActivityDataUtils.generateValidObject();
-	}
-
-	@Override
-	protected StravaActivity generateInvalidObject() {
-		return ActivityDataUtils.generateInvalidObject();
+				// If that worked, it's all good
+				return;
+			});
+		}
 	}
 
 	@Override

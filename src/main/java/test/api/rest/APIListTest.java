@@ -32,16 +32,9 @@ import test.utils.RateLimitedTestRunner;
  */
 public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
-	 * Callback code for a test class to execute a non-paged request (used by the list tests)
-	 *
-	 * @return The callback to be used for non-paging requests
-	 */
-	protected abstract APIListCallback<T, U> listCallback();
-
-	/**
 	 * <p>
-	 * In some cases attempting to list items such as {@link StravaLap laps} on an item belonging to another user returns a 401
-	 * Unauthorized error. Where this is the case the test class should set this value to <code>true</code>
+	 * In some cases attempting to list items such as {@link StravaLap laps} on an item belonging to another user returns a 401 Unauthorized error. Where this is the case the test class should set
+	 * this value to <code>true</code>
 	 * </p>
 	 */
 	protected boolean listOtherReturns401Unauthorised = false;
@@ -57,9 +50,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
-	 * listAuthenticatedAthleteActivities}) this doesn't make sense, so if {@link #invalidId()} returns <code>null</code> then the
-	 * test is not run
+	 * In some cases {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}) this doesn't make sense, so if {@link #invalidId()} returns
+	 * <code>null</code> then the test is not run
 	 * </p>
 	 *
 	 * @throws Exception
@@ -85,14 +77,12 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 
 	/**
 	 * <p>
-	 * Test that asking for a list of objects which belong to a parent flagged by the authenticated athlete as PRIVATE works, if the
-	 * access token has view_private scope
+	 * Test that asking for a list of objects which belong to a parent flagged by the authenticated athlete as PRIVATE works, if the access token has view_private scope
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases this doesn't make sense because the parent can't be flagged as private (such as
-	 * {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}). So if
-	 * {@link #privateId()} returns <code>null</code>, then the test is not run
+	 * In some cases this doesn't make sense because the parent can't be flagged as private (such as {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
+	 * listAuthenticatedAthleteActivities}). So if {@link #privateId()} returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
 	 * @throws Exception
@@ -114,14 +104,13 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 
 	/**
 	 * <p>
-	 * Test that asking for a list of objects which belong to a parent flagged as private and not owned by the authenticated user
-	 * throws a {@link UnauthorizedException}, even if the access token has view_private scope
+	 * Test that asking for a list of objects which belong to a parent flagged as private and not owned by the authenticated user throws a {@link UnauthorizedException}, even if the access token has
+	 * view_private scope
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases this doesn't make sense because the parent be owned by another athlete (such as
-	 * {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}). So if
-	 * {@link #privateIdBelongsToOtherUser()} returns <code>null</code>, then the test is not run
+	 * In some cases this doesn't make sense because the parent be owned by another athlete (such as {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
+	 * listAuthenticatedAthleteActivities}). So if {@link #privateIdBelongsToOtherUser()} returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
 	 * @throws Exception
@@ -147,14 +136,13 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 
 	/**
 	 * <p>
-	 * Test that asking for a list of objects which belong to a parent flagged by the authenticated athlete as PRIVATE throws an
-	 * {@link UnauthorizedException}, if the access token does not have view_private scope
+	 * Test that asking for a list of objects which belong to a parent flagged by the authenticated athlete as PRIVATE throws an {@link UnauthorizedException}, if the access token does not have
+	 * view_private scope
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases this doesn't make sense because the parent can't be flagged as private (such as
-	 * {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}). So if
-	 * {@link #privateId()} returns <code>null</code>, then the test is not run
+	 * In some cases this doesn't make sense because the parent can't be flagged as private (such as {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
+	 * listAuthenticatedAthleteActivities}). So if {@link #privateId()} returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
 	 * @throws Exception
@@ -184,15 +172,13 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases this doesn't make sense because the parent can't be owned by another user (such as
-	 * {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}). So if
-	 * {@link #privateId()} returns <code>null</code>, then the test is not run
+	 * In some cases this doesn't make sense because the parent can't be owned by another user (such as {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
+	 * listAuthenticatedAthleteActivities}). So if {@link #privateId()} returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
 	 * <p>
-	 * In other cases, the Strava API doesn't allow items that belong to an item that is owned by another user to be listed,
-	 * returning a 401 Unauthorised error. If the {@link #listOtherReturns401Unauthorised} is <code>true</code> then we expect to
-	 * get a {@link UnauthorizedException} thrown.
+	 * In other cases, the Strava API doesn't allow items that belong to an item that is owned by another user to be listed, returning a 401 Unauthorised error. If the
+	 * {@link #listOtherReturns401Unauthorised} is <code>true</code> then we expect to get a {@link UnauthorizedException} thrown.
 	 * </p>
 	 *
 	 * @throws Exception
@@ -246,14 +232,12 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 
 	/**
 	 * <p>
-	 * Test that asking for a list of objects which belong to a parent which has no children (for example, an activity might not
-	 * have any comments) returns an empty list, rather than <code>null</code>
+	 * Test that asking for a list of objects which belong to a parent which has no children (for example, an activity might not have any comments) returns an empty list, rather than <code>null</code>
 	 * </p>
 	 *
 	 * <p>
-	 * In some cases this doesn't make sense because the parent can't be owned by another user (such as
-	 * {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer) listAuthenticatedAthleteActivities}). So if
-	 * {@link #validIdNoChildren()} returns <code>null</code>, then the test is not run
+	 * In some cases this doesn't make sense because the parent can't be owned by another user (such as {@link API#listAuthenticatedAthleteActivities(Integer, Integer, Integer, Integer)
+	 * listAuthenticatedAthleteActivities}). So if {@link #validIdNoChildren()} returns <code>null</code>, then the test is not run
 	 * </p>
 	 *
 	 * @throws Exception
@@ -271,6 +255,13 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 			assertEquals(0, results.length);
 		});
 	}
+
+	/**
+	 * Callback code for a test class to execute a non-paged request (used by the list tests)
+	 *
+	 * @return The callback to be used for non-paging requests
+	 */
+	protected abstract APIListCallback<T, U> listCallback();
 
 	/**
 	 * @return The id of a parent object which is owned by the authenticated athlete and flagged as private

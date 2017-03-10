@@ -18,11 +18,6 @@ import test.service.standardtests.data.RouteDataUtils;
 public class GetRouteTest extends GetMethodTest<StravaRoute, Integer> {
 
 	@Override
-	protected Integer getIdValid() {
-		return RouteDataUtils.ROUTE_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return RouteDataUtils.ROUTE_INVALID_ID;
 	}
@@ -35,6 +30,11 @@ public class GetRouteTest extends GetMethodTest<StravaRoute, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return RouteDataUtils.ROUTE_VALID_ID;
 	}
 
 	@Override

@@ -18,6 +18,11 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZones, Integer> {
 
 	@Override
+	protected APIGetCallback<StravaAthleteZones, Integer> getter() {
+		return ((api, id) -> api.getAuthenticatedAthleteZones());
+	}
+
+	@Override
 	protected Integer invalidId() {
 		return null;
 	}
@@ -33,6 +38,12 @@ public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZo
 	}
 
 	@Override
+	protected void validate(StravaAthleteZones result) throws Exception {
+		StravaAthleteZonesTest.validate(result);
+
+	}
+
+	@Override
 	protected Integer validId() {
 		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
@@ -40,17 +51,6 @@ public class GetAuthenticatedAthleteZonesTest extends APIGetTest<StravaAthleteZo
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaAthleteZones result) throws Exception {
-		StravaAthleteZonesTest.validate(result);
-
-	}
-
-	@Override
-	protected APIGetCallback<StravaAthleteZones, Integer> getter() {
-		return ((api, id) -> api.getAuthenticatedAthleteZones());
 	}
 
 }

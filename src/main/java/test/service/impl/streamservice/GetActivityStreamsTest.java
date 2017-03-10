@@ -32,6 +32,31 @@ import test.utils.TestUtils;
 public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 
 	@Override
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected Long idPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
+	}
+
+	@Override
+	protected Long idPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long idValidWithEntries() {
+		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	@Override
+	protected Long idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
 	protected ListCallback<StravaStream, Long> lister() {
 		return ((strava, id) -> strava.getActivityStreams(id));
 	}
@@ -81,8 +106,8 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final List<StravaStream> streams = TestUtils.strava().getActivityStreams(
-							ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
+					final List<StravaStream> streams = TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+							StravaStreamSeriesDownsamplingType.DISTANCE);
 					assertNotNull(streams);
 					for (final StravaStream stream : streams) {
 						assertEquals(resolutionType, stream.getResolution());
@@ -106,8 +131,8 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
-					final List<StravaStream> streams = TestUtils.strava().getActivityStreams(
-							ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType, StravaStreamSeriesDownsamplingType.TIME);
+					final List<StravaStream> streams = TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, resolutionType,
+							StravaStreamSeriesDownsamplingType.TIME);
 					assertNotNull(streams);
 					validateList(streams);
 				}
@@ -128,8 +153,7 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetActivityStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.UNKNOWN,
-						null);
+				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.UNKNOWN, null);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -151,8 +175,7 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	public void testGetActivityStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW,
-						StravaStreamSeriesDownsamplingType.UNKNOWN);
+				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -180,8 +203,7 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 			// End of workaround
 
 			try {
-				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null,
-						StravaStreamType.UNKNOWN);
+				TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -201,8 +223,7 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Test
 	public void testGetActivityStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER,
-					null, null, StravaStreamType.DISTANCE);
+			final List<StravaStream> streams = TestUtils.strava().getActivityStreams(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null, StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
 			assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
@@ -214,31 +235,6 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Override
 	protected void validate(StravaStream object) {
 		StravaStreamTest.validate(object);
-	}
-
-	@Override
-	protected Long idPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE;
-	}
-
-	@Override
-	protected Long idPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
-	}
-
-	@Override
-	protected Long idValidWithEntries() {
-		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
-	}
-
-	@Override
-	protected Long idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 }

@@ -25,6 +25,36 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<StravaAthlete, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaAthlete, Integer> lister() {
+		return ((strava, id) -> strava.listAllAuthenticatedAthleteFriends());
+	}
+
 	/**
 	 * <p>
 	 * Check that the number of friends is indeed the number of friends
@@ -49,36 +79,6 @@ public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<Strav
 				StravaAthleteTest.validateAthlete(athlete);
 			}
 		});
-	}
-
-	@Override
-	protected ListCallback<StravaAthlete, Integer> lister() {
-		return ((strava, id) -> strava.listAllAuthenticatedAthleteFriends());
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return null;
 	}
 
 	@Override

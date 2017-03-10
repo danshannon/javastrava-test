@@ -16,6 +16,21 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Long> {
 	@Override
+	public Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected Long idPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
+	}
+
+	@Override
+	public Long idPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
 	public Long idValidWithEntries() {
 		return ActivityDataUtils.ACTIVITY_WITH_ZONES;
 	}
@@ -26,23 +41,8 @@ public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Lo
 	}
 
 	@Override
-	public Long idPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
-	}
-
-	@Override
-	public Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
-	}
-
-	@Override
 	protected ListCallback<StravaActivityZone, Long> lister() {
 		return ((strava, id) -> strava.listActivityZones(id));
-	}
-
-	@Override
-	protected Long idPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE;
 	}
 
 	@Override

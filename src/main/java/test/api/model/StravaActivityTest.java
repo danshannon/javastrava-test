@@ -56,10 +56,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(activity.getAchievementCount());
 			assertNotNull(activity.getAthlete());
-			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META)
-					|| (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
-			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(),
-					activity.getAthlete().getResourceState());
+			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META) || (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
+			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() >= 0);
@@ -121,8 +119,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 				StravaGearTest.validateGear(activity.getGear(), activity.getGearId(), activity.getGear().getResourceState());
 			}
 			assertNotNull(activity.getHasKudoed());
-			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer()
-					&& (activity.getCalories() != null)) {
+			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer() && (activity.getCalories() != null)) {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
@@ -132,8 +129,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
-				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(),
-						activity);
+				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
 			assertTrue(activity.getMaxSpeed() >= 0);
@@ -171,10 +167,8 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(activity.getAchievementCount());
 			assertNotNull(activity.getAthlete());
-			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META)
-					|| (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
-			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(),
-					activity.getAthlete().getResourceState());
+			assertTrue((activity.getAthlete().getResourceState() == StravaResourceState.META) || (activity.getAthlete().getResourceState() == StravaResourceState.SUMMARY));
+			StravaAthleteTest.validateAthlete(activity.getAthlete(), activity.getAthlete().getId(), activity.getAthlete().getResourceState());
 			assertNotNull(activity.getName());
 			assertNotNull(activity.getDistance());
 			assertTrue(activity.getDistance() >= 0);
@@ -214,8 +208,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNull(activity.getGear());
 			// Optional assertNotNull(activity.getGearId());
 			assertNotNull(activity.getHasKudoed());
-			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer()
-					&& (activity.getCalories() != null)) {
+			if ((activity.getType() == StravaActivityType.RIDE) && !activity.getManual() && !activity.getTrainer() && (activity.getCalories() != null)) {
 				assertNotNull(activity.getKilojoules());
 			}
 			assertNotNull(activity.getKudosCount());
@@ -225,8 +218,7 @@ public class StravaActivityTest extends BeanTest<StravaActivity> {
 			assertNotNull(activity.getManual());
 			assertNotNull(activity.getMap());
 			if (!activity.getManual() && !activity.getTrainer()) {
-				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(),
-						activity);
+				StravaMapTest.validateMap(activity.getMap(), activity.getMap().getId(), activity.getMap().getResourceState(), activity);
 			}
 			assertNotNull(activity.getMaxSpeed());
 			assertTrue(activity.getMaxSpeed() >= 0);

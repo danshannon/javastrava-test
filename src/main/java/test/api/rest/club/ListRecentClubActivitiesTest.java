@@ -21,11 +21,11 @@ import test.utils.RateLimitedTestRunner;
 public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return paging -> api().listRecentClubActivities(validId(), paging.getPage(), paging.getPageSize());
+	protected Integer invalidId() {
+		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	/**
@@ -37,11 +37,11 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#invalidId()
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
 	@Override
-	protected Integer invalidId() {
-		return ClubDataUtils.CLUB_INVALID_ID;
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRecentClubActivities(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	/**

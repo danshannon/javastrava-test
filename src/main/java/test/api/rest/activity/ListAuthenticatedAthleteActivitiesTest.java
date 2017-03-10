@@ -29,16 +29,6 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
-	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()));
-	}
-
-	@Override
-	protected APIListCallback<StravaActivity, Integer> listCallback() {
-		return ((api, id) -> api.listAuthenticatedAthleteActivities(null, null, null, null));
-	}
-
 	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
@@ -46,6 +36,16 @@ public class ListAuthenticatedAthleteActivitiesTest extends APIPagingListTest<St
 	protected Integer invalidId() {
 		// Not applicable, so return null to prevent test from being executed
 		return null;
+	}
+
+	@Override
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
+		return ((api, id) -> api.listAuthenticatedAthleteActivities(null, null, null, null));
+	}
+
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return (paging -> api().listAuthenticatedAthleteActivities(null, null, paging.getPage(), paging.getPageSize()));
 	}
 
 	/**

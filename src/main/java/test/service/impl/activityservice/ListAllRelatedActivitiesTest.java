@@ -23,30 +23,9 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity, Long> {
-	/**
-	 * <p>
-	 * Test that it works for activities belonging to someone other than the authenticated user
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if test fails in some unexpected way
-	 */
-	@Test
-	public void testListAllRelatedActivities_otherUserActivity() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = lister().getList(TestUtils.strava(),
-					ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
-			assertNotNull(activities);
-			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
-			}
-
-		});
-	}
-
 	@Override
-	protected ListCallback<StravaActivity, Long> lister() {
-		return ((strava, id) -> strava.listAllRelatedActivities(id));
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -70,8 +49,28 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 	}
 
 	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ListCallback<StravaActivity, Long> lister() {
+		return ((strava, id) -> strava.listAllRelatedActivities(id));
+	}
+
+	/**
+	 * <p>
+	 * Test that it works for activities belonging to someone other than the authenticated user
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if test fails in some unexpected way
+	 */
+	@Test
+	public void testListAllRelatedActivities_otherUserActivity() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
+			assertNotNull(activities);
+			for (final StravaActivity activity : activities) {
+				StravaActivityTest.validate(activity);
+			}
+
+		});
 	}
 
 	@Override

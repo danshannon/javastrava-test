@@ -38,6 +38,12 @@ public class GetRouteTest extends APIGetTest<StravaRoute, Integer> {
 	}
 
 	@Override
+	protected void validate(StravaRoute result) throws Exception {
+		StravaRouteTest.validate(result);
+
+	}
+
+	@Override
 	protected Integer validId() {
 		return RouteDataUtils.ROUTE_VALID_ID;
 	}
@@ -45,12 +51,6 @@ public class GetRouteTest extends APIGetTest<StravaRoute, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaRoute result) throws Exception {
-		StravaRouteTest.validate(result);
-
 	}
 
 }

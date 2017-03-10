@@ -26,14 +26,6 @@ import test.utils.RateLimitedTestRunner;
 public abstract class APIGetTest<T, U> extends APITest<T> {
 
 	/**
-	 * Callback used to call the API get method
-	 *
-	 * @return The callback
-	 *
-	 */
-	protected abstract APIGetCallback<T, U> getter();
-
-	/**
 	 * Test getting an invalid object (i.e. one that doesn't exist)
 	 *
 	 * @throws Exception
@@ -56,8 +48,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	}
 
 	/**
-	 * Test getting a valid object is private and belongs to the authenticated user, with {@link AuthorisationScope#VIEW_PRIVATE}
-	 * scope
+	 * Test getting a valid object is private and belongs to the authenticated user, with {@link AuthorisationScope#VIEW_PRIVATE} scope
 	 *
 	 * @throws Exception
 	 *             if an unexpected error occurs
@@ -75,8 +66,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	}
 
 	/**
-	 * Test getting a valid object is private and belongs to someone other than the authenticated user, with
-	 * {@link AuthorisationScope#VIEW_PRIVATE} scope
+	 * Test getting a valid object is private and belongs to someone other than the authenticated user, with {@link AuthorisationScope#VIEW_PRIVATE} scope
 	 *
 	 * @throws Exception
 	 *             if an unexpected error occurs
@@ -98,8 +88,7 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	}
 
 	/**
-	 * Test getting a valid object is private and belongs to the authenticated user, without {@link AuthorisationScope#VIEW_PRIVATE}
-	 * scope
+	 * Test getting a valid object is private and belongs to the authenticated user, without {@link AuthorisationScope#VIEW_PRIVATE} scope
 	 *
 	 * @throws Exception
 	 *             if an unexpected error occurs
@@ -152,6 +141,14 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 			validate(result);
 		});
 	}
+
+	/**
+	 * Callback used to call the API get method
+	 *
+	 * @return The callback
+	 *
+	 */
+	protected abstract APIGetCallback<T, U> getter();
 
 	/**
 	 * Get an invalid identifier of an object that does not exist

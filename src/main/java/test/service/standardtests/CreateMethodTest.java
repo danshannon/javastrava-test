@@ -29,41 +29,18 @@ import test.utils.TestUtils;
  * @param <U>
  *            class of the object's identifier (usually Integer)
  */
-public abstract class CreateMethodTest<T extends StravaEntity, U> extends MethodTest<T, U>
-		implements CreateTests, StandardTests, PrivacyTests {
+public abstract class CreateMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements CreateTests, StandardTests, PrivacyTests {
 	protected abstract CreateCallback<T> creator() throws Exception;
 
 	protected abstract DeleteCallback<T> deleter() throws Exception;
-
-	protected abstract T generateValidObject();
-
-	protected abstract T generateInvalidObject();
 
 	protected void forceDelete(T object) throws Exception {
 		this.deleter().delete(TestUtils.stravaWithFullAccess(), object);
 	}
 
-	/**
-	 * @see test.service.standardtests.spec.CreateTests#testCreateValidObject()
-	 */
-	@Override
-	@Test
-	public void testCreateValidObject() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Create the object test data
-			final T object = generateValidObject();
+	protected abstract T generateInvalidObject();
 
-			// Create it in Strava
-			final T createdObject = creator().create(TestUtils.stravaWithFullAccess(), object);
-
-			// Validate
-			// TODO Create a validator callback mechanism
-
-			// Finally, delete it
-			forceDelete(createdObject);
-		});
-
-	}
+	protected abstract T generateValidObject();
 
 	@Override
 	@Test
@@ -108,6 +85,28 @@ public abstract class CreateMethodTest<T extends StravaEntity, U> extends Method
 			forceDelete(createdObject);
 			fail("Created an object, without write access"); //$NON-NLS-1$
 		});
+	}
+
+	/**
+	 * @see test.service.standardtests.spec.CreateTests#testCreateValidObject()
+	 */
+	@Override
+	@Test
+	public void testCreateValidObject() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Create the object test data
+			final T object = generateValidObject();
+
+			// Create it in Strava
+			final T createdObject = creator().create(TestUtils.stravaWithFullAccess(), object);
+
+			// Validate
+			// TODO Create a validator callback mechanism
+
+			// Finally, delete it
+			forceDelete(createdObject);
+		});
+
 	}
 
 }

@@ -26,16 +26,29 @@ import test.utils.TestUtils;
  *
  */
 public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> {
-	/**
-	 * @see test.service.standardtests.DeleteMethodTest#testDeleteValidObject()
-	 */
-	@Test
 	@Override
-	public void testDeleteValidObject() throws Exception {
-		// Can only perform the test if application-level permission is on
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-			super.testDeleteValidObject();
-		}
+	protected CreateCallback<StravaComment> creator() throws Exception {
+		return CommentDataUtils.stravaCreator();
+	}
+
+	@Override
+	protected DeleteCallback<StravaComment> deleter() throws Exception {
+		return CommentDataUtils.deleter();
+	}
+
+	@Override
+	protected StravaComment generateInvalidObject() {
+		return CommentDataUtils.generateInvalidObject();
+	}
+
+	@Override
+	protected StravaComment generateValidObject() {
+		return CommentDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected GetCallback<StravaComment, Integer> getter() throws Exception {
+		return CommentDataUtils.getter();
 	}
 
 	/**
@@ -55,26 +68,6 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 			RateLimitedTestRunner.run(() -> {
 				final StravaComment comment = TestUtils.stravaWithWriteAccess().createComment(CommentDataUtils.generateValidObject());
 				TestUtils.stravaWithWriteAccess().deleteComment(comment.getActivityId(), comment.getId());
-			});
-		}
-	}
-
-	@Test
-	@Override
-	public void testDeleteNoWriteAccess() throws Exception {
-		// Can only perform the test if application-level permission is on
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-
-			RateLimitedTestRunner.run(() -> {
-				final StravaComment comment = TestUtils.stravaWithWriteAccess().createComment(CommentDataUtils.generateValidObject());
-				try {
-					TestUtils.strava().deleteComment(comment);
-				} catch (final UnauthorizedException e) {
-					// Expected - delete the comment anyway
-					forceDelete(comment);
-					return;
-				}
-				fail("Deleted a comment using a token without write access"); //$NON-NLS-1$
 			});
 		}
 	}
@@ -160,6 +153,38 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 		}
 	}
 
+	@Test
+	@Override
+	public void testDeleteNoWriteAccess() throws Exception {
+		// Can only perform the test if application-level permission is on
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+
+			RateLimitedTestRunner.run(() -> {
+				final StravaComment comment = TestUtils.stravaWithWriteAccess().createComment(CommentDataUtils.generateValidObject());
+				try {
+					TestUtils.strava().deleteComment(comment);
+				} catch (final UnauthorizedException e) {
+					// Expected - delete the comment anyway
+					forceDelete(comment);
+					return;
+				}
+				fail("Deleted a comment using a token without write access"); //$NON-NLS-1$
+			});
+		}
+	}
+
+	/**
+	 * @see test.service.standardtests.DeleteMethodTest#testDeleteValidObject()
+	 */
+	@Test
+	@Override
+	public void testDeleteValidObject() throws Exception {
+		// Can only perform the test if application-level permission is on
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+			super.testDeleteValidObject();
+		}
+	}
+
 	@Override
 	@Test
 	public void testInvalidId() throws Exception {
@@ -192,24 +217,6 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 
 	@Override
 	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Can only perform the test if application-level permission is on
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-
-			RateLimitedTestRunner.run(() -> {
-				// Set up test data
-				final StravaComment comment = CommentDataUtils.generateValidObject();
-				comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE);
-				final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
-
-				// Now delete it again
-				TestUtils.stravaWithFullAccess().deleteComment(createdComment);
-			});
-		}
-	}
-
-	@Override
-	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		// Can only perform the test if application-level permission is on
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
@@ -236,28 +243,21 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	protected CreateCallback<StravaComment> creator() throws Exception {
-		return CommentDataUtils.stravaCreator();
-	}
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Can only perform the test if application-level permission is on
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-	@Override
-	protected DeleteCallback<StravaComment> deleter() throws Exception {
-		return CommentDataUtils.deleter();
-	}
+			RateLimitedTestRunner.run(() -> {
+				// Set up test data
+				final StravaComment comment = CommentDataUtils.generateValidObject();
+				comment.setActivityId(ActivityDataUtils.ACTIVITY_PRIVATE);
+				final StravaComment createdComment = TestUtils.stravaWithFullAccess().createComment(comment);
 
-	@Override
-	protected GetCallback<StravaComment, Integer> getter() throws Exception {
-		return CommentDataUtils.getter();
-	}
-
-	@Override
-	protected StravaComment generateValidObject() {
-		return CommentDataUtils.generateValidObject();
-	}
-
-	@Override
-	protected StravaComment generateInvalidObject() {
-		return CommentDataUtils.generateInvalidObject();
+				// Now delete it again
+				TestUtils.stravaWithFullAccess().deleteComment(createdComment);
+			});
+		}
 	}
 
 	@Override

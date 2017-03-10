@@ -14,14 +14,6 @@ import test.utils.BeanTest;
 public class StravaClubAnnouncementTest extends BeanTest<StravaClubAnnouncement> {
 
 	/**
-	 * @see test.utils.BeanTest#getClassUnderTest()
-	 */
-	@Override
-	protected Class<StravaClubAnnouncement> getClassUnderTest() {
-		return StravaClubAnnouncement.class;
-	}
-
-	/**
 	 * Validate contents of the object
 	 *
 	 * @param object
@@ -33,6 +25,14 @@ public class StravaClubAnnouncementTest extends BeanTest<StravaClubAnnouncement>
 		assertNotEquals("Unknown StravaResourceState" + object.getResourceState(), object.getResourceState(), //$NON-NLS-1$
 				StravaResourceState.UNKNOWN);
 
+	}
+
+	/**
+	 * @see test.utils.BeanTest#getClassUnderTest()
+	 */
+	@Override
+	protected Class<StravaClubAnnouncement> getClassUnderTest() {
+		return StravaClubAnnouncement.class;
 	}
 
 }

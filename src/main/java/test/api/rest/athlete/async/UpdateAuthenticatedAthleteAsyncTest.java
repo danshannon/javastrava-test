@@ -41,8 +41,7 @@ public class UpdateAuthenticatedAthleteAsyncTest extends APITest<StravaAthlete> 
 			final StravaGender sex = athlete.getSex();
 			final String country = athlete.getCountry();
 			athlete.setWeight(92.0f);
-			StravaAthlete returnedAthlete = apiWithWriteAccess()
-					.updateAuthenticatedAthleteAsync(null, null, null, null, new Float(92)).get();
+			StravaAthlete returnedAthlete = apiWithWriteAccess().updateAuthenticatedAthleteAsync(null, null, null, null, new Float(92)).get();
 			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 			returnedAthlete = apiWithWriteAccess().updateAuthenticatedAthleteAsync(city, state, country, sex, null).get();
 			assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
@@ -51,8 +50,7 @@ public class UpdateAuthenticatedAthleteAsyncTest extends APITest<StravaAthlete> 
 	}
 
 	/**
-	 * Attempt to update the authenticated athlete using a token which does not have {@link AuthorisationScope#WRITE} scope. Should
-	 * fail with an {@link UnauthorizedException}
+	 * Attempt to update the authenticated athlete using a token which does not have {@link AuthorisationScope#WRITE} scope. Should fail with an {@link UnauthorizedException}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way

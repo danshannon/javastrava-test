@@ -16,19 +16,19 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncement, Integer> {
 	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaClubAnnouncement, Integer> listCallback() {
-		return (api, id) -> api.listClubAnnouncements(id);
-	}
-
-	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
 	protected Integer invalidId() {
 		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaClubAnnouncement, Integer> listCallback() {
+		return (api, id) -> api.listClubAnnouncements(id);
 	}
 
 	/**

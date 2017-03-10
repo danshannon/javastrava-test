@@ -12,6 +12,21 @@ import test.service.standardtests.data.ClubDataUtils;
  */
 public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnouncement, Integer> {
 	@Override
+	public Integer idInvalid() {
+		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	public Integer idPrivateBelongsToOtherUser() {
+		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+	}
+
+	@Override
 	public Integer idValidWithEntries() {
 		return ClubDataUtils.CLUB_VALID_ID;
 	}
@@ -22,23 +37,8 @@ public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnounce
 	}
 
 	@Override
-	public Integer idPrivateBelongsToOtherUser() {
-		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
-	}
-
-	@Override
-	public Integer idInvalid() {
-		return ClubDataUtils.CLUB_INVALID_ID;
-	}
-
-	@Override
 	protected ListCallback<StravaClubAnnouncement, Integer> lister() {
 		return ((strava, id) -> strava.listClubAnnouncements(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
 	}
 
 	@Override

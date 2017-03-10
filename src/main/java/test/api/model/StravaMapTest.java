@@ -31,8 +31,7 @@ public class StravaMapTest extends BeanTest<StravaMap> {
 	 *            The activitity the map is expected to belong to
 	 */
 	@SuppressWarnings("boxing")
-	public static void validateMap(final StravaMap map, final String id, final StravaResourceState state,
-			final StravaActivity activity) {
+	public static void validateMap(final StravaMap map, final String id, final StravaResourceState state, final StravaActivity activity) {
 		assertNotNull(map);
 		assertEquals(id, map.getId());
 		assertEquals(state, map.getResourceState());

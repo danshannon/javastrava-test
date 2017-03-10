@@ -20,22 +20,6 @@ import test.utils.RateLimitedTestRunner;
 
 public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaSegment> pagingCallback() {
-		return paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize());
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaSegment, Integer> listCallback() {
-		return (api, id) -> api.listAuthenticatedAthleteStarredSegments(null, null);
-	}
-
-	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
@@ -43,20 +27,19 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
-	protected Integer privateId() {
-		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
-	@Override
-	protected Integer privateIdBelongsToOtherUser() {
-		return null;
+	@Test
+	public void list_private() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegment[] segments = apiWithViewPrivate().listAuthenticatedAthleteStarredSegments(null, null);
+			boolean pass = false;
+			for (final StravaSegment segment : segments) {
+				if (segment.getPrivateSegment().booleanValue()) {
+					pass = true;
+				}
+			}
+			assertTrue(pass);
+		});
 	}
 
 	@Override
@@ -75,19 +58,69 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		}
 	}
 
+	/**
+	 * @see test.api.rest.APIListTest#list_validParent()
+	 */
 	@Override
-	@Test
-	public void list_private() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = apiWithViewPrivate().listAuthenticatedAthleteStarredSegments(null, null);
-			boolean pass = false;
-			for (final StravaSegment segment : segments) {
-				if (segment.getPrivateSegment().booleanValue()) {
-					pass = true;
-				}
-			}
-			assertTrue(pass);
-		});
+	public void list_validParent() throws Exception {
+		if (new Issue25().isIssue()) {
+			return;
+		}
+		super.list_validParent();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaSegment, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteStarredSegments(null, null);
+	}
+
+	/**
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize());
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateId()
+	 */
+	@Override
+	protected Integer privateId() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
+	 */
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIPagingListTest#testPageNumberAndSize()
+	 */
+	@Override
+	public void testPageNumberAndSize() throws Exception {
+		if (new Issue25().isIssue()) {
+			return;
+		}
+		super.testPageNumberAndSize();
+	}
+
+	/**
+	 * @see test.api.rest.APIPagingListTest#testPageSize()
+	 */
+	@Override
+	public void testPageSize() throws Exception {
+		if (new Issue25().isIssue()) {
+			return;
+		}
+		super.testPageSize();
 	}
 
 	@Override
@@ -136,39 +169,6 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#list_validParent()
-	 */
-	@Override
-	public void list_validParent() throws Exception {
-		if (new Issue25().isIssue()) {
-			return;
-		}
-		super.list_validParent();
-	}
-
-	/**
-	 * @see test.api.rest.APIPagingListTest#testPageNumberAndSize()
-	 */
-	@Override
-	public void testPageNumberAndSize() throws Exception {
-		if (new Issue25().isIssue()) {
-			return;
-		}
-		super.testPageNumberAndSize();
-	}
-
-	/**
-	 * @see test.api.rest.APIPagingListTest#testPageSize()
-	 */
-	@Override
-	public void testPageSize() throws Exception {
-		if (new Issue25().isIssue()) {
-			return;
-		}
-		super.testPageSize();
 	}
 
 }

@@ -45,29 +45,6 @@ public interface PrivacyTests {
 	 * </p>
 	 *
 	 * <p>
-	 * For get methods, this should return the object successfully
-	 * </p>
-	 *
-	 * <p>
-	 * For list methods, this should return the list successfully
-	 * </p>
-	 *
-	 * <p>
-	 * For create methods, the test should complete successfully (assuming of course that the session has write scope)
-	 * </p>
-	 * 
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception;
-
-	/**
-	 * <p>
-	 * Test behaviour of trying to access an object belonging to the authenticated user that has been flagged as private
-	 * </p>
-	 *
-	 * <p>
 	 * For get methods, this should return an object with resource state {@link StravaResourceState#PRIVATE}
 	 * </p>
 	 *
@@ -84,5 +61,28 @@ public interface PrivacyTests {
 	 */
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception;
+
+	/**
+	 * <p>
+	 * Test behaviour of trying to access an object belonging to the authenticated user that has been flagged as private
+	 * </p>
+	 *
+	 * <p>
+	 * For get methods, this should return the object successfully
+	 * </p>
+	 *
+	 * <p>
+	 * For list methods, this should return the list successfully
+	 * </p>
+	 *
+	 * <p>
+	 * For create methods, the test should complete successfully (assuming of course that the session has write scope)
+	 * </p>
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception;
 
 }

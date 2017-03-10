@@ -23,6 +23,31 @@ import test.utils.TestUtils;
  *
  */
 public class GetSegmentEffortTest extends GetMethodTest<StravaSegmentEffort, Long> {
+	@Override
+	protected Long getIdInvalid() {
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
+	}
+
+	@Override
+	protected Long getIdPrivate() {
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID;
+	}
+
+	@Override
+	protected Long getIdPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Long getIdValid() {
+		return SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaSegmentEffort, Long> getter() throws Exception {
+		return ((strava, id) -> strava.getSegmentEffort(id));
+	}
+
 	/**
 	 * Check that an effort on a private activity is not returned
 	 *
@@ -53,31 +78,6 @@ public class GetSegmentEffortTest extends GetMethodTest<StravaSegmentEffort, Lon
 			assertNotNull(effort);
 			assertEquals(StravaResourceState.PRIVATE, effort.getResourceState());
 		});
-	}
-
-	@Override
-	protected Long getIdValid() {
-		return SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID;
-	}
-
-	@Override
-	protected Long getIdInvalid() {
-		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
-	}
-
-	@Override
-	protected Long getIdPrivate() {
-		return SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID;
-	}
-
-	@Override
-	protected Long getIdPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected GetCallback<StravaSegmentEffort, Long> getter() throws Exception {
-		return ((strava, id) -> strava.getSegmentEffort(id));
 	}
 
 	@Override

@@ -49,8 +49,7 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(),
-					comment.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -58,8 +57,7 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(comment.getActivityId());
 			assertNotNull(comment.getAthlete());
-			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(),
-					comment.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(comment.getAthlete(), comment.getAthlete().getId(), comment.getAthlete().getResourceState());
 			assertNotNull(comment.getCreatedAt());
 			assertNotNull(comment.getText());
 			return;
@@ -74,11 +72,6 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 		fail("Unexpected resource state " + state + " for comment " + comment); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	@Override
-	protected Class<StravaComment> getClassUnderTest() {
-		return StravaComment.class;
-	}
-
 	/**
 	 * Validates a list of comments
 	 *
@@ -90,5 +83,10 @@ public class StravaCommentTest extends BeanTest<StravaComment> {
 			validateComment(comment);
 		}
 
+	}
+
+	@Override
+	protected Class<StravaComment> getClassUnderTest() {
+		return StravaComment.class;
 	}
 }

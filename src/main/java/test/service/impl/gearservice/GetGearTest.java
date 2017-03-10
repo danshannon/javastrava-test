@@ -21,25 +21,6 @@ import test.utils.TestUtils;
  *
  */
 public class GetGearTest extends GetMethodTest<StravaGear, String> {
-	/**
-	 * @throws Exception
-	 *             if test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testGetGear_otherAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaGear gear = TestUtils.strava().getGear(GearDataUtils.GEAR_OTHER_ATHLETE_ID);
-
-			assertNull(gear);
-		});
-	}
-
-	@Override
-	protected String getIdValid() {
-		return GearDataUtils.GEAR_VALID_ID;
-	}
-
 	@Override
 	protected String getIdInvalid() {
 		return GearDataUtils.GEAR_INVALID_ID;
@@ -56,8 +37,27 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 	}
 
 	@Override
+	protected String getIdValid() {
+		return GearDataUtils.GEAR_VALID_ID;
+	}
+
+	@Override
 	protected GetCallback<StravaGear, String> getter() throws Exception {
 		return ((strava, id) -> strava.getGear(id));
+	}
+
+	/**
+	 * @throws Exception
+	 *             if test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testGetGear_otherAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaGear gear = TestUtils.strava().getGear(GearDataUtils.GEAR_OTHER_ATHLETE_ID);
+
+			assertNull(gear);
+		});
 	}
 
 	@Override

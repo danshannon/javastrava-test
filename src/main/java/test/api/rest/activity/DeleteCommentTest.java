@@ -24,26 +24,15 @@ import test.utils.RateLimitedTestRunner;
 public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 
 	@Override
+	protected StravaComment createObject() {
+		return apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, "DeleteCommentTest - please ignore"); //$NON-NLS-1$
+	}
+
+	@Override
 	public void delete_invalidParent() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to write comments
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 			super.delete_invalidParent();
-		}
-	}
-
-	@Override
-	public void delete_privateParentWithViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to write comments
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-			super.delete_privateParentWithViewPrivate();
-		}
-	}
-
-	@Override
-	public void delete_privateParentWithoutViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to write comments
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-			super.delete_privateParentWithoutViewPrivate();
 		}
 	}
 
@@ -56,24 +45,27 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	}
 
 	@Override
+	public void delete_privateParentWithoutViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+			super.delete_privateParentWithoutViewPrivate();
+		}
+	}
+
+	@Override
+	public void delete_privateParentWithViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+			super.delete_privateParentWithViewPrivate();
+		}
+	}
+
+	@Override
 	public void delete_valid() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to write comments
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 			super.delete_valid();
 		}
-	}
-
-	@Override
-	public APIDeleteCallback<StravaComment, Long> deleter() {
-		return ((api, comment, id) -> {
-			api.deleteComment(id, comment.getId());
-			return comment;
-		});
-	}
-
-	@Override
-	protected StravaComment createObject() {
-		return apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, "DeleteCommentTest - please ignore"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -85,6 +77,14 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 			}
 			super.delete_validParentNoWriteAccess();
 		}
+	}
+
+	@Override
+	public APIDeleteCallback<StravaComment, Long> deleter() {
+		return ((api, comment, id) -> {
+			api.deleteComment(id, comment.getId());
+			return comment;
+		});
 	}
 
 	@Override

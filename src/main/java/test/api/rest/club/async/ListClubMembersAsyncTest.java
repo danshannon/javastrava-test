@@ -14,19 +14,19 @@ import test.utils.RateLimitedTestRunner;
 
 public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	/**
-	 * @see test.api.rest.club.ListClubMembersTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listClubMembersAsync(validId(), paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
 	 * @see test.api.rest.club.ListClubMembersTest#listCallback()
 	 */
 	@Override
 	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listClubMembersAsync(id, null, null).get();
+	}
+
+	/**
+	 * @see test.api.rest.club.ListClubMembersTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listClubMembersAsync(validId(), paging.getPage(), paging.getPageSize()).get();
 	}
 
 	// 3. Private club of which current authenticated athlete is a member

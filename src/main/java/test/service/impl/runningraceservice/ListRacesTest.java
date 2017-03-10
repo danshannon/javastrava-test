@@ -9,8 +9,8 @@ import test.service.standardtests.data.RunningRaceDataUtils;
 public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 
 	@Override
-	protected ListCallback<StravaRunningRace, Integer> lister() {
-		return (strava, id) -> strava.listRaces(null);
+	protected Integer idInvalid() {
+		return null;
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return null;
+	protected ListCallback<StravaRunningRace, Integer> lister() {
+		return (strava, id) -> strava.listRaces(null);
 	}
 
 	@Override

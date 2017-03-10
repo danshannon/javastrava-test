@@ -16,6 +16,11 @@ import test.service.standardtests.data.AthleteDataUtils;
  *
  */
 public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integer> {
+	@Override
+	protected APIGetCallback<StravaAthlete, Integer> getter() {
+		return ((api, id) -> api.getAuthenticatedAthlete());
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -63,11 +68,6 @@ public class GetAuthenticatedAthleteTest extends APIGetTest<StravaAthlete, Integ
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected APIGetCallback<StravaAthlete, Integer> getter() {
-		return ((api, id) -> api.getAuthenticatedAthlete());
 	}
 
 }

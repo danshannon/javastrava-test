@@ -28,8 +28,13 @@ import test.utils.TestUtils;
  */
 public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> {
 	@Override
-	protected StravaComment generateValidObject() {
-		return CommentDataUtils.generateValidObject();
+	protected CreateCallback<StravaComment> creator() throws Exception {
+		return CommentDataUtils.stravaCreator();
+	}
+
+	@Override
+	protected DeleteCallback<StravaComment> deleter() throws Exception {
+		return CommentDataUtils.deleter();
 	}
 
 	@Override
@@ -38,24 +43,21 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	@Test
-	public void testCreateValidObject() throws Exception {
+	protected StravaComment generateValidObject() {
+		return CommentDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected GetCallback<StravaComment, Integer> getter() throws Exception {
+		return CommentDataUtils.getter();
+	}
+
+	@Override
+	public void testCreateInvalidObject() throws Exception {
 		// Can't run the test if we don't have Strava's permission to write comments
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-			RateLimitedTestRunner.run(() -> {
-				// Create a comment
-				final StravaComment comment = generateValidObject();
-
-				// Add to Strava
-				final StravaComment createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
-
-				// Validate
-				StravaCommentTest.validateComment(createdComment);
-
-				// Delete it again
-				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
-			});
+			super.testCreateInvalidObject();
 		}
 	}
 
@@ -81,6 +83,37 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 				// Delete it again and fail
 				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
 				fail("Created a comment against a non-existent parent activity!"); //$NON-NLS-1$
+			});
+		}
+	}
+
+	@Override
+	public void testCreateNoWriteAccess() throws Exception {
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+
+			super.testCreateNoWriteAccess();
+		}
+	}
+
+	@Override
+	@Test
+	public void testCreateValidObject() throws Exception {
+		// Can't run the test if we don't have Strava's permission to write comments
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
+
+			RateLimitedTestRunner.run(() -> {
+				// Create a comment
+				final StravaComment comment = generateValidObject();
+
+				// Add to Strava
+				final StravaComment createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
+
+				// Validate
+				StravaCommentTest.validateComment(createdComment);
+
+				// Delete it again
+				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
 			});
 		}
 	}
@@ -120,32 +153,6 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	public void testCreateInvalidObject() throws Exception {
-		// Can't run the test if we don't have Strava's permission to write comments
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-
-			super.testCreateInvalidObject();
-		}
-	}
-
-	@Override
-	public void testCreateNoWriteAccess() throws Exception {
-		// Can't run the test if we don't have Strava's permission to write comments
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
-
-			super.testCreateNoWriteAccess();
-		}
-	}
-
-	@Override
-	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Covered by testCreateValidObject()
-		return;
-
-	}
-
-	@Override
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		// Can't run the test if we don't have Strava's permission to write comments
@@ -172,18 +179,11 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	protected CreateCallback<StravaComment> creator() throws Exception {
-		return CommentDataUtils.stravaCreator();
-	}
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Covered by testCreateValidObject()
+		return;
 
-	@Override
-	protected DeleteCallback<StravaComment> deleter() throws Exception {
-		return CommentDataUtils.deleter();
-	}
-
-	@Override
-	protected GetCallback<StravaComment, Integer> getter() throws Exception {
-		return CommentDataUtils.getter();
 	}
 
 	@Override

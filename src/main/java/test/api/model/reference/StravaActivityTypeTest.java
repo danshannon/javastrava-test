@@ -13,6 +13,17 @@ import javastrava.api.v3.model.reference.StravaActivityType;
  */
 public class StravaActivityTypeTest {
 	/**
+	 * Test the create method
+	 */
+	@SuppressWarnings("static-method")
+	public void testCreate() {
+		for (final StravaActivityType type : StravaActivityType.values()) {
+			assertEquals(type, StravaActivityType.create(type.getValue()));
+		}
+
+	}
+
+	/**
 	 * Test the integrity of the id
 	 */
 	@SuppressWarnings("static-method")
@@ -31,17 +42,6 @@ public class StravaActivityTypeTest {
 	public void testGetValue() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
 			assertNotNull(type.getValue());
-			assertEquals(type, StravaActivityType.create(type.getValue()));
-		}
-
-	}
-
-	/**
-	 * Test the create method
-	 */
-	@SuppressWarnings("static-method")
-	public void testCreate() {
-		for (final StravaActivityType type : StravaActivityType.values()) {
 			assertEquals(type, StravaActivityType.create(type.getValue()));
 		}
 

@@ -17,18 +17,8 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete, Long> {
 	@Override
-	protected PagingListCallback<StravaAthlete, Long> pagingLister() {
-		return ((strava, paging, id) -> strava.listActivityKudoers(id, paging));
-	}
-
-	@Override
-	protected ListCallback<StravaAthlete, Long> lister() {
-		return ((strava, id) -> strava.listActivityKudoers(id));
-	}
-
-	@Override
-	protected void validate(final StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -52,7 +42,17 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 	}
 
 	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ListCallback<StravaAthlete, Long> lister() {
+		return ((strava, id) -> strava.listActivityKudoers(id));
+	}
+
+	@Override
+	protected PagingListCallback<StravaAthlete, Long> pagingLister() {
+		return ((strava, paging, id) -> strava.listActivityKudoers(id, paging));
+	}
+
+	@Override
+	protected void validate(final StravaAthlete athlete) {
+		StravaAthleteTest.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
 	}
 }

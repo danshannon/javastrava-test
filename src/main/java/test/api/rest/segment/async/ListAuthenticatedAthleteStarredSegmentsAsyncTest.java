@@ -20,20 +20,19 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthenticatedAthleteStarredSegmentsTest {
-	/**
-	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#pagingCallback()
-	 */
 	@Override
-	protected ArrayCallback<StravaSegment> pagingCallback() {
-		return paging -> api().listAuthenticatedAthleteStarredSegmentsAsync(paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
-	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaSegment, Integer> listCallback() {
-		return (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
+	@Test
+	public void list_private() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaSegment[] segments = this.listCallback().list(apiWithViewPrivate(), null);
+			boolean pass = false;
+			for (final StravaSegment segment : segments) {
+				if (segment.getPrivateSegment()) {
+					pass = true;
+				}
+			}
+			assertTrue(pass);
+		});
 	}
 
 	@Override
@@ -53,19 +52,20 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 		}
 	}
 
+	/**
+	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#listCallback()
+	 */
 	@Override
-	@Test
-	public void list_private() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment[] segments = this.listCallback().list(apiWithViewPrivate(), null);
-			boolean pass = false;
-			for (final StravaSegment segment : segments) {
-				if (segment.getPrivateSegment()) {
-					pass = true;
-				}
-			}
-			assertTrue(pass);
-		});
+	protected APIListCallback<StravaSegment, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
+	}
+
+	/**
+	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteStarredSegmentsAsync(paging.getPage(), paging.getPageSize()).get();
 	}
 
 }

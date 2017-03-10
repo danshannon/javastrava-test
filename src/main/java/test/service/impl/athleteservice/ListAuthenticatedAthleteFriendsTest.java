@@ -17,18 +17,8 @@ import test.service.standardtests.data.AthleteDataUtils;
  */
 public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<StravaAthlete, Integer> {
 	@Override
-	protected PagingListCallback<StravaAthlete, Integer> pagingLister() {
-		return ((strava, paging, id) -> strava.listAuthenticatedAthleteFriends(paging));
-	}
-
-	@Override
-	protected void validate(final StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete);
-	}
-
-	@Override
-	protected ListCallback<StravaAthlete, Integer> lister() {
-		return ((strava, id) -> strava.listAuthenticatedAthleteFriends());
+	protected Integer idInvalid() {
+		return null;
 	}
 
 	@Override
@@ -52,7 +42,17 @@ public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<St
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return null;
+	protected ListCallback<StravaAthlete, Integer> lister() {
+		return ((strava, id) -> strava.listAuthenticatedAthleteFriends());
+	}
+
+	@Override
+	protected PagingListCallback<StravaAthlete, Integer> pagingLister() {
+		return ((strava, paging, id) -> strava.listAuthenticatedAthleteFriends(paging));
+	}
+
+	@Override
+	protected void validate(final StravaAthlete athlete) {
+		StravaAthleteTest.validateAthlete(athlete);
 	}
 }

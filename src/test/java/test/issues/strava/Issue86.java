@@ -14,8 +14,7 @@ import javastrava.api.v3.service.exception.NotFoundException;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/86">https://github.com/danshannon/javastravav3api/issues/86</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/86">https://github.com/danshannon/javastravav3api/issues/86</a>
  *
  */
 public class Issue86 extends IssueTest {

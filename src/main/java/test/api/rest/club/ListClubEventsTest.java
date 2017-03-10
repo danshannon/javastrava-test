@@ -18,19 +18,30 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaClubEvent, Integer> listCallback() {
-		return (api, id) -> api.listClubGroupEvents(id);
-	}
-
-	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
 	protected Integer invalidId() {
 		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#list_privateBelongsToOtherUser()
+	 */
+	@Override
+	public void list_privateBelongsToOtherUser() throws Exception {
+		if (new Issue112().isIssue()) {
+			return;
+		}
+		super.list_privateBelongsToOtherUser();
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaClubEvent, Integer> listCallback() {
+		return (api, id) -> api.listClubGroupEvents(id);
 	}
 
 	/**
@@ -103,17 +114,6 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#list_privateBelongsToOtherUser()
-	 */
-	@Override
-	public void list_privateBelongsToOtherUser() throws Exception {
-		if (new Issue112().isIssue()) {
-			return;
-		}
-		super.list_privateBelongsToOtherUser();
 	}
 
 }

@@ -29,12 +29,11 @@ import test.utils.TestUtils;
  * @param <U>
  *            Class of the object's identifier (mostly they're Integer, but some are Long or even String)
  */
-public abstract class AsyncPagingListMethodTest<T extends StravaEntity, U> extends AsyncListMethodTest<T, U>
-		implements PagingListMethodTests {
-	protected abstract AsyncPagingListCallback<T, U> pagingLister();
-
+public abstract class AsyncPagingListMethodTest<T extends StravaEntity, U> extends AsyncListMethodTest<T, U> implements PagingListMethodTests {
 	@Override
 	protected abstract U idValidWithEntries();
+
+	protected abstract AsyncPagingListCallback<T, U> pagingLister();
 
 	/**
 	 * @see test.service.standardtests.spec.PagingListMethodTests#testPageNumberAndSize()

@@ -19,8 +19,8 @@ public class RateLimitedTestRunner {
 
 	/**
 	 * <p>
-	 * Runs a test method (the callback provided) and handles Strava rate limiting, Strava outages, or network outages gracefully,
-	 * therefore ensuring that the test gets run regardless of transient issues on the network
+	 * Runs a test method (the callback provided) and handles Strava rate limiting, Strava outages, or network outages gracefully, therefore ensuring that the test gets run regardless of transient
+	 * issues on the network
 	 * </p>
 	 *
 	 * @param t

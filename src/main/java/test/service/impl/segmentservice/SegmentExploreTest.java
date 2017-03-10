@@ -17,9 +17,7 @@ import test.utils.TestUtils;
 
 /**
  * <p>
- * Specific tests for
- * {@link Strava#segmentExplore(StravaMapPoint, StravaMapPoint, StravaSegmentExplorerActivityType, StravaClimbCategory, StravaClimbCategory)}
- * methods
+ * Specific tests for {@link Strava#segmentExplore(StravaMapPoint, StravaMapPoint, StravaSegmentExplorerActivityType, StravaClimbCategory, StravaClimbCategory)} methods
  * </p>
  *
  * @author Dan Shannon
@@ -38,9 +36,8 @@ public class SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByActivityType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(
-					new StravaMapPoint(new Float(-39.4f), new Float(136f)), new StravaMapPoint(new Float(-25f), new Float(154f)),
-					StravaSegmentExplorerActivityType.RUNNING, null, null);
+			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
+					new StravaMapPoint(new Float(-25f), new Float(154f)), StravaSegmentExplorerActivityType.RUNNING, null, null);
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
@@ -58,9 +55,8 @@ public class SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByMaximumCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(
-					new StravaMapPoint(new Float(-39.4f), new Float(136f)), new StravaMapPoint(new Float(-25f), new Float(154f)),
-					null, null, StravaClimbCategory.CATEGORY1);
+			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
+					new StravaMapPoint(new Float(-25f), new Float(154f)), null, null, StravaClimbCategory.CATEGORY1);
 			assertNotNull(response);
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue().intValue() <= StravaClimbCategory.CATEGORY1.getValue().intValue());
@@ -81,13 +77,11 @@ public class SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByMinimumCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(
-					new StravaMapPoint(new Float(-39.4f), new Float(136f)), new StravaMapPoint(new Float(-25f), new Float(154f)),
-					null, StravaClimbCategory.HORS_CATEGORIE, null);
+			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
+					new StravaMapPoint(new Float(-25f), new Float(154f)), null, StravaClimbCategory.HORS_CATEGORIE, null);
 			assertNotNull(response);
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
-				assertTrue(segment.getClimbCategory().getValue().intValue() >= StravaClimbCategory.HORS_CATEGORIE.getValue()
-						.intValue());
+				assertTrue(segment.getClimbCategory().getValue().intValue() >= StravaClimbCategory.HORS_CATEGORIE.getValue().intValue());
 			}
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
@@ -105,9 +99,8 @@ public class SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterMaxAndMinCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(
-					new StravaMapPoint(new Float(-39.4f), new Float(136f)), new StravaMapPoint(new Float(-25f), new Float(154f)),
-					null, null, null);
+			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
+					new StravaMapPoint(new Float(-25f), new Float(154f)), null, null, null);
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
@@ -125,9 +118,8 @@ public class SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_normal() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(
-					new StravaMapPoint(new Float(-39.4f), new Float(136f)), new StravaMapPoint(new Float(-25f), new Float(154f)),
-					null, null, null);
+			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
+					new StravaMapPoint(new Float(-25f), new Float(154f)), null, null, null);
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});

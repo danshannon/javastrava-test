@@ -27,8 +27,8 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByActivityType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)),
-					StravaSegmentExplorerActivityType.RUNNING, null, null).get();
+			final StravaSegmentExplorerResponse response = api()
+					.segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)), StravaSegmentExplorerActivityType.RUNNING, null, null).get();
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
@@ -39,8 +39,8 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByMaximumCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)),
-					null, null, StravaClimbCategory.CATEGORY1).get();
+			final StravaSegmentExplorerResponse response = api()
+					.segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)), null, null, StravaClimbCategory.CATEGORY1).get();
 			assertNotNull(response);
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue() <= StravaClimbCategory.CATEGORY1.getValue());
@@ -55,8 +55,8 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterByMinimumCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)),
-					null, StravaClimbCategory.HORS_CATEGORIE, null).get();
+			final StravaSegmentExplorerResponse response = api()
+					.segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)), null, StravaClimbCategory.HORS_CATEGORIE, null).get();
 			assertNotNull(response);
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue() >= StravaClimbCategory.HORS_CATEGORIE.getValue());
@@ -70,8 +70,7 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_filterMaxAndMinCategory() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)),
-					null, null, null).get();
+			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)), null, null, null).get();
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
@@ -83,8 +82,7 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 	@Test
 	public void testSegmentExplore_normal() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)),
-					null, null, null).get();
+			final StravaSegmentExplorerResponse response = api().segmentExploreAsync(bounds(new StravaMapPoint(-39.4f, 136f), new StravaMapPoint(-25f, 154f)), null, null, null).get();
 			assertNotNull(response);
 			StravaSegmentExplorerResponseTest.validate(response);
 		});

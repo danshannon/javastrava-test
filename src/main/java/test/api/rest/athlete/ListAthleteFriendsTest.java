@@ -25,8 +25,8 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listAthleteFriends(validId(), paging.getPage(), paging.getPageSize());
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 	}
 
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAthleteFriends(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	@Override

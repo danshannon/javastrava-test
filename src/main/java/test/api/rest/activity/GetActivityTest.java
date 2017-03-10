@@ -23,6 +23,11 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Override
+	protected APIGetCallback<StravaActivity, Long> getter() {
+		return ((api, id) -> api.getActivity(id, Boolean.FALSE));
+	}
+
+	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -84,10 +89,5 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 	@Override
 	protected Long validIdBelongsToOtherUser() {
 		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
-	}
-
-	@Override
-	protected APIGetCallback<StravaActivity, Long> getter() {
-		return ((api, id) -> api.getActivity(id, Boolean.FALSE));
 	}
 }

@@ -20,8 +20,8 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, Long> {
 
 	@Override
-	protected ListCallback<StravaComment, Long> lister() {
-		return ((strava, id) -> strava.listAllActivityComments(id));
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, L
 	}
 
 	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ListCallback<StravaComment, Long> lister() {
+		return ((strava, id) -> strava.listAllActivityComments(id));
 	}
 
 	@Override

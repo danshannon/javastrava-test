@@ -17,9 +17,11 @@ public interface GearAPI {
 	/**
 	 * @see javastrava.api.v3.service.GearService#getGear(java.lang.String)
 	 * 
-	 * @param id Gear identifier
+	 * @param id
+	 *            Gear identifier
 	 * @return Details of the identified gear
-	 * @throws NotFoundException If the gear with the given id doesn't exist
+	 * @throws NotFoundException
+	 *             If the gear with the given id doesn't exist
 	 */
 	@GET("/gear/{id}")
 	public Response getGear(@Path("id") final String id) throws NotFoundException;

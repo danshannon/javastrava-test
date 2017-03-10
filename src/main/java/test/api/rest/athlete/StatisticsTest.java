@@ -34,6 +34,11 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 		});
 	}
 
+	@Override
+	protected APIGetCallback<StravaStatistics, Integer> getter() {
+		return ((api, id) -> api.statistics(id));
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -81,10 +86,5 @@ public class StatisticsTest extends APIGetTest<StravaStatistics, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return AthleteDataUtils.ATHLETE_VALID_ID;
-	}
-
-	@Override
-	protected APIGetCallback<StravaStatistics, Integer> getter() {
-		return ((api, id) -> api.statistics(id));
 	}
 }

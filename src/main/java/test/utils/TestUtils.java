@@ -135,15 +135,6 @@ public abstract class TestUtils {
 	}
 
 	/**
-	 * @param key
-	 *            Name in the properties file
-	 * @return The value of the named property
-	 */
-	public static String stringProperty(final String key) {
-		return new String(properties.getString(key));
-	}
-
-	/**
 	 * @param propertiesFile
 	 *            Name of the properties file
 	 * @return Resource bundle associated with the file
@@ -189,6 +180,15 @@ public abstract class TestUtils {
 	 */
 	public static Strava stravaWithWriteAccess() {
 		return new Strava(getValidTokenWithWriteAccess());
+	}
+
+	/**
+	 * @param key
+	 *            Name in the properties file
+	 * @return The value of the named property
+	 */
+	public static String stringProperty(final String key) {
+		return new String(properties.getString(key));
 	}
 
 	private static Token tokenWithExactScope(final AuthorisationScope... scopes) {

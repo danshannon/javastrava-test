@@ -17,9 +17,11 @@ public interface SegmentEffortAPI {
 	/**
 	 * @see javastrava.api.v3.service.SegmentEffortService#getSegmentEffort(java.lang.Long)
 	 * 
-	 * @param id Effort identifier
+	 * @param id
+	 *            Effort identifier
 	 * @return Effort details
-	 * @throws NotFoundException If the effort with the given id doesn't exist
+	 * @throws NotFoundException
+	 *             If the effort with the given id doesn't exist
 	 */
 	@GET("/segment_efforts/{id}")
 	public Response getSegmentEffort(@Path("id") final Long id) throws NotFoundException;

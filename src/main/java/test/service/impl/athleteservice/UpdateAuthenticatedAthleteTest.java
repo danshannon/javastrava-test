@@ -37,8 +37,7 @@ public class UpdateAuthenticatedAthleteTest {
 			final StravaGender sex = athlete.getSex();
 			final String country = athlete.getCountry();
 			athlete.setWeight(new Float(92.0f));
-			StravaAthlete returnedAthlete = TestUtils.stravaWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null,
-					new Float(92));
+			StravaAthlete returnedAthlete = TestUtils.stravaWithWriteAccess().updateAuthenticatedAthlete(null, null, null, null, new Float(92));
 			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 			returnedAthlete = TestUtils.stravaWithWriteAccess().updateAuthenticatedAthlete(city, state, country, sex, null);
 			assertEquals(athlete.getWeight(), returnedAthlete.getWeight());

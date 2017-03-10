@@ -17,11 +17,6 @@ import test.service.standardtests.data.ChallengeDataUtils;
 public class GetChallengeTest extends GetMethodTest<StravaChallenge, Integer> {
 
 	@Override
-	protected Integer getIdValid() {
-		return ChallengeDataUtils.CHALLENGE_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return ChallengeDataUtils.CHALLENGE_INVALID_ID;
 	}
@@ -34,6 +29,11 @@ public class GetChallengeTest extends GetMethodTest<StravaChallenge, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return ChallengeDataUtils.CHALLENGE_VALID_ID;
 	}
 
 	@Override

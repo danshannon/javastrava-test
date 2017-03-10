@@ -23,6 +23,31 @@ import test.utils.TestUtils;
  *
  */
 public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
+	@Override
+	protected Integer getIdInvalid() {
+		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	@Override
+	protected Integer getIdPrivate() {
+		return ClubDataUtils.CLUB_PRIVATE_MEMBER_ID;
+	}
+
+	@Override
+	protected Integer getIdPrivateBelongsToOtherUser() {
+		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return ClubDataUtils.CLUB_VALID_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaClub, Integer> getter() throws Exception {
+		return ((strava, id) -> strava.getClub(id));
+	}
+
 	/**
 	 * <p>
 	 * Private club of which current authenticated athlete is a member
@@ -62,31 +87,6 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 			assertEquals(comparison, club);
 			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
 		});
-	}
-
-	@Override
-	protected Integer getIdValid() {
-		return ClubDataUtils.CLUB_VALID_ID;
-	}
-
-	@Override
-	protected Integer getIdInvalid() {
-		return ClubDataUtils.CLUB_INVALID_ID;
-	}
-
-	@Override
-	protected Integer getIdPrivate() {
-		return ClubDataUtils.CLUB_PRIVATE_MEMBER_ID;
-	}
-
-	@Override
-	protected Integer getIdPrivateBelongsToOtherUser() {
-		return ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
-	}
-
-	@Override
-	protected GetCallback<StravaClub, Integer> getter() throws Exception {
-		return ((strava, id) -> strava.getClub(id));
 	}
 
 	@Override

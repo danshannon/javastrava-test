@@ -24,29 +24,9 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity, Integer> {
-	/**
-	 * <p>
-	 * Test that the list is returned and has a maximum of 200 results as documented
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testListAllFriendsActivities() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			assertNotNull(activities);
-			assertTrue(activities.size() <= 200);
-			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
-			}
-		});
-	}
-
 	@Override
-	protected ListCallback<StravaActivity, Integer> lister() {
-		return ((strava, id) -> strava.listAllFriendsActivities());
+	protected Integer idInvalid() {
+		return null;
 	}
 
 	@Override
@@ -70,8 +50,28 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return null;
+	protected ListCallback<StravaActivity, Integer> lister() {
+		return ((strava, id) -> strava.listAllFriendsActivities());
+	}
+
+	/**
+	 * <p>
+	 * Test that the list is returned and has a maximum of 200 results as documented
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@Test
+	public void testListAllFriendsActivities() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			assertNotNull(activities);
+			assertTrue(activities.size() <= 200);
+			for (final StravaActivity activity : activities) {
+				StravaActivityTest.validate(activity);
+			}
+		});
 	}
 
 	@Override

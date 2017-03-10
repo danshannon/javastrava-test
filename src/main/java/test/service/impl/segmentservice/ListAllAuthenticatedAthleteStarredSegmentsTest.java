@@ -24,6 +24,36 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTest<StravaSegment, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaSegment, Integer> lister() {
+		return ((strava, id) -> strava.listAllAuthenticatedAthleteStarredSegments());
+	}
+
 	@Test
 	@Override
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
@@ -50,36 +80,6 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTe
 			}
 			assertTrue(pass);
 		});
-	}
-
-	@Override
-	protected ListCallback<StravaSegment, Integer> lister() {
-		return ((strava, id) -> strava.listAllAuthenticatedAthleteStarredSegments());
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return null;
 	}
 
 	@Override

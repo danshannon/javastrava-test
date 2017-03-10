@@ -18,6 +18,21 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected Long idPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
+	}
+
+	@Override
+	public Long idPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
 	public Long idValidWithEntries() {
 		return ActivityDataUtils.ACTIVITY_WITH_LAPS;
 	}
@@ -28,8 +43,8 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 	}
 
 	@Override
-	public Long idPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	protected ListCallback<StravaLap, Long> lister() {
+		return ((strava, id) -> strava.listActivityLaps(id));
 	}
 
 	@Override
@@ -43,21 +58,6 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 	@Override
 	protected void validate(final StravaLap object) {
 		StravaLapTest.validateLap(object);
-	}
-
-	@Override
-	protected ListCallback<StravaLap, Long> lister() {
-		return ((strava, id) -> strava.listActivityLaps(id));
-	}
-
-	@Override
-	protected Long idPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE;
-	}
-
-	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 }

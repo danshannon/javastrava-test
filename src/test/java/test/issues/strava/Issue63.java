@@ -15,8 +15,7 @@ import test.service.standardtests.data.ActivityDataUtils;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/63">https://github.com/danshannon/javastravav3api/issues/63</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/63">https://github.com/danshannon/javastravav3api/issues/63</a>
  */
 public class Issue63 extends IssueTest {
 	/**

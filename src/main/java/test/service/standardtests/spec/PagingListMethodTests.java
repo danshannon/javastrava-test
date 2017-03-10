@@ -23,8 +23,8 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * <p>
-	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first entity, then ask for the
-	 * second page and check that it's the same as the second entity
+	 * To test this we get 2 entities from the service, then ask for the first page only and check that it's the same as the first entity, then ask for the second page and check that it's the same as
+	 * the second entity
 	 * </p>
 	 *
 	 * @throws Exception

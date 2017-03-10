@@ -15,11 +15,6 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long> {
-	@Override
-	protected APIListCallback<StravaActivityZone, Long> listCallback() {
-		return ((api, id) -> api.listActivityZones(id));
-	}
-
 	/**
 	 *
 	 */
@@ -34,6 +29,11 @@ public class ListActivityZonesTest extends APIListTest<StravaActivityZone, Long>
 	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected APIListCallback<StravaActivityZone, Long> listCallback() {
+		return ((api, id) -> api.listActivityZones(id));
 	}
 
 	/**

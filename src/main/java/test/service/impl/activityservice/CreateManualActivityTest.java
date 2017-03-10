@@ -27,6 +27,37 @@ import test.utils.TestUtils;
  *
  */
 public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, Long> {
+	@Override
+	protected CreateCallback<StravaActivity> creator() throws Exception {
+		return ActivityDataUtils.creator();
+	}
+
+	@Override
+	protected DeleteCallback<StravaActivity> deleter() throws Exception {
+		return ActivityDataUtils.deleter();
+	}
+
+	@Override
+	protected void forceDelete(StravaActivity activity) throws Exception {
+		ActivityDataUtils.deleter().delete(TestUtils.stravaWithFullAccess(), activity);
+
+	}
+
+	@Override
+	protected StravaActivity generateInvalidObject() {
+		return ActivityDataUtils.generateInvalidObject();
+	}
+
+	@Override
+	protected StravaActivity generateValidObject() {
+		return ActivityDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected GetCallback<StravaActivity, Long> getter() throws Exception {
+		return ActivityDataUtils.getter();
+	}
+
 	/**
 	 * <p>
 	 * Check that it is not possible to create a manual activity with an invalid type
@@ -206,30 +237,6 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 		return;
 	}
 
-	@Override
-	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Can't run the test if the application doesn't have Strava's permission to delete activities
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-
-			RateLimitedTestRunner.run(() -> {
-				// Create the object test data
-				final StravaActivity activity = generateValidObject();
-				activity.setPrivateActivity(Boolean.TRUE);
-
-				// Create it in Strava
-				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
-				assertTrue(createdActivity.getPrivateActivity().booleanValue());
-
-				// Validate
-				StravaActivityTest.validate(createdActivity);
-
-				// Finally, delete it
-				forceDelete(createdActivity);
-			});
-		}
-	}
-
 	/**
 	 * @see test.service.standardtests.spec.StandardTests#testInvalidId()
 	 */
@@ -279,34 +286,27 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	}
 
 	@Override
-	protected void forceDelete(StravaActivity activity) throws Exception {
-		ActivityDataUtils.deleter().delete(TestUtils.stravaWithFullAccess(), activity);
+	@Test
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Can't run the test if the application doesn't have Strava's permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 
-	}
+			RateLimitedTestRunner.run(() -> {
+				// Create the object test data
+				final StravaActivity activity = generateValidObject();
+				activity.setPrivateActivity(Boolean.TRUE);
 
-	@Override
-	protected CreateCallback<StravaActivity> creator() throws Exception {
-		return ActivityDataUtils.creator();
-	}
+				// Create it in Strava
+				final StravaActivity createdActivity = creator().create(TestUtils.stravaWithFullAccess(), activity);
+				assertTrue(createdActivity.getPrivateActivity().booleanValue());
 
-	@Override
-	protected DeleteCallback<StravaActivity> deleter() throws Exception {
-		return ActivityDataUtils.deleter();
-	}
+				// Validate
+				StravaActivityTest.validate(createdActivity);
 
-	@Override
-	protected GetCallback<StravaActivity, Long> getter() throws Exception {
-		return ActivityDataUtils.getter();
-	}
-
-	@Override
-	protected StravaActivity generateValidObject() {
-		return ActivityDataUtils.generateValidObject();
-	}
-
-	@Override
-	protected StravaActivity generateInvalidObject() {
-		return ActivityDataUtils.generateInvalidObject();
+				// Finally, delete it
+				forceDelete(createdActivity);
+			});
+		}
 	}
 
 	@Override

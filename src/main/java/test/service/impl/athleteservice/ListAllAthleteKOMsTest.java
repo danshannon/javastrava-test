@@ -22,6 +22,31 @@ import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
 		final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;
@@ -33,6 +58,11 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 		return isKom;
 	}
 
+	@Override
+	protected ListCallback<StravaSegmentEffort, Integer> lister() {
+		return ((strava, id) -> strava.listAllAthleteKOMs(id));
+	}
+
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -40,8 +70,8 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				StravaSegmentEffortTest.validateSegmentEffort(effort);
-				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_AUTHENTICATED_ID
-						+ " is not the KOM!", isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
+				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_AUTHENTICATED_ID + " is not the KOM!",
+						isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
 			}
 		});
 	}
@@ -63,8 +93,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
-					.listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getActivity(kom.getActivity().getId());
@@ -92,8 +121,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Test
 	public void testListAllAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate()
-					.listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> koms = TestUtils.stravaWithViewPrivate().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort kom : koms) {
 				try {
 					TestUtils.strava().getSegment(kom.getSegment().getId());
@@ -150,36 +178,6 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 				}
 			}
 		});
-	}
-
-	@Override
-	protected ListCallback<StravaSegmentEffort, Integer> lister() {
-		return ((strava, id) -> strava.listAllAthleteKOMs(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override

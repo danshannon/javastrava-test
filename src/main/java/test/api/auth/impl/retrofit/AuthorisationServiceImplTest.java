@@ -122,8 +122,7 @@ public class AuthorisationServiceImplTest {
 			// Perform the token exchange
 			Token tokenResponse = null;
 			try {
-				tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET,
-						"oops wrong code!"); //$NON-NLS-1$
+				tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET, "oops wrong code!"); //$NON-NLS-1$
 			} catch (final BadRequestException e) {
 				// Expected behaviour
 				return;
@@ -184,8 +183,7 @@ public class AuthorisationServiceImplTest {
 			final String code = TestHttpUtils.approveApplication();
 
 			// Perform the token exchange
-			final Token tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET,
-					code);
+			final Token tokenResponse = service.tokenExchange(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET, code);
 			assertNotNull("Token not successfully returned by Strava", tokenResponse); //$NON-NLS-1$
 		});
 	}
@@ -207,8 +205,7 @@ public class AuthorisationServiceImplTest {
 	public void testTokenExchange_viewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Perform the token exchange
-			final Token tokenResponse = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD,
-					AuthorisationScope.VIEW_PRIVATE);
+			final Token tokenResponse = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD, AuthorisationScope.VIEW_PRIVATE);
 			assertNotNull("Token not successfully returned by Strava", tokenResponse); //$NON-NLS-1$
 
 		});
@@ -231,8 +228,7 @@ public class AuthorisationServiceImplTest {
 	public void testTokenExchange_writeAndViewPrivateScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a service implementation
-			final Token token = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD,
-					AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
+			final Token token = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 			assertNotNull("Token not successfully returned by Strava", token); //$NON-NLS-1$
 			// Validate token has write access
 			assertTrue(token.getScopes().contains(AuthorisationScope.WRITE));
@@ -257,8 +253,7 @@ public class AuthorisationServiceImplTest {
 	public void testTokenExchange_writeScope() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Get a token
-			final Token token = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD,
-					AuthorisationScope.WRITE);
+			final Token token = TestHttpUtils.getStravaAccessToken(TestUtils.USERNAME, TestUtils.PASSWORD, AuthorisationScope.WRITE);
 			assertNotNull("Token not successfully returned by Strava", token); //$NON-NLS-1$
 
 			// Validate token has write access
@@ -266,8 +261,7 @@ public class AuthorisationServiceImplTest {
 
 			// test case to prove we've got write access
 			final Strava strava = new Strava(token);
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("AuthorisationServiceImplTest.testTokenExchange_writeScope"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("AuthorisationServiceImplTest.testTokenExchange_writeScope"); //$NON-NLS-1$
 			final StravaActivity response = strava.createManualActivity(activity);
 			strava.deleteActivity(response.getId());
 		});

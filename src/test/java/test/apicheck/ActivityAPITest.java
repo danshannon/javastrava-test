@@ -24,6 +24,10 @@ import test.utils.TestUtils;
  *
  */
 public class ActivityAPITest {
+	private ActivityAPI api() {
+		return API.instance(ActivityAPI.class, TestUtils.getValidToken());
+	}
+
 	@Test
 	public void testAPI_getActivity() throws NotFoundException, JsonSerialisationException, IOException {
 		final Response response = api().getActivity(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, Boolean.FALSE);
@@ -82,10 +86,6 @@ public class ActivityAPITest {
 	public void testAPI_listRelatedActivities() throws NotFoundException, JsonSerialisationException, IOException {
 		final Response response = api().listRelatedActivities(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, null, null);
 		ResponseValidator.validate(response, StravaActivity.class, "listRelatedActivities");
-	}
-
-	private ActivityAPI api() {
-		return API.instance(ActivityAPI.class, TestUtils.getValidToken());
 	}
 
 }

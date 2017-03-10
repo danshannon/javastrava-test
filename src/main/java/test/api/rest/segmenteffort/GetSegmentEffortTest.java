@@ -18,6 +18,41 @@ import test.utils.RateLimitedTestRunner;
 
 public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> {
 	/**
+	 * Check that an effort on a private segment is not returned
+	 *
+	 * @throws Exception
+	 */
+	@Override
+	public void get_private() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// TODO This is a workaround for issue javastravav3api#78
+			if (new Issue78().isIssue()) {
+				return;
+			}
+			// End of workaround
+			super.get_private();
+
+		});
+	}
+
+	/**
+	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
+	 */
+	@Override
+	public void get_privateWithoutViewPrivate() throws Exception {
+		// TODO Workaround for issue 78
+		if (new Issue78().isIssue()) {
+			return;
+		}
+		super.get_privateWithoutViewPrivate();
+	}
+
+	@Override
+	protected APIGetCallback<StravaSegmentEffort, Long> getter() {
+		return ((api, id) -> api.getSegmentEffort(id));
+	}
+
+	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
 	@Override
@@ -74,24 +109,6 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	}
 
 	/**
-	 * Check that an effort on a private segment is not returned
-	 *
-	 * @throws Exception
-	 */
-	@Override
-	public void get_private() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#78
-			if (new Issue78().isIssue()) {
-				return;
-			}
-			// End of workaround
-			super.get_private();
-
-		});
-	}
-
-	/**
 	 * @see test.api.rest.APITest#validate(java.lang.Object)
 	 */
 	@Override
@@ -114,23 +131,6 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 	@Override
 	protected Long validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	/**
-	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
-	 */
-	@Override
-	public void get_privateWithoutViewPrivate() throws Exception {
-		// TODO Workaround for issue 78
-		if (new Issue78().isIssue()) {
-			return;
-		}
-		super.get_privateWithoutViewPrivate();
-	}
-
-	@Override
-	protected APIGetCallback<StravaSegmentEffort, Long> getter() {
-		return ((api, id) -> api.getSegmentEffort(id));
 	}
 
 }

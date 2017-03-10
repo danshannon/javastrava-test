@@ -19,11 +19,6 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
-	@Override
-	protected APIListCallback<StravaPhoto, Long> listCallback() {
-		return ((api, id) -> api.listActivityPhotos(id));
-	}
-
 	/**
 	 * Attempts to list photos for an activity belonging to someone other than the authorised user returns true, unless the authenticated user is following them
 	 */
@@ -35,6 +30,22 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	@Override
 	protected Long invalidId() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#list_private()
+	 */
+	@Override
+	public void list_private() throws Exception {
+		if (new Issue68().isIssue()) {
+			return;
+		}
+		super.list_private();
+	}
+
+	@Override
+	protected APIListCallback<StravaPhoto, Long> listCallback() {
+		return ((api, id) -> api.listActivityPhotos(id));
 	}
 
 	/**
@@ -89,17 +100,6 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	@Override
 	protected Long validIdNoChildren() {
 		return ActivityDataUtils.ACTIVITY_WITHOUT_PHOTOS;
-	}
-
-	/**
-	 * @see test.api.rest.APIListTest#list_private()
-	 */
-	@Override
-	public void list_private() throws Exception {
-		if (new Issue68().isIssue()) {
-			return;
-		}
-		super.list_private();
 	}
 
 }

@@ -22,6 +22,36 @@ import test.utils.TestUtils;
 
 public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort, Integer> {
 	@Override
+	protected Integer idInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return AthleteDataUtils.ATHLETE_WITHOUT_KOMS;
+	}
+
+	@Override
+	protected ListCallback<StravaSegmentEffort, Integer> lister() {
+		return ((strava, id) -> strava.listAthleteKOMs(id));
+	}
+
+	@Override
 	protected PagingListCallback<StravaSegmentEffort, Integer> pagingLister() {
 		return ((strava, paging, id) -> strava.listAthleteKOMs(id, paging));
 	}
@@ -57,8 +87,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate()
-					.listAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
 					TestUtils.strava().getActivity(effort.getActivity().getId());
@@ -86,8 +115,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate()
-					.listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			for (final StravaSegmentEffort effort : efforts) {
 				try {
 					TestUtils.strava().getSegment(effort.getSegment().getId());
@@ -150,36 +178,6 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
 		StravaSegmentEffortTest.validateSegmentEffort(effort);
-	}
-
-	@Override
-	protected ListCallback<StravaSegmentEffort, Integer> lister() {
-		return ((strava, id) -> strava.listAthleteKOMs(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return AthleteDataUtils.ATHLETE_WITHOUT_KOMS;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 }

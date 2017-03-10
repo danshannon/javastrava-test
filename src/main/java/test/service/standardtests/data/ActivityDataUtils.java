@@ -144,6 +144,22 @@ public class ActivityDataUtils {
 	}
 
 	/**
+	 * @param name
+	 *            Name to give to the activity
+	 * @return Activity created
+	 */
+	public static StravaActivity createDefaultActivity(final String name) {
+		final StravaActivity activity = new StravaActivity();
+		activity.setName(name);
+		activity.setType(StravaActivityType.RIDE);
+		activity.setStartDateLocal(LocalDateTime.now());
+		activity.setElapsedTime(new Integer(1000));
+		activity.setDescription("Created by Strava API v3 Java"); //$NON-NLS-1$
+		activity.setDistance(new Float(1000.1F));
+		return activity;
+	}
+
+	/**
 	 * @return Callback used to create activities on Strava
 	 */
 	public static CreateCallback<StravaActivity> creator() {
@@ -162,24 +178,6 @@ public class ActivityDataUtils {
 	}
 
 	/**
-	 * @return Callback used to get activities from Strava
-	 */
-	public static GetCallback<StravaActivity, Long> getter() {
-		return ((strava, id) -> {
-			return strava.getActivity(id);
-		});
-	}
-
-	/**
-	 * Create a valid activity
-	 *
-	 * @return Activity created
-	 */
-	public static StravaActivity generateValidObject() {
-		return createDefaultActivity("CreateManualActivityTest.validActivity"); //$NON-NLS-1$
-	}
-
-	/**
 	 * Create an invalid activity
 	 *
 	 * @return Activity created
@@ -192,19 +190,21 @@ public class ActivityDataUtils {
 	}
 
 	/**
-	 * @param name
-	 *            Name to give to the activity
+	 * Create a valid activity
+	 *
 	 * @return Activity created
 	 */
-	public static StravaActivity createDefaultActivity(final String name) {
-		final StravaActivity activity = new StravaActivity();
-		activity.setName(name);
-		activity.setType(StravaActivityType.RIDE);
-		activity.setStartDateLocal(LocalDateTime.now());
-		activity.setElapsedTime(new Integer(1000));
-		activity.setDescription("Created by Strava API v3 Java"); //$NON-NLS-1$
-		activity.setDistance(new Float(1000.1F));
-		return activity;
+	public static StravaActivity generateValidObject() {
+		return createDefaultActivity("CreateManualActivityTest.validActivity"); //$NON-NLS-1$
+	}
+
+	/**
+	 * @return Callback used to get activities from Strava
+	 */
+	public static GetCallback<StravaActivity, Long> getter() {
+		return ((strava, id) -> {
+			return strava.getActivity(id);
+		});
 	}
 
 }

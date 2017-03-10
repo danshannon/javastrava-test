@@ -18,13 +18,13 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 
 	@Override
-	protected APIListCallback<StravaRoute, Integer> listCallback() {
-		return ((api, id) -> api.listAthleteRoutes(id));
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected APIListCallback<StravaRoute, Integer> listCallback() {
+		return ((api, id) -> api.listAthleteRoutes(id));
 	}
 
 	@Override
@@ -35,6 +35,12 @@ public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected void validate(StravaRoute result) throws Exception {
+		StravaRouteTest.validate(result);
+
 	}
 
 	@Override
@@ -57,12 +63,6 @@ public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaRoute result) throws Exception {
-		StravaRouteTest.validate(result);
-
 	}
 
 }

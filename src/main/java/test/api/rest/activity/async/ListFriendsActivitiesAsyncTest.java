@@ -27,6 +27,14 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	/**
+	 * @see test.api.rest.activity.ListFriendsActivitiesTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaActivity, Integer> listCallback() {
+		return (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
+	}
+
+	/**
 	 * @see test.api.rest.activity.ListFriendsActivitiesTest#pagingCallback()
 	 */
 	@Override
@@ -34,12 +42,32 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 		return paging -> api().listFriendsActivitiesAsync(paging.getPage(), paging.getPageSize()).get();
 	}
 
-	/**
-	 * @see test.api.rest.activity.ListFriendsActivitiesTest#listCallback()
-	 */
+	@SuppressWarnings("boxing")
 	@Override
-	protected APIListCallback<StravaActivity, Integer> listCallback() {
-		return (api, id) -> api.listFriendsActivitiesAsync(null, null).get();
+	@Test
+	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
+			for (final StravaActivity activity : activities) {
+				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity().booleanValue()) {
+					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
+				}
+			}
+		});
+	}
+
+	@SuppressWarnings("boxing")
+	@Override
+	@Test
+	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
+			for (final StravaActivity activity : activities) {
+				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) && activity.getPrivateActivity().booleanValue()) {
+					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
+				}
+			}
+		});
 	}
 
 	/**
@@ -73,36 +101,6 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 					if (activity.getStartDate().isAfter(lastStartDate)) {
 						fail("Activities not returned in descending start date order"); //$NON-NLS-1$
 					}
-				}
-			}
-		});
-	}
-
-	@SuppressWarnings("boxing")
-	@Override
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
-			for (final StravaActivity activity : activities) {
-				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)
-						&& activity.getPrivateActivity().booleanValue()) {
-					fail("Returned private activities belonging to the authenticated user"); //$NON-NLS-1$
-				}
-			}
-		});
-	}
-
-	@SuppressWarnings("boxing")
-	@Override
-	@Test
-	public void testListFriendsActivities_checkPrivateFlagOtherUsers() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
-			for (final StravaActivity activity : activities) {
-				if (!(activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID))
-						&& activity.getPrivateActivity().booleanValue()) {
-					fail("Returned private activities belonging to other users!"); //$NON-NLS-1$
 				}
 			}
 		});

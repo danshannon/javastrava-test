@@ -17,19 +17,18 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListActivityKudoersAsyncTest extends ListActivityKudoersTest {
 	/**
-	 * @see test.api.rest.activity.ListActivityKudoersTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api()
-				.listActivityKudoersAsync(ActivityDataUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
 	 * @see test.api.rest.activity.ListActivityKudoersTest#listCallback()
 	 */
 	@Override
 	protected APIListCallback<StravaAthlete, Long> listCallback() {
 		return (api, id) -> api.listActivityKudoersAsync(id, null, null).get();
+	}
+
+	/**
+	 * @see test.api.rest.activity.ListActivityKudoersTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listActivityKudoersAsync(ActivityDataUtils.ACTIVITY_WITH_KUDOS, paging.getPage(), paging.getPageSize()).get();
 	}
 }

@@ -20,8 +20,8 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Long> {
 
 	@Override
-	protected ListCallback<StravaAthlete, Long> lister() {
-		return ((strava, id) -> strava.listAllActivityKudoers(id));
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Lo
 	}
 
 	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ListCallback<StravaAthlete, Long> lister() {
+		return ((strava, id) -> strava.listAllActivityKudoers(id));
 	}
 
 	@Override

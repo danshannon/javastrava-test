@@ -52,8 +52,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching
-	 * strategy is working)
+	 * Test that when we ask for a {@link GearServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching strategy is working)
 	 * </p>
 	 *
 	 * @throws Exception

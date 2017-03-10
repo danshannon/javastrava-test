@@ -18,8 +18,7 @@ import test.utils.TestUtils;
 
 /**
  * <p>
- * Specific tests for {@link Strava#upload(StravaActivityType, String, String, Boolean, Boolean, Boolean, String, String, File)}
- * methods
+ * Specific tests for {@link Strava#upload(StravaActivityType, String, String, Boolean, Boolean, Boolean, String, String, File)} methods
  * </p>
  *
  * @author Dan Shannon
@@ -38,8 +37,8 @@ public class UploadTest {
 	public void testUpload_badActivityType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.UNKNOWN,
-					"UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, "gpx", "ABC", file); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, //$NON-NLS-1$
+					"gpx", "ABC", file); //$NON-NLS-1$ //$NON-NLS-2$
 			waitForCompletionAndDelete(response);
 		});
 	}
@@ -59,8 +58,7 @@ public class UploadTest {
 			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
 			StravaUploadResponse response = null;
 			try {
-				response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE,
-						"UploadServicesImplTest.testUpload_badDataType", null, null, null, null, //$NON-NLS-1$
+				response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_badDataType", null, null, null, null, //$NON-NLS-1$
 						"UNKNOWN", "ABC", file); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (final IllegalArgumentException e) {
 				// Expected
@@ -99,29 +97,6 @@ public class UploadTest {
 
 	/**
 	 * <p>
-	 * Waits for upload processing to complete for an activity
-	 * </p>
-	 * 
-	 * @param response
-	 * @return The response from Strava confirming that the upload is complete
-	 */
-	@SuppressWarnings("static-method")
-	private StravaUploadResponse waitForUploadCompletion(StravaUploadResponse response) {
-		StravaUploadResponse finalResponse;
-		finalResponse = TestUtils.stravaWithWriteAccess().checkUploadStatus(response.getId());
-		while (finalResponse.getStatus().equals("Your activity is still being processed.")) { //$NON-NLS-1$
-			finalResponse = TestUtils.stravaWithWriteAccess().checkUploadStatus(response.getId());
-			try {
-				Thread.sleep(1000);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-		}
-		return finalResponse;
-	}
-
-	/**
-	 * <p>
 	 * No file content
 	 * </p>
 	 *
@@ -135,8 +110,7 @@ public class UploadTest {
 			final File file = null;
 			StravaUploadResponse response = null;
 			try {
-				response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE,
-						"UploadServicesImplTest.testUpload_noName", null, null, null, null, "gpx", //$NON-NLS-1$ //$NON-NLS-2$
+				response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest.testUpload_noName", null, null, null, null, "gpx", //$NON-NLS-1$ //$NON-NLS-2$
 						"ABC", file); //$NON-NLS-1$
 			} catch (final IllegalArgumentException e) {
 				// Expected
@@ -160,8 +134,7 @@ public class UploadTest {
 	public void testUpload_noName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE, null,
-					"UploadServicesImplTest.testUpload_noName", //$NON-NLS-1$
+			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", //$NON-NLS-1$
 					null, null, null, "gpx", "ABC", file); //$NON-NLS-1$ //$NON-NLS-2$
 			waitForCompletionAndDelete(response);
 		});
@@ -211,8 +184,7 @@ public class UploadTest {
 	public void testUpload_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE,
-					"UploadServicesImplTest", null, null, null, null, //$NON-NLS-1$
+			final StravaUploadResponse response = TestUtils.stravaWithWriteAccess().upload(StravaActivityType.RIDE, "UploadServicesImplTest", null, null, null, null, //$NON-NLS-1$
 					"gpx", "ABC", file); //$NON-NLS-1$ //$NON-NLS-2$
 			waitForCompletionAndDelete(response);
 		});
@@ -252,6 +224,29 @@ public class UploadTest {
 			TestUtils.stravaWithWriteAccess().deleteActivity(localResponse.getActivityId());
 		}
 
+	}
+
+	/**
+	 * <p>
+	 * Waits for upload processing to complete for an activity
+	 * </p>
+	 * 
+	 * @param response
+	 * @return The response from Strava confirming that the upload is complete
+	 */
+	@SuppressWarnings("static-method")
+	private StravaUploadResponse waitForUploadCompletion(StravaUploadResponse response) {
+		StravaUploadResponse finalResponse;
+		finalResponse = TestUtils.stravaWithWriteAccess().checkUploadStatus(response.getId());
+		while (finalResponse.getStatus().equals("Your activity is still being processed.")) { //$NON-NLS-1$
+			finalResponse = TestUtils.stravaWithWriteAccess().checkUploadStatus(response.getId());
+			try {
+				Thread.sleep(1000);
+			} catch (final InterruptedException e) {
+				// ignore
+			}
+		}
+		return finalResponse;
 	}
 
 }

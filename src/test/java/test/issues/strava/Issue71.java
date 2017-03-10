@@ -15,8 +15,7 @@ import javastrava.api.v3.model.StravaSegment;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/71">https://github.com/danshannon/javastravav3api/issues/71</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/71">https://github.com/danshannon/javastravav3api/issues/71</a>
  */
 public class Issue71 extends IssueTest {
 	/**

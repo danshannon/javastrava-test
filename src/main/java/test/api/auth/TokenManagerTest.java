@@ -94,8 +94,7 @@ public class TokenManagerTest {
 		tokenManager.storeToken(token);
 
 		final String username = token.getAthlete().getEmail();
-		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE,
-				AuthorisationScope.WRITE);
+		final Token retrieved = tokenManager.retrieveTokenWithExactScope(username, AuthorisationScope.VIEW_PRIVATE, AuthorisationScope.WRITE);
 		assertEquals(token, retrieved);
 
 	}

@@ -12,11 +12,11 @@ import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
-	protected ArrayCallback<StravaSegment> pagingCallback() {
-		return paging -> api().listStarredSegments(validId(), paging.getPage(), paging.getPageSize());
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -28,11 +28,11 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#invalidId()
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ArrayCallback<StravaSegment> pagingCallback() {
+		return paging -> api().listStarredSegments(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	/**

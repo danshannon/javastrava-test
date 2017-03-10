@@ -50,8 +50,7 @@ public class UpdateAuthenticatedAthleteTest extends APITest<StravaAthlete> {
 	}
 
 	/**
-	 * Attempt to update the authenticated athlete using a token which does not have {@link AuthorisationScope#WRITE} scope. Should
-	 * fail with an {@link UnauthorizedException}
+	 * Attempt to update the authenticated athlete using a token which does not have {@link AuthorisationScope#WRITE} scope. Should fail with an {@link UnauthorizedException}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way

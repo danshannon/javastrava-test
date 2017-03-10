@@ -18,14 +18,6 @@ import test.utils.RateLimitedTestRunner;
 public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesTest {
 
 	/**
-	 * @see test.api.rest.club.ListRecentClubActivitiesTest#pagingCallback()
-	 */
-	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return paging -> api().listRecentClubActivitiesAsync(validId(), paging.getPage(), paging.getPageSize()).get();
-	}
-
-	/**
 	 * @see test.api.rest.club.ListRecentClubActivitiesTest#listCallback()
 	 */
 	@Override
@@ -34,13 +26,20 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	}
 
 	/**
+	 * @see test.api.rest.club.ListRecentClubActivitiesTest#pagingCallback()
+	 */
+	@Override
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRecentClubActivitiesAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	}
+
+	/**
 	 * Check that no activity flagged as private is returned
 	 */
 	@Override
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity[] activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null)
-					.get();
+			final StravaActivity[] activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null).get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
 					fail("List recent club activities returned an activity flagged as private!"); //$NON-NLS-1$

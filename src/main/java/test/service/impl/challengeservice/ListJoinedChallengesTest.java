@@ -17,8 +17,8 @@ import test.service.standardtests.data.ChallengeDataUtils;
 public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, Integer> {
 
 	@Override
-	protected ListCallback<StravaChallenge, Integer> lister() {
-		return (strava, id) -> strava.listJoinedChallenges();
+	protected Integer idInvalid() {
+		return null;
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, In
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return null;
+	protected ListCallback<StravaChallenge, Integer> lister() {
+		return (strava, id) -> strava.listJoinedChallenges();
 	}
 
 	@Override

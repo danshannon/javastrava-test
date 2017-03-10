@@ -18,8 +18,8 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity, Long> {
 	@Override
-	protected ArrayCallback<StravaActivity> pagingCallback() {
-		return paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
+	protected Long invalidId() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 	@Override
@@ -28,8 +28,8 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 	}
 
 	@Override
-	protected Long invalidId() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
+	protected ArrayCallback<StravaActivity> pagingCallback() {
+		return paging -> api().listRelatedActivities(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	@Override

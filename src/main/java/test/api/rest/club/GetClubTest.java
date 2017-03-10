@@ -23,6 +23,11 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class GetClubTest extends APIGetTest<StravaClub, Integer> {
+	@Override
+	protected APIGetCallback<StravaClub, Integer> getter() {
+		return ((api, id) -> api.getClub(id));
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -106,11 +111,6 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected APIGetCallback<StravaClub, Integer> getter() {
-		return ((api, id) -> api.getClub(id));
 	}
 
 }

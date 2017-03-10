@@ -19,6 +19,11 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class GetGearAsyncTest extends GetGearTest {
+	@Override
+	protected APIGetCallback<StravaGear, String> getter() {
+		return ((api, id) -> api.getGearAsync(id).get());
+	}
+
 	@SuppressWarnings("nls")
 	@Override
 	public void testGetGear_otherAthlete() throws Exception {
@@ -31,11 +36,6 @@ public class GetGearAsyncTest extends GetGearTest {
 			}
 			fail("Got gear details for gear belonging to another athlete!");
 		});
-	}
-
-	@Override
-	protected APIGetCallback<StravaGear, String> getter() {
-		return ((api, id) -> api.getGearAsync(id).get());
 	}
 
 }

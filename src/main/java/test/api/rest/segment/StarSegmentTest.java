@@ -29,6 +29,12 @@ public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	}
 
 	@Override
+	protected void validate(StravaSegment result) throws Exception {
+		StravaSegmentTest.validateSegment(result);
+
+	}
+
+	@Override
 	protected Integer validId() {
 		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
@@ -36,11 +42,5 @@ public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaSegment result) throws Exception {
-		StravaSegmentTest.validateSegment(result);
-
 	}
 }

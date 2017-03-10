@@ -30,8 +30,6 @@ public class ListActivityCommentsAsyncTest extends ListActivityCommentsTest {
 	 */
 	@Override
 	protected ArrayCallback<StravaComment> pagingCallback() {
-		return paging -> api()
-				.listActivityCommentsAsync(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize())
-				.get();
+		return paging -> api().listActivityCommentsAsync(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize()).get();
 	}
 }

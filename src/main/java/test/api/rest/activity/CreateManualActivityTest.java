@@ -24,11 +24,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public class CreateManualActivityTest extends APICreateTest<StravaActivity, Integer> {
 	@Override
-	protected APICreateCallback<StravaActivity, Integer> creator() {
-		return ((api, activity, id) -> api.createManualActivity(activity));
-	}
-
-	@Override
 	public void create_invalidParent() throws Exception {
 		return;
 	}
@@ -51,6 +46,11 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	@Override
 	protected StravaActivity createObject() {
 		return ActivityDataUtils.createDefaultActivity("CreateManualActivityTest"); //$NON-NLS-1$
+	}
+
+	@Override
+	protected APICreateCallback<StravaActivity, Integer> creator() {
+		return ((api, activity, id) -> api.createManualActivity(activity));
 	}
 
 	@Override
@@ -109,8 +109,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	}
 
 	/**
-	 * Attempt to create a manual activity with no elapsed time specified. Call to create API should return a
-	 * {@link BadRequestException}
+	 * Attempt to create a manual activity with no elapsed time specified. Call to create API should return a {@link BadRequestException}
 	 * 
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -173,8 +172,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	}
 
 	/**
-	 * Attempt to create a manual activity with no start time specified. Call to create API should return a
-	 * {@link BadRequestException}
+	 * Attempt to create a manual activity with no start time specified. Call to create API should return a {@link BadRequestException}
 	 * 
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -201,8 +199,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	}
 
 	/**
-	 * Attempt to create a manual activity with no start time specified. Call to create API should return a
-	 * {@link BadRequestException}
+	 * Attempt to create a manual activity with no start time specified. Call to create API should return a {@link BadRequestException}
 	 * 
 	 * @throws Exception
 	 *             if the test fails in an unexpected way

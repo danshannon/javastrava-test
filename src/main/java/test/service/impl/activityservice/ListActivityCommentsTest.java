@@ -30,6 +30,41 @@ import test.utils.TestUtils;
  *
  */
 public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment, Long> {
+	@SuppressWarnings("static-method")
+	private void forceDelete(StravaComment comment) {
+		TestUtils.stravaWithFullAccess().deleteComment(comment);
+	}
+
+	@Override
+	protected Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected Long idPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
+	}
+
+	@Override
+	protected Long idPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long idValidWithEntries() {
+		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
+	}
+
+	@Override
+	protected Long idValidWithoutEntries() {
+		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
+	}
+
+	@Override
+	protected ListCallback<StravaComment, Long> lister() {
+		return ((strava, id) -> strava.listActivityComments(id));
+	}
+
 	@Override
 	protected PagingListCallback<StravaComment, Long> pagingLister() {
 		return ((strava, paging, id) -> strava.listActivityComments(id, paging));
@@ -47,11 +82,6 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			assertNotNull(comments);
 			assertEquals(1, comments.size());
 		});
-	}
-
-	@SuppressWarnings("static-method")
-	private void forceDelete(StravaComment comment) {
-		TestUtils.stravaWithFullAccess().deleteComment(comment);
 	}
 
 	/**
@@ -190,36 +220,6 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	protected void validate(final StravaComment comment) {
 		StravaCommentTest.validateComment(comment);
 
-	}
-
-	@Override
-	protected ListCallback<StravaComment, Long> lister() {
-		return ((strava, id) -> strava.listActivityComments(id));
-	}
-
-	@Override
-	protected Long idPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE;
-	}
-
-	@Override
-	protected Long idPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
-	}
-
-	@Override
-	protected Long idValidWithEntries() {
-		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
-	}
-
-	@Override
-	protected Long idValidWithoutEntries() {
-		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
-	}
-
-	@Override
-	protected Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
 }

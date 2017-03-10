@@ -20,14 +20,14 @@ import test.utils.TestUtils;
  *
  */
 public class SegmentEffortAPITest {
+	private SegmentEffortAPI api() {
+		return API.instance(SegmentEffortAPI.class, TestUtils.getValidToken());
+	}
+
 	@Test
 	public void testAPI_getSegmentEffort() throws NotFoundException, JsonSerialisationException, IOException {
 		Response response = api().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID);
 		ResponseValidator.validate(response, StravaSegmentEffort.class, "getSegmentEffort");
-	}
-	
-	private SegmentEffortAPI api() {
-		return API.instance(SegmentEffortAPI.class, TestUtils.getValidToken());
 	}
 
 }

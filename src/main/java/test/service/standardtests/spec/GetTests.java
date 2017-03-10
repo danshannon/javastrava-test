@@ -33,17 +33,6 @@ public interface GetTests<T extends StravaEntity, U> extends PrivacyTests, Stand
 
 	/**
 	 * <p>
-	 * Test that a valid id returns an object as expected
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testGetValidId() throws Exception;
-
-	/**
-	 * <p>
 	 * Test that a null id returns <code>null</code> as expected
 	 * </p>
 	 *
@@ -52,5 +41,16 @@ public interface GetTests<T extends StravaEntity, U> extends PrivacyTests, Stand
 	 */
 	@Test
 	public void testGetNullId() throws Exception;
+
+	/**
+	 * <p>
+	 * Test that a valid id returns an object as expected
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@Test
+	public void testGetValidId() throws Exception;
 
 }

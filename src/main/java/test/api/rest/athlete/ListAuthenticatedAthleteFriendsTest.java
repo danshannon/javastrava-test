@@ -25,11 +25,11 @@ import test.utils.RateLimitedTestRunner;
  */
 public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Integer> {
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listAuthenticatedAthleteFriends(paging.getPage(), paging.getPageSize());
+	protected Integer invalidId() {
+		return null;
 	}
 
 	/**
@@ -41,11 +41,11 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#invalidId()
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
 	@Override
-	protected Integer invalidId() {
-		return null;
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listAuthenticatedAthleteFriends(paging.getPage(), paging.getPageSize());
 	}
 
 	/**

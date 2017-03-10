@@ -27,8 +27,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second, valid, different token, we get a
-	 * DIFFERENT implementation
+	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second, valid, different token, we get a DIFFERENT implementation
 	 * </p>
 	 *
 	 * @throws Exception
@@ -46,8 +45,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 
 	/**
 	 * <p>
-	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second time, we get the SAME ONE as the
-	 * first time (i.e. the caching strategy is working)
+	 * Test that when we ask for a {@link SegmentServiceImpl service implementation} for a second time, we get the SAME ONE as the first time (i.e. the caching strategy is working)
 	 * </p>
 	 *
 	 * @throws Exception

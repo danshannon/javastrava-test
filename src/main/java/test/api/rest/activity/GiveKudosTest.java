@@ -25,11 +25,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	@Override
-	protected APICreateCallback<StravaResponse, Long> creator() {
-		return ((api, response, id) -> api.giveKudos(id));
-	}
-
-	@Override
 	public void create_invalidParent() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
@@ -45,14 +40,6 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 		}
 	}
 
-	@Override
-	public void create_privateParentWithViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to delete activities
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
-			super.create_privateParentWithViewPrivate();
-		}
-	}
-
 	/**
 	 * @see test.api.rest.APICreateTest#create_privateParentWithoutViewPrivate()
 	 */
@@ -61,6 +48,14 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
 			super.create_privateParentWithoutViewPrivate();
+		}
+	}
+
+	@Override
+	public void create_privateParentWithViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+			super.create_privateParentWithViewPrivate();
 		}
 	}
 
@@ -104,6 +99,11 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	@Override
 	protected StravaResponse createObject() {
 		return null;
+	}
+
+	@Override
+	protected APICreateCallback<StravaResponse, Long> creator() {
+		return ((api, response, id) -> api.giveKudos(id));
 	}
 
 	@Override

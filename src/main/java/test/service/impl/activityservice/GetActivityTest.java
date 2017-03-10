@@ -29,6 +29,51 @@ import test.utils.TestUtils;
  *
  */
 public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long> {
+	@Override
+	protected CreateCallback<StravaActivity> creator() throws Exception {
+		return ActivityDataUtils.creator();
+	}
+
+	@Override
+	protected DeleteCallback<StravaActivity> deleter() throws Exception {
+		return ActivityDataUtils.deleter();
+	}
+
+	@Override
+	protected StravaActivity generateInvalidObject() {
+		return ActivityDataUtils.generateInvalidObject();
+	}
+
+	@Override
+	protected StravaActivity generateValidObject() {
+		return ActivityDataUtils.generateValidObject();
+	}
+
+	@Override
+	protected Long getIdInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	protected Long getIdPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE;
+	}
+
+	@Override
+	protected Long getIdPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
+	protected Long getIdValid() {
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+	}
+
+	@Override
+	protected GetCallback<StravaActivity, Long> getter() throws Exception {
+		return ActivityDataUtils.getter();
+	}
+
 	/**
 	 * @throws Exception
 	 *             if the test fails for an unexpected reason
@@ -46,8 +91,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 
 	/**
 	 * <p>
-	 * Test retrieval of a known {@link StravaActivity} that belongs to the authenticated user; it should be a detailed
-	 * {@link StravaResourceState representation}
+	 * Test retrieval of a known {@link StravaActivity} that belongs to the authenticated user; it should be a detailed {@link StravaResourceState representation}
 	 * </p>
 	 *
 	 * @throws Exception
@@ -69,8 +113,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 
 	/**
 	 * <p>
-	 * Test retrieval of a known {@link StravaActivity} that DOES NOT belong to the authenticated user; it should be a summary
-	 * {@link StravaResourceState representation}
+	 * Test retrieval of a known {@link StravaActivity} that DOES NOT belong to the authenticated user; it should be a summary {@link StravaResourceState representation}
 	 * </p>
 	 *
 	 * @throws Exception
@@ -117,8 +160,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 
 	/**
 	 * <p>
-	 * Test retrieval of a known {@link StravaActivity}, without the non-important/hidden efforts being returned (i.e.
-	 * includeAllEfforts = false)
+	 * Test retrieval of a known {@link StravaActivity}, without the non-important/hidden efforts being returned (i.e. includeAllEfforts = false)
 	 * </p>
 	 *
 	 * @throws Exception
@@ -152,51 +194,6 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 			assertNotNull(activity);
 			StravaActivityTest.validate(activity);
 		});
-	}
-
-	@Override
-	protected CreateCallback<StravaActivity> creator() throws Exception {
-		return ActivityDataUtils.creator();
-	}
-
-	@Override
-	protected DeleteCallback<StravaActivity> deleter() throws Exception {
-		return ActivityDataUtils.deleter();
-	}
-
-	@Override
-	protected GetCallback<StravaActivity, Long> getter() throws Exception {
-		return ActivityDataUtils.getter();
-	}
-
-	@Override
-	protected StravaActivity generateValidObject() {
-		return ActivityDataUtils.generateValidObject();
-	}
-
-	@Override
-	protected StravaActivity generateInvalidObject() {
-		return ActivityDataUtils.generateInvalidObject();
-	}
-
-	@Override
-	protected Long getIdValid() {
-		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
-	}
-
-	@Override
-	protected Long getIdInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
-	}
-
-	@Override
-	protected Long getIdPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE;
-	}
-
-	@Override
-	protected Long getIdPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
 	}
 
 	@Override

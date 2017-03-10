@@ -22,6 +22,10 @@ import test.utils.TestUtils;
  *
  */
 public class SegmentAPITest {
+	private SegmentAPI api() {
+		return API.instance(SegmentAPI.class, TestUtils.getValidToken());
+	}
+
 	@Test
 	public void testAPI_getSegment() throws NotFoundException, JsonSerialisationException, IOException {
 		final Response response = api().getSegment(SegmentDataUtils.SEGMENT_VALID_ID);
@@ -44,10 +48,6 @@ public class SegmentAPITest {
 	public void testAPI_listSegmentEfforts() throws NotFoundException, JsonSerialisationException, IOException {
 		final Response response = api().listSegmentEfforts(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, null);
 		ResponseValidator.validate(response, StravaSegmentEffort.class, "listSegmentEfforts");
-	}
-
-	private SegmentAPI api() {
-		return API.instance(SegmentAPI.class, TestUtils.getValidToken());
 	}
 
 }

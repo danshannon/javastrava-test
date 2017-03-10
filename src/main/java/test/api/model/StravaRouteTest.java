@@ -13,11 +13,6 @@ import test.utils.BeanTest;
  */
 public class StravaRouteTest extends BeanTest<StravaRoute> {
 
-	@Override
-	protected Class<StravaRoute> getClassUnderTest() {
-		return StravaRoute.class;
-	}
-
 	/**
 	 * Validate structure and content of a StravaRoute
 	 *
@@ -26,6 +21,11 @@ public class StravaRouteTest extends BeanTest<StravaRoute> {
 	 */
 	public static void validate(StravaRoute route) {
 		// TODO
+	}
+
+	@Override
+	protected Class<StravaRoute> getClassUnderTest() {
+		return StravaRoute.class;
 	}
 
 }

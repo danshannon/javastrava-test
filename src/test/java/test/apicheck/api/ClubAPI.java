@@ -50,8 +50,7 @@ public interface ClubAPI {
 	public Response listClubAnnouncements(@Path("id") Integer clubId);
 
 	/**
-	 * @see javastrava.api.v3.service.ClubService#listClubMembers(Integer,
-	 *      javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ClubService#listClubMembers(Integer, javastrava.util.Paging)
 	 *
 	 * @param id
 	 *            CLub identifier
@@ -64,12 +63,10 @@ public interface ClubAPI {
 	 *             If the club with the given id doesn't exist
 	 */
 	@GET("/clubs/{id}/members")
-	public Response listClubMembers(@Path("id") final Integer id, @Query("page") final Integer page,
-			@Query("per_page") final Integer perPage) throws NotFoundException;
+	public Response listClubMembers(@Path("id") final Integer id, @Query("page") final Integer page, @Query("per_page") final Integer perPage) throws NotFoundException;
 
 	/**
-	 * @see javastrava.api.v3.service.ClubService#listRecentClubActivities(Integer,
-	 *      javastrava.util.Paging)
+	 * @see javastrava.api.v3.service.ClubService#listRecentClubActivities(Integer, javastrava.util.Paging)
 	 *
 	 * @param id
 	 *            Club identifier
@@ -77,13 +74,11 @@ public interface ClubAPI {
 	 *            Page number to be returned (default is 1)
 	 * @param perPage
 	 *            Page size to be returned (default is 50)
-	 * @return Array of activities recently done by club members (maximum 200
-	 *         will be returned)
+	 * @return Array of activities recently done by club members (maximum 200 will be returned)
 	 * @throws NotFoundException
 	 *             If the club with the given id doesn't exist
 	 */
 	@GET("/clubs/{id}/activities")
-	public Response listRecentClubActivities(@Path("id") final Integer id, @Query("page") final Integer page,
-			@Query("per_page") final Integer perPage) throws NotFoundException;
+	public Response listRecentClubActivities(@Path("id") final Integer id, @Query("page") final Integer page, @Query("per_page") final Integer perPage) throws NotFoundException;
 
 }

@@ -18,6 +18,21 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 
 	@Override
+	public Long idInvalid() {
+		return ActivityDataUtils.ACTIVITY_INVALID;
+	}
+
+	@Override
+	public Long idPrivate() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
+	}
+
+	@Override
+	public Long idPrivateBelongsToOtherUser() {
+		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
+	}
+
+	@Override
 	public Long idValidWithEntries() {
 		return ActivityDataUtils.ACTIVITY_WITH_PHOTOS;
 	}
@@ -28,26 +43,8 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 	}
 
 	@Override
-	public Long idPrivateBelongsToOtherUser() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER;
-	}
-
-	@Override
-	public Long idPrivate() {
-		return ActivityDataUtils.ACTIVITY_PRIVATE_WITH_PHOTOS;
-	}
-
-	@Override
-	public Long idInvalid() {
-		return ActivityDataUtils.ACTIVITY_INVALID;
-	}
-
-	@Override
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		if (new Issue68().isIssue()) {
-			return;
-		}
-		super.testPrivateWithViewPrivateScope();
+	protected ListCallback<StravaPhoto, Long> lister() {
+		return ((strava, id) -> strava.listActivityPhotos(id));
 	}
 
 	@Override
@@ -59,8 +56,11 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 	}
 
 	@Override
-	protected ListCallback<StravaPhoto, Long> lister() {
-		return ((strava, id) -> strava.listActivityPhotos(id));
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		if (new Issue68().isIssue()) {
+			return;
+		}
+		super.testPrivateWithViewPrivateScope();
 	}
 
 	@Override

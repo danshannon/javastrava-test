@@ -20,8 +20,7 @@ import test.utils.TestUtils;
  * </p>
  *
  * @author Dan Shannon
- * @see <a href=
- *      "https://github.com/danshannon/javastravav3api/issues/72">https://github.com/danshannon/javastravav3api/issues/72</a>
+ * @see <a href= "https://github.com/danshannon/javastravav3api/issues/72">https://github.com/danshannon/javastravav3api/issues/72</a>
  *
  */
 public class Issue72 extends IssueTest {

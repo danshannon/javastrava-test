@@ -21,62 +21,8 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscription, Integer> {
 
 	@Override
-	public void testPrivateBelongsToOtherUser() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testPrivateBelongsToOtherUser();
-		}
-	}
-
-	@Override
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testPrivateWithViewPrivateScope();
-		}
-	}
-
-	@Override
-	public void testPrivateWithNoViewPrivateScope() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testPrivateWithNoViewPrivateScope();
-		}
-	}
-
-	@Override
-	public void testInvalidId() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testInvalidId();
-		}
-	}
-
-	@Override
-	public void testValidParentWithEntries() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testValidParentWithEntries();
-		}
-	}
-
-	@Override
-	public void testValidParentWithNoEntries() throws Exception {
-		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
-
-			super.testValidParentWithNoEntries();
-		}
-	}
-
-	@Override
-	protected ListCallback<StravaEventSubscription, Integer> lister() {
-		return ((strava, id) -> strava.listSubscriptions());
+	protected Integer idInvalid() {
+		return null;
 	}
 
 	@Override
@@ -100,8 +46,62 @@ public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscriptio
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return null;
+	protected ListCallback<StravaEventSubscription, Integer> lister() {
+		return ((strava, id) -> strava.listSubscriptions());
+	}
+
+	@Override
+	public void testInvalidId() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testInvalidId();
+		}
+	}
+
+	@Override
+	public void testPrivateBelongsToOtherUser() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testPrivateBelongsToOtherUser();
+		}
+	}
+
+	@Override
+	public void testPrivateWithNoViewPrivateScope() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testPrivateWithNoViewPrivateScope();
+		}
+	}
+
+	@Override
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testPrivateWithViewPrivateScope();
+		}
+	}
+
+	@Override
+	public void testValidParentWithEntries() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testValidParentWithEntries();
+		}
+	}
+
+	@Override
+	public void testValidParentWithNoEntries() throws Exception {
+		// Can't run the test unless application has Strava's permission to access the webhooks endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_WEBHOOKS_ENDPOINT) {
+
+			super.testValidParentWithNoEntries();
+		}
 	}
 
 	@Override

@@ -20,11 +20,11 @@ import test.service.standardtests.data.AthleteDataUtils;
  */
 public class ListAthleteKOMsAsyncTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
+	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
-	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
-		return paging -> api().listAthleteKOMsAsync(validId(), paging.getPage(), paging.getPageSize()).get();
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	/**
@@ -36,11 +36,11 @@ public class ListAthleteKOMsAsyncTest extends APIPagingListTest<StravaSegmentEff
 	}
 
 	/**
-	 * @see test.api.rest.APIListTest#invalidId()
+	 * @see test.api.rest.APIPagingListTest#pagingCallback()
 	 */
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
+		return paging -> api().listAthleteKOMsAsync(validId(), paging.getPage(), paging.getPageSize()).get();
 	}
 
 	/**

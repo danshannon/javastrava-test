@@ -29,6 +29,36 @@ import test.utils.TestUtils;
  *
  */
 public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return SegmentDataUtils.SEGMENT_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return SegmentDataUtils.SEGMENT_VALID_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaStream, Integer> lister() {
+		return ((strava, id) -> strava.getSegmentStreams(id));
+	}
+
 	/**
 	 * <p>
 	 * All stream types
@@ -58,8 +88,7 @@ public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer>
 		RateLimitedTestRunner.run(() -> {
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if ((resolutionType != StravaStreamResolutionType.UNKNOWN) && (resolutionType != null)) {
-					final List<StravaStream> streams = TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID,
-							resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
+					final List<StravaStream> streams = TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, resolutionType, StravaStreamSeriesDownsamplingType.DISTANCE);
 					validateList(streams);
 				}
 			}
@@ -81,8 +110,7 @@ public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer>
 			for (final StravaStreamResolutionType resolutionType : StravaStreamResolutionType.values()) {
 				if (resolutionType != StravaStreamResolutionType.UNKNOWN) {
 					try {
-						TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, resolutionType,
-								StravaStreamSeriesDownsamplingType.TIME);
+						TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, resolutionType, StravaStreamSeriesDownsamplingType.TIME);
 					} catch (final IllegalArgumentException e) {
 						// expected
 						return;
@@ -128,8 +156,7 @@ public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer>
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			try {
-				TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, StravaStreamResolutionType.LOW,
-						StravaStreamSeriesDownsamplingType.UNKNOWN);
+				TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, StravaStreamResolutionType.LOW, StravaStreamSeriesDownsamplingType.UNKNOWN);
 			} catch (final IllegalArgumentException e) {
 				// Expected
 				return;
@@ -171,43 +198,12 @@ public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer>
 	@Test
 	public void testGetSegmentStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaStream> streams = TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, null, null,
-					StravaStreamType.DISTANCE);
+			final List<StravaStream> streams = TestUtils.strava().getSegmentStreams(SegmentDataUtils.SEGMENT_VALID_ID, null, null, StravaStreamType.DISTANCE);
 			assertNotNull(streams);
 			assertEquals(1, streams.size());
 			assertEquals(StravaStreamType.DISTANCE, streams.get(0).getType());
 			validateList(streams);
 		});
-	}
-
-	@Override
-	protected ListCallback<StravaStream, Integer> lister() {
-		return ((strava, id) -> strava.getSegmentStreams(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return SegmentDataUtils.SEGMENT_VALID_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
 
 	@Override

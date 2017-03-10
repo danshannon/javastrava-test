@@ -18,34 +18,15 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	@Override
+	protected StravaActivity createObject() {
+		return ActivityDataUtils.createDefaultActivity("DeleteActivityTest"); //$NON-NLS-1$
+	}
+
+	@Override
 	public void delete_invalidParent() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
 			super.delete_invalidParent();
-		}
-	}
-
-	@Override
-	public void delete_privateParentWithViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to delete activities
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-			super.delete_privateParentWithViewPrivate();
-		}
-	}
-
-	@Override
-	public void delete_privateParentWithoutViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to delete activities
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-			super.delete_privateParentWithoutViewPrivate();
-		}
-	}
-
-	@Override
-	public void delete_validParentNoWriteAccess() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to delete activities
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
-			super.delete_validParentNoWriteAccess();
 		}
 	}
 
@@ -58,6 +39,22 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	}
 
 	@Override
+	public void delete_privateParentWithoutViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_privateParentWithoutViewPrivate();
+		}
+	}
+
+	@Override
+	public void delete_privateParentWithViewPrivate() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_privateParentWithViewPrivate();
+		}
+	}
+
+	@Override
 	public void delete_valid() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
@@ -66,13 +63,16 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	}
 
 	@Override
-	protected APIDeleteCallback<StravaActivity, Long> deleter() {
-		return ((api, activity, id) -> api.deleteActivity(id));
+	public void delete_validParentNoWriteAccess() throws Exception {
+		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			super.delete_validParentNoWriteAccess();
+		}
 	}
 
 	@Override
-	protected StravaActivity createObject() {
-		return ActivityDataUtils.createDefaultActivity("DeleteActivityTest"); //$NON-NLS-1$
+	protected APIDeleteCallback<StravaActivity, Long> deleter() {
+		return ((api, activity, id) -> api.deleteActivity(id));
 	}
 
 	@Override

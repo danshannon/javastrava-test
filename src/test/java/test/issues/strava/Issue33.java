@@ -4,9 +4,7 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 
 /**
  * <p>
- * These tests will PASS if issue 33
- * (<a href="https://github.com/danshannon/javastravav3api/issues/33">https://github.com/danshannon/javastravav3api/issues/33)</a>
- * is still an issue.
+ * These tests will PASS if issue 33 (<a href="https://github.com/danshannon/javastravav3api/issues/33">https://github.com/danshannon/javastravav3api/issues/33)</a> is still an issue.
  * </p>
  */
 public class Issue33 extends IssueTest {

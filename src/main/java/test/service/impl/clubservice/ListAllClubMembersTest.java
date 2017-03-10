@@ -24,6 +24,36 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return ClubDataUtils.CLUB_VALID_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaAthlete, Integer> lister() {
+		return ((strava, id) -> strava.listAllClubMembers(id));
+	}
+
 	/**
 	 * <p>
 	 * Check can list all members of a private club that the authenticated user is a member of
@@ -80,36 +110,6 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 				StravaAthleteTest.validateAthlete(athlete);
 			}
 		});
-	}
-
-	@Override
-	protected ListCallback<StravaAthlete, Integer> lister() {
-		return ((strava, id) -> strava.listAllClubMembers(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return ClubDataUtils.CLUB_VALID_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
 	@Override

@@ -30,13 +30,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
-	 * Callback used to call the API create method
-	 *
-	 * @return The creator
-	 */
-	protected abstract APICreateCallback<T, U> creator();
-
-	/**
 	 * <code>true</code> if the response from the API when creating an object is null
 	 */
 	protected boolean createAPIResponseIsNull = false;
@@ -64,8 +57,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	}
 
 	/**
-	 * Attempt to create an object inside a parent that is private and belongs to another user. Creation call should throw an
-	 * {@link UnauthorizedException}
+	 * Attempt to create an object inside a parent that is private and belongs to another user. Creation call should throw an {@link UnauthorizedException}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -87,8 +79,8 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	}
 
 	/**
-	 * Attempt to create an object inside a private parent, using a token that does not have {@link AuthorisationScope#VIEW_PRIVATE
-	 * view_private} scope. Creation call should throw an {@link UnauthorizedException}
+	 * Attempt to create an object inside a private parent, using a token that does not have {@link AuthorisationScope#VIEW_PRIVATE view_private} scope. Creation call should throw an
+	 * {@link UnauthorizedException}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -110,8 +102,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	}
 
 	/**
-	 * Attempt to create an object inside a private parent, using a token that does have {@link AuthorisationScope#VIEW_PRIVATE
-	 * view_private} scope. Creation call should succeed.
+	 * Attempt to create an object inside a private parent, using a token that does have {@link AuthorisationScope#VIEW_PRIVATE view_private} scope. Creation call should succeed.
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -149,8 +140,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	}
 
 	/**
-	 * Attempt to create a valid object inside a parent that belongs to another user (but is not private). Creation call should
-	 * succeed.
+	 * Attempt to create a valid object inside a parent that belongs to another user (but is not private). Creation call should succeed.
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -169,8 +159,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	}
 
 	/**
-	 * Attempt to create a valid object using a token that does not have {@link AuthorisationScope#WRITE} scope. Creation call
-	 * should throw an {@link UnauthorizedException}
+	 * Attempt to create a valid object using a token that does not have {@link AuthorisationScope#WRITE} scope. Creation call should throw an {@link UnauthorizedException}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
@@ -197,6 +186,13 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 	 * @return The object created
 	 */
 	protected abstract T createObject();
+
+	/**
+	 * Callback used to call the API create method
+	 *
+	 * @return The creator
+	 */
+	protected abstract APICreateCallback<T, U> creator();
 
 	/**
 	 * Force delete the object

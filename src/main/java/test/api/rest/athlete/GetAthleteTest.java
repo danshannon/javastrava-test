@@ -24,6 +24,21 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 		return ((api, id) -> api.getAthlete(id));
 	}
 
+	@Override
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected Integer privateId() {
+		return null;
+	}
+
+	@Override
+	protected Integer privateIdBelongsToOtherUser() {
+		return null;
+	}
+
 	/**
 	 * Test getting a private athlete (this will work)
 	 *
@@ -40,18 +55,8 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	}
 
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
-	}
-
-	@Override
-	protected Integer privateId() {
-		return null;
-	}
-
-	@Override
-	protected Integer privateIdBelongsToOtherUser() {
-		return null;
+	protected void validate(final StravaAthlete result) throws Exception {
+		StravaAthleteTest.validateAthlete(result);
 	}
 
 	@Override
@@ -62,11 +67,6 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return AthleteDataUtils.ATHLETE_VALID_ID;
-	}
-
-	@Override
-	protected void validate(final StravaAthlete result) throws Exception {
-		StravaAthleteTest.validateAthlete(result);
 	}
 
 }

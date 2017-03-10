@@ -29,7 +29,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 				return;
 			}
 			fail("Left a non-existent club!");
-		} );
+		});
 	}
 
 	// 2. Valid club which authenticated user is already a member of
@@ -48,7 +48,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 			apiWithWriteAccess().joinClubAsync(id).get();
 
 			assertFalse(member);
-		} );
+		});
 	}
 
 	// Test cases
@@ -65,7 +65,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 			final boolean member = StravaClubTest.checkIsMember(clubs, id);
 
 			assertFalse(member);
-		} );
+		});
 	}
 
 	// 5. Leave a club using a token with no write access
@@ -82,7 +82,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 				return;
 			}
 			fail("Left a club without write access");
-		} );
+		});
 	}
 
 	// 4. Private club which authenticated user is a member of
@@ -102,7 +102,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 			// // Join the club again
 			// serviceWithWriteAccess.joinClub(id);
 			// assertFalse(member);
-		} );
+		});
 	}
 
 }

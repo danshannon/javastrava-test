@@ -29,7 +29,7 @@ import test.utils.TestUtils;
  *
  */
 public abstract class ListMethodTest<T extends StravaEntity, U> implements ListMethodTests {
-	protected abstract ListCallback<T, U> lister();
+	protected abstract U idInvalid();
 
 	protected abstract U idPrivate();
 
@@ -39,16 +39,23 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 
 	protected abstract U idValidWithoutEntries();
 
-	protected abstract U idInvalid();
+	protected abstract ListCallback<T, U> lister();
 
-	protected void validateList(List<T> list) {
-		for (final T object : list) {
-			validate(object);
+	@Override
+	@Test
+	public void testInvalidId() throws Exception {
+		// Don't run if there's no id to run against
+		if (idInvalid() == null) {
+			return;
 		}
 
-	}
+		RateLimitedTestRunner.run(() -> {
+			final List<T> list = lister().getList(TestUtils.strava(), idInvalid());
 
-	protected abstract void validate(T object);
+			// If we get here, we got a list
+			assertNull("Succeeded in getting list of objects for an invalid parent!", list); //$NON-NLS-1$
+		});
+	}
 
 	@Override
 	@Test
@@ -68,24 +75,6 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 
 			// If we get here, we got a list
 			fail("Succeeded in getting list of objects for a private parent that belongs to another user!"); //$NON-NLS-1$
-		});
-
-	}
-
-	@Override
-	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Don't run if there's no id to run against
-		if (idPrivate() == null) {
-			return;
-		}
-
-		RateLimitedTestRunner.run(() -> {
-			final List<T> list = lister().getList(TestUtils.stravaWithViewPrivate(), idPrivate());
-			assertNotNull(list);
-			for (final T object : list) {
-				validate(object);
-			}
 		});
 
 	}
@@ -114,18 +103,20 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 
 	@Override
 	@Test
-	public void testInvalidId() throws Exception {
+	public void testPrivateWithViewPrivateScope() throws Exception {
 		// Don't run if there's no id to run against
-		if (idInvalid() == null) {
+		if (idPrivate() == null) {
 			return;
 		}
 
 		RateLimitedTestRunner.run(() -> {
-			final List<T> list = lister().getList(TestUtils.strava(), idInvalid());
-
-			// If we get here, we got a list
-			assertNull("Succeeded in getting list of objects for an invalid parent!", list); //$NON-NLS-1$
+			final List<T> list = lister().getList(TestUtils.stravaWithViewPrivate(), idPrivate());
+			assertNotNull(list);
+			for (final T object : list) {
+				validate(object);
+			}
 		});
+
 	}
 
 	@Override
@@ -165,6 +156,15 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 			assertNotNull("List returned but was null!", list); //$NON-NLS-1$
 			assertTrue("List returned but contains entries!", (list.size() == 0)); //$NON-NLS-1$
 		});
+	}
+
+	protected abstract void validate(T object);
+
+	protected void validateList(List<T> list) {
+		for (final T object : list) {
+			validate(object);
+		}
+
 	}
 
 }

@@ -20,8 +20,8 @@ import test.service.standardtests.data.AthleteDataUtils;
  */
 public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
 	@Override
-	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
-		return paging -> api().listAthleteKOMs(validId(), paging.getPage(), paging.getPageSize());
+	protected Integer invalidId() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class ListAthleteKOMsTest extends APIPagingListTest<StravaSegmentEffort, 
 	}
 
 	@Override
-	protected Integer invalidId() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
+		return paging -> api().listAthleteKOMs(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 	@Override

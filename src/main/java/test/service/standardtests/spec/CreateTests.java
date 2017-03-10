@@ -10,16 +10,6 @@ package test.service.standardtests.spec;
 public interface CreateTests {
 	/**
 	 * <p>
-	 * Check that you can successfully create an object that contains valid data
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if test fails in an unexpected way
-	 */
-	public void testCreateValidObject() throws Exception;
-
-	/**
-	 * <p>
 	 * Check that you cannot successfully create an object that contains invalid data
 	 * </p>
 	 *
@@ -47,5 +37,15 @@ public interface CreateTests {
 	 *             if test fails in an unexpected way
 	 */
 	public void testCreateNoWriteAccess() throws Exception;
+
+	/**
+	 * <p>
+	 * Check that you can successfully create an object that contains valid data
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if test fails in an unexpected way
+	 */
+	public void testCreateValidObject() throws Exception;
 
 }

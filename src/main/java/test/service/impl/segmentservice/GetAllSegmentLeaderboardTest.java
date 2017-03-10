@@ -23,8 +23,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					null, StravaAgeGroup.AGE65_PLUS, null, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, StravaAgeGroup.AGE65_PLUS, null, null, null, null);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});
@@ -33,8 +32,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					null, null, null, null, ClubDataUtils.CLUB_VALID_ID, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, ClubDataUtils.CLUB_VALID_ID, null);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});
@@ -43,8 +41,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					null, null, null, null, null, StravaLeaderboardDateRange.TODAY);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, null, StravaLeaderboardDateRange.TODAY);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});
@@ -53,8 +50,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					null, null, null, Boolean.TRUE, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, Boolean.TRUE, null, null);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});
@@ -63,8 +59,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					StravaGender.FEMALE, null, null, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, StravaGender.FEMALE, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 			for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
@@ -76,8 +71,7 @@ public class GetAllSegmentLeaderboardTest {
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID,
-					null, null, StravaWeightClass.KG95PLUS, null, null, null);
+			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getAllSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, StravaWeightClass.KG95PLUS, null, null, null);
 			assertNotNull(leaderboard);
 			StravaSegmentLeaderboardTest.validate(leaderboard);
 		});

@@ -36,8 +36,7 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNotNull(effort.getActivity());
 			// NB Don't validate the activity - that way lies 1 Infinite Loop
 			assertNotNull(effort.getAthlete());
-			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(),
-					effort.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
 			assertNotNull(effort.getDistance());
 			assertNotNull(effort.getElapsedTime());
 			// Optional assertNotNull(effort.getKomRank());
@@ -46,8 +45,7 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			// Optional assertNotNull(effort.getPrRank());
 			// Optional assertNotNull(effort.getSegment());
 			if (effort.getSegment() != null) {
-				StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(),
-						effort.getSegment().getResourceState());
+				StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
 			}
 			assertNotNull(effort.getStartDate());
 			assertNotNull(effort.getStartDateLocal());
@@ -57,8 +55,7 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			assertNotNull(effort.getActivity());
 			// NB Don't validate the activity - that way lies 1 Infinite Loop
 			assertNotNull(effort.getAthlete());
-			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(),
-					effort.getAthlete().getResourceState());
+			StravaAthleteTest.validateAthlete(effort.getAthlete(), effort.getAthlete().getId(), effort.getAthlete().getResourceState());
 			assertNotNull(effort.getDistance());
 			assertNotNull(effort.getElapsedTime());
 			// Optional assertNotNull(effort.getKomRank());
@@ -67,8 +64,7 @@ public class StravaBestRunningEffortTest extends BeanTest<StravaBestRunningEffor
 			// Optional assertNotNull(effort.getPrRank());
 			// Optional assertNotNull(effort.getSegment());
 			if (effort.getSegment() != null) {
-				StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(),
-						effort.getSegment().getResourceState());
+				StravaSegmentTest.validateSegment(effort.getSegment(), effort.getSegment().getId(), effort.getSegment().getResourceState());
 			}
 			assertNotNull(effort.getStartDate());
 			assertNotNull(effort.getStartDateLocal());

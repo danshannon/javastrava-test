@@ -10,19 +10,19 @@ import test.service.standardtests.data.AthleteDataUtils;
 
 public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, Integer> {
 	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
-	@Override
-	protected APIListCallback<StravaClub, Integer> listCallback() {
-		return (api, id) -> api.listAuthenticatedAthleteClubs();
-	}
-
-	/**
 	 * @see test.api.rest.APIListTest#invalidId()
 	 */
 	@Override
 	protected Integer invalidId() {
 		return null;
+	}
+
+	/**
+	 * @see test.api.rest.APIListTest#listCallback()
+	 */
+	@Override
+	protected APIListCallback<StravaClub, Integer> listCallback() {
+		return (api, id) -> api.listAuthenticatedAthleteClubs();
 	}
 
 	/**

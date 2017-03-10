@@ -27,34 +27,8 @@ import test.utils.TestUtils;
  */
 public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Override
-	protected PagingListCallback<StravaSegment, Integer> pagingLister() {
-		return ((strava, paging, id) -> strava.listStarredSegments(id, paging));
-	}
-
-	@Override
-	protected ListCallback<StravaSegment, Integer> lister() {
-		return ((strava, id) -> strava.listStarredSegments(id));
-	}
-
-	/**
-	 * <p>
-	 * Test for authenticated user
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testListStarredSegments_authenticatedUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			assertNotNull(segments);
-		});
-	}
-
-	@Override
-	protected void validate(final StravaSegment segment) {
-		StravaSegmentTest.validateSegment(segment);
+	protected Integer idInvalid() {
+		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
 
 	@Override
@@ -78,7 +52,33 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return SegmentDataUtils.SEGMENT_INVALID_ID;
+	protected ListCallback<StravaSegment, Integer> lister() {
+		return ((strava, id) -> strava.listStarredSegments(id));
+	}
+
+	@Override
+	protected PagingListCallback<StravaSegment, Integer> pagingLister() {
+		return ((strava, paging, id) -> strava.listStarredSegments(id, paging));
+	}
+
+	/**
+	 * <p>
+	 * Test for authenticated user
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@Test
+	public void testListStarredSegments_authenticatedUser() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaSegment> segments = lister().getList(TestUtils.strava(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
+			assertNotNull(segments);
+		});
+	}
+
+	@Override
+	protected void validate(final StravaSegment segment) {
+		StravaSegmentTest.validateSegment(segment);
 	}
 }

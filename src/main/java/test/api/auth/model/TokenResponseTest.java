@@ -13,11 +13,6 @@ import test.utils.BeanTest;
  */
 public class TokenResponseTest extends BeanTest<TokenResponse> {
 
-	@Override
-	protected Class<TokenResponse> getClassUnderTest() {
-		return TokenResponse.class;
-	}
-
 	/**
 	 * @param object
 	 *            Token response to be validated
@@ -25,6 +20,11 @@ public class TokenResponseTest extends BeanTest<TokenResponse> {
 	public static void validate(TokenResponse object) {
 		validate(object);
 
+	}
+
+	@Override
+	protected Class<TokenResponse> getClassUnderTest() {
+		return TokenResponse.class;
 	}
 
 }

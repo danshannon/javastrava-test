@@ -59,26 +59,6 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 		}
 	}
 
-	@Override
-	@Test
-	public void testInvalidId() throws Exception {
-		// Can't run the test unless the application has Strava permission to give kudos
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
-
-			RateLimitedTestRunner.run(() -> {
-				try {
-					TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_INVALID);
-				} catch (final NotFoundException e) {
-					// Expected behaviour
-					return;
-				}
-
-				fail("Gave kudos to a non-existent activity"); //$NON-NLS-1$
-
-			});
-		}
-	}
-
 	/**
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
@@ -107,24 +87,6 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 		}
 	}
 
-	@Override
-	@Test
-	public void testPrivateBelongsToOtherUser() throws Exception {
-		// Can't run the test unless the application has Strava permission to give kudos
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
-
-			RateLimitedTestRunner.run(() -> {
-				try {
-					TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
-				} catch (final UnauthorizedException e) {
-					// Expected
-					return;
-				}
-				fail("Gave kudos to a private activity that belongs to another user"); //$NON-NLS-1$
-			});
-		}
-	}
-
 	/**
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
@@ -146,6 +108,44 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 				if (!(new Issue29().isIssue())) {
 					fail("Gave kudos without write access"); //$NON-NLS-1$
 				}
+			});
+		}
+	}
+
+	@Override
+	@Test
+	public void testInvalidId() throws Exception {
+		// Can't run the test unless the application has Strava permission to give kudos
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+
+			RateLimitedTestRunner.run(() -> {
+				try {
+					TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_INVALID);
+				} catch (final NotFoundException e) {
+					// Expected behaviour
+					return;
+				}
+
+				fail("Gave kudos to a non-existent activity"); //$NON-NLS-1$
+
+			});
+		}
+	}
+
+	@Override
+	@Test
+	public void testPrivateBelongsToOtherUser() throws Exception {
+		// Can't run the test unless the application has Strava permission to give kudos
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
+
+			RateLimitedTestRunner.run(() -> {
+				try {
+					TestUtils.stravaWithWriteAccess().giveKudos(ActivityDataUtils.ACTIVITY_PRIVATE_OTHER_USER);
+				} catch (final UnauthorizedException e) {
+					// Expected
+					return;
+				}
+				fail("Gave kudos to a private activity that belongs to another user"); //$NON-NLS-1$
 			});
 		}
 	}

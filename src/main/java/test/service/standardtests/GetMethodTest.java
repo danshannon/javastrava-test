@@ -22,13 +22,74 @@ import test.utils.TestUtils;
  */
 public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements GetTests<T, U> {
 
-	protected abstract U getIdValid();
-
 	protected abstract U getIdInvalid();
 
 	protected abstract U getIdPrivate();
 
 	protected abstract U getIdPrivateBelongsToOtherUser();
+
+	protected abstract U getIdValid();
+
+	@Override
+	@Test
+	public void testGetInvalidId() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			// Don't run if the id to test against is null
+			if (getIdInvalid() == null) {
+				return;
+			}
+
+			final U id = getIdInvalid();
+
+			// If there's Nosaj Thing, then quit
+			if (id == null) {
+				return;
+			}
+
+			// Get the data - it should be null
+			final T object = getter().get(TestUtils.strava(), id);
+
+			assertNull("Retrieved object that has an invalid id!", object); //$NON-NLS-1$
+		});
+	}
+
+	@Override
+	public void testGetNullId() throws Exception {
+		final T object = getter().get(TestUtils.strava(), null);
+		assertNull(object);
+	}
+
+	@Override
+	@Test
+	public void testGetValidId() throws Exception {
+		// Don't run if the id to test against is null
+		if (getIdValid() == null) {
+			return;
+		}
+
+		RateLimitedTestRunner.run(() -> {
+
+			final U id = getIdValid();
+
+			// If there's Nosaj Thing, then quit
+			if (id == null) {
+				return;
+			}
+
+			// Get the data - it should work; if it doesn't there'll be an Exception thrown
+			final T object = getter().get(TestUtils.strava(), id);
+			assertNotNull(object);
+			validate(object);
+		});
+	}
+
+	@Override
+	@Test
+	public void testInvalidId() throws Exception {
+		// Catered for by testGetInvalidId()
+		return;
+
+	}
 
 	@Override
 	@Test
@@ -57,30 +118,6 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 			fail("Retrieved object that is private and belongs to another user!"); //$NON-NLS-1$
 		});
 
-	}
-
-	@Override
-	@Test
-	public void testPrivateWithViewPrivateScope() throws Exception {
-		// Don't run if the id to test against is null
-		if (getIdPrivate() == null) {
-			return;
-		}
-
-		RateLimitedTestRunner.run(() -> {
-
-			final U id = getIdPrivate();
-
-			// If there's Nosaj Thing, then quit
-			if (id == null) {
-				return;
-			}
-
-			// Get the data - it should work; if it doesn't there'll be an UnauthorisedException thrown
-			final T object = getter().get(TestUtils.stravaWithViewPrivate(), id);
-			assertNotNull(object);
-			validate(object);
-		});
 	}
 
 	@Override
@@ -114,63 +151,26 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 
 	@Override
 	@Test
-	public void testInvalidId() throws Exception {
-		// Catered for by testGetInvalidId()
-		return;
-
-	}
-
-	@Override
-	@Test
-	public void testGetInvalidId() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// Don't run if the id to test against is null
-			if (getIdInvalid() == null) {
-				return;
-			}
-
-			final U id = getIdInvalid();
-
-			// If there's Nosaj Thing, then quit
-			if (id == null) {
-				return;
-			}
-
-			// Get the data - it should be null
-			final T object = getter().get(TestUtils.strava(), id);
-
-			assertNull("Retrieved object that has an invalid id!", object); //$NON-NLS-1$
-		});
-	}
-
-	@Override
-	@Test
-	public void testGetValidId() throws Exception {
+	public void testPrivateWithViewPrivateScope() throws Exception {
 		// Don't run if the id to test against is null
-		if (getIdValid() == null) {
+		if (getIdPrivate() == null) {
 			return;
 		}
 
 		RateLimitedTestRunner.run(() -> {
 
-			final U id = getIdValid();
+			final U id = getIdPrivate();
 
 			// If there's Nosaj Thing, then quit
 			if (id == null) {
 				return;
 			}
 
-			// Get the data - it should work; if it doesn't there'll be an Exception thrown
-			final T object = getter().get(TestUtils.strava(), id);
+			// Get the data - it should work; if it doesn't there'll be an UnauthorisedException thrown
+			final T object = getter().get(TestUtils.stravaWithViewPrivate(), id);
 			assertNotNull(object);
 			validate(object);
 		});
-	}
-
-	@Override
-	public void testGetNullId() throws Exception {
-		final T object = getter().get(TestUtils.strava(), null);
-		assertNull(object);
 	}
 
 }

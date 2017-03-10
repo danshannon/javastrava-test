@@ -17,11 +17,6 @@ import test.service.standardtests.data.SegmentDataUtils;
 public class GetSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 
 	@Override
-	protected Integer getIdValid() {
-		return SegmentDataUtils.SEGMENT_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
@@ -34,6 +29,11 @@ public class GetSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
 
 	@Override

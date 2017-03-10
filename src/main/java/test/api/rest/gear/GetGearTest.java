@@ -13,6 +13,11 @@ import test.service.standardtests.data.GearDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 public class GetGearTest extends APIGetTest<StravaGear, String> {
+	@Override
+	protected APIGetCallback<StravaGear, String> getter() {
+		return ((api, id) -> api.getGear(id));
+	}
+
 	/**
 	 * @see test.api.rest.APIGetTest#invalidId()
 	 */
@@ -73,11 +78,6 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 	@Override
 	protected String validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected APIGetCallback<StravaGear, String> getter() {
-		return ((api, id) -> api.getGear(id));
 	}
 
 }

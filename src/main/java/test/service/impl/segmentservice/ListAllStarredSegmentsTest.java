@@ -24,6 +24,31 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_VALID_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
 	/**
 	 * <p>
 	 * List all starred segments for the authenticated athlete
@@ -47,31 +72,6 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 	@Override
 	protected ListCallback<StravaSegment, Integer> lister() {
 		return ((strava, id) -> strava.listAllStarredSegments(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_VALID_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override

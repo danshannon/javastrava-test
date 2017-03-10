@@ -17,11 +17,6 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 	@Override
-	protected Integer getIdValid() {
-		return AthleteDataUtils.ATHLETE_VALID_ID;
-	}
-
-	@Override
 	protected Integer getIdInvalid() {
 		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
@@ -34,6 +29,11 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 	@Override
 	protected Integer getIdPrivateBelongsToOtherUser() {
 		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return AthleteDataUtils.ATHLETE_VALID_ID;
 	}
 
 	@Override

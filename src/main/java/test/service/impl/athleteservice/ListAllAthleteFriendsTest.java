@@ -23,29 +23,9 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Integer> {
-	/**
-	 * <p>
-	 * Test that you can list another athlete's friends
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListAllAthleteFriends_otherAthlete() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthleteFriends(AthleteDataUtils.ATHLETE_VALID_ID);
-			assertNotNull(athletes);
-			for (final StravaAthlete athlete : athletes) {
-				StravaAthleteTest.validateAthlete(athlete);
-			}
-		});
-	}
-
 	@Override
-	protected ListCallback<StravaAthlete, Integer> lister() {
-		return ((strava, id) -> strava.listAllAthleteFriends(id));
+	protected Integer idInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
@@ -69,8 +49,28 @@ public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Int
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	protected ListCallback<StravaAthlete, Integer> lister() {
+		return ((strava, id) -> strava.listAllAthleteFriends(id));
+	}
+
+	/**
+	 * <p>
+	 * Test that you can list another athlete's friends
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testListAllAthleteFriends_otherAthlete() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthleteFriends(AthleteDataUtils.ATHLETE_VALID_ID);
+			assertNotNull(athletes);
+			for (final StravaAthlete athlete : athletes) {
+				StravaAthleteTest.validateAthlete(athlete);
+			}
+		});
 	}
 
 	@Override

@@ -31,6 +31,36 @@ import test.utils.TestUtils;
  */
 public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Override
+	protected Integer idInvalid() {
+		return ClubDataUtils.CLUB_INVALID_ID;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return ClubDataUtils.CLUB_VALID_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaActivity, Integer> lister() {
+		return ((strava, id) -> strava.listRecentClubActivities(id));
+	}
+
+	@Override
 	protected PagingListCallback<StravaActivity, Integer> pagingLister() {
 		return ((strava, paging, id) -> strava.listRecentClubActivities(id, paging));
 	}
@@ -67,8 +97,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	@Test
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID,
-					new Paging(2, 200));
+			List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID, new Paging(2, 200));
 			assertNotNull(activities);
 			assertEquals(0, activities.size());
 			activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_VALID_ID, new Paging(1, 200));
@@ -90,8 +119,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	@Test
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = TestUtils.strava()
-					.listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+			final List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 
 			assertTrue(activities.isEmpty());
 		});
@@ -101,18 +129,15 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 2),
-					ClubDataUtils.CLUB_VALID_ID);
+			final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 2), ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.size());
 			validateList(bothPages);
-			final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1),
-					ClubDataUtils.CLUB_VALID_ID);
+			final List<StravaActivity> firstPage = pagingLister().getList(TestUtils.strava(), new Paging(1, 1), ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(firstPage);
 			assertEquals(1, firstPage.size());
 			validateList(firstPage);
-			final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1),
-					ClubDataUtils.CLUB_VALID_ID);
+			final List<StravaActivity> secondPage = pagingLister().getList(TestUtils.strava(), new Paging(2, 1), ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(secondPage);
 			assertEquals(1, secondPage.size());
 			validateList(secondPage);
@@ -133,35 +158,5 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	protected void validate(final StravaActivity activity) {
 		StravaActivityTest.validate(activity);
 
-	}
-
-	@Override
-	protected ListCallback<StravaActivity, Integer> lister() {
-		return ((strava, id) -> strava.listRecentClubActivities(id));
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return ClubDataUtils.CLUB_VALID_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 }

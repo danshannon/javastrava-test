@@ -18,8 +18,8 @@ import test.service.standardtests.data.RouteDataUtils;
 public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 
 	@Override
-	protected ListCallback<StravaRoute, Integer> lister() {
-		return ((strava, id) -> strava.listAthleteRoutes(id));
+	protected Integer idInvalid() {
+		return RouteDataUtils.ROUTE_INVALID_ID;
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 	}
 
 	@Override
-	protected Integer idInvalid() {
-		return RouteDataUtils.ROUTE_INVALID_ID;
+	protected ListCallback<StravaRoute, Integer> lister() {
+		return ((strava, id) -> strava.listAthleteRoutes(id));
 	}
 
 	@Override

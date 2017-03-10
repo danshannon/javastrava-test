@@ -30,7 +30,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 				return;
 			}
 			fail("Joined a non-existent club!");
-		} );
+		});
 	}
 
 	// 2. Valid club which authenticated user is already a member of
@@ -50,7 +50,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 			assertTrue(response.getSuccess());
 			assertTrue(response.getActive());
 			assertTrue(member);
-		} );
+		});
 	}
 
 	// Test cases
@@ -74,7 +74,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 			assertTrue(response.getSuccess());
 			assertTrue(response.getActive());
 			assertTrue(member);
-		} );
+		});
 	}
 
 	// 5. Attempt to join a club without having write access
@@ -91,7 +91,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 				return;
 			}
 			fail("Joined a club successfully without write access");
-		} );
+		});
 	}
 
 	// 4. Private club which authenticated user is NOT a member of
@@ -109,7 +109,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 			}
 			fail("Joined a private club successfully");
 
-		} );
+		});
 	}
 
 	/**

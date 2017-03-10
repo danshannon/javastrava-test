@@ -28,6 +28,36 @@ import test.utils.TestUtils;
  *
  */
 public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<StravaActivity, Integer> {
+	@Override
+	protected Integer idInvalid() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer idPrivateBelongsToOtherUser() {
+		return null;
+	}
+
+	@Override
+	protected Integer idValidWithEntries() {
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+	}
+
+	@Override
+	protected Integer idValidWithoutEntries() {
+		return null;
+	}
+
+	@Override
+	protected ListCallback<StravaActivity, Integer> lister() {
+		return ((strava, id) -> strava.listAllAuthenticatedAthleteActivities());
+	}
+
 	/**
 	 * <p>
 	 * Test ability to return activities after a specified date and time
@@ -119,6 +149,27 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 
 	/**
 	 * <p>
+	 * Test ability to return correct activities without view_private scope in the token (private activities are NOT allowed in this case)
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in some unexpected way
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testListAllAuthenticatedAthleteActivities_withoutViewPrivate() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities();
+			for (final StravaActivity activity : activities) {
+				if (activity.getPrivateActivity() == Boolean.TRUE) {
+					fail("Returned private activities!"); //$NON-NLS-1$
+				}
+			}
+		});
+	}
+
+	/**
+	 * <p>
 	 * Test ability to return correct activities with view_private scope in the token (private activities are allowed in this case)
 	 * </p>
 	 *
@@ -141,58 +192,6 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 				fail("Didn't return private activities"); //$NON-NLS-1$
 			}
 		});
-	}
-
-	/**
-	 * <p>
-	 * Test ability to return correct activities without view_private scope in the token (private activities are NOT allowed in this
-	 * case)
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in some unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListAllAuthenticatedAthleteActivities_withoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = TestUtils.strava().listAuthenticatedAthleteActivities();
-			for (final StravaActivity activity : activities) {
-				if (activity.getPrivateActivity() == Boolean.TRUE) {
-					fail("Returned private activities!"); //$NON-NLS-1$
-				}
-			}
-		});
-	}
-
-	@Override
-	protected ListCallback<StravaActivity, Integer> lister() {
-		return ((strava, id) -> strava.listAllAuthenticatedAthleteActivities());
-	}
-
-	@Override
-	protected Integer idPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer idPrivateBelongsToOtherUser() {
-		return null;
-	}
-
-	@Override
-	protected Integer idValidWithEntries() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
-	}
-
-	@Override
-	protected Integer idValidWithoutEntries() {
-		return null;
-	}
-
-	@Override
-	protected Integer idInvalid() {
-		return null;
 	}
 
 	@Override

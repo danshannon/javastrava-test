@@ -42,8 +42,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	 *             if not found
 	 */
 	@Override
-	protected StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update)
-			throws Exception {
+	protected StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception {
 		final StravaActivity response = apiWithFullAccess().createManualActivityAsync(activity).get();
 		StravaActivity updateResponse = null;
 		try {
@@ -55,25 +54,6 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 		updateResponse = waitForUpdateCompletion(updateResponse);
 		forceDeleteActivity(response);
 		return updateResponse;
-	}
-
-	/**
-	 * @param updateResponse
-	 *            Strava's response to the update API call
-	 * @return The updated activity
-	 */
-	@Override
-	protected StravaActivity waitForUpdateCompletion(final StravaActivity updateResponse) throws Exception {
-		int i = 0;
-		StravaActivity response = null;
-		while (i < 600) {
-			response = apiWithFullAccess().getActivityAsync(updateResponse.getId(), null).get();
-			i++;
-			if (response.getResourceState() != StravaResourceState.UPDATING) {
-				return response;
-			}
-		}
-		return response;
 	}
 
 	/**
@@ -104,8 +84,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	@Override
 	public void testUpdateActivity_invalidActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_invalidActivity"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_invalidActivity"); //$NON-NLS-1$
 			activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
 			StravaActivity response = null;
@@ -136,8 +115,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_tooManyActivityAttributes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_tooManyActivityAttributes"); //$NON-NLS-1$
 			final StravaActivity update = new StravaActivity();
 
 			final Float cadence = Float.valueOf(67.2f);
@@ -155,8 +133,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	@Override
 	public void testUpdateActivity_unauthenticatedAthletesActivity() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = apiWithWriteAccess()
-					.getActivityAsync(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).get();
+			final StravaActivity activity = apiWithWriteAccess().getActivityAsync(ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, null).get();
 
 			try {
 				apiWithWriteAccess().updateActivityAsync(activity.getId(), new StravaActivityUpdate(activity)).get();
@@ -172,8 +149,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateAllAtOnce() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateAllAtOnce"); //$NON-NLS-1$
 
 			final TextProducer text = Fairy.create().textProducer();
 			final String description = text.sentence();
@@ -214,8 +190,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateCommute() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateCommute"); //$NON-NLS-1$
 			StravaActivity updateResponse = null;
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -235,8 +210,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateDescription() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up test date
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateDescription"); //$NON-NLS-1$
 
 			final TextProducer text = Fairy.create().textProducer();
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -256,8 +230,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateGearId() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearId"); //$NON-NLS-1$
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final String gearId = GearDataUtils.GEAR_VALID_ID;
 			update.setGearId(gearId);
@@ -276,8 +249,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 		RateLimitedTestRunner.run(() -> {
 
 			// Set up all the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateGearIdNone"); //$NON-NLS-1$
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final String gearId = "none"; //$NON-NLS-1$
@@ -296,8 +268,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateName() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateName"); //$NON-NLS-1$
 
 			final TextProducer text = Fairy.create().textProducer();
 
@@ -319,8 +290,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdatePrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivate"); //$NON-NLS-1$
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final Boolean privateFlag = Boolean.TRUE;
@@ -342,8 +312,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 				return;
 			}
 
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdatePrivateNoViewPrivate"); //$NON-NLS-1$
 			activity.setPrivateActivity(Boolean.TRUE);
 
 			// Create the activity
@@ -369,8 +338,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateTrainer() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateTrainer"); //$NON-NLS-1$
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
 			final Boolean trainer = Boolean.TRUE;
@@ -389,8 +357,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	public void testUpdateActivity_validUpdateType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Set up the test data
-			final StravaActivity activity = ActivityDataUtils
-					.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType"); //$NON-NLS-1$
+			final StravaActivity activity = ActivityDataUtils.createDefaultActivity("UpdateActivityTest.testUpdateActivity_validUpdateType"); //$NON-NLS-1$
 			activity.setType(StravaActivityType.ALPINE_SKI);
 
 			final StravaActivityUpdate update = new StravaActivityUpdate();
@@ -404,6 +371,25 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 			StravaActivityTest.validate(response);
 			assertEquals(type, response.getType());
 		});
+	}
+
+	/**
+	 * @param updateResponse
+	 *            Strava's response to the update API call
+	 * @return The updated activity
+	 */
+	@Override
+	protected StravaActivity waitForUpdateCompletion(final StravaActivity updateResponse) throws Exception {
+		int i = 0;
+		StravaActivity response = null;
+		while (i < 600) {
+			response = apiWithFullAccess().getActivityAsync(updateResponse.getId(), null).get();
+			i++;
+			if (response.getResourceState() != StravaResourceState.UPDATING) {
+				return response;
+			}
+		}
+		return response;
 	}
 
 }

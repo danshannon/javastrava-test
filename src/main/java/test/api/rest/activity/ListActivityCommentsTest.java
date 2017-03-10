@@ -23,6 +23,17 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
+	@SuppressWarnings("boxing")
+	@Override
+	protected APIListCallback<StravaComment, Long> listCallback() {
+		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));
+	}
+
+	@Override
+	protected ArrayCallback<StravaComment> pagingCallback() {
+		return ((paging) -> api().listActivityComments(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(), paging.getPageSize()));
+	}
+
 	@Override
 	protected Long privateId() {
 		return ActivityDataUtils.ACTIVITY_PRIVATE;
@@ -62,18 +73,6 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 	@Override
 	protected Long validIdNoChildren() {
 		return ActivityDataUtils.ACTIVITY_WITHOUT_COMMENTS;
-	}
-
-	@SuppressWarnings("boxing")
-	@Override
-	protected APIListCallback<StravaComment, Long> listCallback() {
-		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));
-	}
-
-	@Override
-	protected ArrayCallback<StravaComment> pagingCallback() {
-		return ((paging) -> api().listActivityComments(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, null, paging.getPage(),
-				paging.getPageSize()));
 	}
 
 }

@@ -14,13 +14,13 @@ import javastrava.json.impl.gson.serializer.RouteSubTypeSerializer;
 public class RouteSubTypeSerializerTest extends EnumSerializerTest<StravaRouteSubType> {
 
 	@Override
-	protected StravaRouteSubType getUnknownValue() {
-		return StravaRouteSubType.UNKNOWN;
+	public Class<StravaRouteSubType> getClassUnderTest() {
+		return StravaRouteSubType.class;
 	}
 
 	@Override
-	public Class<StravaRouteSubType> getClassUnderTest() {
-		return StravaRouteSubType.class;
+	protected StravaRouteSubType getUnknownValue() {
+		return StravaRouteSubType.UNKNOWN;
 	}
 
 }
