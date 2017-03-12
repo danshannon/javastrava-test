@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
@@ -15,42 +16,35 @@ import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests and config for {@link API#listClubMembers(Integer, Integer, Integer)}
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
 public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Integer> {
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Integer invalidId() {
 		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaAthlete, Integer> listCallback() {
 		return (api, id) -> api.listClubMembers(id, null, null);
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaAthlete> pagingCallback() {
 		return paging -> api().listClubMembers(validId(), paging.getPage(), paging.getPageSize());
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
 	protected Integer privateId() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
@@ -74,7 +68,13 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 		});
 	}
 
-	// 4. Private club of which current authenticated athlete is NOT a member
+	/**
+	 * Private club of which current authenticated athlete is NOT a member
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -84,7 +84,7 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 				// Expected
 				return;
 			}
-			fail("Returned list of members for a club of which the authenticated athlete is not a member!");
+			fail("Returned list of members for a club of which the authenticated athlete is not a member!"); //$NON-NLS-1$
 		});
 	}
 
@@ -94,9 +94,6 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {
@@ -104,25 +101,16 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 		}
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
 	@Override
 	protected Integer validId() {
 		return ClubDataUtils.CLUB_VALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdNoChildren()
-	 */
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;

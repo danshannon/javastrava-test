@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
 import test.api.model.StravaActivityTest;
@@ -18,43 +19,36 @@ import test.issues.strava.Issue94;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests and config for {@link API#listRecentClubActivities(Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivity, Integer> {
 
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Integer invalidId() {
 		return ClubDataUtils.CLUB_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaActivity, Integer> listCallback() {
 		return (api, id) -> api.listRecentClubActivities(id, null, null);
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaActivity> pagingCallback() {
 		return paging -> api().listRecentClubActivities(validId(), paging.getPage(), paging.getPageSize());
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
 	protected Integer privateId() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
@@ -62,21 +56,30 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 
 	/**
 	 * Check that no activity flagged as private is returned
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] activities = api().listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null);
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
-					fail("List recent club activities returned an activity flagged as private!");
+					fail("List recent club activities returned an activity flagged as private!"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
-	// 4. StravaClub with > 200 activities (according to Strava, should only
-	// return a max of 200 results)
+	/**
+	 * StravaClub with > 200 activities (according to Strava, should only return a max of 200 results)
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -90,8 +93,13 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 		});
 	}
 
-	// 3. StravaClub the current authenticated athlete is NOT a member of
-	// (according to Strava should return 0 results)
+	/**
+	 * StravaClub the current authenticated athlete is NOT a member of (according to Strava should return 0 results)
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListRecentClubActivities_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -101,12 +109,14 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 				// expected
 				return;
 			}
-			fail("Got list of recent activities for a club the authenticated user is not a member of");
+			fail("Got list of recent activities for a club the authenticated user is not a member of"); //$NON-NLS-1$
 		});
 	}
 
-	// This is a workaround for issue javastrava-api #18
-	// (https://github.com/danshannon/javastravav3api/issues/18)
+	/**
+	 * This is a workaround for issue javastrava-api #18 (https://github.com/danshannon/javastravav3api/issues/18)
+	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -142,9 +152,6 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {
@@ -152,9 +159,6 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 		}
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
 	@Override
 	protected Integer validId() {
 		return ClubDataUtils.CLUB_VALID_ID;
