@@ -1,7 +1,10 @@
 package test.service.impl.challengeservice;
 
+import java.util.List;
+
 import javastrava.api.v3.model.StravaChallenge;
 import javastrava.api.v3.service.Strava;
+import javastrava.config.JavastravaApplicationConfig;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ChallengeDataUtils;
@@ -49,6 +52,62 @@ public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, In
 	@Override
 	protected void validate(StravaChallenge object) {
 		ChallengeDataUtils.validate(object);
+	}
+
+	@Override
+	public void testInvalidId() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testInvalidId();
+		}
+	}
+
+	@Override
+	public void testPrivateBelongsToOtherUser() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testPrivateBelongsToOtherUser();
+		}
+	}
+
+	@Override
+	public void testPrivateWithNoViewPrivateScope() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testPrivateWithNoViewPrivateScope();
+		}
+	}
+
+	@Override
+	public void testPrivateWithViewPrivateScope() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testPrivateWithViewPrivateScope();
+		}
+	}
+
+	@Override
+	public void testValidParentWithEntries() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testValidParentWithEntries();
+		}
+	}
+
+	@Override
+	public void testValidParentWithNoEntries() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.testValidParentWithNoEntries();
+		}
+	}
+
+	@Override
+	protected void validateList(List<StravaChallenge> list) {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+			super.validateList(list);
+		}
 	}
 
 }

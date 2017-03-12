@@ -46,9 +46,9 @@ public abstract class EnumSerializerTest<T extends Enum<T>> extends SerializerTe
 	 */
 	@Test
 	public void testDeserializeUnexpectedValue() throws JsonSerialisationException {
-		final String serialized = "-9999"; //$NON-NLS-1$
-		final T deserialized = this.util.deserialise(serialized, getClassUnderTest());
-		assertEquals(deserialized, getUnknownValue());
+		final String serialised = "-9999"; //$NON-NLS-1$
+		final T deserialised = this.util.deserialise(serialised, getClassUnderTest());
+		assertEquals(getUnknownValue(), deserialised);
 	}
 
 	/**
