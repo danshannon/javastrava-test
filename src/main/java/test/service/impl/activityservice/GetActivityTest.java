@@ -190,7 +190,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	@Test
 	public void testGetActivity_run() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
+			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_RUN_WITH_SEGMENTS);
 			assertNotNull(activity);
 			StravaActivityTest.validate(activity);
 		});

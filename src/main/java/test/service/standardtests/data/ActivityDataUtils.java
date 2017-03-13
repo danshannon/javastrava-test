@@ -341,8 +341,8 @@ public class ActivityDataUtils {
 	private static StravaSplit testSplit(StravaResourceState resourceState, StravaMeasurementMethod measurementMethod) {
 		final StravaSplit split = new StravaSplit();
 
-		split.setAverageHeartrate(random.nextInt(175));
-		split.setAverageSpeed(random.nextInt(45));
+		split.setAverageHeartrate(random.nextFloat() * 175);
+		split.setAverageSpeed(random.nextFloat() * 45);
 		split.setDistance(random.nextFloat() * 10000);
 		split.setElapsedTime(random.nextInt(3600));
 		split.setElevationDifference(random.nextFloat() * 1000);

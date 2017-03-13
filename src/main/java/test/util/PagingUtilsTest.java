@@ -57,7 +57,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_ignoreFirstNLargerThanMaxPageSize() {
 		// One page of MAX+2 elements, ignoring the first MAX+1
@@ -80,7 +80,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_ignoreLastNLargerThanMaxPageSize() {
 		// One page of MAX+2 elements, ignoring the last MAX+1
@@ -99,7 +99,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_large() {
 		final List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(2, 201));
@@ -120,7 +120,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_sequence() {
 		List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(1, StravaConfig.MAX_PAGE_SIZE));
@@ -132,7 +132,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_small() {
 		final List<Paging> paging = PagingUtils.convertToStravaPaging(new Paging(7, 11));
@@ -173,6 +173,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testIgnoreFirstN_nullList() {
 		final List<String> list = null;
@@ -238,6 +239,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testIgnoreLastN_nullList() {
 		final List<String> list = null;
@@ -275,7 +277,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testValidatePagingArguments_ignoreFirstNGreaterThanPageSize() {
 		final Paging paging = new Paging(1, StravaConfig.MAX_PAGE_SIZE, StravaConfig.MAX_PAGE_SIZE + 1, 0);
@@ -291,7 +293,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testValidatePagingArguments_ignoreLastNGreaterThanPageSize() {
 		final Paging paging = new Paging(1, StravaConfig.MAX_PAGE_SIZE, 0, StravaConfig.MAX_PAGE_SIZE + 1);
@@ -307,7 +309,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testValidatePagingArguments_negativePage() {
 		final Paging paging = new Paging(-1, 0);
@@ -323,7 +325,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testValidatePagingArguments_negativePageSize() {
 		final Paging paging = new Paging(1, -1);
@@ -339,6 +341,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test conversion to Strava-format paging parameters
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testValidatePagingArguments_nullPagingInstruction() {
 		final Paging paging = null;

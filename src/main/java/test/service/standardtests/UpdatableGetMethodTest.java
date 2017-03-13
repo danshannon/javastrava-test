@@ -13,7 +13,7 @@ import test.utils.TestUtils;
  * @param <U>
  *            The object type's identifier class
  */
-public abstract class UpdatableGetMethodTest<T extends StravaEntity, U> extends GetMethodTest<T, U> {
+public abstract class UpdatableGetMethodTest<T extends StravaEntity<U>, U> extends GetMethodTest<T, U> {
 
 	protected abstract CreateCallback<T> creator() throws Exception;
 

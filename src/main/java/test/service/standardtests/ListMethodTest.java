@@ -3,14 +3,12 @@ package test.service.standardtests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaEntity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.spec.ListMethodTests;
 import test.utils.RateLimitedTestRunner;
@@ -66,15 +64,10 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 		}
 
 		RateLimitedTestRunner.run(() -> {
-			try {
-				lister().getList(TestUtils.stravaWithViewPrivate(), idPrivateBelongsToOtherUser());
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
+			final List<T> list = lister().getList(TestUtils.stravaWithViewPrivate(), idPrivateBelongsToOtherUser());
 
-			// If we get here, we got a list
-			fail("Succeeded in getting list of objects for a private parent that belongs to another user!"); //$NON-NLS-1$
+			// Private parent should result in an empty list
+			assertTrue(list.isEmpty());
 		});
 
 	}
@@ -88,15 +81,11 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 		}
 
 		RateLimitedTestRunner.run(() -> {
-			try {
-				lister().getList(TestUtils.strava(), idPrivate());
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
+			final List<T> results = lister().getList(TestUtils.strava(), idPrivate());
 
-			// If we get here, we got a list
-			fail("Succeeded in getting list of objects for a private parent when token has no view_private scope!"); //$NON-NLS-1$
+			// List method should return an empty list if the entity is private
+			assertTrue(results.isEmpty());
+
 		});
 
 	}

@@ -134,6 +134,9 @@ public class JoinClubTest extends APITest<StravaClub> {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
+			// Leave first, just to be sure
+			apiWithFullAccess().leaveClub(id);
+
 			try {
 				apiWithWriteAccess().joinClub(id);
 			} catch (final UnauthorizedException e) {

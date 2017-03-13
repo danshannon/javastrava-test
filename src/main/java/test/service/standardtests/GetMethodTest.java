@@ -1,13 +1,13 @@
 package test.service.standardtests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaEntity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import test.service.standardtests.spec.GetTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -20,7 +20,7 @@ import test.utils.TestUtils;
  * @param <U>
  *            The object type's identifier class
  */
-public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements GetTests<T, U> {
+public abstract class GetMethodTest<T extends StravaEntity<U>, U> extends MethodTest<T, U> implements GetTests<T, U> {
 
 	protected abstract U getIdInvalid();
 
@@ -108,14 +108,8 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 			}
 
 			// Get the data
-			try {
-				getter().get(TestUtils.strava(), id);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-
-			fail("Retrieved object that is private and belongs to another user!"); //$NON-NLS-1$
+			final T object = getter().get(TestUtils.strava(), id);
+			assertEquals(StravaResourceState.PRIVATE, object.getResourceState());
 		});
 
 	}
@@ -137,15 +131,9 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 				return;
 			}
 
-			// Get the data - it should throw an UnauthorisedException
-			try {
-				getter().get(TestUtils.strava(), id);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-
-			fail("Retrieved object that is private, and token does not have view_private scope!"); //$NON-NLS-1$
+			// Get the data - it should return an object with resource state PRIVATE
+			final T object = getter().get(TestUtils.strava(), id);
+			assertEquals(StravaResourceState.PRIVATE, object.getResourceState());
 		});
 	}
 

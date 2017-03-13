@@ -15,6 +15,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.StravaUnknownAPIException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.config.JavastravaApplicationConfig;
 import test.api.model.StravaActivityTest;
 import test.api.rest.activity.UpdateActivityTest;
 import test.issues.strava.Issue72;
@@ -43,6 +44,9 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	 */
 	@Override
 	protected StravaActivity createUpdateAndDelete(final StravaActivity activity, final StravaActivityUpdate update) throws Exception {
+		if (!JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+			fail("Can't create test data because Strava will not allow it to be deleted"); //$NON-NLS-1$
+		}
 		final StravaActivity response = apiWithFullAccess().createManualActivityAsync(activity).get();
 		StravaActivity updateResponse = null;
 		try {
@@ -54,6 +58,7 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 		updateResponse = waitForUpdateCompletion(updateResponse);
 		forceDeleteActivity(response);
 		return updateResponse;
+
 	}
 
 	/**
@@ -308,6 +313,10 @@ public class UpdateActivityAsyncTest extends UpdateActivityTest {
 	@Override
 	public void testUpdateActivity_validUpdatePrivateNoViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (!JavastravaApplicationConfig.STRAVA_ALLOWS_ACTIVITY_DELETE) {
+				fail("Can't create test data because Strava will not allow it to be deleted"); //$NON-NLS-1$
+			}
+
 			if (new Issue72().isIssue()) {
 				return;
 			}

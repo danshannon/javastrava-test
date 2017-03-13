@@ -196,9 +196,9 @@ public class ClubDataUtils {
 			assertNotNull(club.getPrivateClub());
 			assertNotNull(club.getProfile());
 			assertNotNull(club.getProfileMedium());
-			assertNull(club.getSportType());
+			assertNotNull(club.getSportType());
 			// Optional assertNotNull(club.getState());
-			assertNull(club.getUrl());
+			// Optional assertNull(club.getUrl());
 			assertNull(club.getVerified());
 			return;
 		}
