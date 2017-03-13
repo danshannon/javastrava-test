@@ -8,10 +8,10 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
-import test.api.model.StravaClubTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -70,14 +70,14 @@ public class ListAuthenticatedAthleteClubsTest extends ListMethodTest<StravaClub
 			assertNotNull(clubs);
 			assertFalse(clubs.size() == 0);
 			for (final StravaClub club : clubs) {
-				StravaClubTest.validate(club);
+				ClubDataUtils.validate(club);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(StravaClub object) {
-		StravaClubTest.validate(object);
+		ClubDataUtils.validate(object);
 	}
 
 }

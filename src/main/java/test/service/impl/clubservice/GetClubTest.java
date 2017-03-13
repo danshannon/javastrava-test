@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.reference.StravaResourceState;
-import test.api.model.StravaClubTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.ClubDataUtils;
@@ -62,7 +61,7 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 		RateLimitedTestRunner.run(() -> {
 			final StravaClub club = TestUtils.strava().getClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
-			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
+			ClubDataUtils.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
@@ -85,13 +84,13 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 			comparison.setResourceState(StravaResourceState.PRIVATE);
 			assertNotNull(club);
 			assertEquals(comparison, club);
-			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
+			ClubDataUtils.validate(club, ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, club.getResourceState());
 		});
 	}
 
 	@Override
 	protected void validate(StravaClub club) {
-		StravaClubTest.validate(club);
+		ClubDataUtils.validate(club);
 
 	}
 

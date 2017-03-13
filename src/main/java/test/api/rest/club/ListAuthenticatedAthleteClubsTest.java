@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaClubTest;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.ClubDataUtils;
 
 /**
  * <p>
@@ -40,13 +40,13 @@ public class ListAuthenticatedAthleteClubsTest extends APIListTest<StravaClub, I
 
 	@Override
 	protected void validate(final StravaClub result) throws Exception {
-		StravaClubTest.validate(result);
+		ClubDataUtils.validate(result);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaClub[] list) {
-		StravaClubTest.validateList(Arrays.asList(list));
+		ClubDataUtils.validateList(Arrays.asList(list));
 
 	}
 

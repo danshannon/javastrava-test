@@ -33,6 +33,7 @@ import javastrava.api.v3.model.StravaSegmentExplorerResponse;
 import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
 import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
+import javastrava.api.v3.model.StravaSimilarActivities;
 import javastrava.api.v3.model.StravaSplit;
 import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.model.StravaStatisticsEntry;
@@ -47,12 +48,12 @@ import retrofit.client.Response;
 public class ResponseValidator {
 	private static JsonUtilImpl util = new JsonUtilImpl();
 
-	private static void compareJsonObjects(final JsonElement output, final JsonElement jsonElement, final Set<String> errors, final String prefix) {
-		for (final Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
+	private static void compareJsonObjects(final JsonElement output, final JsonElement inputElement, final Set<String> errors, final String prefix) {
+		for (final Entry<String, JsonElement> entry : inputElement.getAsJsonObject().entrySet()) {
 			final String name = entry.getKey();
 			final JsonElement element = entry.getValue();
 			if (!(element.isJsonNull()) && (output.getAsJsonObject().get(name) == null)) {
-				errors.add("No element named '" + prefix + "." + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				errors.add("No element named '" + prefix + "." + name + "' returned by round-tripping "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 	}
@@ -66,13 +67,12 @@ public class ResponseValidator {
 		String errorString = ""; //$NON-NLS-1$
 		if (!errors.isEmpty()) {
 			for (final String error : errors) {
-				errorString = errorString + error + "; "; //$NON-NLS-1$
+				errorString = errorString + System.getProperty("line.separator") + error + "; "; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		if (errorString.length() == 0) {
 			return null;
 		}
-		System.out.println(errorString);
 		return errorString;
 	}
 
@@ -100,7 +100,7 @@ public class ResponseValidator {
 
 		validateElement(inputElement, errors, class1, prefix);
 		final String message = errors(errors);
-		assertNull(message, message);
+		assertNull(message);
 
 	}
 
@@ -154,6 +154,14 @@ public class ResponseValidator {
 		final JsonElement startLatLng = element.getAsJsonObject().get("start_latlng"); //$NON-NLS-1$
 		if (startLatLng != null) {
 			validateElement(startLatLng, errors, StravaMapPoint.class, prefix + ".start_latlng"); //$NON-NLS-1$
+		}
+		final JsonElement laps = element.getAsJsonObject().get("laps"); //$NON-NLS-1$
+		if (laps != null) {
+			validateElement(laps, errors, StravaLap.class, prefix + ".laps"); //$NON-NLS-1$
+		}
+		final JsonElement similarActivities = element.getAsJsonObject().get("similar_activities"); //$NON-NLS-1$
+		if (similarActivities != null) {
+			validateElement(similarActivities, errors, StravaSimilarActivities.class, prefix + ".similar_activities"); //$NON-NLS-1$
 		}
 
 	}

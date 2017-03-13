@@ -117,7 +117,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	 */
 	@Override
 	protected void validate(final StravaClub result) throws Exception {
-		StravaClubTest.validate(result);
+		ClubDataUtils.validate(result);
 
 	}
 

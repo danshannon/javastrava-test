@@ -144,7 +144,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	 */
 	@Override
 	protected void validate(final StravaClub result) throws Exception {
-		StravaClubTest.validate(result);
+		ClubDataUtils.validate(result);
 
 	}
 

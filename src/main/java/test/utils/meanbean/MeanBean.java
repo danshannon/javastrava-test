@@ -8,10 +8,16 @@ import java.util.TimeZone;
 
 import org.meanbean.test.BeanTester;
 
+import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.model.StravaPhoto;
+import javastrava.api.v3.model.StravaPhotoSizes;
 import javastrava.api.v3.model.StravaSegment;
 import test.utils.meanbean.factory.CalendarFactory;
 import test.utils.meanbean.factory.LocalDateFactory;
 import test.utils.meanbean.factory.LocalDateTimeFactory;
+import test.utils.meanbean.factory.StravaActivityFactory;
+import test.utils.meanbean.factory.StravaPhotoFactory;
+import test.utils.meanbean.factory.StravaPhotoSizesFactory;
 import test.utils.meanbean.factory.StravaSegmentFactory;
 import test.utils.meanbean.factory.TimeZoneFactory;
 import test.utils.meanbean.factory.ZonedDateTimeFactory;
@@ -37,6 +43,9 @@ public class MeanBean {
 		tester.setIterations(1);
 		tester.getFactoryCollection().addFactory(TimeZone.class, new TimeZoneFactory());
 		tester.getFactoryCollection().addFactory(Calendar.class, new CalendarFactory());
+		tester.getFactoryCollection().addFactory(StravaActivity.class, new StravaActivityFactory());
+		tester.getFactoryCollection().addFactory(StravaPhoto.class, new StravaPhotoFactory());
+		tester.getFactoryCollection().addFactory(StravaPhotoSizes.class, new StravaPhotoSizesFactory());
 		tester.getFactoryCollection().addFactory(StravaSegment.class, new StravaSegmentFactory());
 		tester.getFactoryCollection().addFactory(LocalDateTime.class, new LocalDateTimeFactory());
 		tester.getFactoryCollection().addFactory(ZonedDateTime.class, new ZonedDateTimeFactory());

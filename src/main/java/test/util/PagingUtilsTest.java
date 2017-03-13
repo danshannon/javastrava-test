@@ -43,7 +43,7 @@ public class PagingUtilsTest {
 	/**
 	 * Test default values
 	 */
-	@SuppressWarnings("boxing")
+	@SuppressWarnings({ "boxing", "static-method" })
 	@Test
 	public void testConvertToStravaPaging_defaultValueTest() {
 		final List<Paging> pagingList = PagingUtils.convertToStravaPaging(new Paging(0, 0));

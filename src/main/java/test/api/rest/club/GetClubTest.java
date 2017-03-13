@@ -8,7 +8,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaClubTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ClubDataUtils;
@@ -64,7 +63,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 		RateLimitedTestRunner.run(() -> {
 			final StravaClub club = api().getClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(club);
-			StravaClubTest.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
+			ClubDataUtils.validate(club, ClubDataUtils.CLUB_PRIVATE_MEMBER_ID, club.getResourceState());
 		});
 	}
 
@@ -93,7 +92,7 @@ public class GetClubTest extends APIGetTest<StravaClub, Integer> {
 	 */
 	@Override
 	protected void validate(final StravaClub result) throws Exception {
-		StravaClubTest.validate(result);
+		ClubDataUtils.validate(result);
 
 	}
 

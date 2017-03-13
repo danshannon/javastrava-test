@@ -13,6 +13,7 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.ClubDataUtils;
 import test.utils.BeanTest;
 
 /**
@@ -58,7 +59,7 @@ public class StravaAthleteTest extends BeanTest<StravaAthlete> {
 			// Optional assertNotNull(athlete.getCity());
 			assertNotNull(athlete.getClubs());
 			for (final StravaClub club : athlete.getClubs()) {
-				StravaClubTest.validate(club);
+				ClubDataUtils.validate(club);
 			}
 			// Optional assertNotNull(athlete.getCountry());
 			assertNotNull(athlete.getCreatedAt());
