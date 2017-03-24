@@ -10,7 +10,7 @@ import test.service.standardtests.data.SegmentDataUtils;
  * <p>
  * Specific tests for getSegment methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -37,7 +37,7 @@ public class GetSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaSegment, Integer> getter() throws Exception {
+	protected GetCallback<StravaSegment, Integer> getter() {
 		return ((strava, id) -> strava.getSegment(id));
 	}
 

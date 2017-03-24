@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
@@ -18,10 +19,15 @@ import test.issues.strava.Issue81;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#listAuthenticatedAthleteStarredSegments(Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Integer invalidId() {
 		return null;
@@ -58,9 +64,6 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		}
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#list_validParent()
-	 */
 	@Override
 	public void list_validParent() throws Exception {
 		if (new Issue25().isIssue()) {
@@ -69,41 +72,26 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		super.list_validParent();
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaSegment, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteStarredSegments(null, null);
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaSegment> pagingCallback() {
 		return paging -> api().listAuthenticatedAthleteStarredSegments(paging.getPage(), paging.getPageSize());
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
 	protected Integer privateId() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#testPageNumberAndSize()
-	 */
 	@Override
 	public void testPageNumberAndSize() throws Exception {
 		if (new Issue25().isIssue()) {
@@ -112,9 +100,6 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		super.testPageNumberAndSize();
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#testPageSize()
-	 */
 	@Override
 	public void testPageSize() throws Exception {
 		if (new Issue25().isIssue()) {
@@ -125,7 +110,6 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 
 	@Override
 	protected void validate(final StravaSegment segment) {
-		// TODO This is a workaround for issue javastravav3api#81
 		try {
 			if (new Issue81().isIssue()) {
 				return;
@@ -133,39 +117,26 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		} catch (final Exception e) {
 			// ignore
 		}
-		// End of workaround
 		StravaSegmentTest.validateSegment(segment);
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaSegment[] list) {
 		StravaSegmentTest.validateList(Arrays.asList(list));
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
 	@Override
 	protected Integer validId() {
 		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdNoChildren()
-	 */
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;

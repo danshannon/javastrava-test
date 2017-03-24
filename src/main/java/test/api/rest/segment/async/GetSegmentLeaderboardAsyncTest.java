@@ -16,6 +16,7 @@ import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.util.Paging;
 import test.api.model.StravaSegmentLeaderboardEntryTest;
@@ -27,13 +28,19 @@ import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author Dan Shanon
+ * <p>
+ * Specific config and tests for
+ * {@link API#getSegmentLeaderboardAsync(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
  *
  */
 public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 	/**
 	 * @see test.api.rest.util.ArrayCallback#getArray(javastrava.util.Paging)
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public StravaSegmentLeaderboardEntry[] getArray(final Paging paging) throws Exception {
 		final List<StravaSegmentLeaderboardEntry> list = api().getSegmentLeaderboardAsync(validId(), null, null, null, null, null, null, paging.getPage(), paging.getPageSize(), 0).get().getEntries();
@@ -122,7 +129,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 				// expected
 				return;
 			}
-			fail("Got leaderboard for an invalid club!");
+			fail("Got leaderboard for an invalid club!"); //$NON-NLS-1$
 		});
 	}
 
@@ -159,10 +166,11 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 				// expected
 				return;
 			}
-			fail("Returned leaderboard for a segment flagged as hazardous");
+			fail("Returned leaderboard for a segment flagged as hazardous"); //$NON-NLS-1$
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -190,6 +198,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -203,6 +212,7 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public void testPagingOutOfRangeHigh() throws Exception {
 		RateLimitedTestRunner.run(() -> {

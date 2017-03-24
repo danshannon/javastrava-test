@@ -18,7 +18,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for getSegmentEffort methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -44,7 +44,7 @@ public class GetSegmentEffortTest extends GetMethodTest<StravaSegmentEffort, Lon
 	}
 
 	@Override
-	protected GetCallback<StravaSegmentEffort, Long> getter() throws Exception {
+	protected GetCallback<StravaSegmentEffort, Long> getter() {
 		return ((strava, id) -> strava.getSegmentEffort(id));
 	}
 

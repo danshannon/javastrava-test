@@ -199,7 +199,7 @@ public class ClubDataUtils {
 			assertNotNull(club.getSportType());
 			// Optional assertNotNull(club.getState());
 			// Optional assertNull(club.getUrl());
-			assertNull(club.getVerified());
+			// assertNull(club.getVerified());
 			return;
 		}
 		if ((state == StravaResourceState.META) || (state == StravaResourceState.PRIVATE)) {

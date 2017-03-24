@@ -14,14 +14,14 @@ import test.service.standardtests.callbacks.GetCallback;
 public abstract class MethodTest<T extends StravaEntity, U> {
 	/**
 	 * @return Callback which can be used to get the required Strava entity
-	 * @throws Exception
 	 */
-	protected abstract GetCallback<T, U> getter() throws Exception;
+	protected abstract GetCallback<T, U> getter();
 
 	/**
-	 * Validate the
-	 * 
+	 * Validate the object's structure and content
+	 *
 	 * @param object
+	 *            The object to be validated
 	 */
 	protected abstract void validate(T object);
 

@@ -38,7 +38,7 @@ public class GetAuthenticatedAthleteZonesTest extends GetMethodTest<StravaAthlet
 	}
 
 	@Override
-	protected GetCallback<StravaAthleteZones, Integer> getter() throws Exception {
+	protected GetCallback<StravaAthleteZones, Integer> getter() {
 		return ((strava, id) -> strava.getAuthenticatedAthleteZones());
 	}
 

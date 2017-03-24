@@ -24,7 +24,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <T>
  *            The type of Strava entity being returned
  * @param <U>
- *            The identifier used
+ *            The class of the parent identifier used
  */
 public abstract class APIPagingListTest<T extends StravaEntity, U> extends APIListTest<T, U> {
 	/**

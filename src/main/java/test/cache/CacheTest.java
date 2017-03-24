@@ -21,6 +21,10 @@ import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
 /**
+ * <p>
+ * Test caching behaviour
+ * </p>
+ *
  * @author Dan Shannon
  *
  */
@@ -43,8 +47,6 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	/**
 	 * Generates and populates a cache of athletes
 	 *
-	 * @param token
-	 *            The token to use
 	 * @param populate
 	 *            Should the returned cache be populated
 	 * @return The cache, populated with athletes (list of friends of the authenticated user) if required

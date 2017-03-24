@@ -17,7 +17,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for get club methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -43,7 +43,7 @@ public class GetClubTest extends GetMethodTest<StravaClub, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaClub, Integer> getter() throws Exception {
+	protected GetCallback<StravaClub, Integer> getter() {
 		return ((strava, id) -> strava.getClub(id));
 	}
 

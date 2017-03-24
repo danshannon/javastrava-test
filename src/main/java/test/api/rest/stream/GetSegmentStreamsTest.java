@@ -10,6 +10,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
@@ -20,31 +21,36 @@ import test.issues.strava.Issue90;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#getSegmentStreams(Integer, String, StravaStreamResolutionType, StravaStreamSeriesDownsamplingType)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	/**
 	 * @return List of all valid stream types that can be requested
 	 */
 	protected static String getAllStreamTypes() {
 		final StravaStreamType[] types = StravaStreamType.values();
-		String list = "";
+		String list = ""; //$NON-NLS-1$
 
 		for (final StravaStreamType type : types) {
 			if (type != StravaStreamType.UNKNOWN) {
-				list = list + type.getValue() + ",";
+				list = list + type.getValue() + ","; //$NON-NLS-1$
 			}
 		}
 		return list;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
-	 */
 	@Override
 	public void get_privateWithoutViewPrivate() throws Exception {
-		// TODO Workaround for issue #87
 		if (new Issue87().isIssue()) {
 			return;
 		}
+
 		super.get_privateWithoutViewPrivate();
 	}
 
@@ -53,31 +59,28 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 		return ((api, id) -> api.getSegmentStreams(id, StravaStreamType.DISTANCE.toString(), null, null));
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#invalidId()
-	 */
 	@Override
 	protected Integer invalidId() {
 		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#privateId()
-	 */
 	@Override
 	protected Integer privateId() {
 		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
-	// 4. All stream types
+	/**
+	 * All stream types
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -86,7 +89,13 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 		});
 	}
 
-	// 7. Downsampled by distance
+	/**
+	 * Downsampled by distance
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_downsampledByDistance() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -99,8 +108,13 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 		});
 	}
 
-	// 6. Downsampled by time - can't be done for segment streams as there's no
-	// time element
+	/**
+	 * Downsampled by time - can't be done for segment streams as there's no time element
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -115,13 +129,19 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 						// expected
 						return;
 					}
-					fail("Can't return a segment stream which is downsampled by TIME!");
+					fail("Can't return a segment stream which is downsampled by TIME!"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
-	// 9. Invalid downsample resolution
+	/**
+	 * Invalid downsample resolution
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -131,11 +151,17 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample resolution");
+			fail("Didn't throw an exception when asking for an invalid downsample resolution"); //$NON-NLS-1$
 		});
 	}
 
-	// 10. Invalid downsample type (i.e. not distance or time)
+	/**
+	 * Invalid downsample type (i.e. not distance or time)
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -145,11 +171,17 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample type");
+			fail("Didn't throw an exception when asking for an invalid downsample type"); //$NON-NLS-1$
 		});
 	}
 
-	// 8. Invalid stream type
+	/**
+	 * Invalid stream type
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -162,11 +194,17 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 				// Expected
 				return;
 			}
-			fail("Should have got a BadRequestException, but didn't");
+			fail("Should have got a BadRequestException, but didn't"); //$NON-NLS-1$
 		});
 	}
 
-	// 5. Only one stream type
+	/**
+	 * Only one stream type
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -178,9 +216,6 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 		});
 	}
 
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
 	@Override
 	protected void validate(final StravaStream[] result) throws Exception {
 		for (final StravaStream stream : result) {
@@ -189,7 +224,13 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 
 	}
 
-	protected void validateArray(final StravaStream[] streams) {
+	/**
+	 * Validate an array of streams
+	 * 
+	 * @param streams
+	 *            The streams to be validated
+	 */
+	protected static void validateArray(final StravaStream[] streams) {
 		for (final StravaStream stream : streams) {
 			StravaStreamTest.validate(stream);
 		}

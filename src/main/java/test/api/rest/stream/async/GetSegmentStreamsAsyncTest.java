@@ -13,6 +13,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import test.api.rest.callback.APIGetCallback;
 import test.api.rest.stream.GetSegmentStreamsTest;
@@ -22,7 +23,11 @@ import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * <p>
+ * Specific config and tests for {@link API#getSegmentStreamsAsync(Integer, String, StravaStreamResolutionType, StravaStreamSeriesDownsamplingType)}
+ * </p>
+ * 
+ * @author Dan Shannon
  *
  */
 public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
@@ -32,7 +37,6 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 		return ((api, id) -> api.getSegmentStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get());
 	}
 
-	// 4. All stream types
 	@Override
 	@Test
 	public void testGetSegmentStreams_allStreamTypes() throws Exception {
@@ -42,7 +46,6 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 		});
 	}
 
-	// 7. Downsampled by distance
 	@Override
 	@Test
 	public void testGetSegmentStreams_downsampledByDistance() throws Exception {
@@ -57,8 +60,6 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 		});
 	}
 
-	// 6. Downsampled by time - can't be done for segment streams as there's no
-	// time element
 	@Override
 	@Test
 	public void testGetSegmentStreams_downsampledByTime() throws Exception {
@@ -74,13 +75,12 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 						// expected
 						return;
 					}
-					fail("Can't return a segment stream which is downsampled by TIME!");
+					fail("Can't return a segment stream which is downsampled by TIME!"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
-	// 9. Invalid downsample resolution
 	@Override
 	@Test
 	public void testGetSegmentStreams_invalidDownsampleResolution() throws Exception {
@@ -91,11 +91,10 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample resolution");
+			fail("Didn't throw an exception when asking for an invalid downsample resolution"); //$NON-NLS-1$
 		});
 	}
 
-	// 10. Invalid downsample type (i.e. not distance or time)
 	@Override
 	@Test
 	public void testGetSegmentStreams_invalidDownsampleType() throws Exception {
@@ -106,11 +105,10 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample type");
+			fail("Didn't throw an exception when asking for an invalid downsample type"); //$NON-NLS-1$
 		});
 	}
 
-	// 8. Invalid stream type
 	@Override
 	@Test
 	public void testGetSegmentStreams_invalidStreamType() throws Exception {
@@ -124,11 +122,10 @@ public class GetSegmentStreamsAsyncTest extends GetSegmentStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Should have got a BadRequestException, but didn't");
+			fail("Should have got a BadRequestException, but didn't"); //$NON-NLS-1$
 		});
 	}
 
-	// 5. Only one stream type
 	@Override
 	@Test
 	public void testGetSegmentStreams_oneStreamType() throws Exception {

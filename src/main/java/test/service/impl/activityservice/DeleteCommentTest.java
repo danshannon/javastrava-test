@@ -27,12 +27,12 @@ import test.utils.TestUtils;
  */
 public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> {
 	@Override
-	protected CreateCallback<StravaComment> creator() throws Exception {
+	protected CreateCallback<StravaComment> creator() {
 		return CommentDataUtils.stravaCreator();
 	}
 
 	@Override
-	protected DeleteCallback<StravaComment> deleter() throws Exception {
+	protected DeleteCallback<StravaComment> deleter() {
 		return CommentDataUtils.deleter();
 	}
 
@@ -47,7 +47,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	protected GetCallback<StravaComment, Integer> getter() throws Exception {
+	protected GetCallback<StravaComment, Integer> getter() {
 		return CommentDataUtils.getter();
 	}
 
@@ -211,7 +211,8 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 		// Can only perform the test if application-level permission is on
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 
-			// TODO can't currently test this
+			// can't currently test this
+			return;
 		}
 	}
 

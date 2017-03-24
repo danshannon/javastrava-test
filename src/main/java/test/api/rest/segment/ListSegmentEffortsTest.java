@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
@@ -26,10 +27,15 @@ import test.service.standardtests.data.SegmentDataUtils;
 import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests and config for {@link API#listSegmentEfforts(Integer, Integer, String, String, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffort, Integer> {
-	/**
-	 * @see test.api.rest.APIListTest#invalidId()
-	 */
 	@Override
 	protected Integer invalidId() {
 		return SegmentDataUtils.SEGMENT_INVALID_ID;
@@ -37,58 +43,49 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	@Override
 	public void list_privateBelongsToOtherUser() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#86
 		if (new Issue86().isIssue()) {
 			return;
 		}
-		// End of workaround
 
 		super.list_privateBelongsToOtherUser();
 	}
 
 	@Override
 	public void list_privateWithoutViewPrivate() throws Exception {
-		// TODO This is a workaround for issue javastravav3api#86
 		if (new Issue86().isIssue()) {
 			return;
 		}
-		// End of workaround
 
 		super.list_privateWithoutViewPrivate();
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaSegmentEffort, Integer> listCallback() {
 		return (api, id) -> api.listSegmentEfforts(id, null, null, null, null, null);
 	}
 
-	/**
-	 * @see test.api.rest.APIPagingListTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaSegmentEffort> pagingCallback() {
 		return paging -> api().listSegmentEfforts(validId(), null, null, null, paging.getPage(), paging.getPageSize());
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateId()
-	 */
 	@Override
 	protected Integer privateId() {
 		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
+	/**
+	 * Test filtering by all available parameters at the same time
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testListSegmentEfforts_filterByAll() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -110,7 +107,12 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 		});
 	}
 
-	// 7. Filter by date range, valid segment
+	/**
+	 * Filter by date range, valid segment
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
 	@Test
 	public void testListSegmentEfforts_filterByDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -129,7 +131,13 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 		});
 	}
 
-	// 4. Filter by invalid athlete, valid segment
+	/**
+	 * Filter by invalid athlete, valid segment
+	 * 
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListSegmentEfforts_filterByInvalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -139,11 +147,16 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 				// expected
 				return;
 			}
-			fail("Returned segment efforts for a non-existent athlete");
+			fail("Returned segment efforts for a non-existent athlete"); //$NON-NLS-1$
 		});
 	}
 
-	// 3. Filter by valid athlete, valid segment
+	/**
+	 * Filter by valid athlete, valid segment
+	 * 
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
 	@Test
 	public void testListSegmentEfforts_filterByValidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -157,15 +170,20 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 		});
 	}
 
+	/**
+	 * Test behaviour when listing efforts for a hazardous segment
+	 * 
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListSegmentEfforts_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for issue javastravav3api#33
 			final Issue33 issue33 = new Issue33();
 			if (issue33.isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(SegmentDataUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
 			assertNotNull(efforts);
@@ -173,6 +191,13 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 		});
 	}
 
+	/**
+	 * Test listing segment efforts filtered by an activity which is flagged as private, using a token which does not have view_private scope
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListSegmentEfforts_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -183,6 +208,13 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 		});
 	}
 
+	/**
+	 * Test listing segment efforts filtered by an activity which is flagged as private, using a token which does have view_private scope
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListSegmentEfforts_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -199,34 +231,22 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaSegmentEffort[] list) {
 		StravaSegmentEffortTest.validateList(Arrays.asList(list));
 
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validId()
-	 */
 	@Override
 	protected Integer validId() {
 		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validIdNoChildren()
-	 */
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
@@ -15,6 +16,14 @@ import test.api.rest.club.JoinClubTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests and config for {@link API#joinClubAsync(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class JoinClubAsyncTest extends JoinClubTest {
 	// 3. Invalid club
 	@Override
@@ -29,11 +38,11 @@ public class JoinClubAsyncTest extends JoinClubTest {
 				// expected
 				return;
 			}
-			fail("Joined a non-existent club!");
+			fail("Joined a non-existent club!"); //$NON-NLS-1$
 		});
 	}
 
-	// 2. Valid club which authenticated user is already a member of
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testJoinClub_member() throws Exception {
@@ -53,8 +62,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 		});
 	}
 
-	// Test cases
-	// 1. Valid club which authenticated user is not already a member of
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
@@ -77,7 +85,6 @@ public class JoinClubAsyncTest extends JoinClubTest {
 		});
 	}
 
-	// 5. Attempt to join a club without having write access
 	@Override
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
@@ -90,11 +97,10 @@ public class JoinClubAsyncTest extends JoinClubTest {
 				// expected
 				return;
 			}
-			fail("Joined a club successfully without write access");
+			fail("Joined a club successfully without write access"); //$NON-NLS-1$
 		});
 	}
 
-	// 4. Private club which authenticated user is NOT a member of
 	@Override
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
@@ -107,7 +113,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 				// expected
 				return;
 			}
-			fail("Joined a private club successfully");
+			fail("Joined a private club successfully"); //$NON-NLS-1$
 
 		});
 	}

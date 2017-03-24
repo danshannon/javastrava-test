@@ -1,12 +1,21 @@
 package test.api.rest.segment;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.APITest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.SegmentDataUtils;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#starSegment(Integer, Boolean)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 	@Override
 	protected APIGetCallback<StravaSegment, Integer> getter() {

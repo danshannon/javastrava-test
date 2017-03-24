@@ -25,8 +25,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <T>
  *            Class of object being deleted
  * @param <U>
- *            Class of identifier of the parent (so mostly, Integer or Long)
- *
+ *            Class of identifier of the object
  */
 public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T> {
 	/**

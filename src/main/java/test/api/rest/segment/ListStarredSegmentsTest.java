@@ -3,6 +3,7 @@ package test.api.rest.segment;
 import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
@@ -10,6 +11,14 @@ import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.service.standardtests.data.AthleteDataUtils;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#listStarredSegments(Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, Integer> {
 	/**
 	 * @see test.api.rest.APIListTest#invalidId()
@@ -53,7 +62,6 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 
 	@Override
 	protected void validate(final StravaSegment segment) {
-		// This is a workaround for issue javastravav3api#25
 		try {
 			if (new Issue25().isIssue()) {
 				return;
@@ -61,13 +69,10 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 		} catch (final Exception e) {
 			// ignore
 		}
-		// End of workaround
+
 		StravaSegmentTest.validateSegment(segment);
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#validateArray(java.lang.Object[])
-	 */
 	@Override
 	protected void validateArray(final StravaSegment[] list) {
 		// This is a workaround for issue javastravav3api#25

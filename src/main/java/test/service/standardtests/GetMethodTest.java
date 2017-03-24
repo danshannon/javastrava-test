@@ -20,14 +20,26 @@ import test.utils.TestUtils;
  * @param <U>
  *            The object type's identifier class
  */
-public abstract class GetMethodTest<T extends StravaEntity<U>, U> extends MethodTest<T, U> implements GetTests<T, U> {
+public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements GetTests<T, U> {
 
+	/**
+	 * @return Identifier for an entity that does not exist on Strava
+	 */
 	protected abstract U getIdInvalid();
 
+	/**
+	 * @return Identifier for an entity that exists on Strava, belongs to the authenticated user, and is flagged as private
+	 */
 	protected abstract U getIdPrivate();
 
+	/**
+	 * @return Identifier for an entity that exists on Strava, belongs to someone other than the authenticated user, and is flagged as private
+	 */
 	protected abstract U getIdPrivateBelongsToOtherUser();
 
+	/**
+	 * @return Identifier for an entity that exists on Strava, belongs to the authenticated user, and is NOT flagged as private
+	 */
 	protected abstract U getIdValid();
 
 	@Override

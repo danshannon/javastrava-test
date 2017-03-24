@@ -20,7 +20,7 @@ import test.utils.RateLimitedTestRunner;
  * @param <T>
  *            Class of object being retrieved
  * @param <U>
- *            Class of identifier of the parent (so mostly, Integer or Long)
+ *            Class of identifier of the object (so mostly, Integer or Long)
  *
  */
 public abstract class APIGetTest<T, U> extends APITest<T> {

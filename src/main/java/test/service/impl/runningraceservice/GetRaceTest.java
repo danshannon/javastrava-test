@@ -29,7 +29,7 @@ public class GetRaceTest extends GetMethodTest<StravaRunningRace, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaRunningRace, Integer> getter() throws Exception {
+	protected GetCallback<StravaRunningRace, Integer> getter() {
 		return (strava, id) -> strava.getRace(id);
 	}
 

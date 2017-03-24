@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaActivity;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
 import test.api.rest.callback.APIListCallback;
@@ -15,6 +16,14 @@ import test.issues.strava.Issue94;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#listRecentClubActivitiesAsync(Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesTest {
 
 	/**

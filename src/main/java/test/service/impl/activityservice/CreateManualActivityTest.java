@@ -28,12 +28,12 @@ import test.utils.TestUtils;
  */
 public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, Long> {
 	@Override
-	protected CreateCallback<StravaActivity> creator() throws Exception {
+	protected CreateCallback<StravaActivity> creator() {
 		return ActivityDataUtils.creator();
 	}
 
 	@Override
-	protected DeleteCallback<StravaActivity> deleter() throws Exception {
+	protected DeleteCallback<StravaActivity> deleter() {
 		return ActivityDataUtils.deleter();
 	}
 
@@ -54,7 +54,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 	}
 
 	@Override
-	protected GetCallback<StravaActivity, Long> getter() throws Exception {
+	protected GetCallback<StravaActivity, Long> getter() {
 		return ActivityDataUtils.getter();
 	}
 

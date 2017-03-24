@@ -74,7 +74,7 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaAthlete, Integer> getter() throws Exception {
+	protected GetCallback<StravaAthlete, Integer> getter() {
 		return ((strava, id) -> strava.getAthlete(id));
 	}
 

@@ -34,16 +34,40 @@ import test.utils.TestUtils;
  *            The class of the object's identifier (e.g. for comments, the class of the id of the comment - so an Integer)
  */
 public abstract class DeleteMethodTest<T extends StravaEntity, U> extends MethodTest<T, U> implements DeleteTests, StandardTests, PrivacyTests {
-	protected abstract CreateCallback<T> creator() throws Exception;
+	/**
+	 * @return The callback to use to create test data
+	 */
+	protected abstract CreateCallback<T> creator();
 
-	protected abstract DeleteCallback<T> deleter() throws Exception;
+	/**
+	 * @return The callback to use to delete test data
+	 */
+	protected abstract DeleteCallback<T> deleter();
 
+	/**
+	 * Force deletes the given object
+	 *
+	 * @param object
+	 *            The object to be deleted
+	 * @throws Exception
+	 *             if something goes wrong in an unexpected way
+	 */
 	protected void forceDelete(T object) throws Exception {
 		this.deleter().delete(TestUtils.stravaWithFullAccess(), object);
 	}
 
+	/**
+	 * Create test data - an object which is not valid for persisting to Strava
+	 *
+	 * @return An invalid object
+	 */
 	protected abstract T generateInvalidObject();
 
+	/**
+	 * Create test data - an object which is valid for persisting to Strava
+	 *
+	 * @return A valid object
+	 */
 	protected abstract T generateValidObject();
 
 	@Override

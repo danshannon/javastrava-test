@@ -1,11 +1,20 @@
 package test.api.rest.runningrace;
 
 import javastrava.api.v3.model.StravaRunningRace;
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaRunningRaceTest;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.service.standardtests.data.RunningRaceDataUtils;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#listRaces(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
 	@Override
@@ -13,9 +22,6 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIListTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaRunningRace, Integer> listCallback() {
 		return (api, id) -> api.listRaces(null);

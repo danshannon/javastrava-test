@@ -70,7 +70,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	}
 
 	@Override
-	protected GetCallback<StravaActivity, Long> getter() throws Exception {
+	protected GetCallback<StravaActivity, Long> getter() {
 		return ActivityDataUtils.getter();
 	}
 

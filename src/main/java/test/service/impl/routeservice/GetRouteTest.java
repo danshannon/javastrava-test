@@ -38,7 +38,7 @@ public class GetRouteTest extends GetMethodTest<StravaRoute, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaRoute, Integer> getter() throws Exception {
+	protected GetCallback<StravaRoute, Integer> getter() {
 		return ((strava, id) -> strava.getRoute(id));
 	}
 

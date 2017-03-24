@@ -12,6 +12,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStreamTest;
@@ -23,31 +24,36 @@ import test.issues.strava.Issue91;
 import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific config and tests for {@link API#getEffortStreams(Long, String, StravaStreamResolutionType, StravaStreamSeriesDownsamplingType)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 	/**
 	 * @return List of all valid stream types that can be requested
 	 */
 	protected static String getAllStreamTypes() {
 		final StravaStreamType[] types = StravaStreamType.values();
-		String list = "";
+		String list = ""; //$NON-NLS-1$
 
 		for (final StravaStreamType type : types) {
 			if (type != StravaStreamType.UNKNOWN) {
-				list = list + type.getValue() + ",";
+				list = list + type.getValue() + ","; //$NON-NLS-1$
 			}
 		}
 		return list;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
-	 */
 	@Override
 	public void get_privateWithoutViewPrivate() throws Exception {
-		// TODO Workaround for issue #78
 		if (new Issue78().isIssue()) {
 			return;
 		}
+
 		super.get_privateWithoutViewPrivate();
 	}
 
@@ -56,31 +62,28 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		return ((api, id) -> api.getEffortStreams(id, StravaStreamType.DISTANCE.toString(), null, null));
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#invalidId()
-	 */
 	@Override
 	protected Long invalidId() {
 		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#privateId()
-	 */
 	@Override
 	protected Long privateId() {
 		return SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#privateIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Long privateIdBelongsToOtherUser() {
 		return SegmentEffortDataUtils.SEGMENT_EFFORT_OTHER_USER_PRIVATE_ID;
 	}
 
-	// 4. All stream types
+	/**
+	 * All stream types
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -89,7 +92,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
-	// 7. Downsampled by distance
+	/**
+	 * Downsampled by distance
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_downsampledByDistance() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -103,7 +112,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
-	// 6. Downsampled by time
+	/**
+	 * Downsampled by time
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -116,7 +131,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
-	// 9. Invalid downsample resolution
+	/**
+	 * Invalid downsample resolution
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -126,11 +147,17 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample resolution");
+			fail("Didn't throw an exception when asking for an invalid downsample resolution"); //$NON-NLS-1$
 		});
 	}
 
-	// 10. Invalid downsample type (i.e. not distance or time)
+	/**
+	 * Invalid downsample type (i.e. not distance or time)
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -140,19 +167,23 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample type");
+			fail("Didn't throw an exception when asking for an invalid downsample type"); //$NON-NLS-1$
 		});
 	}
 
-	// 8. Invalid stream type
+	/**
+	 * Invalid stream type
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO Workaround for issue javastravav3api#91
 			if (new Issue91().isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			try {
 				api().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID, StravaStreamType.UNKNOWN.toString(), null, null);
@@ -160,11 +191,17 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// Expected
 				return;
 			}
-			fail("Should have got an BadRequestException, but didn't");
+			fail("Should have got an BadRequestException, but didn't"); //$NON-NLS-1$
 		});
 	}
 
-	// 5. Only one stream type
+	/**
+	 * Only one stream type
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -176,6 +213,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
+	/**
+	 * Attempt to get effort streams for a segment effort belonging to an activity flagged as private, using a token WITHOUT view_private scope
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_privateActivityWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -185,10 +229,17 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// expected
 				return;
 			}
-			fail("Returned effort streams for a private activity, but without view_private");
+			fail("Returned effort streams for a private activity, but without view_private"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Attempt to get effort streams for a segment effort belonging to an activity flagged as private, using a token WITH view_private scope
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -198,7 +249,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
-	// 3. Valid effort for other user
+	/**
+	 * Valid effort for other user
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_privateEffortUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -208,18 +265,23 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// expected
 				return;
 			}
-			fail("Returned effort streams for a private effort belonging to another user");
+			fail("Returned effort streams for a private effort belonging to another user"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Attempt to get effort streams for a segment effort belonging to an segment flagged as private, using a token WITHOUT view_private scope
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_privateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO Workaround for issue javastravav3api#87
 			if (new Issue87().isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			final StravaStream[] streams = api().getEffortStreams(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ID, getAllStreamTypes(), null, null);
 			assertNotNull(streams);
@@ -227,6 +289,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
+	/**
+	 * Attempt to get effort streams for a segment effort belonging to an segment flagged as private, using a token WITH view_private scope
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetEffortStreams_privateSegmentWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -236,9 +305,6 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		});
 	}
 
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
 	@Override
 	protected void validate(final StravaStream[] result) throws Exception {
 		for (final StravaStream stream : result) {
@@ -247,23 +313,23 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	}
 
-	protected void validateArray(final StravaStream[] streams) {
+	/**
+	 * Validate an array of streams
+	 * 
+	 * @param streams
+	 *            The streams to be validated
+	 */
+	protected static void validateArray(final StravaStream[] streams) {
 		for (final StravaStream stream : streams) {
 			StravaStreamTest.validate(stream);
 		}
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#validId()
-	 */
 	@Override
 	protected Long validId() {
 		return SegmentEffortDataUtils.SEGMENT_EFFORT_VALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Long validIdBelongsToOtherUser() {
 		return null;

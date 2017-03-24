@@ -47,6 +47,16 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 		return null;
 	}
 
+	/**
+	 * Check if the athlete is the KOM for the given segment
+	 *
+	 * @param segment
+	 *            Segment to check
+	 * @param athleteId
+	 *            Athlete id
+	 * @return <code>true</code> if the athlete is the KOM
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	private boolean isKom(final StravaSegment segment, final Integer athleteId) {
 		final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(segment.getId());
 		boolean isKom = false;

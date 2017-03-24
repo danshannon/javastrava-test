@@ -5,24 +5,29 @@ package test.api.rest.segment.async;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.api.v3.model.StravaSegmentExplorerResponse;
 import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
 import javastrava.api.v3.model.reference.StravaClimbCategory;
 import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
-
-import org.junit.Test;
-
+import javastrava.api.v3.rest.API;
 import test.api.model.StravaSegmentExplorerResponseTest;
 import test.api.rest.segment.SegmentExploreTest;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * <p>
+ * Specific config and tests for {@link API#segmentExploreAsync(String, StravaSegmentExplorerActivityType, StravaClimbCategory, StravaClimbCategory)}
+ * </p>
+ *
+ * @author Dan Shannon
  *
  */
 public class SegmentExploreAsyncTest extends SegmentExploreTest {
-	// 2. Filter by activity type
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testSegmentExplore_filterByActivityType() throws Exception {
@@ -34,7 +39,7 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 		});
 	}
 
-	// 4. Filter by maximum category
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testSegmentExplore_filterByMaximumCategory() throws Exception {
@@ -44,13 +49,12 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 			assertNotNull(response);
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue() <= StravaClimbCategory.CATEGORY1.getValue());
-				;
 			}
 			StravaSegmentExplorerResponseTest.validate(response);
 		});
 	}
 
-	// 3. Filter by minimum category
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testSegmentExplore_filterByMinimumCategory() throws Exception {
@@ -65,7 +69,7 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 		});
 	}
 
-	// 5. Filter by both minimum and maximum category
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testSegmentExplore_filterMaxAndMinCategory() throws Exception {
@@ -76,8 +80,7 @@ public class SegmentExploreAsyncTest extends SegmentExploreTest {
 		});
 	}
 
-	// Test cases
-	// 1. Normal
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testSegmentExplore_normal() throws Exception {

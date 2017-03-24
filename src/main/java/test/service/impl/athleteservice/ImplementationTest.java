@@ -4,17 +4,25 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.service.AthleteService;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.AthleteServiceImpl;
-
-import org.junit.Test;
-
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Tests for {@link AthleteServiceImpl} instances
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ImplementationTest implements ServiceInstanceTests {
 	@Override
 	@Test
@@ -52,7 +60,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 				// Expected behaviour
 				return;
 			}
-			fail("Got a service object using an invalid token");
+			fail("Got a service object using an invalid token"); //$NON-NLS-1$
 		});
 	}
 
@@ -67,7 +75,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 				// Expected behaviour
 				return;
 			}
-			fail("Got a service object using a revoked token");
+			fail("Got a service object using a revoked token"); //$NON-NLS-1$
 		});
 	}
 

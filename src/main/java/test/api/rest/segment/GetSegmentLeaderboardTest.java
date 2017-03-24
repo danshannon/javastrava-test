@@ -15,6 +15,7 @@ import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.util.Paging;
 import test.api.model.StravaSegmentLeaderboardEntryTest;
@@ -27,6 +28,14 @@ import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests for {@link API#getSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, Integer, Integer, Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboard, Integer> implements ArrayCallback<StravaSegmentLeaderboardEntry> {
 	/**
 	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
@@ -42,6 +51,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 	/**
 	 * @see test.api.rest.util.ArrayCallback#getArray(javastrava.util.Paging)
 	 */
+	@SuppressWarnings("boxing")
 	@Override
 	public StravaSegmentLeaderboardEntry[] getArray(final Paging paging) throws Exception {
 		final List<StravaSegmentLeaderboardEntry> list = api().getSegmentLeaderboard(validId(), null, null, null, null, null, null, paging.getPage(), paging.getPageSize(), 0).getEntries();
@@ -83,7 +93,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
 	}
 
-	// 4. Filter by age group
+	/**
+	 * Filter by age group
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -94,7 +110,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 10. Filter by ALL options combined
+	/**
+	 * Filter by ALL options combined
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -106,7 +128,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 7. Filter by valid club
+	/**
+	 * Filter by valid club
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -117,7 +145,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 6. Filter by athletes the authenticated user is following
+	/**
+	 * Filter by athletes the authenticated user is following
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -128,7 +162,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 3. Filter by gender
+	/**
+	 * Filter by gender
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -142,7 +182,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 8. Filter by invalid club
+	/**
+	 * Filter by invalid club
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -152,11 +198,17 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 				// expected
 				return;
 			}
-			fail("Got leaderboard for an invalid club!");
+			fail("Got leaderboard for an invalid club!"); //$NON-NLS-1$
 		});
 	}
 
-	// 9. Filter by leaderboard date range
+	/**
+	 * Filter by leaderboard date range
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByLeaderboardDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -168,7 +220,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	// 5. Filter by weight class
+	/**
+	 * Filter by weight class
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -179,6 +237,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
+	/**
+	 * Test behaviour when retrieving leaderboard for a hazardous segment
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -188,10 +253,17 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 				// expected
 				return;
 			}
-			fail("Returned leaderboard for a segment flagged as hazardous");
+			fail("Returned leaderboard for a segment flagged as hazardous"); //$NON-NLS-1$
 		});
 	}
 
+	/**
+	 * Test that specifying paging parameters works as expected
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -219,6 +291,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
+	/**
+	 * Test that the page size parameter works
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testPageSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -232,6 +311,13 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
+	/**
+	 * Test that asking for a very high paging range works (returns an empty list)
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testPagingOutOfRangeHigh() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -244,9 +330,6 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 		});
 	}
 
-	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
-	 */
 	@Override
 	protected void validate(final StravaSegmentLeaderboard leaderboard) throws Exception {
 		StravaSegmentLeaderboardTest.validate(leaderboard);
@@ -255,26 +338,19 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 
 	/**
 	 * @param entries
+	 *            array of entries to be validated
 	 */
-	@SuppressWarnings("static-method")
-	protected void validateArray(final StravaSegmentLeaderboardEntry[] entries) {
+	protected static void validateArray(final StravaSegmentLeaderboardEntry[] entries) {
 		for (final StravaSegmentLeaderboardEntry entry : entries) {
 			StravaSegmentLeaderboardEntryTest.validate(entry);
 		}
-
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#validId()
-	 */
 	@Override
 	protected Integer validId() {
 		return SegmentDataUtils.SEGMENT_VALID_ID;
 	}
 
-	/**
-	 * @see test.api.rest.APIGetTest#validIdBelongsToOtherUser()
-	 */
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;

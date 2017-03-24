@@ -30,10 +30,8 @@ public class CommentDataUtils {
 	 * </p>
 	 *
 	 * @return The DeleteCallback
-	 * @throws Exception
-	 *             if creator cannot be instantiated
 	 */
-	public static DeleteCallback<StravaComment> deleter() throws Exception {
+	public static DeleteCallback<StravaComment> deleter() {
 		return ((strava, comment) -> {
 			strava.deleteComment(comment);
 			return comment;
@@ -77,7 +75,7 @@ public class CommentDataUtils {
 	 * @throws Exception
 	 *             if creator cannot be instantiated
 	 */
-	public static GetCallback<StravaComment, Integer> getter() throws Exception {
+	public static GetCallback<StravaComment, Integer> getter() {
 		return ((strava, id) -> {
 			return null;
 		});
@@ -92,7 +90,7 @@ public class CommentDataUtils {
 	 * @throws Exception
 	 *             if creator cannot be instantiated
 	 */
-	public static CreateCallback<StravaComment> stravaCreator() throws Exception {
+	public static CreateCallback<StravaComment> stravaCreator() {
 		return ((strava, comment) -> {
 			return strava.createComment(comment.getActivityId(), comment.getText());
 		});

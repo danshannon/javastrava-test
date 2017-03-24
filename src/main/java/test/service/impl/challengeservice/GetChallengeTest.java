@@ -38,7 +38,7 @@ public class GetChallengeTest extends GetMethodTest<StravaChallenge, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaChallenge, Integer> getter() throws Exception {
+	protected GetCallback<StravaChallenge, Integer> getter() {
 		return ChallengeDataUtils.getter();
 	}
 

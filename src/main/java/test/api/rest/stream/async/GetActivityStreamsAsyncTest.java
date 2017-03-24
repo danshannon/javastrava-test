@@ -13,6 +13,7 @@ import javastrava.api.v3.model.StravaStream;
 import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaStreamTest;
@@ -24,34 +25,27 @@ import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * <p>
+ * Specific config and tests for {@link API#getActivityStreamsAsync(Long, String, StravaStreamResolutionType, StravaStreamSeriesDownsamplingType)}
+ * </p>
+ *
+ * @author Dan Shannon
  *
  */
 public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
-	/**
-	 * Test method for
-	 * {@link javastrava.api.v3.service.impl.StreamServiceImpl#getActivityStreams(java.lang.String, javastrava.api.v3.model.reference.StravaStreamType[], javastrava.api.v3.model.reference.StravaStreamResolutionType, javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType)}
-	 * .
-	 *
-	 * @throws Exception
-	 */
 	@Override
-	// 1. Valid activity for the authenticated user
 	public void get_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaStream[] streams = api().getActivityStreamsAsync(ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, getAllStreamTypes(), null, null).get();
 			assertNotNull(streams);
-			// TODO This is a workaround for issue javastravav3api#21
 			if (new Issue21().isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			validateArray(streams);
 		});
 	}
 
-	// 3. Valid activity for other user
 	@Override
 	public void get_validBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -61,7 +55,7 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Shouldn't be able to return activity streams for activities that don't belong to the authenticated user");
+			fail("Shouldn't be able to return activity streams for activities that don't belong to the authenticated user"); //$NON-NLS-1$
 		});
 	}
 
@@ -70,7 +64,7 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 		return ((api, id) -> api.getActivityStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get());
 	}
 
-	// 4. All stream types
+	@SuppressWarnings("boxing")
 	@Override
 	public void testGetActivityStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -89,17 +83,16 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 					assertEquals(size, stream.getData().size());
 				}
 				assertNotNull(stream.getType());
-				// TODO This is a workaround for issue javastravav3api#21
+
 				if (new Issue21().isIssue()) {
 					return;
 				}
-				// End of workaround
+
 				StravaStreamTest.validate(stream);
 			}
 		});
 	}
 
-	// 7. Downsampled by distance
 	@Override
 	public void testGetActivityStreams_downsampledByDistance() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -117,7 +110,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 		});
 	}
 
-	// 6. Downsampled by time
 	@Override
 	public void testGetActivityStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -132,7 +124,6 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 		});
 	}
 
-	// 9. Invalid downsample resolution
 	@Override
 	public void testGetActivityStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -142,11 +133,10 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample resolution");
+			fail("Didn't throw an exception when asking for an invalid downsample resolution"); //$NON-NLS-1$
 		});
 	}
 
-	// 10. Invalid downsample type (i.e. not distance or time)
 	@Override
 	public void testGetActivityStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -156,11 +146,10 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample type");
+			fail("Didn't throw an exception when asking for an invalid downsample type"); //$NON-NLS-1$
 		});
 	}
 
-	// 8. Invalid stream type
 	@Override
 	@Test
 	public void testGetActivityStreams_invalidStreamType() throws Exception {
@@ -174,11 +163,10 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Should have thrown a bad request exception");
+			fail("Should have thrown a bad request exception"); //$NON-NLS-1$
 		});
 	}
 
-	// 5. Only one stream type
 	@Override
 	public void testGetActivityStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -186,11 +174,10 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 			assertNotNull(streams);
 			assertEquals(1, streams.length);
 			assertEquals(StravaStreamType.DISTANCE, streams[0].getType());
-			// TODO This is a workaround for issue javastravav3api#21
+
 			if (new Issue21().isIssue()) {
 				return;
 			}
-			// End of workaround
 
 			validateArray(streams);
 		});

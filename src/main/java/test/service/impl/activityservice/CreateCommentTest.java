@@ -28,12 +28,12 @@ import test.utils.TestUtils;
  */
 public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> {
 	@Override
-	protected CreateCallback<StravaComment> creator() throws Exception {
+	protected CreateCallback<StravaComment> creator() {
 		return CommentDataUtils.stravaCreator();
 	}
 
 	@Override
-	protected DeleteCallback<StravaComment> deleter() throws Exception {
+	protected DeleteCallback<StravaComment> deleter() {
 		return CommentDataUtils.deleter();
 	}
 
@@ -48,7 +48,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	}
 
 	@Override
-	protected GetCallback<StravaComment, Integer> getter() throws Exception {
+	protected GetCallback<StravaComment, Integer> getter() {
 		return CommentDataUtils.getter();
 	}
 

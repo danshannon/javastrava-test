@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.rest.API;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest;
 import test.api.rest.util.ArrayCallback;
@@ -16,10 +17,15 @@ import test.issues.strava.Issue71;
 import test.utils.RateLimitedTestRunner;
 
 /**
+ * <p>
+ * Specific config and tests for {@link API#listAuthenticatedAthleteStarredSegmentsAsync(Integer, Integer)}
+ * </p>
+ * 
  * @author Dan Shannon
  *
  */
 public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthenticatedAthleteStarredSegmentsTest {
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void list_private() throws Exception {
@@ -47,22 +53,16 @@ public class ListAuthenticatedAthleteStarredSegmentsAsyncTest extends ListAuthen
 		final StravaSegment[] segments = this.listCallback().list(api(), null);
 		for (final StravaSegment segment : segments) {
 			if ((segment.getPrivateSegment() != null) && segment.getPrivateSegment().equals(Boolean.TRUE)) {
-				fail("Returned at least one private starred segment");
+				fail("Returned at least one private starred segment"); //$NON-NLS-1$
 			}
 		}
 	}
 
-	/**
-	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#listCallback()
-	 */
 	@Override
 	protected APIListCallback<StravaSegment, Integer> listCallback() {
 		return (api, id) -> api.listAuthenticatedAthleteStarredSegmentsAsync(null, null).get();
 	}
 
-	/**
-	 * @see test.api.rest.segment.ListAuthenticatedAthleteStarredSegmentsTest#pagingCallback()
-	 */
 	@Override
 	protected ArrayCallback<StravaSegment> pagingCallback() {
 		return paging -> api().listAuthenticatedAthleteStarredSegmentsAsync(paging.getPage(), paging.getPageSize()).get();

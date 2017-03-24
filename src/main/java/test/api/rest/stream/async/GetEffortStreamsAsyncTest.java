@@ -33,7 +33,9 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 		return ((api, id) -> api.getEffortStreamsAsync(id, StravaStreamType.DISTANCE.toString(), null, null).get());
 	}
 
-	// 4. All stream types
+	/**
+	 * All stream types
+	 */
 	@Override
 	public void testGetEffortStreams_allStreamTypes() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -42,7 +44,9 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 		});
 	}
 
-	// 7. Downsampled by distance
+	/**
+	 * Downsampled by distance
+	 */
 	@Override
 	public void testGetEffortStreams_downsampledByDistance() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -56,7 +60,9 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 		});
 	}
 
-	// 6. Downsampled by time
+	/**
+	 * Downsampled by time
+	 */
 	@Override
 	public void testGetEffortStreams_downsampledByTime() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -70,7 +76,9 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 		});
 	}
 
-	// 9. Invalid downsample resolution
+	/**
+	 * Invalid downsample resolution
+	 */
 	@Override
 	public void testGetEffortStreams_invalidDownsampleResolution() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -80,11 +88,13 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample resolution");
+			fail("Didn't throw an exception when asking for an invalid downsample resolution"); //$NON-NLS-1$
 		});
 	}
 
-	// 10. Invalid downsample type (i.e. not distance or time)
+	/**
+	 * Invalid downsample type (i.e. not distance or time)
+	 */
 	@Override
 	public void testGetEffortStreams_invalidDownsampleType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -94,11 +104,13 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Didn't throw an exception when asking for an invalid downsample type");
+			fail("Didn't throw an exception when asking for an invalid downsample type"); //$NON-NLS-1$
 		});
 	}
 
-	// 8. Invalid stream type
+	/**
+	 * Invalid stream type
+	 */
 	@Override
 	public void testGetEffortStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -114,11 +126,13 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 				// Expected
 				return;
 			}
-			fail("Should have got an BadRequestException, but didn't");
+			fail("Should have got an BadRequestException, but didn't"); //$NON-NLS-1$
 		});
 	}
 
-	// 5. Only one stream type
+	/**
+	 * Only one stream type
+	 */
 	@Override
 	public void testGetEffortStreams_oneStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -130,29 +144,9 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 		});
 	}
 
-	@Override
-	public void testGetEffortStreams_privateActivityWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getEffortStreamsAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID, getAllStreamTypes(), null, null).get();
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned effort streams for a private activity, but without view_private");
-		});
-	}
-
-	@Override
-	public void testGetEffortStreams_privateActivityWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaStream[] streams = apiWithViewPrivate().getEffortStreamsAsync(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID, getAllStreamTypes(), null, null).get();
-			assertNotNull(streams);
-			assertFalse(streams.length == 0);
-		});
-	}
-
-	// 3. Valid effort for other user
+	/**
+	 * Valid effort for other user
+	 */
 	@Override
 	public void testGetEffortStreams_privateEffortUnauthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -162,7 +156,7 @@ public class GetEffortStreamsAsyncTest extends GetEffortStreamsTest {
 				// expected
 				return;
 			}
-			fail("Returned effort streams for a private effort belonging to another user");
+			fail("Returned effort streams for a private effort belonging to another user"); //$NON-NLS-1$
 		});
 	}
 

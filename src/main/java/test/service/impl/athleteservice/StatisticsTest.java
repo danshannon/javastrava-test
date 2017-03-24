@@ -40,7 +40,7 @@ public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
 	}
 
 	@Override
-	protected GetCallback<StravaStatistics, Integer> getter() throws Exception {
+	protected GetCallback<StravaStatistics, Integer> getter() {
 		return ((strava, id) -> strava.statistics(id));
 	}
 

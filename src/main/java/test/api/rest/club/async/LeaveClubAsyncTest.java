@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaClubTest;
@@ -13,9 +14,16 @@ import test.api.rest.club.LeaveClubTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
+/**
+ * <p>
+ * Specific tests and config for {@link API#leaveClubAsync(Integer)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class LeaveClubAsyncTest extends LeaveClubTest {
 
-	// 3. Invalid club
 	@Override
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
@@ -28,11 +36,10 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 				// expected
 				return;
 			}
-			fail("Left a non-existent club!");
+			fail("Left a non-existent club!"); //$NON-NLS-1$
 		});
 	}
 
-	// 2. Valid club which authenticated user is already a member of
 	@Override
 	@Test
 	public void testLeaveClub_member() throws Exception {
@@ -51,8 +58,6 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 		});
 	}
 
-	// Test cases
-	// 1. Valid club which authenticated user is not already a member of
 	@Override
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
@@ -68,7 +73,6 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 		});
 	}
 
-	// 5. Leave a club using a token with no write access
 	@Override
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
@@ -81,28 +85,28 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 				// Expected
 				return;
 			}
-			fail("Left a club without write access");
+			fail("Left a club without write access"); //$NON-NLS-1$
 		});
 	}
 
-	// 4. Private club which authenticated user is a member of
-	// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
 	@Override
 	@Test
 	public void testLeaveClub_privateClubMember() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// ClubService service = getClubService();
-			// Integer id = TestUtils.CLUB_PRIVATE_MEMBER_ID;
-			//
-			// serviceWithWriteAccess.leaveClub(id);
-			//
-			// List<StravaClub> clubs = service.listAuthenticatedAthleteClubs();
-			// boolean member = checkIsMember(clubs, id);
-			//
-			// // Join the club again
-			// serviceWithWriteAccess.joinClub(id);
-			// assertFalse(member);
-		});
+		// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
+		return;
+		// RateLimitedTestRunner.run(() -> {
+		// ClubService service = getClubService();
+		// Integer id = TestUtils.CLUB_PRIVATE_MEMBER_ID;
+		//
+		// serviceWithWriteAccess.leaveClub(id);
+		//
+		// List<StravaClub> clubs = service.listAuthenticatedAthleteClubs();
+		// boolean member = checkIsMember(clubs, id);
+		//
+		// // Join the club again
+		// serviceWithWriteAccess.joinClub(id);
+		// assertFalse(member);
+		// });
 	}
 
 }

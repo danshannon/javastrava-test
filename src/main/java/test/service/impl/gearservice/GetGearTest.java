@@ -42,7 +42,7 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 	}
 
 	@Override
-	protected GetCallback<StravaGear, String> getter() throws Exception {
+	protected GetCallback<StravaGear, String> getter() {
 		return ((strava, id) -> strava.getGear(id));
 	}
 

@@ -27,16 +27,34 @@ import test.utils.TestUtils;
  *
  */
 public abstract class ListMethodTest<T extends StravaEntity, U> implements ListMethodTests {
+	/**
+	 * @return Id of a parent object that doesn't exist
+	 */
 	protected abstract U idInvalid();
 
+	/**
+	 * @return Id of a parent object that exists, belongs to the authenticated user, and is flagged as private
+	 */
 	protected abstract U idPrivate();
 
+	/**
+	 * @return Id of a parent object that exists, belongs to someone other than the authenticated user, and is flagged as private
+	 */
 	protected abstract U idPrivateBelongsToOtherUser();
 
+	/**
+	 * @return Id of a parent object that exists, belongs to the authenticated user, and has entries in the list
+	 */
 	protected abstract U idValidWithEntries();
 
+	/**
+	 * @return Id of a parent object that exists, belongs to the authenticated user, and has NO entries in the list
+	 */
 	protected abstract U idValidWithoutEntries();
 
+	/**
+	 * @return Callback used to get the list
+	 */
 	protected abstract ListCallback<T, U> lister();
 
 	@Override
@@ -147,8 +165,20 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 		});
 	}
 
+	/**
+	 * Validate the structure and content of the object
+	 *
+	 * @param object
+	 *            The object to be validated
+	 */
 	protected abstract void validate(T object);
 
+	/**
+	 * Validate a list of objects
+	 * 
+	 * @param list
+	 *            The list of objects to be validated
+	 */
 	protected void validateList(List<T> list) {
 		for (final T object : list) {
 			validate(object);
