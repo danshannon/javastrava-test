@@ -7,6 +7,7 @@ import javastrava.api.v3.model.reference.StravaAthleteType;
 import javastrava.api.v3.model.reference.StravaClimbCategory;
 import javastrava.api.v3.model.reference.StravaClubMembershipStatus;
 import javastrava.api.v3.model.reference.StravaClubType;
+import javastrava.api.v3.model.reference.StravaEventFrequency;
 import javastrava.api.v3.model.reference.StravaFollowerState;
 import javastrava.api.v3.model.reference.StravaFrameType;
 import javastrava.api.v3.model.reference.StravaGearType;
@@ -14,8 +15,13 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaPhotoSource;
 import javastrava.api.v3.model.reference.StravaPhotoType;
+import javastrava.api.v3.model.reference.StravaRouteSubType;
+import javastrava.api.v3.model.reference.StravaRouteType;
 import javastrava.api.v3.model.reference.StravaSegmentActivityType;
+import javastrava.api.v3.model.reference.StravaSkillLevel;
 import javastrava.api.v3.model.reference.StravaSportType;
+import javastrava.api.v3.model.reference.StravaTerrainType;
+import javastrava.api.v3.model.reference.StravaWeekOfMonth;
 import javastrava.api.v3.model.reference.StravaWorkoutType;
 
 /**
@@ -205,6 +211,78 @@ public class RefDataUtils {
 			category = StravaClimbCategory.values()[pick];
 		}
 		return category;
+	}
+
+	/**
+	 * @return A random route type
+	 */
+	public static StravaRouteType randomRouteType() {
+		StravaRouteType routeType = StravaRouteType.UNKNOWN;
+		while (routeType == StravaRouteType.UNKNOWN) {
+			final int pick = random.nextInt(StravaRouteType.values().length);
+			routeType = StravaRouteType.values()[pick];
+		}
+		return routeType;
+	}
+
+	/**
+	 * @return A random route sub-type
+	 */
+	public static StravaRouteSubType randomRouteSubType() {
+		StravaRouteSubType routeSubType = StravaRouteSubType.UNKNOWN;
+		while (routeSubType == StravaRouteSubType.UNKNOWN) {
+			final int pick = random.nextInt(StravaRouteSubType.values().length);
+			routeSubType = StravaRouteSubType.values()[pick];
+		}
+		return routeSubType;
+	}
+
+	/**
+	 * @return A random skill level
+	 */
+	public static StravaSkillLevel randomSkillLevel() {
+		StravaSkillLevel skillLevel = StravaSkillLevel.UNKNOWN;
+		while (skillLevel == StravaSkillLevel.UNKNOWN) {
+			final int pick = random.nextInt(StravaSkillLevel.values().length);
+			skillLevel = StravaSkillLevel.values()[pick];
+		}
+		return skillLevel;
+	}
+
+	/**
+	 * @return A random terrain type
+	 */
+	public static StravaTerrainType randomTerrainType() {
+		StravaTerrainType terrainType = StravaTerrainType.UNKNOWN;
+		while (terrainType == StravaTerrainType.UNKNOWN) {
+			final int pick = random.nextInt(StravaTerrainType.values().length);
+			terrainType = StravaTerrainType.values()[pick];
+		}
+		return terrainType;
+	}
+
+	/**
+	 * @return A random event frequency
+	 */
+	public static StravaEventFrequency randomEventFrequency() {
+		StravaEventFrequency frequency = StravaEventFrequency.UNKNOWN;
+		while (frequency == StravaEventFrequency.UNKNOWN) {
+			final int pick = random.nextInt(StravaEventFrequency.values().length);
+			frequency = StravaEventFrequency.values()[pick];
+		}
+		return frequency;
+	}
+
+	/**
+	 * @return A random week of the month
+	 */
+	public static StravaWeekOfMonth randomWeekOfMonth() {
+		StravaWeekOfMonth week = StravaWeekOfMonth.UNKNOWN;
+		while (week == StravaWeekOfMonth.UNKNOWN) {
+			final int pick = random.nextInt(StravaWeekOfMonth.values().length);
+			week = StravaWeekOfMonth.values()[pick];
+		}
+		return week;
 	}
 
 }

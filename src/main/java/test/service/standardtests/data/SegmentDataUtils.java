@@ -1,5 +1,7 @@
 package test.service.standardtests.data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.jfairy.Fairy;
@@ -60,7 +62,7 @@ public class SegmentDataUtils {
 
 	/**
 	 * Generate a randomised segment with the required resource state
-	 * 
+	 *
 	 * @param resourceState
 	 *            The required resource state
 	 * @return The generated segment
@@ -117,5 +119,24 @@ public class SegmentDataUtils {
 		segment.setUpdatedAt(DateUtils.zonedDateTime());
 
 		return segment;
+	}
+
+	/**
+	 * Create a list of generated segments
+	 * 
+	 * @param resourceState
+	 *            The required resource state of the segments in the list
+	 *
+	 * @param maxEntries
+	 *            The maximum number of entries to include in the list
+	 * @return The generated list
+	 */
+	public static List<StravaSegment> testSegmentList(StravaResourceState resourceState, int maxEntries) {
+		final List<StravaSegment> list = new ArrayList<StravaSegment>();
+		final int entries = random.nextInt(maxEntries);
+		for (int i = 0; i < entries; i++) {
+			list.add(testSegment(resourceState));
+		}
+		return list;
 	}
 }
