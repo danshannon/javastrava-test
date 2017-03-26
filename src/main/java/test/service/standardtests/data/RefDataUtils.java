@@ -18,6 +18,12 @@ import javastrava.api.v3.model.reference.StravaSegmentActivityType;
 import javastrava.api.v3.model.reference.StravaSportType;
 import javastrava.api.v3.model.reference.StravaWorkoutType;
 
+/**
+ * Test data utilities for generating randomised reference data instances
+ *
+ * @author Dan Shannon
+ *
+ */
 public class RefDataUtils {
 	private static Random random = new Random();
 
@@ -33,6 +39,9 @@ public class RefDataUtils {
 		return athleteType;
 	}
 
+	/**
+	 * @return A random frame type
+	 */
 	public static StravaFrameType randomFrameType() {
 		StravaFrameType frameType = StravaFrameType.UNKNOWN;
 		while (frameType == StravaFrameType.UNKNOWN) {
@@ -42,6 +51,9 @@ public class RefDataUtils {
 		return frameType;
 	}
 
+	/**
+	 * @return A random gear type
+	 */
 	public static StravaGearType randomGearType() {
 		StravaGearType gearType = StravaGearType.UNKNOWN;
 		while (gearType == StravaGearType.UNKNOWN) {
@@ -51,6 +63,9 @@ public class RefDataUtils {
 		return gearType;
 	}
 
+	/**
+	 * @return A random club type
+	 */
 	public static StravaClubType randomClubType() {
 		StravaClubType clubType = StravaClubType.UNKNOWN;
 		while (clubType == StravaClubType.UNKNOWN) {
@@ -60,6 +75,9 @@ public class RefDataUtils {
 		return clubType;
 	}
 
+	/**
+	 * @return A random club membership status
+	 */
 	public static StravaClubMembershipStatus randomClubMembershipStatus() {
 		StravaClubMembershipStatus status = StravaClubMembershipStatus.UNKNOWN;
 		while (status == StravaClubMembershipStatus.UNKNOWN) {
@@ -69,6 +87,9 @@ public class RefDataUtils {
 		return status;
 	}
 
+	/**
+	 * @return A random sport type
+	 */
 	public static StravaSportType randomSportType() {
 		StravaSportType sportType = StravaSportType.UNKNOWN;
 		while (sportType == StravaSportType.UNKNOWN) {
@@ -78,6 +99,9 @@ public class RefDataUtils {
 		return sportType;
 	}
 
+	/**
+	 * @return A random gender
+	 */
 	public static StravaGender randomGender() {
 		StravaGender gender = StravaGender.UNKNOWN;
 		while (gender == StravaGender.UNKNOWN) {
@@ -87,6 +111,9 @@ public class RefDataUtils {
 		return gender;
 	}
 
+	/**
+	 * @return A random follower state
+	 */
 	public static StravaFollowerState randomFollowerState() {
 		StravaFollowerState state = StravaFollowerState.UNKNOWN;
 		while (state == StravaFollowerState.UNKNOWN) {
@@ -96,6 +123,9 @@ public class RefDataUtils {
 		return state;
 	}
 
+	/**
+	 * @return A random measurement method
+	 */
 	public static StravaMeasurementMethod randomMeasurementMethod() {
 		StravaMeasurementMethod method = StravaMeasurementMethod.UNKNOWN;
 		while (method == StravaMeasurementMethod.UNKNOWN) {
@@ -105,6 +135,9 @@ public class RefDataUtils {
 		return method;
 	}
 
+	/**
+	 * @return A random activity type
+	 */
 	public static StravaActivityType randomActivityType() {
 		StravaActivityType type = StravaActivityType.UNKNOWN;
 		while (type == StravaActivityType.UNKNOWN) {
@@ -114,6 +147,9 @@ public class RefDataUtils {
 		return type;
 	}
 
+	/**
+	 * @return A random workout type
+	 */
 	public static StravaWorkoutType randomWorkoutType() {
 		StravaWorkoutType type = StravaWorkoutType.UNKNOWN;
 		while (type == StravaWorkoutType.UNKNOWN) {
@@ -123,6 +159,9 @@ public class RefDataUtils {
 		return type;
 	}
 
+	/**
+	 * @return A random photo source
+	 */
 	public static StravaPhotoSource randomPhotoSource() {
 		StravaPhotoSource source = StravaPhotoSource.UNKNOWN;
 		while (source == StravaPhotoSource.UNKNOWN) {
@@ -132,6 +171,9 @@ public class RefDataUtils {
 		return source;
 	}
 
+	/**
+	 * @return A random photo type
+	 */
 	public static StravaPhotoType randomPhotoType() {
 		StravaPhotoType type = StravaPhotoType.UNKNOWN;
 		while (type == StravaPhotoType.UNKNOWN) {
@@ -141,6 +183,9 @@ public class RefDataUtils {
 		return type;
 	}
 
+	/**
+	 * @return A random segment activity type
+	 */
 	public static StravaSegmentActivityType randomSegmentActivityType() {
 		StravaSegmentActivityType type = StravaSegmentActivityType.UNKNOWN;
 		while (type == StravaSegmentActivityType.UNKNOWN) {
@@ -150,6 +195,9 @@ public class RefDataUtils {
 		return type;
 	}
 
+	/**
+	 * @return A random climb category
+	 */
 	public static StravaClimbCategory randomClimbCategory() {
 		StravaClimbCategory category = StravaClimbCategory.UNKNOWN;
 		while (category == StravaClimbCategory.UNKNOWN) {

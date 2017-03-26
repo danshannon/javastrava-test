@@ -30,6 +30,9 @@ import test.utils.TestUtils;
  */
 public abstract class PagingListMethodTest<T extends StravaEntity, U> extends ListMethodTest<T, U> implements PagingListMethodTests {
 
+	/**
+	 * @return The callback used to get the paging list from Strava
+	 */
 	protected abstract PagingListCallback<T, U> pagingLister();
 
 	/**

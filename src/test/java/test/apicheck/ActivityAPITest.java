@@ -11,7 +11,6 @@ import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.rest.ActivityAPI;
 import retrofit.client.Response;
-import test.apicheck.api.ResponseValidator;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;
 

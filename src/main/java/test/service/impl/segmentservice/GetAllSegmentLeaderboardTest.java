@@ -13,13 +13,29 @@ import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaSegmentLeaderboardTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Tests for {@link Strava#getAllSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class GetAllSegmentLeaderboardTest {
+	/**
+	 * Test filtering by age group
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -29,6 +45,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test filtering by club
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -38,6 +61,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test filtering by date range
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -47,6 +77,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test filtering by athletes the authenticated user is following
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -56,6 +93,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test filtering by gender
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -68,6 +112,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test filtering by weight class
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -77,6 +128,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test getting leaderboard for a segment that does not exist
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -85,6 +143,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test getting leaderboard for a private segment
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetAllSegmentLeaderboard_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -94,6 +159,13 @@ public class GetAllSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test getting leaderboard for a valid segment
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testGetAllSegmentLeaderboard_validSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {

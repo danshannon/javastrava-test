@@ -27,16 +27,34 @@ import test.utils.TestUtils;
  *
  */
 public abstract class AsyncListMethodTest<T extends StravaEntity, U> implements ListMethodTests {
+	/**
+	 * @return Id of an invalid parent object (i.e. one that does not exist)
+	 */
 	protected abstract U idInvalid();
 
+	/**
+	 * @return Id of a parent object flagged as private that belongs to the authenticated user
+	 */
 	protected abstract U idPrivate();
 
+	/**
+	 * @return Id of a parent object that is flagged as private and belongs to someone other than the authenticated user
+	 */
 	protected abstract U idPrivateBelongsToOtherUser();
 
+	/**
+	 * @return Id of a valid parent object that is expected to return a list with >=1 entries
+	 */
 	protected abstract U idValidWithEntries();
 
+	/**
+	 * @return Id of a valid parent object that is expected to return a list with 0 entries
+	 */
 	protected abstract U idValidWithoutEntries();
 
+	/**
+	 * @return Callback to use to get the list
+	 */
 	protected abstract AsyncListCallback<T, U> lister();
 
 	@Override
@@ -150,8 +168,16 @@ public abstract class AsyncListMethodTest<T extends StravaEntity, U> implements 
 		});
 	}
 
+	/**
+	 * @param object
+	 *            Object to be validated
+	 */
 	protected abstract void validate(T object);
 
+	/**
+	 * @param list
+	 *            List of objects to be validated
+	 */
 	protected void validateList(List<T> list) {
 		for (final T object : list) {
 			validate(object);

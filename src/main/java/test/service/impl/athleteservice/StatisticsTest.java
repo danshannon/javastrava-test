@@ -52,6 +52,7 @@ public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testStatistics_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {

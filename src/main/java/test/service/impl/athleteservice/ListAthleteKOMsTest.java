@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.model.StravaSegmentEffortTest;
 import test.service.standardtests.PagingListMethodTest;
@@ -20,6 +21,14 @@ import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Specific tests and configuration for {@link Strava#listAthleteKOMs(Integer, javastrava.util.Paging)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort, Integer> {
 	@Override
 	protected Integer idInvalid() {
@@ -56,6 +65,13 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		return ((strava, paging, id) -> strava.listAthleteKOMs(id, paging));
 	}
 
+	/**
+	 * Test listing KOM's for another athlete doesn't return KOM's gained on a private activity
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAllAthleteKOMs_otherAthletePrivateActivities() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -70,6 +86,13 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		});
 	}
 
+	/**
+	 * Test listing KOM's for the authenticated athlete doesn't return KOM's gained on a private activity if the token doesn't have view_private scope
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -78,26 +101,19 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 				try {
 					TestUtils.strava().getActivity(effort.getActivity().getId());
 				} catch (final UnauthorizedException e) {
-					fail("Returned KOM's for a private activity!");
+					fail("Returned KOM's for a private activity!"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateActivitiesWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			for (final StravaSegmentEffort effort : efforts) {
-				try {
-					TestUtils.strava().getActivity(effort.getActivity().getId());
-				} catch (final UnauthorizedException e) {
-					fail("Returned KOM's for a private activity!");
-				}
-			}
-		});
-	}
-
+	/**
+	 * Test listing KOM's for the authenticated athlete doesn't return KOM's gained on a private segment if the token doesn't have view_private scope
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -106,27 +122,19 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 				try {
 					TestUtils.strava().getSegment(effort.getSegment().getId());
 				} catch (final UnauthorizedException e) {
-					fail("Returned KOM's for a private segment!");
+					fail("Returned KOM's for a private segment!"); //$NON-NLS-1$
 				}
 			}
 		});
 	}
 
-	@Test
-	public void testListAthleteKOMs_authenticatedAthletePrivateSegmentsWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			for (final StravaSegmentEffort effort : efforts) {
-				try {
-					TestUtils.strava().getSegment(effort.getSegment().getId());
-				} catch (final UnauthorizedException e) {
-					fail("Returned KOM's for a private segment!");
-				}
-			}
-		});
-	}
-
-	// 3. Invalid athlete
+	/**
+	 * Invalid athlete
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAthleteKOMs_invalidAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -137,22 +145,13 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		});
 	}
 
-	@Test
-	public void testListAthleteKOMs_otherAthletePrivateSegments() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAthleteKOMs(AthleteDataUtils.ATHLETE_VALID_ID);
-			for (final StravaSegmentEffort effort : efforts) {
-				try {
-					TestUtils.strava().getSegment(effort.getSegment().getId());
-				} catch (final UnauthorizedException e) {
-					fail("Returned KOM's for a private segment!");
-				}
-			}
-		});
-	}
-
-	// Test cases
-	// 1. Valid athlete with some KOM's
+	/**
+	 * Valid athlete with some KOM's
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAthleteKOMs_withKOM() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -165,7 +164,13 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		});
 	}
 
-	// 2. Valid athlete with no KOM's
+	/**
+	 * Valid athlete with no KOM's
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testListAthleteKOMs_withoutKOM() throws Exception {
 		RateLimitedTestRunner.run(() -> {

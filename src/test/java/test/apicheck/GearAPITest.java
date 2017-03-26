@@ -1,17 +1,11 @@
 package test.apicheck;
 
-import java.io.IOException;
+import org.junit.Test;
 
 import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.json.exception.JsonSerialisationException;
-
-import org.junit.Test;
-
+import javastrava.api.v3.rest.GearAPI;
 import retrofit.client.Response;
-import test.apicheck.api.GearAPI;
-import test.apicheck.api.ResponseValidator;
 import test.service.standardtests.data.GearDataUtils;
 import test.utils.TestUtils;
 
@@ -20,14 +14,19 @@ import test.utils.TestUtils;
  *
  */
 public class GearAPITest {
-	private GearAPI api() {
+	private static GearAPI api() {
 		return API.instance(GearAPI.class, TestUtils.getValidToken());
 	}
 
+	/**
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
-	public void testAPI_getGear() throws NotFoundException, JsonSerialisationException, IOException {
-		Response response = api().getGear(GearDataUtils.GEAR_VALID_ID);
-		ResponseValidator.validate(response, StravaGear.class, "getGear");
+	public void testAPI_getGear() throws Exception {
+		final Response response = api().getGearRaw(GearDataUtils.GEAR_VALID_ID);
+		ResponseValidator.validate(response, StravaGear.class, "getGear"); //$NON-NLS-1$
 	}
 
 }

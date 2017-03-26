@@ -23,6 +23,7 @@ public interface StandardTests {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testInvalidId() throws Exception;

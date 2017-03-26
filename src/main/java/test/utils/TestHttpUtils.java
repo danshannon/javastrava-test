@@ -207,6 +207,7 @@ public class TestHttpUtils {
 		return token;
 	}
 
+	@SuppressWarnings("resource")
 	private static Document httpGet(final String uri, final NameValuePair... parameters) throws IOException {
 		HttpUriRequest get = null;
 		Document page = null;

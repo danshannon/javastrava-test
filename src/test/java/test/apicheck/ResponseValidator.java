@@ -1,4 +1,4 @@
-package test.apicheck.api;
+package test.apicheck;
 
 import static org.junit.Assert.assertNull;
 
@@ -86,8 +86,11 @@ public class ResponseValidator {
 	 * @param class1
 	 *            class of the element (or of the array contents if the input is a JsonArray)
 	 * @param prefix
+	 *            String describing the parent element
 	 * @throws JsonSerialisationException
+	 *             if there's an error serialising or deserialising
 	 * @throws IOException
+	 *             if there's an IO error
 	 */
 	public static <T> void validate(final Response response, final Class<T> class1, final String prefix) throws JsonSerialisationException, IOException {
 		final String input = IOUtils.toString(response.getBody().in());
@@ -112,6 +115,7 @@ public class ResponseValidator {
 	 * @param errors
 	 *            Set containing detected errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateActivity(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaActivity.class), element, errors, prefix);
@@ -168,8 +172,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateActivityPhotos(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaActivityPhotos.class), element, errors, prefix);
@@ -181,8 +188,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateActivityZone(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaActivityZone.class), element, errors, prefix);
@@ -195,8 +205,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateAthlete(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaAthlete.class), element, errors, prefix);
@@ -217,8 +230,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateBestEffort(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaBestRunningEffort.class), element, errors, prefix);
@@ -239,8 +255,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateClubAnnouncements(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaClubAnnouncement.class), element, errors, prefix);
@@ -326,8 +345,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateLap(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaLap.class), element, errors, prefix);
@@ -377,8 +399,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateSegmentExplorerResponse(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaSegmentExplorerResponse.class), element, errors, prefix);
@@ -391,8 +416,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateSegmentExplorerResponseSegment(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaSegmentExplorerResponseSegment.class), element, errors, prefix);
@@ -409,8 +437,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateSegmentLeaderboard(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaSegmentLeaderboard.class), element, errors, prefix);
@@ -423,8 +454,11 @@ public class ResponseValidator {
 
 	/**
 	 * @param element
+	 *            Element to be validated
 	 * @param errors
+	 *            Set of validation errors, will be added to if there are further validation errors
 	 * @param prefix
+	 *            String describing the parent element
 	 */
 	private static void validateStravaStatistics(final JsonElement element, final Set<String> errors, final String prefix) {
 		compareJsonObjects(roundTrip(element, StravaStatistics.class), element, errors, prefix);

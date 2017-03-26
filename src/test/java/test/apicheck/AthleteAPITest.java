@@ -8,7 +8,6 @@ import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.rest.AthleteAPI;
 import retrofit.client.Response;
-import test.apicheck.api.ResponseValidator;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.TestUtils;
 
@@ -105,6 +104,7 @@ public class AthleteAPITest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testAPI_listAuthenticatedAthleteFriends() throws Exception {
 		final Response response = api().listAuthenticatedAthleteFriendsRaw(null, null);

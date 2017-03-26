@@ -58,6 +58,13 @@ public class SegmentDataUtils {
 
 	private static TextProducer text = Fairy.create().textProducer();
 
+	/**
+	 * Generate a randomised segment with the required resource state
+	 * 
+	 * @param resourceState
+	 *            The required resource state
+	 * @return The generated segment
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaSegment testSegment(StravaResourceState resourceState) {
 		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {

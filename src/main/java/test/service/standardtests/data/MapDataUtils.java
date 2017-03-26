@@ -9,11 +9,24 @@ import javastrava.api.v3.model.StravaMap;
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.api.v3.model.reference.StravaResourceState;
 
+/**
+ * Test data generation utilities for map data
+ *
+ * @author Dan Shannon
+ *
+ */
 public class MapDataUtils {
 	private static Random random = new Random();
 
 	private static TextProducer text = Fairy.create().textProducer();
 
+	/**
+	 * Generate a random map point
+	 *
+	 * @param resourceState
+	 *            The required resource state of the map point
+	 * @return The generated map point
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaMapPoint testMapPoint(StravaResourceState resourceState) {
 		final StravaMapPoint point = new StravaMapPoint();
@@ -24,6 +37,13 @@ public class MapDataUtils {
 		return point;
 	}
 
+	/**
+	 * Generate a random map
+	 *
+	 * @param resourceState
+	 *            The required resource state of the map
+	 * @return The generated map
+	 */
 	public static StravaMap testMap(StravaResourceState resourceState) {
 		final StravaMap map = new StravaMap();
 

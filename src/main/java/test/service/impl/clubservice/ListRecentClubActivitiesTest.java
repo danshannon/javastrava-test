@@ -25,7 +25,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for listRecentClubActivities methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -94,6 +94,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	 * @throws Exception
 	 *             if test fails in an unexpected way
 	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testListRecentClubActivities_moreThan200() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -125,6 +126,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		});
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {

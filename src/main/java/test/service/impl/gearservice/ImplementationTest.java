@@ -3,30 +3,35 @@ package test.service.impl.gearservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
 import javastrava.api.v3.auth.model.Token;
 import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.GearService;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.GearServiceImpl;
-
-import org.junit.Test;
-
 import test.service.standardtests.data.GearDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * Implementation tests for GearService
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ImplementationTest implements ServiceInstanceTests {
-	private GearService getGearService() {
+	private static GearService getGearService() {
 		return GearServiceImpl.instance(TestUtils.getValidToken());
 	}
 
-	private GearService getGearServiceWithoutWriteAccess() {
+	private static GearService getGearServiceWithoutWriteAccess() {
 		return GearServiceImpl.instance(TestUtils.getValidTokenWithWriteAccess());
 	}
 
-	private Token getRevokedToken() {
+	private static Token getRevokedToken() {
 		return TestUtils.getRevokedToken();
 	}
 
@@ -36,9 +41,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -56,6 +59,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -63,7 +67,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final GearService service = GearServiceImpl.instance(TestUtils.getValidToken());
 			final GearService service2 = GearServiceImpl.instance(TestUtils.getValidToken());
-			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2); //$NON-NLS-1$
 		});
 	}
 
@@ -73,8 +77,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -93,8 +96,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -114,16 +116,14 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             If token is not valid
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testImplementation_validToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final GearService service = GearServiceImpl.instance(TestUtils.getValidToken());
-			assertNotNull("Got a NULL service for a valid token", service);
+			assertNotNull("Got a NULL service for a valid token", service); //$NON-NLS-1$
 		});
 	}
 

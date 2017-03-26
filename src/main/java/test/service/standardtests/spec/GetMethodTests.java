@@ -26,6 +26,7 @@ public interface GetMethodTests<T extends StravaEntity, U> extends PrivacyTests,
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testGetInvalidId() throws Exception;
@@ -36,6 +37,7 @@ public interface GetMethodTests<T extends StravaEntity, U> extends PrivacyTests,
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	public void testGetValidId() throws Exception;

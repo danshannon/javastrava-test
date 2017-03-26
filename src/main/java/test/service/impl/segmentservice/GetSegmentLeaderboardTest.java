@@ -14,6 +14,7 @@ import javastrava.api.v3.model.reference.StravaAgeGroup;
 import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaSegmentLeaderboardEntryTest;
 import test.api.model.StravaSegmentLeaderboardTest;
 import test.service.standardtests.data.ClubDataUtils;
@@ -21,8 +22,23 @@ import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Specific tests and configuration for
+ * {@link Strava#getSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, javastrava.util.Paging, Integer)}
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
 public class GetSegmentLeaderboardTest {
-	// 4. Filter by age group
+	/**
+	 * Filter by age group
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByAgeGroup() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -33,7 +49,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 10. Filter by ALL options combined
+	/**
+	 * Filter by ALL options combined
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -45,7 +67,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 7. Filter by valid club
+	/**
+	 * Filter by valid club
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -57,7 +85,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 6. Filter by athletes the authenticated user is following
+	/**
+	 * Filter by athletes the authenticated user is following
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByFollowing() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -68,7 +102,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 3. Filter by gender
+	/**
+	 * Filter by gender
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByGender() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -82,7 +122,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 8. Filter by invalid club
+	/**
+	 * Filter by invalid club
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByInvalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -92,7 +138,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 9. Filter by leaderboard date range
+	/**
+	 * Filter by leaderboard date range
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByLeaderboardDateRange() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -104,7 +156,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 5. Filter by weight class
+	/**
+	 * Filter by weight class
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_filterByWeightClass() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -116,6 +174,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test behaviour when asking for a leaderboard for a segment flagged as hazardous
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_hazardousSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -124,7 +189,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 2. Invalid segment
+	/**
+	 * Invalid segment
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_invalidSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -133,6 +204,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test behaviour when getting a leaderboard for a segment that belongs to the authenticated user and is flagged as private
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_privateSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -140,12 +218,17 @@ public class GetSegmentLeaderboardTest {
 			// Should return an empty leaderboard
 			assertNotNull(leaderboard);
 			assertNotNull(leaderboard.getEntries());
-			// Workaround for issue javastrava-api #71 - see https://github.com/danshannon/javastravav3api/issues/71
-			// assertTrue(leaderboard.getEntries().isEmpty());
-			// End of workaround
+			assertTrue(leaderboard.getEntries().isEmpty());
 		});
 	}
 
+	/**
+	 * Test behaviour when getting a leaderboard for a segment that belongs to someone other than the authenticated user and is flagged as private
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_privateSegmentOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -156,6 +239,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
+	/**
+	 * Test behaviour when getting a leaderboard for a segment that belongs to the authenticated user and is flagged as private, using a token that does not have VIEW_PRIVATE scope
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_privateWithViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -166,8 +256,13 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	// Test cases
-	// 1. Valid segment, no filtering
+	/**
+	 * Valid segment, no filtering
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected manner
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testGetSegmentLeaderboard_validSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -176,8 +271,11 @@ public class GetSegmentLeaderboardTest {
 		});
 	}
 
-	@SuppressWarnings("static-method")
-	protected void validate(final StravaSegmentLeaderboardEntry entry) {
+	/**
+	 * @param entry
+	 *            Entry to be validated
+	 */
+	protected static void validate(final StravaSegmentLeaderboardEntry entry) {
 		StravaSegmentLeaderboardEntryTest.validate(entry);
 
 	}

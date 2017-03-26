@@ -184,6 +184,8 @@ public class ClubDataUtils {
 			assertNotNull(club.getProfileMedium());
 			assertNotNull(club.getSportType());
 			assertNotNull(club.getState());
+			// Optional assertNotNull(club.getUrl());
+			// Optional assertNotNull(club.getVerified());
 			return;
 		}
 		if (state == StravaResourceState.SUMMARY) {
@@ -199,7 +201,7 @@ public class ClubDataUtils {
 			assertNotNull(club.getSportType());
 			// Optional assertNotNull(club.getState());
 			// Optional assertNull(club.getUrl());
-			// assertNull(club.getVerified());
+			// Optional assertNotNull(club.getVerified());
 			return;
 		}
 		if ((state == StravaResourceState.META) || (state == StravaResourceState.PRIVATE)) {

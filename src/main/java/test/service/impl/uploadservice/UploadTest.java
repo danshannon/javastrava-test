@@ -230,8 +230,9 @@ public class UploadTest {
 	 * <p>
 	 * Waits for upload processing to complete for an activity
 	 * </p>
-	 * 
+	 *
 	 * @param response
+	 *            The upload response returned once Strava has confirmed the upload is complete (i.e. has been processed)
 	 * @return The response from Strava confirming that the upload is complete
 	 */
 	@SuppressWarnings("static-method")

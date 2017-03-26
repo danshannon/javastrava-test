@@ -1,11 +1,20 @@
 package test.service.impl.segmentservice;
 
 import javastrava.api.v3.model.StravaSegment;
+import javastrava.api.v3.service.Strava;
 import test.api.model.StravaSegmentTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.SegmentDataUtils;
 
+/**
+ * <p>
+ * Specific tests and config for {@link Strava#starSegment(Integer, Boolean)}
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	@Override
 	protected Integer getIdInvalid() {

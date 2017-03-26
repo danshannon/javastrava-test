@@ -72,10 +72,11 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by all available filter fields
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
+	@SuppressWarnings("boxing")
 	@Test
 	public void testListSegmentEfforts_filterByAll() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -101,7 +102,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by date range
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -127,7 +128,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by end date
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -151,7 +152,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by invalid athlete
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -168,7 +169,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by start date
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -192,7 +193,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Filter by valid athlete
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -213,7 +214,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	 * <p>
 	 * Test behaviour for hazardous segment
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */

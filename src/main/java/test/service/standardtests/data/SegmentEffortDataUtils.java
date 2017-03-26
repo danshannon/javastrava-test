@@ -56,6 +56,13 @@ public class SegmentEffortDataUtils {
 
 	private static TextProducer text = Fairy.create().textProducer();
 
+	/**
+	 * Generate a list of randomised segment efforts with the required resource state
+	 * 
+	 * @param resourceState
+	 *            The required resource state
+	 * @return The generated list
+	 */
 	public static List<StravaSegmentEffort> testSegmentEffortList(StravaResourceState resourceState) {
 		final List<StravaSegmentEffort> list = new ArrayList<>();
 		final int entries = random.nextInt(10000);
@@ -65,6 +72,13 @@ public class SegmentEffortDataUtils {
 		return list;
 	}
 
+	/**
+	 * Generate a randomised segment effort with the required resource state
+	 * 
+	 * @param resourceState
+	 *            The required resource state
+	 * @return The generated segment effort
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaSegmentEffort testSegmentEffort(StravaResourceState resourceState) {
 		final StravaSegmentEffort effort = new StravaSegmentEffort();

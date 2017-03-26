@@ -4,10 +4,9 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaChallenge;
 import javastrava.api.v3.rest.API;
+import javastrava.api.v3.rest.ChallengeAPI;
 import javastrava.config.JavastravaApplicationConfig;
 import retrofit.client.Response;
-import test.apicheck.api.ChallengeAPI;
-import test.apicheck.api.ResponseValidator;
 import test.service.standardtests.data.ChallengeDataUtils;
 import test.utils.TestUtils;
 
@@ -37,7 +36,7 @@ public class ChallengeAPITest {
 	public void testAPI_getChallenge() throws Exception {
 		// Can only run the test if the challenges endpoint is enabled
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
-			final Response response = api().getChallenge(ChallengeDataUtils.CHALLENGE_VALID_ID);
+			final Response response = api().getChallengeRaw(ChallengeDataUtils.CHALLENGE_VALID_ID);
 			ResponseValidator.validate(response, StravaChallenge.class, "getChallenge"); //$NON-NLS-1$
 		}
 	}
@@ -55,7 +54,7 @@ public class ChallengeAPITest {
 	public void testAPI_listJoinedChallenges() throws Exception {
 		// Can only run the test if the challenges endpoint is enabled
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
-			final Response response = api().getChallenge(ChallengeDataUtils.CHALLENGE_VALID_ID);
+			final Response response = api().listJoinedChallengesRaw();
 			ResponseValidator.validate(response, StravaChallenge.class, "listJoinedChallenges"); //$NON-NLS-1$
 		}
 	}

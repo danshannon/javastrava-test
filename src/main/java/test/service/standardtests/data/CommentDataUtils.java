@@ -72,8 +72,6 @@ public class CommentDataUtils {
 	 * </p>
 	 *
 	 * @return The callback
-	 * @throws Exception
-	 *             if creator cannot be instantiated
 	 */
 	public static GetCallback<StravaComment, Integer> getter() {
 		return ((strava, id) -> {
@@ -87,8 +85,6 @@ public class CommentDataUtils {
 	 * </p>
 	 *
 	 * @return the create callback
-	 * @throws Exception
-	 *             if creator cannot be instantiated
 	 */
 	public static CreateCallback<StravaComment> stravaCreator() {
 		return ((strava, comment) -> {

@@ -155,6 +155,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_tooManyActivityAttributes() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -206,6 +207,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateAllAtOnce() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -256,6 +258,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateCommute() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -286,6 +289,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateDescription() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -316,6 +320,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateGearId() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -344,6 +349,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateGearIDNone() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -377,6 +383,7 @@ public class UpdateActivityTest {
 	 *             if the test fails in an unexpected way
 	 *
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateName() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -409,6 +416,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdatePrivate() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -474,6 +482,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateTrainer() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities
@@ -503,6 +512,7 @@ public class UpdateActivityTest {
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testUpdateActivity_validUpdateType() throws Exception {
 		// Can't run the test if the application doesn't have Strava's permission to delete activities

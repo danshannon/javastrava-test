@@ -33,6 +33,9 @@ public abstract class AsyncPagingListMethodTest<T extends StravaEntity, U> exten
 	@Override
 	protected abstract U idValidWithEntries();
 
+	/**
+	 * @return Callback used to get relevant list from Strava
+	 */
 	protected abstract AsyncPagingListCallback<T, U> pagingLister();
 
 	/**

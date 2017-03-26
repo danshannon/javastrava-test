@@ -10,10 +10,18 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.service.Strava;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Tests for {@link Strava#joinClub(Integer)}
+ *
+ * @author Dan Shannon
+ *
+ */
 public class JoinClubTest {
 	/**
 	 * @param clubs
@@ -22,7 +30,7 @@ public class JoinClubTest {
 	 *            Id of the club we're checking for membership
 	 * @return <code>true</code> if one of the clubs has the given id
 	 */
-	private boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
+	private static boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
 		for (final StravaClub club : clubs) {
 			if (club.getId().intValue() == id.intValue()) {
 				return true;
@@ -31,7 +39,13 @@ public class JoinClubTest {
 		return false;
 	}
 
-	// 3. Invalid club
+	/**
+	 * Invalid club
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -42,7 +56,13 @@ public class JoinClubTest {
 		});
 	}
 
-	// 2. Valid club which authenticated user is already a member of
+	/**
+	 * Valid club which authenticated user is already a member of
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testJoinClub_member() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -61,8 +81,13 @@ public class JoinClubTest {
 		});
 	}
 
-	// Test cases
-	// 1. Valid club which authenticated user is not already a member of
+	/**
+	 * Valid club which authenticated user is not already a member of
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -84,7 +109,13 @@ public class JoinClubTest {
 		});
 	}
 
-	// 5. Attempt to join a club without having write access
+	/**
+	 * Attempt to join a club without having write access
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -96,7 +127,13 @@ public class JoinClubTest {
 		});
 	}
 
-	// 4. Private club which authenticated user is NOT a member of
+	/**
+	 * Private club which authenticated user is NOT a member of
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {

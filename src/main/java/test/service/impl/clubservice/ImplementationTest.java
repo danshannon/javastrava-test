@@ -4,24 +4,29 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
 
 import org.junit.Test;
 
+import javastrava.api.v3.service.ClubService;
+import javastrava.api.v3.service.exception.InvalidTokenException;
+import javastrava.api.v3.service.impl.ClubServiceImpl;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * Service implementation tests for {@link ClubService}
+ *
+ * @author Dan Shannon
+ *
+ */
 public class ImplementationTest implements ServiceInstanceTests {
-	private ClubService getRevokedTokenService() {
+	private static ClubService getRevokedTokenService() {
 		return ClubServiceImpl.instance(TestUtils.getRevokedToken());
 	}
 
-	private ClubService service() {
+	private static ClubService service() {
 		return ClubServiceImpl.instance(TestUtils.getValidToken());
 	}
 
@@ -31,9 +36,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -51,6 +54,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -58,7 +62,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 		RateLimitedTestRunner.run(() -> {
 			final ClubService service = service();
 			final ClubService service2 = service();
-			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2);
+			assertEquals("Retrieved multiple service instances for the same token - should only be one", service, service2); //$NON-NLS-1$
 		});
 	}
 
@@ -68,19 +72,20 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testImplementation_invalidToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			ClubService service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
+			final ClubService service = ClubServiceImpl.instance(TestUtils.INVALID_TOKEN);
 			try {
 				service.getClub(ClubDataUtils.CLUB_VALID_ID);
-			} catch (InvalidTokenException e) {
+			} catch (final InvalidTokenException e) {
 				// expected
 				return;
 			}
-			fail("Used an invalid token but still got access to Strava!");
+			fail("Used an invalid token but still got access to Strava!"); //$NON-NLS-1$
 		});
 	}
 
@@ -90,8 +95,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
@@ -100,11 +104,11 @@ public class ImplementationTest implements ServiceInstanceTests {
 			final ClubService service = getRevokedTokenService();
 			try {
 				service.getClub(ClubDataUtils.CLUB_VALID_ID);
-			} catch (InvalidTokenException e) {
+			} catch (final InvalidTokenException e) {
 				// expected
 				return;
 			}
-			fail("Used a revoked token but still got access to Strava!");
+			fail("Used a revoked token but still got access to Strava!"); //$NON-NLS-1$
 		});
 	}
 
@@ -114,16 +118,14 @@ public class ImplementationTest implements ServiceInstanceTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             If token is not valid
+	 *             if the test fails in an unexpected way
 	 */
 	@Override
 	@Test
 	public void testImplementation_validToken() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final ClubService service = service();
-			assertNotNull("Got a NULL service for a valid token", service);
+			assertNotNull("Got a NULL service for a valid token", service); //$NON-NLS-1$
 		});
 	}
 

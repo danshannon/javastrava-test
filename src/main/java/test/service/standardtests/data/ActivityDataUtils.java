@@ -226,6 +226,13 @@ public class ActivityDataUtils {
 		});
 	}
 
+	/**
+	 * Generate a valid {@link StravaActivity}
+	 *
+	 * @param resourceState
+	 *            The resource state of the object to be created
+	 * @return The generated activity
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaActivity testActivity(StravaResourceState resourceState) {
 		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
@@ -461,6 +468,13 @@ public class ActivityDataUtils {
 		return video;
 	}
 
+	/**
+	 * Generate a {@link StravaBestRunningEffort} with the required resource state
+	 *
+	 * @param resourceState
+	 *            The resource state
+	 * @return The generated effort
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaBestRunningEffort testBestEffort(StravaResourceState resourceState) {
 		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
@@ -493,6 +507,13 @@ public class ActivityDataUtils {
 		return bestEffort;
 	}
 
+	/**
+	 * Generate a list of {@link StravaBestRunningEffort}s with the required resource state
+	 *
+	 * @param resourceState
+	 *            The resource state
+	 * @return The list of generated efforts
+	 */
 	public static List<StravaBestRunningEffort> testBestEffortList(StravaResourceState resourceState) {
 		final List<StravaBestRunningEffort> list = new ArrayList<>();
 		final int entries = random.nextInt(10000);

@@ -10,10 +10,19 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.service.Strava;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
+/**
+ * <p>
+ * Tests for {@link Strava#leaveClub(Integer)}
+ * </p>
+ * 
+ * @author Dan Shannon
+ *
+ */
 public class LeaveClubTest {
 	/**
 	 * @param clubs
@@ -22,7 +31,7 @@ public class LeaveClubTest {
 	 *            Id of the club we're checking for membership
 	 * @return <code>true</code> if one of the clubs has the given id
 	 */
-	private boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
+	private static boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
 		for (final StravaClub club : clubs) {
 			if (club.getId().intValue() == id.intValue()) {
 				return true;
@@ -31,7 +40,13 @@ public class LeaveClubTest {
 		return false;
 	}
 
-	// 3. Invalid club
+	/**
+	 * Invalid club
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -42,7 +57,13 @@ public class LeaveClubTest {
 		});
 	}
 
-	// 2. Valid club which authenticated user is already a member of
+	/**
+	 * Valid club which authenticated user is already a member of
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_member() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -60,8 +81,13 @@ public class LeaveClubTest {
 		});
 	}
 
-	// Test cases
-	// 1. Valid club which authenticated user is not already a member of
+	/**
+	 * Valid club which authenticated user is not already a member of
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -76,7 +102,13 @@ public class LeaveClubTest {
 		});
 	}
 
-	// 5. Leave a club using a token with no write access
+	/**
+	 * Leave a club using a token with no write access
+	 * 
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -88,8 +120,19 @@ public class LeaveClubTest {
 		});
 	}
 
-	// 4. Private club which authenticated user is a member of
-	// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
+	/**
+	 * <p>
+	 * Private club which authenticated user is a member of
+	 * </p>
+	 *
+	 * <p>
+	 * CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
+	 * </p>
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexected way
+	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_privateClubMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {

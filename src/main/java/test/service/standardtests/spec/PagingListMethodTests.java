@@ -3,9 +3,9 @@
  */
 package test.service.standardtests.spec;
 
-import javastrava.api.v3.service.exception.UnauthorizedException;
-
 import org.junit.Test;
+
+import javastrava.api.v3.service.exception.UnauthorizedException;
 
 /**
  * <p>
@@ -28,6 +28,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
+	 *             if the test fails in an unexpected way
 	 *
 	 * @throws UnauthorizedException
 	 *             Thrown when security token is invalid
@@ -41,9 +42,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPageSize() throws Exception;
@@ -54,8 +53,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPageSizeTooLargeForStrava() throws Exception;
@@ -66,8 +64,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPagingIgnoreFirstN() throws Exception;
@@ -78,9 +75,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPagingIgnoreLastN() throws Exception;
@@ -91,9 +86,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPagingOutOfRangeHigh() throws Exception;
@@ -104,9 +97,7 @@ public interface PagingListMethodTests {
 	 * </p>
 	 *
 	 * @throws Exception
-	 *
-	 * @throws UnauthorizedException
-	 *             Thrown when security token is invalid
+	 *             if the test fails in an unexpected way
 	 */
 	@Test
 	void testPagingOutOfRangeLow() throws Exception;

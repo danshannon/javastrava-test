@@ -11,11 +11,26 @@ import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.model.StravaPhotoSizes;
 import javastrava.api.v3.model.reference.StravaResourceState;
 
+/**
+ * <p>
+ * Test data utilities for {@link StravaPhoto}-related data
+ * </p>
+ *
+ * @author Dan Shannon
+ *
+ */
 public class PhotoDataUtils {
 	private static Random random = new Random();
 
 	private static TextProducer text = Fairy.create().textProducer();
 
+	/**
+	 * Generate a photo with the required resource state
+	 * 
+	 * @param resourceState
+	 *            required resource state
+	 * @return Generated photo
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaPhoto testPhoto(StravaResourceState resourceState) {
 		final StravaPhoto photo = new StravaPhoto();
@@ -38,6 +53,9 @@ public class PhotoDataUtils {
 		return photo;
 	}
 
+	/**
+	 * @return Generated object
+	 */
 	@SuppressWarnings("boxing")
 	public static StravaPhotoSizes testPhotoSizes() {
 		final StravaPhotoSizes sizes = new StravaPhotoSizes();
