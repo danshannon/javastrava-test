@@ -83,6 +83,7 @@ public class ClubDataUtils {
 		// Set data which occurs for every resource state
 		club.setResourceState(resourceState);
 		club.setId(random.nextInt(2 ^ (31 - 1)));
+		club.setName(fairy.word(4));
 
 		// Return only the above data for META and PRIVATE clubs
 		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
@@ -90,7 +91,6 @@ public class ClubDataUtils {
 		}
 
 		// Set data which occurs for both SUMMARY and DETAILED states
-		club.setName(fairy.word(4));
 		club.setProfile(fairy.randomString(random.nextInt(100)));
 		club.setProfileMedium(fairy.randomString(random.nextInt(100)));
 		club.setCoverPhoto(fairy.randomString(random.nextInt(100)));
