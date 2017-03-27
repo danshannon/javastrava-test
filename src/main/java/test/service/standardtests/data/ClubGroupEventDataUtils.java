@@ -2,6 +2,7 @@ package test.service.standardtests.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ClubGroupEventDataUtils {
 		event.setStartLatlng(MapDataUtils.testMapPoint(resourceState));
 		event.setWomanOnly(random.nextBoolean());
 		event.setPrivateEvent(random.nextBoolean());
-		event.setSkillLevel(RefDataUtils.randomSkillLevel());
+		event.setSkillLevels(RefDataUtils.randomSkillLevel());
 		event.setTerrain(RefDataUtils.randomTerrainType());
 		event.setUpcomingOccurrences(DateUtils.localDateTimeList(5));
 		event.setZone(fairy.word());
@@ -137,9 +138,9 @@ public class ClubGroupEventDataUtils {
 	 * @param event
 	 *            The event to be validated
 	 */
-	public static void validate(final StravaClubEvent event) {
+	public static void validateEvent(final StravaClubEvent event) {
 		assertNotNull(event);
-		ClubGroupEventDataUtils.validate(event, event.getId(), event.getResourceState());
+		ClubGroupEventDataUtils.validateEvent(event, event.getId(), event.getResourceState());
 	}
 
 	/**
@@ -154,12 +155,78 @@ public class ClubGroupEventDataUtils {
 	 * @param state
 	 *            The resource state of the club event
 	 */
-	public static void validate(final StravaClubEvent event, final Integer id, final StravaResourceState state) {
+	@SuppressWarnings("deprecation")
+	public static void validateEvent(final StravaClubEvent event, final Integer id, final StravaResourceState state) {
 		assertNotNull(event);
+
+		// All resource states require that the event has an identifier and a resourceState
 		assertNotNull(event.getId());
 		assertNotNull(event.getResourceState());
+
+		// Id and resource state must be as expected
 		assertEquals(id, event.getId());
 		assertEquals(state, event.getResourceState());
+
+		// Deprecated fields must be null
+		assertNull(event.getClubId());
+		assertNull(event.getRouteId());
+
+		// If resource state is UNKNOWN, or UPDATING, then we can't do any more
+		if ((event.getResourceState() == StravaResourceState.UNKNOWN) || (event.getResourceState() == StravaResourceState.UPDATING)) {
+			throw new IllegalStateException("Event " + id + " has unexpected resource state " + state); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		// For PRIVATE representations, that's it
+		if (event.getResourceState() == StravaResourceState.PRIVATE) {
+			return;
+		}
+
+		// Assumption is that name is required but nothing else is
+		// Name is included in META representation since March 2017
+		assertNotNull(event.getTitle());
+
+		// If it's a DETAILED representation, then nothing else to check
+		if (state == StravaResourceState.DETAILED) {
+			return;
+		}
+
+		// If it's a SUMAMRY representation, ensure that the things not included in summary representations are null
+		if (state == StravaResourceState.SUMMARY) {
+			assertNull(event.getViewerPermissions());
+			assertNull(event.getStartDatetime());
+			assertNull(event.getFrequency());
+			assertNull(event.getDayOfWeek());
+			assertNull(event.getWeekOfMonth());
+			assertNull(event.getDaysOfWeek());
+			assertNull(event.getWeeklyInterval());
+			return;
+		}
+
+		if (state == StravaResourceState.META) {
+			assertNull(event.getDescription());
+			assertNull(event.getClub());
+			assertNull(event.getOrganizingAthlete());
+			assertNull(event.getActivityType());
+			assertNull(event.getCreatedAt());
+			assertNull(event.getRoute());
+			assertNull(event.getStartLatlng());
+			assertNull(event.getWomanOnly());
+			assertNull(event.getPrivateEvent());
+			assertNull(event.getSkillLevels());
+			assertNull(event.getTerrain());
+			assertNull(event.getUpcomingOccurrences());
+			assertNull(event.getZone());
+			assertNull(event.getAddress());
+			assertNull(event.getJoined());
+			assertNull(event.getViewerPermissions());
+			assertNull(event.getStartDatetime());
+			assertNull(event.getFrequency());
+			assertNull(event.getDayOfWeek());
+			assertNull(event.getWeekOfMonth());
+			assertNull(event.getDaysOfWeek());
+			assertNull(event.getWeeklyInterval());
+			return;
+		}
 
 	}
 
@@ -173,7 +240,7 @@ public class ClubGroupEventDataUtils {
 	 */
 	public static void validateList(final List<StravaClubEvent> list) {
 		for (final StravaClubEvent event : list) {
-			validate(event);
+			validateEvent(event);
 		}
 
 	}
