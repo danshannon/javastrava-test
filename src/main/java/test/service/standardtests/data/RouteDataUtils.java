@@ -48,6 +48,7 @@ public class RouteDataUtils {
 		// Set data which occurs for every resource state
 		route.setResourceState(resourceState);
 		route.setId(random.nextInt(2 ^ (31 - 1)));
+		route.setName(fairy.word(5));
 
 		// Return only the above data for META and PRIVATE clubs
 		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
@@ -55,7 +56,6 @@ public class RouteDataUtils {
 		}
 
 		// Set data common to SUMMARY and DETAILED representations
-		route.setName(fairy.word(5));
 		route.setDescription(fairy.paragraph());
 		route.setAthlete(AthleteDataUtils.testAthlete(StravaResourceState.SUMMARY));
 		route.setDistance(random.nextFloat());
