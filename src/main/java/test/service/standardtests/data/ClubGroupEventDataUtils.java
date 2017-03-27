@@ -45,7 +45,7 @@ public class ClubGroupEventDataUtils {
 
 	static {
 		CLUB_EVENT_VALID_ID = TestUtils.integerProperty("test.clubGroupEventValidId"); //$NON-NLS-1$
-		CLUB_EVENT_INVALID_ID = TestUtils.integerProperty("test.clubGRoupEventInvalidId"); //$NON-NLS-1$
+		CLUB_EVENT_INVALID_ID = TestUtils.integerProperty("test.clubGroupEventInvalidId"); //$NON-NLS-1$
 		CLUB_EVENT_PRIVATE_MEMBER_ID = TestUtils.integerProperty("test.clubGroupEventPrivateId"); //$NON-NLS-1$
 	}
 
@@ -82,7 +82,7 @@ public class ClubGroupEventDataUtils {
 		event.setCreatedAt(DateUtils.zonedDateTime());
 		event.setRoute(RouteDataUtils.testRoute(StravaResourceState.META));
 		event.setStartLatlng(MapDataUtils.testMapPoint(resourceState));
-		event.setWomanOnly(random.nextBoolean());
+		event.setWomenOnly(random.nextBoolean());
 		event.setPrivateEvent(random.nextBoolean());
 		event.setSkillLevels(RefDataUtils.randomSkillLevel());
 		event.setTerrain(RefDataUtils.randomTerrainType());
@@ -210,7 +210,7 @@ public class ClubGroupEventDataUtils {
 			assertNull(event.getCreatedAt());
 			assertNull(event.getRoute());
 			assertNull(event.getStartLatlng());
-			assertNull(event.getWomanOnly());
+			assertNull(event.getWomenOnly());
 			assertNull(event.getPrivateEvent());
 			assertNull(event.getSkillLevels());
 			assertNull(event.getTerrain());

@@ -22,11 +22,13 @@ import javastrava.api.v3.model.StravaAthleteSegmentStats;
 import javastrava.api.v3.model.StravaBestRunningEffort;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubAnnouncement;
+import javastrava.api.v3.model.StravaClubEvent;
 import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.model.StravaMap;
 import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.api.v3.model.StravaPhoto;
+import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.StravaSegmentExplorerResponse;
@@ -270,6 +272,11 @@ public class ResponseValidator {
 	}
 
 	private static <T> void validateElement(final JsonElement inputElement, final Set<String> errors, final Class<T> class1, final String prefix) {
+		// Null safety
+		if (inputElement == null) {
+			return;
+		}
+
 		if (inputElement.isJsonObject()) {
 			final JsonElement outputElement = roundTrip(inputElement, class1);
 
@@ -328,6 +335,14 @@ public class ResponseValidator {
 			else if (class1 == StravaClubAnnouncement.class) {
 				validateClubAnnouncements(inputElement, errors, prefix);
 			}
+
+			else if (class1 == StravaClubEvent.class) {
+				validateClubGroupEvents(inputElement, errors, prefix);
+			}
+
+			else if (class1 == StravaRoute.class) {
+				validateRoutes(inputElement, errors, prefix);
+			}
 			// For everything else which doesn't have composed Strava model
 			// objects
 			else {
@@ -339,6 +354,44 @@ public class ResponseValidator {
 			for (final JsonElement element : inputElement.getAsJsonArray()) {
 				validateElement(element, errors, class1, prefix);
 			}
+		}
+
+	}
+
+	private static void validateRoutes(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaRoute.class), element, errors, prefix);
+
+		// Validate the athlete if there is one
+		final JsonElement athlete = element.getAsJsonObject().get("athlete"); //$NON-NLS-1$
+		if (athlete != null) {
+			validateElement(athlete, errors, StravaAthlete.class, prefix + ".athlete"); //$NON-NLS-1$
+		}
+
+		// Validate the map if there is one
+		final JsonElement map = element.getAsJsonObject().get("map"); //$NON-NLS-1$
+		if (map != null) {
+			validateElement(map, errors, StravaMap.class, prefix + ".map"); //$NON-NLS-1$
+		}
+
+		// Validate the segments if they exist
+		final JsonElement segments = element.getAsJsonObject().get("segments"); //$NON-NLS-1$
+		validateElement(segments, errors, StravaSegment.class, prefix + ".segments"); //$NON-NLS-1$
+
+	}
+
+	private static void validateClubGroupEvents(JsonElement element, Set<String> errors, String prefix) {
+		compareJsonObjects(roundTrip(element, StravaClubEvent.class), element, errors, prefix);
+
+		// Validate the club if there is one
+		final JsonElement club = element.getAsJsonObject().get("club"); //$NON-NLS-1$
+		if (club != null) {
+			validateElement(club, errors, StravaClub.class, prefix + ".club"); //$NON-NLS-1$
+		}
+
+		// Validate the route if there is one
+		final JsonElement route = element.getAsJsonObject().get("route"); //$NON-NLS-1$
+		if (route != null) {
+			validateElement(route, errors, StravaRoute.class, prefix + ".route"); //$NON-NLS-1$
 		}
 
 	}
