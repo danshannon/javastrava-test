@@ -3,6 +3,7 @@ package test.apicheck;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -95,7 +96,7 @@ public class ResponseValidator {
 	 *             if there's an IO error
 	 */
 	public static <T> void validate(final Response response, final Class<T> class1, final String prefix) throws JsonSerialisationException, IOException {
-		final String input = IOUtils.toString(response.getBody().in());
+		final String input = IOUtils.toString(response.getBody().in(), Charset.defaultCharset());
 		final JsonParser parser = new JsonParser();
 		final JsonElement inputElement = parser.parse(input);
 		final Set<String> errors = new LinkedHashSet<String>();
