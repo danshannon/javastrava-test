@@ -9,9 +9,9 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -91,7 +91,7 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 			final List<StravaActivity> activities = TestUtils.strava().listAllRecentClubActivities(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -129,14 +129,14 @@ public class ListAllRecentClubActivitiesTest extends ListMethodTest<StravaActivi
 			final List<StravaActivity> activities = TestUtils.strava().listAllRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validate(object);
+		ActivityDataUtils.validate(object);
 	}
 
 }

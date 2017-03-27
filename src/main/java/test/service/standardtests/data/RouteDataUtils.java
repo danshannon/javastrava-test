@@ -1,5 +1,8 @@
 package test.service.standardtests.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Random;
 
 import org.jfairy.Fairy;
@@ -78,6 +81,28 @@ public class RouteDataUtils {
 		// Return the route
 		return route;
 
+	}
+
+	/**
+	 * @param route
+	 *            Route to be validated
+	 */
+	public static void validateRoute(StravaRoute route) {
+		validateRoute(route, route.getId(), route.getResourceState());
+	}
+
+	/**
+	 * @param route
+	 *            Route to be validated
+	 * @param id
+	 *            Expected value of the identifier
+	 * @param resourceState
+	 *            Expected resource state
+	 */
+	public static void validateRoute(StravaRoute route, Integer id, StravaResourceState resourceState) {
+		assertEquals(id, route.getId());
+		assertEquals(resourceState, route.getResourceState());
+		assertNotNull(route.getName());
 	}
 
 }

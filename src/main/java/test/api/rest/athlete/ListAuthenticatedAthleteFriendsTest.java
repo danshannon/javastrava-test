@@ -8,7 +8,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -76,7 +75,7 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 			assertNotNull(friends);
 			assertFalse(friends.length == 0);
 			for (final StravaAthlete athlete : friends) {
-				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+				AthleteDataUtils.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
 			}
 		});
 	}
@@ -86,13 +85,13 @@ public class ListAuthenticatedAthleteFriendsTest extends APIPagingListTest<Strav
 	 */
 	@Override
 	protected void validate(final StravaAthlete athlete) throws Exception {
-		StravaAthleteTest.validateAthlete(athlete);
+		AthleteDataUtils.validateAthlete(athlete);
 	}
 
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
+			AthleteDataUtils.validateAthlete(athlete);
 		}
 	}
 

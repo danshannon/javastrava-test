@@ -2,7 +2,6 @@ package test.api.rest.athlete.async;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.athlete.GetAthleteTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -26,7 +25,7 @@ public class GetAthleteAsyncTest extends GetAthleteTest {
 	public void testGetAthlete_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaAthlete athlete = api().getAthleteAsync(AthleteDataUtils.ATHLETE_PRIVATE_ID).get();
-			StravaAthleteTest.validateAthlete(athlete);
+			AthleteDataUtils.validateAthlete(athlete);
 		});
 	}
 

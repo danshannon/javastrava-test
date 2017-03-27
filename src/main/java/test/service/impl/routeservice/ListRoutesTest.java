@@ -2,7 +2,6 @@ package test.service.impl.routeservice;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaRouteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.RouteDataUtils;
@@ -11,7 +10,7 @@ import test.service.standardtests.data.RouteDataUtils;
  * <p>
  * Tests for {@link Strava#listAthleteRoutes(Integer)}
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -48,8 +47,8 @@ public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 	}
 
 	@Override
-	protected void validate(StravaRoute object) {
-		StravaRouteTest.validate(object);
+	protected void validate(StravaRoute result) {
+		RouteDataUtils.validateRoute(result);
 	}
 
 }

@@ -11,7 +11,7 @@ import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
 import javastrava.api.v3.model.reference.StravaClimbCategory;
 import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaSegmentExplorerResponseTest;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -39,7 +39,7 @@ public class SegmentExploreTest {
 			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
 					new StravaMapPoint(new Float(-25f), new Float(154f)), StravaSegmentExplorerActivityType.RUNNING, null, null);
 			assertNotNull(response);
-			StravaSegmentExplorerResponseTest.validate(response);
+			SegmentDataUtils.validateSegmentExplorerResponse(response);
 		});
 	}
 
@@ -61,7 +61,7 @@ public class SegmentExploreTest {
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue().intValue() <= StravaClimbCategory.CATEGORY1.getValue().intValue());
 			}
-			StravaSegmentExplorerResponseTest.validate(response);
+			SegmentDataUtils.validateSegmentExplorerResponse(response);
 		});
 	}
 
@@ -83,7 +83,7 @@ public class SegmentExploreTest {
 			for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
 				assertTrue(segment.getClimbCategory().getValue().intValue() >= StravaClimbCategory.HORS_CATEGORIE.getValue().intValue());
 			}
-			StravaSegmentExplorerResponseTest.validate(response);
+			SegmentDataUtils.validateSegmentExplorerResponse(response);
 		});
 	}
 
@@ -102,7 +102,7 @@ public class SegmentExploreTest {
 			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
 					new StravaMapPoint(new Float(-25f), new Float(154f)), null, null, null);
 			assertNotNull(response);
-			StravaSegmentExplorerResponseTest.validate(response);
+			SegmentDataUtils.validateSegmentExplorerResponse(response);
 		});
 	}
 
@@ -121,7 +121,7 @@ public class SegmentExploreTest {
 			final StravaSegmentExplorerResponse response = TestUtils.strava().segmentExplore(new StravaMapPoint(new Float(-39.4f), new Float(136f)),
 					new StravaMapPoint(new Float(-25f), new Float(154f)), null, null, null);
 			assertNotNull(response);
-			StravaSegmentExplorerResponseTest.validate(response);
+			SegmentDataUtils.validateSegmentExplorerResponse(response);
 		});
 	}
 

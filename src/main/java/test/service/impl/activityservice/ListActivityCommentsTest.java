@@ -12,12 +12,12 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.util.Paging;
-import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -113,11 +113,11 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 					+ " is not same length with/without markdown!", comments.size(), commentsWithoutMarkdown.size()); //$NON-NLS-1$
 			for (final StravaComment comment1 : comments) {
 				assertEquals(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, comment1.getActivityId());
-				StravaCommentTest.validateComment(comment1, comment1.getId(), comment1.getResourceState());
+				CommentDataUtils.validateComment(comment1, comment1.getId(), comment1.getResourceState());
 			}
 			for (final StravaComment comment2 : commentsWithoutMarkdown) {
 				assertEquals(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, comment2.getActivityId());
-				StravaCommentTest.validateComment(comment2, comment2.getId(), comment2.getResourceState());
+				CommentDataUtils.validateComment(comment2, comment2.getId(), comment2.getResourceState());
 			}
 		});
 	}
@@ -144,7 +144,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 			assertEquals("Returned a non-empty list of comments when none were expected", 0, comments.size()); //$NON-NLS-1$
 			for (final StravaComment comment : comments) {
 				assertEquals(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, comment.getActivityId());
-				StravaCommentTest.validateComment(comment, comment.getId(), comment.getResourceState());
+				CommentDataUtils.validateComment(comment, comment.getId(), comment.getResourceState());
 			}
 		});
 	}
@@ -218,7 +218,7 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 
 	@Override
 	protected void validate(final StravaComment comment) {
-		StravaCommentTest.validateComment(comment);
+		CommentDataUtils.validateComment(comment);
 
 	}
 

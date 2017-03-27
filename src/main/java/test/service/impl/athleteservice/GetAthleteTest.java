@@ -7,7 +7,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaAthleteTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -80,6 +79,6 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 	@Override
 	protected void validate(StravaAthlete object) {
-		StravaAthleteTest.validateAthlete(object);
+		AthleteDataUtils.validateAthlete(object);
 	}
 }

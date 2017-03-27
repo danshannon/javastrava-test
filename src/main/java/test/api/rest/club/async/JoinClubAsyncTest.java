@@ -11,7 +11,6 @@ import javastrava.api.v3.model.StravaClubMembershipResponse;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaClubTest;
 import test.api.rest.club.JoinClubTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -53,7 +52,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 
 			// Make sure the athlete now (still) a member
 			final StravaClub[] clubs = api().listAuthenticatedAthleteClubsAsync().get();
-			final boolean member = StravaClubTest.checkIsMember(clubs, id);
+			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
 			assertNotNull(response);
 			assertTrue(response.getSuccess());
@@ -73,7 +72,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 
 			// Make sure the athlete now a member
 			final StravaClub[] clubs = api().listAuthenticatedAthleteClubsAsync().get();
-			final boolean member = StravaClubTest.checkIsMember(clubs, id);
+			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
 			// Leave the club again, just to be sure
 			apiWithWriteAccess().leaveClubAsync(id).get();

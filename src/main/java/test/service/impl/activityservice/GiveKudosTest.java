@@ -12,7 +12,6 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaAthleteTest;
 import test.issues.strava.Issue29;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -49,7 +48,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 
 				boolean found = false;
 				for (final StravaAthlete athlete : kudoers) {
-					StravaAthleteTest.validateAthlete(athlete);
+					AthleteDataUtils.validateAthlete(athlete);
 					if (athlete.getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) {
 						found = true;
 					}
@@ -77,7 +76,7 @@ public class GiveKudosTest implements PrivacyTests, StandardTests {
 
 				boolean found = false;
 				for (final StravaAthlete athlete : kudoers) {
-					StravaAthleteTest.validateAthlete(athlete);
+					AthleteDataUtils.validateAthlete(athlete);
 					if (athlete.getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID)) {
 						found = true;
 					}

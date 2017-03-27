@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue25;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 
 /**
  * <p>
@@ -70,7 +70,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 			// ignore
 		}
 
-		StravaSegmentTest.validateSegment(segment);
+		SegmentDataUtils.validateSegment(segment);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class ListStarredSegmentsTest extends APIPagingListTest<StravaSegment, In
 			// Ignore
 		}
 
-		StravaSegmentTest.validateList(Arrays.asList(list));
+		SegmentDataUtils.validateSegmentList(Arrays.asList(list));
 
 	}
 

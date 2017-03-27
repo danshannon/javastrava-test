@@ -2,7 +2,6 @@ package test.service.impl.routeservice;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaRouteTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.RouteDataUtils;
@@ -43,9 +42,8 @@ public class GetRouteTest extends GetMethodTest<StravaRoute, Integer> {
 	}
 
 	@Override
-	protected void validate(StravaRoute object) {
-		StravaRouteTest.validate(object);
-
+	protected void validate(StravaRoute result) {
+		RouteDataUtils.validateRoute(result);
 	}
 
 }

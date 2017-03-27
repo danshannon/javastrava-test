@@ -1,7 +1,6 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaLap;
-import test.api.model.StravaLapTest;
 import test.issues.strava.Issue105;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
@@ -57,7 +56,7 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
 	protected void validate(final StravaLap object) {
-		StravaLapTest.validateLap(object);
+		ActivityDataUtils.validateLap(object);
 	}
 
 }

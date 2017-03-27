@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -67,7 +66,7 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 			final List<StravaActivity> activities = lister().getList(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER);
 			assertNotNull(activities);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 
 		});
@@ -75,7 +74,7 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validate(object);
+		ActivityDataUtils.validate(object);
 
 	}
 

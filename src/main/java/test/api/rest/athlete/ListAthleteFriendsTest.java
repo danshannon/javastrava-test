@@ -7,7 +7,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -78,14 +77,14 @@ public class ListAthleteFriendsTest extends APIPagingListTest<StravaAthlete, Int
 
 	@Override
 	protected void validate(final StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete);
+		AthleteDataUtils.validateAthlete(athlete);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaAthlete[] athletes) {
 		for (final StravaAthlete athlete : athletes) {
-			StravaAthleteTest.validateAthlete(athlete);
+			AthleteDataUtils.validateAthlete(athlete);
 		}
 	}
 

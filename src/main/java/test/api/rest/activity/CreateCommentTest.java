@@ -8,7 +8,6 @@ import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaCommentTest;
 import test.api.rest.APICreateTest;
 import test.api.rest.callback.APICreateCallback;
 import test.issues.strava.Issue30;
@@ -148,7 +147,7 @@ public class CreateCommentTest extends APICreateTest<StravaComment, Long> {
 
 	@Override
 	protected void validate(final StravaComment comment) throws Exception {
-		StravaCommentTest.validateComment(comment);
+		CommentDataUtils.validateComment(comment);
 
 	}
 

@@ -13,22 +13,6 @@ import test.utils.BeanTest;
  */
 public class StravaClubTest extends BeanTest<StravaClub> {
 
-	/**
-	 * @param clubs
-	 *            List of clubs to check
-	 * @param id
-	 *            Id of the club we're checking for membership
-	 * @return <code>true</code> if one of the clubs has the given id
-	 */
-	public static boolean checkIsMember(final StravaClub[] clubs, final Integer id) {
-		for (final StravaClub club : clubs) {
-			if (club.getId().intValue() == id.intValue()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	protected Class<StravaClub> getClassUnderTest() {
 		return StravaClub.class;

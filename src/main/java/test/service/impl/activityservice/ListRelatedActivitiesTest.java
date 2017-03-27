@@ -1,7 +1,6 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaActivity;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
@@ -53,7 +52,7 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 
 }

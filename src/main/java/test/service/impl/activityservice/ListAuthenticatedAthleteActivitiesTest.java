@@ -14,10 +14,10 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.util.Paging;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -86,7 +86,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 					assertTrue(activity.getStartDateLocal().isAfter(calendar));
 					assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -109,7 +109,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 			for (final StravaActivity activity : activities) {
 				assertTrue(activity.getStartDateLocal().isBefore(calendar));
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -134,7 +134,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -183,7 +183,7 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				assertTrue(activity.getStartDateLocal().isBefore(before));
 				assertTrue(activity.getStartDateLocal().isAfter(after));
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -208,14 +208,14 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 				if (activity.getResourceState() != StravaResourceState.PRIVATE) {
 					assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, activity.getAthlete().getId());
 				}
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 
 }

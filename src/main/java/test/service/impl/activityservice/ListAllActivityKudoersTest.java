@@ -4,10 +4,10 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaAthlete;
-import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.AthleteDataUtils;
 
 /**
  * <p>
@@ -51,6 +51,6 @@ public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Lo
 
 	@Override
 	protected void validate(StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete);
+		AthleteDataUtils.validateAthlete(athlete);
 	}
 }

@@ -7,7 +7,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaGear;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import test.api.model.StravaGearTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.GearDataUtils;
@@ -64,7 +63,7 @@ public class GetGearTest extends APIGetTest<StravaGear, String> {
 
 	@Override
 	protected void validate(final StravaGear result) throws Exception {
-		StravaGearTest.validateGear(result);
+		GearDataUtils.validateGear(result);
 
 	}
 

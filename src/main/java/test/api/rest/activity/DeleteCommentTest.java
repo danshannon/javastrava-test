@@ -5,12 +5,12 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaCommentTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.APITest;
 import test.api.rest.callback.APIDeleteCallback;
 import test.issues.strava.Issue63;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.CommentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -128,7 +128,7 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 
 	@Override
 	protected void validate(final StravaComment comment) throws Exception {
-		StravaCommentTest.validateComment(comment);
+		CommentDataUtils.validateComment(comment);
 
 	}
 

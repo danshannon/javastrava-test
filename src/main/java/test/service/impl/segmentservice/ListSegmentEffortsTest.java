@@ -15,12 +15,12 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.Strava;
 import javastrava.util.Paging;
-import test.api.model.StravaSegmentEffortTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -230,7 +230,7 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
-		StravaSegmentEffortTest.validateSegmentEffort(effort);
+		SegmentEffortDataUtils.validateSegmentEffort(effort);
 	}
 
 }

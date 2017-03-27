@@ -8,7 +8,6 @@ import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaCommentTest;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -110,7 +109,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 				final StravaComment createdComment = creator().create(TestUtils.stravaWithFullAccess(), comment);
 
 				// Validate
-				StravaCommentTest.validateComment(createdComment);
+				CommentDataUtils.validateComment(createdComment);
 
 				// Delete it again
 				deleter().delete(TestUtils.stravaWithFullAccess(), createdComment);
@@ -188,7 +187,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 
 	@Override
 	protected void validate(StravaComment object) {
-		StravaCommentTest.validateComment(object);
+		CommentDataUtils.validateComment(object);
 
 	}
 

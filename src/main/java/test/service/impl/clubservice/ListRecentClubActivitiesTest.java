@@ -12,11 +12,11 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.util.Paging;
-import test.api.model.StravaActivityTest;
 import test.issues.strava.Issue18;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -158,7 +158,7 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 
 	}
 }

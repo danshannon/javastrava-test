@@ -15,10 +15,10 @@ import javastrava.api.v3.model.reference.StravaStreamResolutionType;
 import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaStreamTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.SegmentEffortDataUtils;
+import test.service.standardtests.data.StreamDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -240,7 +240,7 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 
 	@Override
 	protected void validate(StravaStream object) {
-		StravaStreamTest.validate(object);
+		StreamDataUtils.validateStream(object);
 	}
 
 }

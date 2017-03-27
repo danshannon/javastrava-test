@@ -1,7 +1,6 @@
 package test.api.rest.runningrace;
 
 import javastrava.api.v3.model.StravaRunningRace;
-import test.api.model.StravaRunningRaceTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.RunningRaceDataUtils;
@@ -38,7 +37,7 @@ public class GetRaceTest extends APIGetTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected void validate(StravaRunningRace result) throws Exception {
-		StravaRunningRaceTest.validate(result);
+		RunningRaceDataUtils.validateRace(result);
 	}
 
 	@Override

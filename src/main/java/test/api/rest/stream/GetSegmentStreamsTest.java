@@ -12,13 +12,13 @@ import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
 import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
-import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.issues.strava.Issue87;
 import test.issues.strava.Issue89;
 import test.issues.strava.Issue90;
 import test.service.standardtests.data.SegmentDataUtils;
+import test.service.standardtests.data.StreamDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -219,7 +219,7 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	@Override
 	protected void validate(final StravaStream[] result) throws Exception {
 		for (final StravaStream stream : result) {
-			StravaStreamTest.validate(stream);
+			StreamDataUtils.validateStream(stream);
 		}
 
 	}
@@ -232,7 +232,7 @@ public class GetSegmentStreamsTest extends APIGetTest<StravaStream[], Integer> {
 	 */
 	protected static void validateArray(final StravaStream[] streams) {
 		for (final StravaStream stream : streams) {
-			StravaStreamTest.validate(stream);
+			StreamDataUtils.validateStream(stream);
 		}
 	}
 

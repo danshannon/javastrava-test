@@ -15,7 +15,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
-import test.api.model.StravaSegmentEffortTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -75,7 +74,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				assertTrue(effort.getStartDateLocal().isAfter(afterDate));
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -97,7 +96,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -121,7 +120,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 			for (final StravaSegmentEffort effort : efforts) {
 				assertTrue(effort.getStartDateLocal().isAfter(afterDate));
 				assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -146,7 +145,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 				assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
 				assertTrue(effort.getStartDateLocal().isAfter(afterDate));
 				assertTrue(effort.getStartDateLocal().isBefore(beforeDate));
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -184,7 +183,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
 				assertEquals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, effort.getAthlete().getId());
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -264,7 +263,7 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 
 	@Override
 	protected void validate(StravaSegmentEffort object) {
-		StravaSegmentEffortTest.validateSegmentEffort(object);
+		SegmentEffortDataUtils.validateSegmentEffort(object);
 	}
 
 }

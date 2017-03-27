@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaPhoto;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaPhotoTest;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.issues.strava.Issue68;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.PhotoDataUtils;
 
 /**
  * <p>
@@ -69,13 +69,13 @@ public class ListActivityPhotosTest extends APIListTest<StravaPhoto, Long> {
 	 */
 	@Override
 	protected void validate(final StravaPhoto photo) throws Exception {
-		StravaPhotoTest.validate(photo);
+		PhotoDataUtils.validate(photo);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaPhoto[] list) {
-		StravaPhotoTest.validateList(Arrays.asList(list));
+		PhotoDataUtils.validatePhotoList(Arrays.asList(list));
 	}
 
 	/**

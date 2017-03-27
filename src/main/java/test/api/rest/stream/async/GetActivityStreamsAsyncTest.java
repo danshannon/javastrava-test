@@ -16,12 +16,12 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaStreamTest;
 import test.api.rest.callback.APIGetCallback;
 import test.api.rest.stream.GetActivityStreamsTest;
 import test.issues.strava.Issue21;
 import test.issues.strava.Issue88;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.StreamDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -88,7 +88,7 @@ public class GetActivityStreamsAsyncTest extends GetActivityStreamsTest {
 					return;
 				}
 
-				StravaStreamTest.validate(stream);
+				StreamDataUtils.validateStream(stream);
 			}
 		});
 	}

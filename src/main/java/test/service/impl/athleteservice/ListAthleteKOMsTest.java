@@ -13,11 +13,11 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaSegmentEffortTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -159,7 +159,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 			assertNotNull(koms);
 			assertFalse(koms.size() == 0);
 			for (final StravaSegmentEffort effort : koms) {
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 			}
 		});
 	}
@@ -182,7 +182,7 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
-		StravaSegmentEffortTest.validateSegmentEffort(effort);
+		SegmentEffortDataUtils.validateSegmentEffort(effort);
 	}
 
 }

@@ -2,6 +2,7 @@ package test.service.standardtests.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -15,6 +16,7 @@ import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
 import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.model.StravaClubAnnouncement;
 import javastrava.api.v3.model.reference.StravaClubType;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.TestUtils;
@@ -223,5 +225,35 @@ public class ClubDataUtils {
 			validate(club);
 		}
 
+	}
+
+	/**
+	 * Validate contents of the object
+	 *
+	 * @param object
+	 *            Object to be validated
+	 */
+	public static void validateClubAnnouncement(StravaClubAnnouncement object) {
+		assertNotNull(object.getAthlete());
+		assertNotNull(object.getClubId());
+		assertNotEquals("Unknown StravaResourceState" + object.getResourceState(), object.getResourceState(), //$NON-NLS-1$
+				StravaResourceState.UNKNOWN);
+	
+	}
+
+	/**
+	 * @param clubs
+	 *            List of clubs to check
+	 * @param id
+	 *            Id of the club we're checking for membership
+	 * @return <code>true</code> if one of the clubs has the given id
+	 */
+	public static boolean checkIsMember(final StravaClub[] clubs, final Integer id) {
+		for (final StravaClub club : clubs) {
+			if (club.getId().intValue() == id.intValue()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

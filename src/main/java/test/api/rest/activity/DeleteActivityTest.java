@@ -3,7 +3,6 @@ package test.api.rest.activity;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APIDeleteTest;
 import test.api.rest.callback.APIDeleteCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -101,7 +100,7 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 
 	@Override
 	protected void validate(final StravaActivity result) throws Exception {
-		StravaActivityTest.validate(result);
+		ActivityDataUtils.validate(result);
 
 	}
 

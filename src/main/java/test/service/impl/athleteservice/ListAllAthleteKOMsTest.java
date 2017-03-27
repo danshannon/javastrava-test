@@ -14,11 +14,11 @@ import javastrava.api.v3.model.StravaSegmentLeaderboard;
 import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaSegmentEffortTest;
 import test.issues.strava.Issue32;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -94,7 +94,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 			final List<StravaSegmentEffort> efforts = TestUtils.strava().listAllAthleteKOMs(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
 			assertNotNull(efforts);
 			for (final StravaSegmentEffort effort : efforts) {
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_AUTHENTICATED_ID + " is not the KOM!", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID));
 			}
@@ -142,7 +142,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 			// End of workaround
 
 			for (final StravaSegmentEffort effort : efforts) {
-				StravaSegmentEffortTest.validateSegmentEffort(effort);
+				SegmentEffortDataUtils.validateSegmentEffort(effort);
 				assertTrue("Segment " + effort.getSegment().getId() + " athlete " + AthleteDataUtils.ATHLETE_VALID_ID + " is not the KOM!", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						isKom(effort.getSegment(), AthleteDataUtils.ATHLETE_VALID_ID));
 			}
@@ -193,7 +193,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 	@Override
 	protected void validate(StravaSegmentEffort object) {
-		StravaSegmentEffortTest.validateSegmentEffort(object);
+		SegmentEffortDataUtils.validateSegmentEffort(object);
 	}
 
 }

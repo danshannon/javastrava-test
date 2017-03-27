@@ -15,8 +15,6 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
 import javastrava.api.v3.model.reference.StravaWeightClass;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaSegmentLeaderboardEntryTest;
-import test.api.model.StravaSegmentLeaderboardTest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -45,7 +43,7 @@ public class GetSegmentLeaderboardTest {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, StravaAgeGroup.AGE35_44, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -63,7 +61,7 @@ public class GetSegmentLeaderboardTest {
 					StravaWeightClass.KG85_94, Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -81,7 +79,7 @@ public class GetSegmentLeaderboardTest {
 					null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -98,7 +96,7 @@ public class GetSegmentLeaderboardTest {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, Boolean.TRUE, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -152,7 +150,7 @@ public class GetSegmentLeaderboardTest {
 					null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -170,7 +168,7 @@ public class GetSegmentLeaderboardTest {
 					null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -252,7 +250,7 @@ public class GetSegmentLeaderboardTest {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.stravaWithViewPrivate().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_PRIVATE_ID);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -267,7 +265,7 @@ public class GetSegmentLeaderboardTest {
 	public void testGetSegmentLeaderboard_validSegment() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID);
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -276,7 +274,7 @@ public class GetSegmentLeaderboardTest {
 	 *            Entry to be validated
 	 */
 	protected static void validate(final StravaSegmentLeaderboardEntry entry) {
-		StravaSegmentLeaderboardEntryTest.validate(entry);
+		SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
 
 	}
 

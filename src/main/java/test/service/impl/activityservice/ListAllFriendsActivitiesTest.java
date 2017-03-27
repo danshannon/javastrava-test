@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -69,13 +69,13 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 			assertNotNull(activities);
 			assertTrue(activities.size() <= 200);
 			for (final StravaActivity activity : activities) {
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 }

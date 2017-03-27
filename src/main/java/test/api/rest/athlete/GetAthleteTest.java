@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -50,13 +49,13 @@ public class GetAthleteTest extends APIGetTest<StravaAthlete, Integer> {
 	public void testGetAthlete_privateAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaAthlete athlete = api().getAthlete(AthleteDataUtils.ATHLETE_PRIVATE_ID);
-			StravaAthleteTest.validateAthlete(athlete);
+			AthleteDataUtils.validateAthlete(athlete);
 		});
 	}
 
 	@Override
 	protected void validate(final StravaAthlete result) throws Exception {
-		StravaAthleteTest.validateAthlete(result);
+		AthleteDataUtils.validateAthlete(result);
 	}
 
 	@Override

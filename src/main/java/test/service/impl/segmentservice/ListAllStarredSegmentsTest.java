@@ -8,10 +8,10 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
-import test.api.model.StravaSegmentTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -76,7 +76,7 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 
 	@Override
 	protected void validate(StravaSegment object) {
-		StravaSegmentTest.validateSegment(object);
+		SegmentDataUtils.validateSegment(object);
 
 	}
 

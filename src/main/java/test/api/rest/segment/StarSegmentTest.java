@@ -2,7 +2,6 @@ package test.api.rest.segment;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaSegmentTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.APITest;
 import test.api.rest.callback.APIGetCallback;
@@ -39,7 +38,7 @@ public class StarSegmentTest extends APIGetTest<StravaSegment, Integer> {
 
 	@Override
 	protected void validate(StravaSegment result) throws Exception {
-		StravaSegmentTest.validateSegment(result);
+		SegmentDataUtils.validateSegment(result);
 
 	}
 

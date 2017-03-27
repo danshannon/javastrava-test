@@ -18,8 +18,6 @@ import javastrava.api.v3.model.reference.StravaWeightClass;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.util.Paging;
-import test.api.model.StravaSegmentLeaderboardEntryTest;
-import test.api.model.StravaSegmentLeaderboardTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.api.rest.util.ArrayCallback;
@@ -106,7 +104,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, StravaAgeGroup.AGE35_44, null, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -124,7 +122,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 					Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -141,7 +139,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, null, ClubDataUtils.CLUB_VALID_ID, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -158,7 +156,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, null, Boolean.TRUE, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -177,7 +175,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 			assertFalse(leaderboard.getEntries().isEmpty());
 			for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
 				assertEquals(StravaGender.FEMALE, entry.getAthleteGender());
-				StravaSegmentLeaderboardEntryTest.validate(entry);
+				SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
 			}
 		});
 	}
@@ -216,7 +214,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 					null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -233,7 +231,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, null, null, StravaWeightClass.KG75_84, null, null, null, null, null, null);
 			assertNotNull(leaderboard);
 			assertFalse(leaderboard.getEntries().isEmpty());
-			StravaSegmentLeaderboardTest.validate(leaderboard);
+			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}
 
@@ -332,7 +330,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 
 	@Override
 	protected void validate(final StravaSegmentLeaderboard leaderboard) throws Exception {
-		StravaSegmentLeaderboardTest.validate(leaderboard);
+		SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 
 	}
 
@@ -342,7 +340,7 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 	 */
 	protected static void validateArray(final StravaSegmentLeaderboardEntry[] entries) {
 		for (final StravaSegmentLeaderboardEntry entry : entries) {
-			StravaSegmentLeaderboardEntryTest.validate(entry);
+			SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
 		}
 	}
 

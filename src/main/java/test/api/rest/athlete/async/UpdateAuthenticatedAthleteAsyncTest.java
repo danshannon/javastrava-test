@@ -11,8 +11,8 @@ import javastrava.api.v3.model.reference.StravaGender;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.APITest;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -42,10 +42,10 @@ public class UpdateAuthenticatedAthleteAsyncTest extends APITest<StravaAthlete> 
 			final String country = athlete.getCountry();
 			athlete.setWeight(92.0f);
 			StravaAthlete returnedAthlete = apiWithWriteAccess().updateAuthenticatedAthleteAsync(null, null, null, null, new Float(92)).get();
-			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
+			AthleteDataUtils.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 			returnedAthlete = apiWithWriteAccess().updateAuthenticatedAthleteAsync(city, state, country, sex, null).get();
 			assertEquals(athlete.getWeight(), returnedAthlete.getWeight());
-			StravaAthleteTest.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
+			AthleteDataUtils.validateAthlete(returnedAthlete, athlete.getId(), StravaResourceState.DETAILED);
 		});
 	}
 
@@ -74,7 +74,7 @@ public class UpdateAuthenticatedAthleteAsyncTest extends APITest<StravaAthlete> 
 	 */
 	@Override
 	protected void validate(final StravaAthlete result) throws Exception {
-		StravaAthleteTest.validateAthlete(result);
+		AthleteDataUtils.validateAthlete(result);
 
 	}
 

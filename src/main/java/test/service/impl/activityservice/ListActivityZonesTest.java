@@ -1,7 +1,6 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaActivityZone;
-import test.api.model.StravaActivityZoneTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -47,7 +46,7 @@ public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Lo
 
 	@Override
 	protected void validate(StravaActivityZone zone) {
-		StravaActivityZoneTest.validate(zone);
+		ActivityDataUtils.validateActivityZone(zone);
 	}
 
 }

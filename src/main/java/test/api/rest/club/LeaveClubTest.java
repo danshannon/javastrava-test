@@ -9,7 +9,6 @@ import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaClubTest;
 import test.api.rest.APITest;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -61,7 +60,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 			apiWithWriteAccess().leaveClub(id);
 
 			final StravaClub[] clubs = api().listAuthenticatedAthleteClubs();
-			final boolean member = StravaClubTest.checkIsMember(clubs, id);
+			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
 			// Join the club again
 			apiWithWriteAccess().joinClub(id);
@@ -85,7 +84,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 			apiWithWriteAccess().leaveClub(id);
 
 			final StravaClub[] clubs = api().listAuthenticatedAthleteClubs();
-			final boolean member = StravaClubTest.checkIsMember(clubs, id);
+			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
 			assertFalse(member);
 		});

@@ -8,7 +8,6 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.DeleteMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -182,7 +181,7 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validate(object);
+		ActivityDataUtils.validate(object);
 	}
 
 }

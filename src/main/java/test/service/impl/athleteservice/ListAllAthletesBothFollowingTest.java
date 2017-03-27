@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaFollowerState;
-import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -84,7 +83,7 @@ public class ListAllAthletesBothFollowingTest extends ListMethodTest<StravaAthle
 
 	@Override
 	protected void validate(StravaAthlete object) {
-		StravaAthleteTest.validateAthlete(object);
+		AthleteDataUtils.validateAthlete(object);
 	}
 
 }

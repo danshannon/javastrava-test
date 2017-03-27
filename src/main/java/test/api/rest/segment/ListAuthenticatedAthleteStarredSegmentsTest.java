@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaSegmentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -17,6 +16,7 @@ import test.issues.strava.Issue25;
 import test.issues.strava.Issue71;
 import test.issues.strava.Issue81;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -117,13 +117,13 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends APIPagingListTe
 		} catch (final Exception e) {
 			// ignore
 		}
-		StravaSegmentTest.validateSegment(segment);
+		SegmentDataUtils.validateSegment(segment);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaSegment[] list) {
-		StravaSegmentTest.validateList(Arrays.asList(list));
+		SegmentDataUtils.validateSegmentList(Arrays.asList(list));
 
 	}
 

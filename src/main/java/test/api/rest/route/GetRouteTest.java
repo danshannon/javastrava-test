@@ -2,7 +2,6 @@ package test.api.rest.route;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaRouteTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.RouteDataUtils;
@@ -39,8 +38,7 @@ public class GetRouteTest extends APIGetTest<StravaRoute, Integer> {
 
 	@Override
 	protected void validate(StravaRoute result) throws Exception {
-		StravaRouteTest.validate(result);
-
+		RouteDataUtils.validateRoute(result);
 	}
 
 	@Override

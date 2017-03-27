@@ -11,7 +11,6 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.api.v3.service.impl.StravaServiceImpl;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.UpdatableGetMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -107,7 +106,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity);
 			assertEquals("Returned activity is not a detailed representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.DETAILED, activity.getResourceState());
-			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
+			ActivityDataUtils.validate(activity, ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER, StravaResourceState.DETAILED);
 		});
 	}
 
@@ -128,7 +127,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity);
 			assertEquals("Returned activity is not a summary representation as expected - " + activity.getResourceState(), //$NON-NLS-1$
 					StravaResourceState.SUMMARY, activity.getResourceState());
-			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
+			ActivityDataUtils.validate(activity, ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER, StravaResourceState.SUMMARY);
 		});
 	}
 
@@ -154,7 +153,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 					activity.getSegmentEfforts());
 			assertNotEquals("StravaActivity " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS + " was returned but segmentEfforts is empty", 0, //$NON-NLS-1$ //$NON-NLS-2$
 					activity.getSegmentEfforts().size());
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		});
 	}
 
@@ -175,7 +174,7 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 			assertNotNull("Returned null StravaActivity for known activity with id " + ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity); //$NON-NLS-1$
 			assertNotNull("Returned null segment efforts for known activity, when they were expected", //$NON-NLS-1$
 					activity.getSegmentEfforts());
-			StravaActivityTest.validate(activity, ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
+			ActivityDataUtils.validate(activity, ActivityDataUtils.ACTIVITY_WITH_EFFORTS, activity.getResourceState());
 		});
 	}
 
@@ -192,12 +191,12 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_RUN_WITH_SEGMENTS);
 			assertNotNull(activity);
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		});
 	}
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validate(object);
+		ActivityDataUtils.validate(object);
 	}
 }

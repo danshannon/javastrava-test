@@ -2,7 +2,6 @@ package test.service.impl.runningraceservice;
 
 import javastrava.api.v3.model.StravaRunningRace;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaRunningRaceTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.RunningRaceDataUtils;
@@ -49,7 +48,7 @@ public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected void validate(StravaRunningRace object) {
-		StravaRunningRaceTest.validate(object);
+		RunningRaceDataUtils.validateRace(object);
 	}
 
 }

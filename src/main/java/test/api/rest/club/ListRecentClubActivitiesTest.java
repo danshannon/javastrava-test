@@ -11,11 +11,11 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.util.Paging;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue94;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -148,14 +148,14 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		}
 	}
 

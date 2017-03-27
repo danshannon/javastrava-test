@@ -1,7 +1,6 @@
 package test.service.impl.clubservice;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
-import test.api.model.StravaClubAnnouncementTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ClubDataUtils;
@@ -43,7 +42,7 @@ public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnounce
 
 	@Override
 	protected void validate(StravaClubAnnouncement object) {
-		StravaClubAnnouncementTest.validate(object);
+		ClubDataUtils.validateClubAnnouncement(object);
 	}
 
 }

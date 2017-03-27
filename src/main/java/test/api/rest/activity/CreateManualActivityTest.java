@@ -8,7 +8,6 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APICreateTest;
 import test.api.rest.callback.APICreateCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -230,7 +229,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 	 */
 	@Override
 	protected void validate(final StravaActivity activity) throws Exception {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 
 	/**

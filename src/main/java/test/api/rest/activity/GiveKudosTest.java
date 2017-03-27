@@ -7,7 +7,6 @@ import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.StravaResponse;
 import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.APICreateTest;
 import test.api.rest.callback.APICreateCallback;
 import test.issues.strava.Issue29;
@@ -125,7 +124,7 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 
 		boolean found = false;
 		for (final StravaAthlete athlete : kudoers) {
-			StravaAthleteTest.validateAthlete(athlete);
+			AthleteDataUtils.validateAthlete(athlete);
 			if (athlete.getId().equals(athleteId)) {
 				found = true;
 			}

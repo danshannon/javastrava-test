@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
-import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -68,14 +67,14 @@ public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Int
 			final List<StravaAthlete> athletes = TestUtils.strava().listAllAthleteFriends(AthleteDataUtils.ATHLETE_VALID_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
-				StravaAthleteTest.validateAthlete(athlete);
+				AthleteDataUtils.validateAthlete(athlete);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(StravaAthlete object) {
-		StravaAthleteTest.validateAthlete(object);
+		AthleteDataUtils.validateAthlete(object);
 	}
 
 }

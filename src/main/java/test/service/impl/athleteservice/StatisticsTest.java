@@ -3,7 +3,6 @@ package test.service.impl.athleteservice;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaStatistics;
-import test.api.model.StravaStatisticsTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -57,13 +56,13 @@ public class StatisticsTest extends GetMethodTest<StravaStatistics, Integer> {
 	public void testStatistics_authenticatedAthlete() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaStatistics stats = TestUtils.strava().statistics(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID);
-			StravaStatisticsTest.validate(stats);
+			AthleteDataUtils.validate(stats);
 		});
 	}
 
 	@Override
 	protected void validate(StravaStatistics object) {
-		StravaStatisticsTest.validate(object);
+		AthleteDataUtils.validate(object);
 	}
 
 }

@@ -2,7 +2,6 @@ package test.service.impl.athleteservice;
 
 import javastrava.api.v3.model.StravaAthleteZones;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaAthleteZonesTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -44,7 +43,7 @@ public class GetAuthenticatedAthleteZonesTest extends GetMethodTest<StravaAthlet
 
 	@Override
 	protected void validate(StravaAthleteZones object) {
-		StravaAthleteZonesTest.validate(object);
+		AthleteDataUtils.validateAthleteZones(object);
 
 	}
 

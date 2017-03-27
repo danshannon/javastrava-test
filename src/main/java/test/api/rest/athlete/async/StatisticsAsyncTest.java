@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import javastrava.api.v3.model.StravaStatistics;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaStatisticsTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -68,7 +67,7 @@ public class StatisticsAsyncTest extends APIGetTest<StravaStatistics, Integer> {
 	 */
 	@Override
 	protected void validate(final StravaStatistics result) throws Exception {
-		StravaStatisticsTest.validate(result);
+		AthleteDataUtils.validate(result);
 
 	}
 

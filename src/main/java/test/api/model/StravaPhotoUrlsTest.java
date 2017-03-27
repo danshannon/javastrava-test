@@ -13,19 +13,6 @@ import test.utils.BeanTest;
  */
 public class StravaPhotoUrlsTest extends BeanTest<StravaPhotoUrls> {
 
-	/**
-	 * Validate the structure and content of an object
-	 * 
-	 * @param urls
-	 *            The object to be validated
-	 */
-	public static void validate(final StravaPhotoUrls urls) {
-		// assertNotNull(urls.getUrl0());
-	}
-
-	/**
-	 * @see test.utils.BeanTest#getClassUnderTest()
-	 */
 	@Override
 	protected Class<StravaPhotoUrls> getClassUnderTest() {
 		return StravaPhotoUrls.class;

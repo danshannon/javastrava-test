@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
-import test.api.model.StravaAthleteTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -69,7 +69,7 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
-				StravaAthleteTest.validateAthlete(athlete);
+				AthleteDataUtils.validateAthlete(athlete);
 			}
 		});
 	}
@@ -107,14 +107,14 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			assertNotNull(athletes);
 			for (final StravaAthlete athlete : athletes) {
-				StravaAthleteTest.validateAthlete(athlete);
+				AthleteDataUtils.validateAthlete(athlete);
 			}
 		});
 	}
 
 	@Override
 	protected void validate(StravaAthlete athlete) {
-		StravaAthleteTest.validateAthlete(athlete);
+		AthleteDataUtils.validateAthlete(athlete);
 	}
 
 }

@@ -1,11 +1,11 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaPhoto;
-import test.api.model.StravaPhotoTest;
 import test.issues.strava.Issue68;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.PhotoDataUtils;
 
 /**
  * <p>
@@ -65,7 +65,7 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 
 	@Override
 	protected void validate(StravaPhoto photo) {
-		StravaPhotoTest.validate(photo);
+		PhotoDataUtils.validate(photo);
 
 	}
 }

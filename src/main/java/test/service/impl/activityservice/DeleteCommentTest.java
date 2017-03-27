@@ -10,7 +10,6 @@ import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaCommentTest;
 import test.api.rest.APITest;
 import test.service.standardtests.DeleteMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
@@ -263,7 +262,7 @@ public class DeleteCommentTest extends DeleteMethodTest<StravaComment, Integer> 
 
 	@Override
 	protected void validate(StravaComment object) {
-		StravaCommentTest.validateComment(object);
+		CommentDataUtils.validateComment(object);
 	}
 
 }

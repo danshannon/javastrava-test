@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaGear;
-import test.api.model.StravaGearTest;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.GearDataUtils;
@@ -62,7 +61,7 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 
 	@Override
 	protected void validate(StravaGear object) {
-		StravaGearTest.validateGear(object);
+		GearDataUtils.validateGear(object);
 
 	}
 

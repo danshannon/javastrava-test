@@ -2,7 +2,6 @@ package test.api.rest.upload;
 
 import javastrava.api.v3.model.StravaUploadResponse;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -50,7 +49,7 @@ public class CheckUploadStatusTest extends APIGetTest<StravaUploadResponse, Long
 	 */
 	@Override
 	protected void validate(final StravaUploadResponse result) throws Exception {
-		StravaUploadResponseTest.validate(result);
+		ActivityDataUtils.validateUploadResponse(result);
 
 	}
 

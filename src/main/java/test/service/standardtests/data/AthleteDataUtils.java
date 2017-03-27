@@ -1,5 +1,12 @@
 package test.service.standardtests.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,7 +16,15 @@ import org.jfairy.producer.person.Person;
 import org.jfairy.producer.text.TextProducer;
 
 import javastrava.api.v3.model.StravaAthlete;
+import javastrava.api.v3.model.StravaAthleteSegmentStats;
+import javastrava.api.v3.model.StravaAthleteZone;
+import javastrava.api.v3.model.StravaAthleteZones;
+import javastrava.api.v3.model.StravaClub;
+import javastrava.api.v3.model.StravaStatistics;
+import javastrava.api.v3.model.reference.StravaFollowerState;
 import javastrava.api.v3.model.reference.StravaGearType;
+import javastrava.api.v3.model.reference.StravaGender;
+import javastrava.api.v3.model.reference.StravaMeasurementMethod;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.TestUtils;
 
@@ -149,5 +164,202 @@ public class AthleteDataUtils {
 			list.add(testAthlete(resourceState));
 		}
 		return list;
+	}
+
+	/**
+	 * <p>
+	 * Validate structure and content
+	 * </p>
+	 *
+	 * @param stats
+	 *            Stats to be validated
+	 */
+	@SuppressWarnings("boxing")
+	public static void validateAthleteSegmentStats(final StravaAthleteSegmentStats stats) {
+		assertNotNull(stats);
+		assertNotNull(stats.getEffortCount());
+		assertTrue(stats.getEffortCount() > 0);
+		assertNotNull(stats.getPrElapsedTime());
+		assertTrue(stats.getPrElapsedTime() > 0);
+		assertNotNull(stats.getPrDate());
+	}
+
+	/**
+	 * Validate structure and content of an athlete
+	 *
+	 * @param athlete
+	 *            Athlete to be validated
+	 */
+	public static void validateAthlete(final StravaAthlete athlete) {
+		AthleteDataUtils.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
+	}
+
+	/**
+	 * Validate structure and content of an athlete
+	 *
+	 * @param athlete
+	 *            Athlete to be validated
+	 * @param expectedId
+	 *            Expected id of the athlete
+	 * @param state
+	 *            Expected resource state
+	 */
+	public static void validateAthlete(final StravaAthlete athlete, final Integer expectedId, final StravaResourceState state) {
+		assertNotNull(athlete);
+		assertEquals(expectedId, athlete.getId());
+		assertEquals(state, athlete.getResourceState());
+	
+		if (athlete.getResourceState() == StravaResourceState.DETAILED) {
+			// Not returned because it's not part of the API for detailed
+			// athlete returns
+			assertNull(athlete.getApproveFollowers());
+			assertNotNull(athlete.getBikes());
+			// Optional assertNotNull(athlete.getCity());
+			assertNotNull(athlete.getClubs());
+			for (final StravaClub club : athlete.getClubs()) {
+				ClubDataUtils.validate(club);
+			}
+			// Optional assertNotNull(athlete.getCountry());
+			assertNotNull(athlete.getCreatedAt());
+			assertNotNull(athlete.getDatePreference());
+			assertNotNull(athlete.getEmail());
+			assertNotNull(athlete.getFirstname());
+			// Is NULL because this IS the authenticated athlete and you can't
+			// follow yourself
+			assertNull(athlete.getFollower());
+			assertNotNull(athlete.getFollowerCount());
+			// Is NULL because this is the authenticated athlete and you can't
+			// follow yourself
+			assertNull(athlete.getFriend());
+			assertNotNull(athlete.getFriendCount());
+			assertNotNull(athlete.getFtp());
+			assertNotNull(athlete.getLastname());
+			assertNotNull(athlete.getMeasurementPreference());
+			assertFalse(StravaMeasurementMethod.UNKNOWN == athlete.getMeasurementPreference());
+			assertNotNull(athlete.getMutualFriendCount());
+			assertEquals(new Integer(0), athlete.getMutualFriendCount());
+			assertNotNull(athlete.getPremium());
+			assertNotNull(athlete.getProfile());
+			assertNotNull(athlete.getProfileMedium());
+			assertNotNull(athlete.getResourceState());
+			assertNotNull(athlete.getSex());
+			assertNotNull(athlete.getShoes());
+			// Optional assertNotNull(athlete.getState());
+			assertNotNull(athlete.getUpdatedAt());
+			// Not part of detailed data
+			if (athlete.getId().equals(ATHLETE_AUTHENTICATED_ID)) {
+				assertNotNull(athlete.getWeight());
+			} else {
+				assertNull(athlete.getWeight());
+			}
+			assertNotNull(athlete.getBadgeTypeId());
+			return;
+		}
+		if (athlete.getResourceState() == StravaResourceState.SUMMARY) {
+			// Not part of summary data
+			assertNull(athlete.getApproveFollowers());
+			// Not part of summary data
+			assertNull(athlete.getBikes());
+			// Optional assertNotNull(athlete.getCity());
+			// Not part of summary data
+			assertNull(athlete.getClubs());
+			// Optional assertNotNull(athlete.getCountry());
+			assertNotNull(athlete.getCreatedAt());
+			// Not part of summary data
+			assertNull(athlete.getDatePreference());
+			// Not part of summary data
+			assertNull(athlete.getEmail());
+			assertNotNull(athlete.getFirstname());
+			if (athlete.getFollower() != null) {
+				assertFalse(StravaFollowerState.UNKNOWN == athlete.getFollower());
+			}
+			// Not part of summary data
+			assertNull(athlete.getFollowerCount());
+			if (athlete.getFriend() != null) {
+				assertFalse(StravaFollowerState.UNKNOWN == athlete.getFriend());
+			}
+			assertNull(athlete.getFriendCount());
+			// Not part of summary data
+			assertNull(athlete.getFtp());
+			assertNotNull(athlete.getLastname());
+			// Not part of summary data
+			assertNull(athlete.getMeasurementPreference());
+			// Not part of summary data
+			assertNull(athlete.getMutualFriendCount());
+			assertNotNull(athlete.getPremium());
+			assertNotNull(athlete.getProfile());
+			assertNotNull(athlete.getProfileMedium());
+			// Not part of summary data
+			assertNotNull(athlete.getResourceState());
+			// Optional
+			if (athlete.getSex() != null) {
+				assertFalse(athlete.getSex() == StravaGender.UNKNOWN);
+			}
+			// Not part of summary data
+			assertNull(athlete.getShoes());
+			// Optional assertNotNull(athlete.getState());
+			assertNotNull(athlete.getUpdatedAt());
+			// Not part of summary data
+			assertNull(athlete.getWeight());
+			assertNotNull(athlete.getBadgeTypeId());
+			return;
+		}
+		if (athlete.getResourceState() == StravaResourceState.META) {
+			assertNull(athlete.getApproveFollowers());
+			assertNull(athlete.getBikes());
+			assertNull(athlete.getCity());
+			assertNull(athlete.getClubs());
+			assertNull(athlete.getCountry());
+			assertNull(athlete.getCreatedAt());
+			assertNull(athlete.getDatePreference());
+			assertNull(athlete.getEmail());
+			assertNull(athlete.getFirstname());
+			assertNull(athlete.getFollower());
+			assertNull(athlete.getFollowerCount());
+			assertNull(athlete.getFriend());
+			assertNull(athlete.getFriendCount());
+			assertNull(athlete.getFtp());
+			assertNull(athlete.getLastname());
+			assertNull(athlete.getMeasurementPreference());
+			assertNull(athlete.getMutualFriendCount());
+			assertNull(athlete.getPremium());
+			assertNull(athlete.getProfile());
+			assertNull(athlete.getProfileMedium());
+			assertNull(athlete.getSex());
+			assertNull(athlete.getShoes());
+			assertNull(athlete.getState());
+			assertNull(athlete.getUpdatedAt());
+			assertNull(athlete.getWeight());
+			assertNull(athlete.getBadgeTypeId());
+			return;
+		}
+		fail("Athlete returned with unexpected resource state " + state + " : " + athlete); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * @param zones
+	 *            Zones to be validated
+	 */
+	public static void validateAthleteZones(StravaAthleteZones zones) {
+		assertNotNull(zones.getHeartRate());
+	}
+
+	/**
+	 * @param zone
+	 *            Zone to be validate
+	 */
+	public static void validateAthleteZone(StravaAthleteZone zone) {
+		assertNotNull(zone.getZones());
+	}
+
+	/**
+	 * Validate the structure and content of a statistics object
+	 * 
+	 * @param stats
+	 *            The object to be validated
+	 */
+	public static void validate(final StravaStatistics stats) {
+		assertNotNull(stats);
+	
 	}
 }

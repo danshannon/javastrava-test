@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaAthleteTest;
 import test.api.rest.athlete.ListAuthenticatedAthleteFriendsTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
+import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -44,7 +44,7 @@ public class ListAuthenticatedAthleteFriendsAsyncTest extends ListAuthenticatedA
 			assertNotNull(friends);
 			assertFalse(friends.length == 0);
 			for (final StravaAthlete athlete : friends) {
-				StravaAthleteTest.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
+				AthleteDataUtils.validateAthlete(athlete, athlete.getId(), StravaResourceState.SUMMARY);
 			}
 		});
 	}

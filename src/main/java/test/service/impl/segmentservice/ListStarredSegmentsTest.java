@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaSegmentTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
@@ -79,6 +78,6 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 
 	@Override
 	protected void validate(final StravaSegment segment) {
-		StravaSegmentTest.validateSegment(segment);
+		SegmentDataUtils.validateSegment(segment);
 	}
 }

@@ -16,7 +16,6 @@ import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
-import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -227,13 +226,13 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
-		StravaSegmentEffortTest.validateSegmentEffort(effort);
+		SegmentEffortDataUtils.validateSegmentEffort(effort);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaSegmentEffort[] list) {
-		StravaSegmentEffortTest.validateList(Arrays.asList(list));
+		SegmentEffortDataUtils.validateSegmentEffortList(Arrays.asList(list));
 
 	}
 

@@ -4,10 +4,10 @@
 package test.service.impl.activityservice;
 
 import javastrava.api.v3.model.StravaComment;
-import test.api.model.StravaCommentTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.CommentDataUtils;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, L
 
 	@Override
 	protected void validate(StravaComment comment) {
-		StravaCommentTest.validateComment(comment);
+		CommentDataUtils.validateComment(comment);
 	}
 
 }

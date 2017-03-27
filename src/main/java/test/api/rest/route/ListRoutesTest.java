@@ -2,10 +2,10 @@ package test.api.rest.route;
 
 import javastrava.api.v3.model.StravaRoute;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaRouteTest;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.RouteDataUtils;
 
 /**
  * <p>
@@ -39,14 +39,13 @@ public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 
 	@Override
 	protected void validate(StravaRoute result) throws Exception {
-		StravaRouteTest.validate(result);
-
+		RouteDataUtils.validateRoute(result);
 	}
 
 	@Override
 	protected void validateArray(StravaRoute[] list) throws Exception {
 		for (final StravaRoute route : list) {
-			StravaRouteTest.validate(route);
+			RouteDataUtils.validateRoute(route);
 		}
 	}
 

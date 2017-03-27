@@ -7,7 +7,6 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.service.standardtests.data.ActivityDataUtils;
@@ -72,13 +71,13 @@ public class GetActivityTest extends APIGetTest<StravaActivity, Long> {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = this.getter().get(api(), ActivityDataUtils.ACTIVITY_RUN_OTHER_USER);
 			assertNotNull(activity);
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		});
 	}
 
 	@Override
 	protected void validate(final StravaActivity activity) throws Exception {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 
 	@Override

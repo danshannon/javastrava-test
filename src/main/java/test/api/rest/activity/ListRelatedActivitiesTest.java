@@ -2,7 +2,6 @@ package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -44,13 +43,13 @@ public class ListRelatedActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 	}
 
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		}
 	}
 

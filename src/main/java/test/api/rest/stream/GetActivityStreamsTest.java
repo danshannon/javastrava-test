@@ -13,12 +13,12 @@ import javastrava.api.v3.model.reference.StravaStreamType;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaStreamTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.issues.strava.Issue21;
 import test.issues.strava.Issue88;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.StreamDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -122,7 +122,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
 					return;
 				}
 
-				StravaStreamTest.validate(stream);
+				StreamDataUtils.validateStream(stream);
 			}
 		});
 	}
@@ -258,7 +258,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
 	@Override
 	protected void validate(final StravaStream[] results) throws Exception {
 		for (final StravaStream stream : results) {
-			StravaStreamTest.validate(stream);
+			StreamDataUtils.validateStream(stream);
 		}
 
 	}
@@ -273,7 +273,7 @@ public class GetActivityStreamsTest extends APIGetTest<StravaStream[], Long> {
 	protected void validateArray(final StravaStream[] streams) {
 		assertNotNull(streams);
 		for (final StravaStream stream : streams) {
-			StravaStreamTest.validate(stream);
+			StreamDataUtils.validateStream(stream);
 		}
 	}
 

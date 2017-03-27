@@ -10,7 +10,6 @@ import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import test.api.model.StravaSegmentEffortTest;
 import test.api.rest.APIGetTest;
 import test.api.rest.callback.APIGetCallback;
 import test.issues.strava.Issue78;
@@ -105,7 +104,7 @@ public class GetSegmentEffortTest extends APIGetTest<StravaSegmentEffort, Long> 
 
 	@Override
 	protected void validate(final StravaSegmentEffort result) throws Exception {
-		StravaSegmentEffortTest.validateSegmentEffort(result);
+		SegmentEffortDataUtils.validateSegmentEffort(result);
 
 	}
 

@@ -10,11 +10,11 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
-import test.api.model.StravaSegmentTest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 
@@ -92,7 +92,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 
 	@Override
 	protected void validate(final StravaSegment segment) {
-		StravaSegmentTest.validateSegment(segment);
+		SegmentDataUtils.validateSegment(segment);
 
 	}
 

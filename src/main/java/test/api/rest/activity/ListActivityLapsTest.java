@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaLap;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaLapTest;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.issues.strava.Issue105;
@@ -56,13 +55,13 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
 
 	@Override
 	protected void validate(final StravaLap lap) {
-		StravaLapTest.validateLap(lap);
+		ActivityDataUtils.validateLap(lap);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaLap[] list) {
-		StravaLapTest.validateList(Arrays.asList(list));
+		ActivityDataUtils.validateLapsList(Arrays.asList(list));
 
 	}
 

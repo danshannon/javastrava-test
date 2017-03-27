@@ -11,11 +11,11 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import javastrava.config.StravaConfig;
-import test.api.model.StravaActivityTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.issues.strava.Issue18;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -135,7 +135,7 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 						fail("Activities not returned in descending start date order"); //$NON-NLS-1$
 					}
 				}
-				StravaActivityTest.validate(activity);
+				ActivityDataUtils.validate(activity);
 			}
 		});
 	}
@@ -150,14 +150,14 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 
 	@Override
 	protected void validate(final StravaActivity activity) {
-		StravaActivityTest.validate(activity);
+		ActivityDataUtils.validate(activity);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaActivity[] activities) {
 		for (final StravaActivity activity : activities) {
-			StravaActivityTest.validate(activity);
+			ActivityDataUtils.validate(activity);
 		}
 	}
 

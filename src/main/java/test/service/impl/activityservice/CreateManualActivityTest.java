@@ -9,7 +9,6 @@ import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.reference.StravaActivityType;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.StravaActivityTest;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -301,7 +300,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 				assertTrue(createdActivity.getPrivateActivity().booleanValue());
 
 				// Validate
-				StravaActivityTest.validate(createdActivity);
+				ActivityDataUtils.validate(createdActivity);
 
 				// Finally, delete it
 				forceDelete(createdActivity);
@@ -311,7 +310,7 @@ public class CreateManualActivityTest extends CreateMethodTest<StravaActivity, L
 
 	@Override
 	protected void validate(StravaActivity object) {
-		StravaActivityTest.validate(object);
+		ActivityDataUtils.validate(object);
 	}
 
 }

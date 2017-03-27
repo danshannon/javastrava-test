@@ -2,11 +2,11 @@ package test.api.rest.activity;
 
 import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.rest.API;
-import test.api.model.StravaCommentTest;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
 import test.service.standardtests.data.ActivityDataUtils;
+import test.service.standardtests.data.CommentDataUtils;
 
 /**
  * <p>
@@ -46,14 +46,14 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 
 	@Override
 	protected void validate(final StravaComment comment) {
-		StravaCommentTest.validateComment(comment);
+		CommentDataUtils.validateComment(comment);
 
 	}
 
 	@Override
 	protected void validateArray(final StravaComment[] bigList) {
 		for (final StravaComment comment : bigList) {
-			StravaCommentTest.validateComment(comment);
+			CommentDataUtils.validateComment(comment);
 		}
 	}
 

@@ -15,8 +15,8 @@ import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import retrofit.mime.TypedFile;
-import test.api.model.StravaUploadResponseTest;
 import test.api.rest.APITest;
+import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -198,7 +198,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 	 */
 	@Override
 	protected void validate(final StravaUploadResponse result) throws Exception {
-		StravaUploadResponseTest.validate(result);
+		ActivityDataUtils.validateUploadResponse(result);
 
 	}
 
