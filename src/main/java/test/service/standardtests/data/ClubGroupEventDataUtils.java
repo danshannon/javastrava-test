@@ -30,15 +30,17 @@ public class ClubGroupEventDataUtils {
 	/**
 	 * Identifier of a valid club event
 	 */
-	public static Integer	CLUB_EVENT_VALID_ID;
+	public static Integer CLUB_EVENT_VALID_ID;
+
 	/**
 	 * Invalid club event identifier
 	 */
-	public static Integer	CLUB_EVENT_INVALID_ID;
+	public static Integer CLUB_EVENT_INVALID_ID;
+
 	/**
 	 * Identifier of a private club event that the authenticated athlete has joined
 	 */
-	public static Integer	CLUB_EVENT_PRIVATE_MEMBER_ID;
+	public static Integer CLUB_EVENT_PRIVATE_MEMBER_ID;
 
 	static {
 		CLUB_EVENT_VALID_ID = TestUtils.integerProperty("test.clubGroupEventValidId"); //$NON-NLS-1$
