@@ -250,14 +250,9 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 			final StravaSegmentEffort segmentEffort = TestUtils.stravaWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			final StravaSegment segment = segmentEffort.getSegment();
 			final StravaActivity activity = segmentEffort.getActivity();
+			assertTrue("Activity " + SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID + " is not flagged as private!", activity.getPrivateActivity().booleanValue()); //$NON-NLS-1$ //$NON-NLS-2$
 			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAllSegmentEfforts(segment.getId());
-			boolean pass = false;
-			for (final StravaSegmentEffort effort : efforts) {
-				if (effort.getActivity().getId().equals(activity.getId())) {
-					pass = true;
-				}
-			}
-			assertTrue(pass);
+			assertNotNull(efforts);
 		});
 	}
 

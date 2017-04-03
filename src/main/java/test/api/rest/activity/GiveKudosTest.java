@@ -23,6 +23,7 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
+
 	@Override
 	public void create_invalidParent() throws Exception {
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
@@ -60,6 +61,11 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 
 	@Override
 	public void create_valid() throws Exception {
+		// If id is null, don't run
+		if (validParentId() == null) {
+			return;
+		}
+
 		// Can't execute the test unless we have Strava's application-level permission to delete activities
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
 			super.create_valid();
@@ -154,12 +160,17 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 
 	@Override
 	protected Long validParentId() {
-		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
+		return null;
 	}
 
 	@Override
 	protected Long validParentOtherUserId() {
 		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+	}
+
+	@Override
+	protected boolean createAPIResponseIsNull() {
+		return true;
 	}
 
 }

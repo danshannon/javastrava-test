@@ -109,24 +109,6 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 	}
 
 	/**
-	 * Filter by ALL options combined
-	 *
-	 * @throws Exception
-	 *             If the test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, StravaGender.MALE, StravaAgeGroup.AGE45_54, StravaWeightClass.KG85_94,
-					Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null, null);
-			assertNotNull(leaderboard);
-			assertFalse(leaderboard.getEntries().isEmpty());
-			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
-		});
-	}
-
-	/**
 	 * Filter by valid club
 	 *
 	 * @throws Exception

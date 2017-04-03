@@ -2,13 +2,11 @@ package test.api.rest.club;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
@@ -20,7 +18,7 @@ import test.utils.RateLimitedTestRunner;
  * <p>
  * Specific tests and config for {@link API#listClubMembers(Integer, Integer, Integer)}
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -78,13 +76,9 @@ public class ListClubMembersTest extends APIPagingListTest<StravaAthlete, Intege
 	@Test
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null);
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned list of members for a club of which the authenticated athlete is not a member!"); //$NON-NLS-1$
+			apiWithFullAccess().leaveClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final StravaAthlete[] members = api().listClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null);
+			assertNotNull(members);
 		});
 	}
 

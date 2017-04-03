@@ -2,6 +2,7 @@ package test.cache;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -38,9 +39,11 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 		}
 		final API api = new API(token);
 		final StravaActivity[] activities = api.listAuthenticatedAthleteActivities(null, null, null, null);
-		for (final StravaActivity activity : activities) {
-			cache.put(activity);
-		}
+		final StravaActivity detailedActivity = api.getActivity(activities[0].getId(), Boolean.FALSE);
+		detailedActivity.setResourceState(StravaResourceState.DETAILED);
+		cache.put(detailedActivity);
+
+		assertNotEquals(0, cache.size());
 		return cache;
 	}
 
@@ -61,10 +64,9 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			return cache;
 		}
 		final API api = new API(token);
-		final StravaAthlete[] athletes = api.listAthleteFriends(token.getAthlete().getId(), null, null);
-		for (final StravaAthlete athlete : athletes) {
-			cache.put(athlete);
-		}
+		final StravaAthlete athlete = api.getAuthenticatedAthlete();
+		athlete.setResourceState(StravaResourceState.DETAILED);
+		cache.put(athlete);
 		return cache;
 	}
 
@@ -156,18 +158,17 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			final Token token1 = TestUtils.getValidToken();
 			final API api1 = new API(token1);
 			final StravaCache<StravaAthlete, Integer> cache1 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token1);
-			final StravaAthlete[] athletes = api1.listAthleteFriends(token1.getAthlete().getId(), null, null);
-			for (final StravaAthlete athlete : athletes) {
-				cache1.put(athlete);
-			}
+			final StravaAthlete athlete = api1.getAuthenticatedAthlete();
+			athlete.setResourceState(StravaResourceState.DETAILED);
+			cache1.put(athlete);
 
 			final Token token2 = TestUtils.getValidTokenWithFullAccess();
-			final API api2 = new API(token1);
+			final API api2 = new API(token2);
 			final StravaCache<StravaAthlete, Integer> cache2 = new StravaCacheImpl<StravaAthlete, Integer>(StravaAthlete.class, token2);
-			final StravaAthlete[] athletes2 = api2.listAthleteFriends(token1.getAthlete().getId(), null, null);
-			for (final StravaAthlete athlete : athletes2) {
-				cache2.put(athlete);
-			}
+			final StravaAthlete athlete2 = api2.getAuthenticatedAthlete();
+			athlete2.setResourceState(StravaResourceState.DETAILED);
+			cache2.put(athlete2);
+			assertFalse(0 == cache2.size());
 
 			cache1.removeAll();
 			assertFalse(0 == cache2.size());
@@ -268,7 +269,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 
 	/**
 	 * <p>
-	 * Test that attempting to overwrite an item in cache with one that is LESS detailed than the one that's already there doesn't work
+	 * Test that attempting to overwrite an item in cache with one that is NOT detailed doesn't work
 	 * </p>
 	 *
 	 * @throws Exception
@@ -286,9 +287,10 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 			athleteSummary.setResourceState(StravaResourceState.SUMMARY);
 			athleteSummary.setId(new Integer(1));
 			cache.put(athleteSummary);
+			assertEquals(0, cache.size());
 			cache.put(athleteMeta);
-			final StravaAthlete athleteCache = cache.get(new Integer(1));
-			assertEquals(athleteCache, athleteSummary);
+			assertEquals(0, cache.size());
+
 		});
 	}
 

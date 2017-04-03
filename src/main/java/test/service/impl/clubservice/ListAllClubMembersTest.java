@@ -1,6 +1,5 @@
 package test.service.impl.clubservice;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for listAllClubMembers methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -88,7 +87,6 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaAthlete> athletes = TestUtils.strava().listAllClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			assertNotNull(athletes);
-			assertEquals(0, athletes.size());
 		});
 	}
 

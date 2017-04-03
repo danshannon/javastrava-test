@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.util.Paging;
-import test.issues.strava.Issue18;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
@@ -144,15 +143,11 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 			assertEquals(1, secondPage.size());
 			validateList(secondPage);
 
-			// This is a workaround for issue javastrava-api #18
-			// (https://github.com/danshannon/javastravav3api/issues/18)
-			if (!new Issue18().isIssue()) {
-				// The first entry in bothPages should be the same as the first entry in firstPage
-				assertEquals(bothPages.get(0), firstPage.get(0));
+			// The first entry in bothPages should be the same as the first entry in firstPage
+			assertEquals(bothPages.get(0), firstPage.get(0));
 
-				// The second entry in bothPages should be the same as the first entry in secondPage
-				assertEquals(bothPages.get(1), secondPage.get(0));
-			}
+			// The second entry in bothPages should be the same as the first entry in secondPage
+			assertEquals(bothPages.get(1), secondPage.get(0));
 		});
 	}
 

@@ -28,6 +28,7 @@ public abstract class BeanTest<T extends StravaEntity> {
 	@Test
 	public void testEqualsMethod() {
 		EqualsVerifierUtil.testSubclass(getClassUnderTest());
+		EqualsVerifierUtil.testClass(getClassUnderTest());
 	}
 
 	/**

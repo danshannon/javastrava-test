@@ -512,7 +512,7 @@ public class ActivityDataUtils {
 		bestEffort.setDistance(random.nextFloat() * 5000);
 		bestEffort.setElapsedTime(random.nextInt(12 * 3600));
 		bestEffort.setKomRank(random.nextInt(1000));
-		bestEffort.setMovingTime(random.nextInt(bestEffort.getElapsedTime()));
+		bestEffort.setMovingTime(random.nextInt(12 * 3600));
 		bestEffort.setName(text.sentence());
 		bestEffort.setPrRank(random.nextInt(100));
 		bestEffort.setSegment(SegmentDataUtils.testSegment(StravaResourceState.META));
@@ -562,12 +562,12 @@ public class ActivityDataUtils {
 		assertNotNull(activity);
 		assertEquals(id, activity.getId());
 		assertEquals(state, activity.getResourceState());
-	
+
 		if (state == StravaResourceState.UPDATING) {
 			assertNotNull(activity.getId());
 			return;
 		}
-	
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(activity.getAchievementCount());
 			assertNotNull(activity.getAthlete());
@@ -602,7 +602,7 @@ public class ActivityDataUtils {
 			if (activity.getMaxHeartrate() != null) {
 				assertNotNull(activity.getAverageHeartrate());
 			}
-	
+
 			assertNotNull(activity.getAverageSpeed());
 			// Optional assertNotNull(activity.getAverageTemp());
 			if (activity.getType() == StravaActivityType.RUN) {
@@ -841,7 +841,7 @@ public class ActivityDataUtils {
 	@SuppressWarnings("boxing")
 	public static void validateActivityZone(final StravaActivityZone zone) {
 		assertNotNull(zone);
-	
+
 		// Optional assertNotNull(zone.getCustomZones());
 		assertNotNull(zone.getDistributionBuckets());
 		for (final StravaActivityZoneDistributionBucket bucket : zone.getDistributionBuckets()) {
@@ -877,7 +877,7 @@ public class ActivityDataUtils {
 		assertNotNull(effort);
 		assertEquals(id, effort.getId());
 		assertEquals(state, effort.getResourceState());
-	
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(effort.getActivity());
 			// NB Don't validate the activity - that way lies 1 Infinite Loop
@@ -932,7 +932,7 @@ public class ActivityDataUtils {
 			return;
 		}
 		fail("Unexpected state " + state + " for best effort " + effort); //$NON-NLS-1$ //$NON-NLS-2$
-	
+
 	}
 
 	/**
@@ -947,7 +947,7 @@ public class ActivityDataUtils {
 
 	/**
 	 * Validate a single lap
-	 * 
+	 *
 	 * @param lap
 	 *            The lap to be validated
 	 * @param id
@@ -960,7 +960,7 @@ public class ActivityDataUtils {
 		assertNotNull(lap);
 		assertEquals(id, lap.getId());
 		assertEquals(state, lap.getResourceState());
-	
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(lap.getActivity());
 			validate(lap.getActivity(), lap.getActivity().getId(), lap.getActivity().getResourceState());
@@ -1001,7 +1001,7 @@ public class ActivityDataUtils {
 			assertNotNull(lap.getTotalElevationGain());
 			assertTrue(lap.getTotalElevationGain() >= 0);
 			return;
-	
+
 		}
 		if (state == StravaResourceState.SUMMARY) {
 			assertNotNull(lap.getActivity());
@@ -1043,7 +1043,7 @@ public class ActivityDataUtils {
 			assertNotNull(lap.getTotalElevationGain());
 			assertTrue(lap.getTotalElevationGain() >= 0);
 			return;
-	
+
 		}
 		if (state == StravaResourceState.META) {
 			assertNull(lap.getActivity());
@@ -1066,7 +1066,7 @@ public class ActivityDataUtils {
 			assertNull(lap.getStartIndex());
 			assertNull(lap.getTotalElevationGain());
 			return;
-	
+
 		}
 	}
 
@@ -1095,7 +1095,7 @@ public class ActivityDataUtils {
 		assertNotNull(split.getElevationDifference());
 		assertNotNull(split.getMovingTime());
 		assertNotNull(split.getSplit());
-	
+
 	}
 
 	/**
@@ -1109,7 +1109,7 @@ public class ActivityDataUtils {
 		assertNotNull(response.getActivityId());
 		assertNotNull(response.getId());
 		assertNotNull(response.getStatus());
-	
+
 	}
 
 	/**

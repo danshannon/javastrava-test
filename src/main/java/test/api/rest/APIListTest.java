@@ -71,7 +71,7 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 				// Expected
 				return;
 			}
-			fail("Returned a list of objects for an invalid parent id"); //$NON-NLS-1$
+			fail("Returned a list of objects for an invalid parent id: " + invalidId()); //$NON-NLS-1$
 		});
 	}
 
@@ -95,7 +95,14 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 			return;
 		}
 		RateLimitedTestRunner.run(() -> {
-			final T[] results = this.listCallback().list(apiWithViewPrivate(), privateId());
+			T[] results = null;
+			try {
+				results = this.listCallback().list(apiWithViewPrivate(), privateId());
+			} catch (final NotFoundException e) {
+				fail("Attempt with view_private scope to list children of a private parent with id " + privateId() + " failed with a NotFoundException"); //$NON-NLS-1$ //$NON-NLS-2$
+			} catch (final UnauthorizedException e) {
+				fail("Attempt with view_private scope to list children of a private parent with id " + privateId() + " failed with an UnauthorizedException"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			assertNotNull(results);
 			assertNotEquals(0, results.length);
 			validateArray(results);
@@ -129,6 +136,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
+			} catch (final NotFoundException e) {
+				fail("Got a NotFoundException when requesting list of objects for private parent which belongs to another user, parent id = " + privateIdBelongsToOtherUser()); //$NON-NLS-1$
 			}
 			fail("Returned a list of objects for an private parent id which belongs to another user"); //$NON-NLS-1$
 		});
@@ -156,13 +165,14 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 				return;
 			}
 
+			T[] list;
 			try {
-				this.listCallback().list(api(), privateId());
+				list = this.listCallback().list(api(), privateId());
 			} catch (final UnauthorizedException e) {
 				// Expected
 				return;
 			}
-			fail("Returned a list of objects for an private parent id which belongs to the authenticated user"); //$NON-NLS-1$
+			fail("Returned a list of " + list.length + " objects for a private parent id (" + privateId() + ") which belongs to the authenticated user"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		});
 	}
 

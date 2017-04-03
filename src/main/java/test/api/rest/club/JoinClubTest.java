@@ -1,5 +1,6 @@
 package test.api.rest.club;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -8,6 +9,7 @@ import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
+import javastrava.api.v3.model.reference.StravaClubMembershipStatus;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
@@ -133,16 +135,13 @@ public class JoinClubTest extends APITest<StravaClub> {
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 
-			// Leave first, just to be sure
-			apiWithFullAccess().leaveClub(id);
+			// Join club
+			final StravaClubMembershipResponse response = apiWithWriteAccess().joinClub(id);
 
-			try {
-				apiWithWriteAccess().joinClub(id);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Joined a private club successfully"); //$NON-NLS-1$
+			// Should get a response indicating success, but pending approval
+			assertNotNull(response);
+			assertTrue(response.getSuccess().booleanValue());
+			assertEquals(StravaClubMembershipStatus.PENDING, response.getMembership());
 
 		});
 	}

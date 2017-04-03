@@ -12,7 +12,6 @@ import javastrava.util.Paging;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
-import test.issues.strava.Issue94;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -92,9 +91,6 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	@Override
 	public void testPageNumberAndSize() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			if (new Issue94().isIssue()) {
-				return;
-			}
 			final StravaActivity[] bothPages = this.pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);
 			assertEquals(2, bothPages.length);

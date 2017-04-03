@@ -87,16 +87,15 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 				activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
 				// Attempt to delete
-				final StravaActivity deletedActivity;
 				try {
-					deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
+					deleter().delete(TestUtils.stravaWithFullAccess(), activity);
 				} catch (final NotFoundException e) {
 					// Expected
 					return;
 				}
 
 				// Failure
-				fail("Successfully deleted an activity " + deletedActivity.getId() + " that does not exist!"); //$NON-NLS-1$ //$NON-NLS-2$
+				fail("Successfully deleted an activity " + ActivityDataUtils.ACTIVITY_INVALID + " that does not exist!"); //$NON-NLS-1$ //$NON-NLS-2$
 			});
 		}
 

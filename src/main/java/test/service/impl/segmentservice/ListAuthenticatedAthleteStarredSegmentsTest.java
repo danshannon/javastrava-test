@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaResourceState;
 import javastrava.api.v3.service.Strava;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
@@ -82,7 +81,7 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 			final List<StravaSegment> segments = lister().getList(TestUtils.stravaWithViewPrivate(), null);
 			boolean pass = false;
 			for (final StravaSegment segment : segments) {
-				if (segment.getResourceState() == StravaResourceState.PRIVATE) {
+				if (segment.getPrivateSegment() == Boolean.TRUE) {
 					pass = true;
 				}
 			}

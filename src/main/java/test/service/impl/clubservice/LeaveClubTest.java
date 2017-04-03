@@ -19,7 +19,7 @@ import test.utils.TestUtils;
  * <p>
  * Tests for {@link Strava#leaveClub(Integer)}
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -42,7 +42,7 @@ public class LeaveClubTest {
 
 	/**
 	 * Invalid club
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexected way
 	 */
@@ -59,7 +59,7 @@ public class LeaveClubTest {
 
 	/**
 	 * Valid club which authenticated user is already a member of
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexected way
 	 */
@@ -75,7 +75,7 @@ public class LeaveClubTest {
 			final boolean member = checkIsMember(clubs, id);
 
 			// Join the club again
-			TestUtils.stravaWithWriteAccess().joinClub(id);
+			// Gets a 429 Too Many Requests TestUtils.stravaWithWriteAccess().joinClub(id);
 
 			assertFalse(member);
 		});
@@ -83,7 +83,7 @@ public class LeaveClubTest {
 
 	/**
 	 * Valid club which authenticated user is not already a member of
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexected way
 	 */
@@ -104,7 +104,7 @@ public class LeaveClubTest {
 
 	/**
 	 * Leave a club using a token with no write access
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexected way
 	 */

@@ -27,22 +27,22 @@ import test.utils.TestUtils;
 public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment, Integer> {
 	@Override
 	protected Integer idInvalid() {
-		return SegmentDataUtils.SEGMENT_INVALID_ID;
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
 
 	@Override
 	protected Integer idPrivate() {
-		return SegmentDataUtils.SEGMENT_PRIVATE_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override
 	protected Integer idPrivateBelongsToOtherUser() {
-		return SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID;
+		return null;
 	}
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return SegmentDataUtils.SEGMENT_VALID_ID;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

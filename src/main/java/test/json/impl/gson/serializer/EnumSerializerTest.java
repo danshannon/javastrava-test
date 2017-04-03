@@ -26,15 +26,26 @@ public abstract class EnumSerializerTest<T extends Enum<T>> extends SerializerTe
 	 */
 	protected abstract T getUnknownValue();
 
+	/**
+	 * @return The class of the enum's id field
+	 */
+	@SuppressWarnings("static-method")
+	protected Class<?> getIdClass() {
+		return String.class;
+	}
+
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {
-		for (final Object enumValue : getClassUnderTest().getEnumConstants()) {
-			@SuppressWarnings("unchecked")
-			final T value = (T) enumValue;
-			final String text = "\"" + value.toString() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+		for (final T enumValue : getClassUnderTest().getEnumConstants()) {
+			final String text;
+			if (getIdClass() == String.class) {
+				text = "\"" + enumValue.toString() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+			} else {
+				text = enumValue.toString();
+			}
 			final InputStream is = new ByteArrayInputStream(text.getBytes());
 			final T deserialised = this.util.deserialise(is, getClassUnderTest());
-			assertEquals(deserialised, value);
+			assertEquals(enumValue, deserialised);
 		}
 	}
 

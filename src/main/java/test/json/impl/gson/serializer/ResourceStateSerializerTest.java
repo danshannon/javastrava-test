@@ -17,4 +17,9 @@ public class ResourceStateSerializerTest extends EnumSerializerTest<StravaResour
 	protected StravaResourceState getUnknownValue() {
 		return StravaResourceState.UNKNOWN;
 	}
+
+	@Override
+	protected Class<?> getIdClass() {
+		return Integer.class;
+	}
 }

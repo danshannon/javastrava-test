@@ -1,15 +1,17 @@
 package test.utils.equalsverifier;
 
+import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegment;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import test.utils.meanbean.factory.StravaActivityFactory;
 import test.utils.meanbean.factory.StravaSegmentFactory;
 
 /**
  * <p>
  * Test specifications for testing equals methods and subclassing
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -22,8 +24,18 @@ public class EqualsVerifierUtil {
 	 * @param class1
 	 *            The class under test
 	 */
+	@SuppressWarnings("boxing")
 	public static <T> void testClass(final Class<T> class1) {
-		EqualsVerifier.forClass(class1).suppress(Warning.STRICT_INHERITANCE, Warning.NONFINAL_FIELDS).verify();
+		final StravaSegmentFactory factory = new StravaSegmentFactory();
+		final StravaSegment seg1 = factory.create();
+		final StravaSegment seg2 = factory.create();
+		seg2.setId(2);
+		final StravaActivityFactory activityFactory = new StravaActivityFactory();
+		final StravaActivity activity1 = activityFactory.create();
+		final StravaActivity activity2 = activityFactory.create();
+
+		EqualsVerifier.forClass(class1).withPrefabValues(StravaSegment.class, seg1, seg2).withPrefabValues(StravaActivity.class, activity1, activity2)
+				.suppress(Warning.STRICT_INHERITANCE, Warning.NONFINAL_FIELDS).verify();
 	}
 
 	/**
@@ -36,6 +48,10 @@ public class EqualsVerifierUtil {
 		final StravaSegment seg1 = factory.create();
 		final StravaSegment seg2 = factory.create();
 		seg2.setId(2);
-		EqualsVerifier.forClass(class1).withRedefinedSuperclass().withPrefabValues(StravaSegment.class, seg1, seg2).suppress(Warning.STRICT_INHERITANCE, Warning.NONFINAL_FIELDS).verify();
+		final StravaActivityFactory activityFactory = new StravaActivityFactory();
+		final StravaActivity activity1 = activityFactory.create();
+		final StravaActivity activity2 = activityFactory.create();
+		EqualsVerifier.forClass(class1).withRedefinedSuperclass().withPrefabValues(StravaSegment.class, seg1, seg2).withPrefabValues(StravaActivity.class, activity1, activity2)
+				.suppress(Warning.STRICT_INHERITANCE, Warning.NONFINAL_FIELDS).verify();
 	}
 }

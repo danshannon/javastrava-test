@@ -68,18 +68,6 @@ public class GetSegmentLeaderboardAsyncTest extends GetSegmentLeaderboardTest {
 		});
 	}
 
-	// 10. Filter by ALL options combined
-	@Override
-	public void testGetSegmentLeaderboard_filterByAllOptions() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegmentLeaderboard leaderboard = api().getSegmentLeaderboardAsync(SegmentDataUtils.SEGMENT_VALID_ID, StravaGender.MALE, StravaAgeGroup.AGE45_54, StravaWeightClass.KG85_94,
-					Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null, null).get();
-			assertNotNull(leaderboard);
-			assertFalse(leaderboard.getEntries().isEmpty());
-			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
-		});
-	}
-
 	// 7. Filter by valid club
 	@Override
 	public void testGetSegmentLeaderboard_filterByClub() throws Exception {

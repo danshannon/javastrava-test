@@ -18,12 +18,12 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer invalidId() {
-		return RunningRaceDataUtils.RUNNING_RACE_INVALID_ID;
+		return null;
 	}
 
 	@Override
 	protected APIListCallback<StravaRunningRace, Integer> listCallback() {
-		return (api, id) -> api.listRaces(null);
+		return (api, id) -> api.listRaces(id);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class ListRacesTest extends APIListTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer validId() {
-		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_VALID_YEAR;
 	}
 
 	@Override

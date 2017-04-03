@@ -79,7 +79,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * All stream types
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -94,7 +94,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Downsampled by distance
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -114,7 +114,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Downsampled by time
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -133,7 +133,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Invalid downsample resolution
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -153,7 +153,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Invalid downsample type (i.e. not distance or time)
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -173,7 +173,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Invalid stream type
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -197,7 +197,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Only one stream type
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -215,7 +215,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Attempt to get effort streams for a segment effort belonging to an activity flagged as private, using a token WITHOUT view_private scope
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -229,13 +229,13 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 				// expected
 				return;
 			}
-			fail("Returned effort streams for a private activity, but without view_private"); //$NON-NLS-1$
+			fail("Returned effort streams for an effort on a private activity, but without view_private"); //$NON-NLS-1$
 		});
 	}
 
 	/**
 	 * Attempt to get effort streams for a segment effort belonging to an activity flagged as private, using a token WITH view_private scope
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -251,7 +251,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Valid effort for other user
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -271,7 +271,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Attempt to get effort streams for a segment effort belonging to an segment flagged as private, using a token WITHOUT view_private scope
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -291,7 +291,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Attempt to get effort streams for a segment effort belonging to an segment flagged as private, using a token WITH view_private scope
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -315,7 +315,7 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 
 	/**
 	 * Validate an array of streams
-	 * 
+	 *
 	 * @param streams
 	 *            The streams to be validated
 	 */

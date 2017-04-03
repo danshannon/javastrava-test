@@ -14,7 +14,6 @@ import javastrava.config.StravaConfig;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
-import test.issues.strava.Issue18;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -138,14 +137,6 @@ public class ListFriendsActivitiesTest extends APIPagingListTest<StravaActivity,
 				ActivityDataUtils.validate(activity);
 			}
 		});
-	}
-
-	@Override
-	public void testPageNumberAndSize() throws Exception {
-		if (new Issue18().isIssue()) {
-			return;
-		}
-		super.testPageNumberAndSize();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import javastrava.api.v3.rest.API;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
+import test.issues.strava.Issue161;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
 
@@ -86,6 +87,14 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	@Override
 	protected Long validIdNoChildren() {
 		return ActivityDataUtils.ACTIVITY_WITHOUT_KUDOS;
+	}
+
+	@Override
+	public void list_privateWithoutViewPrivate() throws Exception {
+		if (new Issue161().isIssue()) {
+			return;
+		}
+		super.list_privateWithoutViewPrivate();
 	}
 
 }

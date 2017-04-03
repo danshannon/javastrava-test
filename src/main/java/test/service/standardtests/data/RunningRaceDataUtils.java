@@ -16,6 +16,16 @@ import test.utils.TestUtils;
 public class RunningRaceDataUtils {
 
 	/**
+	 * Valid year for listing running races
+	 */
+	public static final Integer RUNNING_RACE_VALID_YEAR;
+
+	/**
+	 * Invalid year for listing running races
+	 */
+	public static final Integer RUNNING_RACE_INVALID_YEAR;
+
+	/**
 	 * Identifier of a valid running race
 	 */
 	public static Integer	RUNNING_RACE_VALID_ID;
@@ -27,6 +37,8 @@ public class RunningRaceDataUtils {
 	static {
 		RUNNING_RACE_VALID_ID = TestUtils.integerProperty("test.raceId"); //$NON-NLS-1$
 		RUNNING_RACE_INVALID_ID = TestUtils.integerProperty("test.raceInvalidId"); //$NON-NLS-1$
+		RUNNING_RACE_VALID_YEAR = TestUtils.integerProperty("test.raceValidYear"); //$NON-NLS-1$
+		RUNNING_RACE_INVALID_YEAR = TestUtils.integerProperty("test.raceInvalidYear"); //$NON-NLS-1$
 
 	}
 

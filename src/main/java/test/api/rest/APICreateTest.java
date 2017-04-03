@@ -30,9 +30,12 @@ import test.utils.RateLimitedTestRunner;
  */
 public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
-	 * <code>true</code> if the response from the API when creating an object is null
+	 * @return <code>true</code> if the response from the API when creating an object is null
 	 */
-	protected boolean createAPIResponseIsNull = false;
+	@SuppressWarnings("static-method")
+	protected boolean createAPIResponseIsNull() {
+		return false;
+	}
 
 	/**
 	 * Attempt to create an object inside a parent that does not exist. Creation call should return a {@link NotFoundException}.
@@ -112,7 +115,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithFullAccess();
 			final T result = creator().create(api, createObject(), privateParentId());
-			if (!this.createAPIResponseIsNull) {
+			if (!this.createAPIResponseIsNull()) {
 				forceDelete(result);
 				assertNotNull(result);
 				validate(result);
@@ -131,7 +134,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
 			final T result = creator().create(api, createObject(), validParentId());
-			if (!this.createAPIResponseIsNull) {
+			if (!this.createAPIResponseIsNull()) {
 				forceDelete(result);
 				assertNotNull(result);
 				validate(result);
@@ -150,7 +153,7 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
 			final T result = creator().create(api, createObject(), validParentOtherUserId());
-			if (!this.createAPIResponseIsNull) {
+			if (this.createAPIResponseIsNull() == false) {
 				forceDelete(result);
 				assertNotNull(result);
 				validate(result);

@@ -75,8 +75,8 @@ public class RateLimitedTestRunner {
 		boolean loop = true;
 		while (loop) {
 			try {
-				log.error("Rate limit exceeded - pausing test execution for 15 seconds"); //$NON-NLS-1$
-				Thread.sleep(15000l);
+				log.error("Rate limit exceeded - pausing test execution for 2 minutes"); //$NON-NLS-1$
+				Thread.sleep(120000L);
 			} catch (final InterruptedException e) {
 				// ignore
 			}

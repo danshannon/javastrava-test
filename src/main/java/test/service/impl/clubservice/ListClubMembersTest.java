@@ -1,6 +1,5 @@
 package test.service.impl.clubservice;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -95,7 +94,6 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaAthlete> members = TestUtils.strava().listClubMembers(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
 			assertNotNull(members);
-			assertEquals(0, members.size());
 		});
 	}
 
