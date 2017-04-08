@@ -28,6 +28,11 @@ import test.utils.TestUtils;
  */
 public abstract class ListMethodTest<T extends StravaEntity, U> implements ListMethodTests {
 	/**
+	 * @return The class under test
+	 */
+	protected abstract Class<T> classUnderTest();
+
+	/**
 	 * @return Id of a parent object that doesn't exist
 	 */
 	protected abstract U idInvalid();
@@ -69,7 +74,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 			final List<T> list = lister().getList(TestUtils.strava(), idInvalid());
 
 			// If we get here, we got a list
-			assertNull("Succeeded in getting list of objects for an invalid parent!", list); //$NON-NLS-1$
+			assertNull("Succeeded in getting list of " + getClass().getName() + " for an invalid parent with id " + idInvalid() + "!", list); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		});
 	}
 
@@ -85,7 +90,8 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 			final List<T> list = lister().getList(TestUtils.stravaWithViewPrivate(), idPrivateBelongsToOtherUser());
 
 			// Private parent should result in an empty list
-			assertTrue(list.isEmpty());
+			assertTrue("Parent with id " + idPrivateBelongsToOtherUser() + "is private and belongs to a user other than the authenticated one but returned a list of " + getClass().getName() //$NON-NLS-1$ //$NON-NLS-2$
+					+ " which is not empty", list.isEmpty()); //$NON-NLS-1$
 		});
 
 	}
@@ -102,7 +108,10 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 			final List<T> results = lister().getList(TestUtils.strava(), idPrivate());
 
 			// List method should return an empty list if the entity is private
-			assertTrue(results.isEmpty());
+			assertTrue(
+					"Parent with id " + idPrivateBelongsToOtherUser() + " is private and token does not have view_private scope, but returned a list of " + getClass().getName() //$NON-NLS-1$ //$NON-NLS-2$
+							+ " which is not empty", //$NON-NLS-1$
+					results.isEmpty());
 
 		});
 
@@ -175,7 +184,7 @@ public abstract class ListMethodTest<T extends StravaEntity, U> implements ListM
 
 	/**
 	 * Validate a list of objects
-	 * 
+	 *
 	 * @param list
 	 *            The list of objects to be validated
 	 */

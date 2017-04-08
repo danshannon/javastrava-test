@@ -243,4 +243,9 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 		StreamDataUtils.validateStream(object);
 	}
 
+	@Override
+	protected Class<StravaStream> classUnderTest() {
+		return StravaStream.class;
+	}
+
 }

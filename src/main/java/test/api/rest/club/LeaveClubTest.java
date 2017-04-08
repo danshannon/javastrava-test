@@ -3,6 +3,8 @@ package test.api.rest.club;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
@@ -24,8 +26,40 @@ import test.utils.RateLimitedTestRunner;
 public class LeaveClubTest extends APITest<StravaClub> {
 
 	/**
+	 * Set up the test data
+	 *
+	 * @throws Exception
+	 *             If the setup fails in an unexpected way
+	 */
+	@BeforeClass
+	public static void testSetup() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final API api = apiWithFullAccess();
+			api.joinClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
+			api.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
+			api.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+		});
+	}
+
+	/**
+	 * Leave the data like you find it
+	 *
+	 * @throws Exception
+	 *             if the test fails in an unexpected way
+	 */
+	@AfterClass
+	public static void testTeardown() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final API api = apiWithFullAccess();
+			api.joinClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
+			api.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
+			api.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+		});
+	}
+
+	/**
 	 * Invalid club
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -47,7 +81,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 
 	/**
 	 * Valid club which authenticated user is already a member of
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -63,7 +97,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
 			// Join the club again
-			apiWithWriteAccess().joinClub(id);
+			// apiWithWriteAccess().joinClub(id);
 
 			assertFalse(member);
 		});
@@ -92,7 +126,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 
 	/**
 	 * Leave a club using a token with no write access
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */

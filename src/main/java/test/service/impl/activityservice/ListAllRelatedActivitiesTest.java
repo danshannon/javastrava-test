@@ -78,4 +78,9 @@ public class ListAllRelatedActivitiesTest extends ListMethodTest<StravaActivity,
 
 	}
 
+	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
 }

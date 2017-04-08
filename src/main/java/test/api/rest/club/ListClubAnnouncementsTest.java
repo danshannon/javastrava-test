@@ -1,12 +1,13 @@
 package test.api.rest.club;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClubAnnouncement;
 import javastrava.api.v3.rest.API;
+import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.APIListTest;
 import test.api.rest.callback.APIListCallback;
 import test.service.standardtests.data.ClubDataUtils;
@@ -16,7 +17,7 @@ import test.utils.RateLimitedTestRunner;
  * <p>
  * Specific tests and config for {@link API#listClubAnnouncements(Integer)}
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -45,7 +46,7 @@ public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncemen
 	 * <p>
 	 * Attempt to list club announcements for a private club which the authenticated user is a member of
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -70,9 +71,13 @@ public class ListClubAnnouncementsTest extends APIListTest<StravaClubAnnouncemen
 	@Test
 	public void testListClubAnnouncements_privateClubNonMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			final StravaClubAnnouncement[] announcements = api().listClubAnnouncements(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			assertNotNull(announcements);
-			assertTrue(announcements.length == 0);
+			try {
+				api().listClubAnnouncements(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			} catch (final UnauthorizedException e) {
+				// Expected
+				return;
+			}
+			fail("Returned a list of announcements for club " + ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID + " of which the authenticated user is not a member"); //$NON-NLS-1$ //$NON-NLS-2$
 		});
 	}
 

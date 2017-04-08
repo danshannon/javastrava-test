@@ -16,8 +16,9 @@ public abstract class IssueTest {
 	/**
 	 * API instance to use to test the error
 	 */
-	protected API	api		= new API(TestUtils.getValidToken());
-	private boolean	fixed	= true;
+	protected API api = new API(TestUtils.getValidToken());
+
+	private boolean fixed = true;
 
 	/**
 	 * @return <code>true</code> if the issue is intermittent
@@ -41,7 +42,7 @@ public abstract class IssueTest {
 
 	/**
 	 * Run test to see if the issue is still an issue
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the check fails in an unexpected way
 	 */

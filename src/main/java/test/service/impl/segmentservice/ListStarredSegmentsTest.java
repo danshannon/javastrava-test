@@ -80,4 +80,9 @@ public class ListStarredSegmentsTest extends PagingListMethodTest<StravaSegment,
 	protected void validate(final StravaSegment segment) {
 		SegmentDataUtils.validateSegment(segment);
 	}
+
+	@Override
+	protected Class<StravaSegment> classUnderTest() {
+		return StravaSegment.class;
+	}
 }

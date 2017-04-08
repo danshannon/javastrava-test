@@ -185,4 +185,9 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		SegmentEffortDataUtils.validateSegmentEffort(effort);
 	}
 
+	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
 }

@@ -19,7 +19,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for listAllStarredSegments method
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -78,6 +78,11 @@ public class ListAllStarredSegmentsTest extends ListMethodTest<StravaSegment, In
 	protected void validate(StravaSegment object) {
 		SegmentDataUtils.validateSegment(object);
 
+	}
+
+	@Override
+	protected Class<StravaSegment> classUnderTest() {
+		return StravaSegment.class;
 	}
 
 }

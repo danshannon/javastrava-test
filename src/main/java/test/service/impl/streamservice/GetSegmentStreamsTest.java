@@ -211,4 +211,9 @@ public class GetSegmentStreamsTest extends ListMethodTest<StravaStream, Integer>
 		StreamDataUtils.validateStream(object);
 	}
 
+	@Override
+	protected Class<StravaStream> classUnderTest() {
+		return StravaStream.class;
+	}
+
 }

@@ -49,4 +49,9 @@ public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Lo
 		ActivityDataUtils.validateActivityZone(zone);
 	}
 
+	@Override
+	protected Class<StravaActivityZone> classUnderTest() {
+		return StravaActivityZone.class;
+	}
+
 }

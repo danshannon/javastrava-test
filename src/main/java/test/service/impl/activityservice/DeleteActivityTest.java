@@ -1,11 +1,11 @@
 package test.service.impl.activityservice;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
 import test.service.standardtests.DeleteMethodTest;
@@ -87,15 +87,10 @@ public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
 				activity.setId(ActivityDataUtils.ACTIVITY_INVALID);
 
 				// Attempt to delete
-				try {
-					deleter().delete(TestUtils.stravaWithFullAccess(), activity);
-				} catch (final NotFoundException e) {
-					// Expected
-					return;
-				}
+				final StravaActivity deletedActivity = deleter().delete(TestUtils.stravaWithFullAccess(), activity);
 
 				// Failure
-				fail("Successfully deleted an activity " + ActivityDataUtils.ACTIVITY_INVALID + " that does not exist!"); //$NON-NLS-1$ //$NON-NLS-2$
+				assertNull("Successfully deleted an activity " + ActivityDataUtils.ACTIVITY_INVALID + " that does not exist!", deletedActivity); //$NON-NLS-1$ //$NON-NLS-2$
 			});
 		}
 

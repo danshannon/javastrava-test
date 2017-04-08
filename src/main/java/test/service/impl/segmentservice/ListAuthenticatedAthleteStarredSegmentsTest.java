@@ -95,4 +95,9 @@ public class ListAuthenticatedAthleteStarredSegmentsTest extends PagingListMetho
 
 	}
 
+	@Override
+	protected Class<StravaSegment> classUnderTest() {
+		return StravaSegment.class;
+	}
+
 }

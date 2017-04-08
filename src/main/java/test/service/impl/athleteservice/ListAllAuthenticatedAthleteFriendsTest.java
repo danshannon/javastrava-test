@@ -58,7 +58,7 @@ public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<Strav
 	 * <p>
 	 * Check that the number of friends is indeed the number of friends
 	 * </p>
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in some unexpected way
 	 */
@@ -83,6 +83,11 @@ public class ListAllAuthenticatedAthleteFriendsTest extends ListMethodTest<Strav
 	@Override
 	protected void validate(StravaAthlete object) {
 		AthleteDataUtils.validateAthlete(object);
+	}
+
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
 	}
 
 }

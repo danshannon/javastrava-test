@@ -55,4 +55,9 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 	protected void validate(final StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
 	}
+
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+	}
 }

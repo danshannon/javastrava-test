@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
@@ -26,6 +27,22 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class JoinClubTest extends APITest<StravaClub> {
+	/**
+	 * Set up the test data
+	 *
+	 * @throws Exception
+	 *             If the setup fails in an unexpected way
+	 */
+	@BeforeClass
+	public static void testSetup() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final API api = apiWithFullAccess();
+			api.joinClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
+			api.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
+			api.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+		});
+	}
+
 	/**
 	 * Invalid club
 	 *
@@ -91,8 +108,8 @@ public class JoinClubTest extends APITest<StravaClub> {
 			final StravaClub[] clubs = api().listAuthenticatedAthleteClubs();
 			final boolean member = ClubDataUtils.checkIsMember(clubs, id);
 
-			// Leave the club again, just to be sure
-			apiWithWriteAccess().leaveClub(id);
+			// Leave the club again, just to be sure - this causes a 429 error
+			// apiWithWriteAccess().leaveClub(id);
 
 			assertNotNull(response);
 			assertTrue(response.getSuccess());

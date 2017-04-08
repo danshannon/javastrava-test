@@ -59,4 +59,9 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 		ActivityDataUtils.validateLap(object);
 	}
 
+	@Override
+	protected Class<StravaLap> classUnderTest() {
+		return StravaLap.class;
+	}
+
 }

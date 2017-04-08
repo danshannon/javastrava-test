@@ -109,4 +109,9 @@ public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscriptio
 		StravaEventSubscriptionTest.validate(object);
 	}
 
+	@Override
+	protected Class<StravaEventSubscription> classUnderTest() {
+		return StravaEventSubscription.class;
+	}
+
 }

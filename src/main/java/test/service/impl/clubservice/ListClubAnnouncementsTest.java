@@ -45,4 +45,9 @@ public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnounce
 		ClubDataUtils.validateClubAnnouncement(object);
 	}
 
+	@Override
+	protected Class<StravaClubAnnouncement> classUnderTest() {
+		return StravaClubAnnouncement.class;
+	}
+
 }

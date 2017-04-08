@@ -110,4 +110,9 @@ public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, In
 		}
 	}
 
+	@Override
+	protected Class<StravaChallenge> classUnderTest() {
+		return StravaChallenge.class;
+	}
+
 }

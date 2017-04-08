@@ -196,4 +196,9 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 		SegmentEffortDataUtils.validateSegmentEffort(object);
 	}
 
+	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
 }

@@ -51,4 +51,10 @@ public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 		RouteDataUtils.validateRoute(result);
 	}
 
+	@Override
+	protected Class<StravaRoute> classUnderTest() {
+		return StravaRoute.class;
+
+	}
+
 }

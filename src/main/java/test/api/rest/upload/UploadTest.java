@@ -29,31 +29,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public class UploadTest extends APITest<StravaUploadResponse> {
 	/**
-	 * Test invalid activity type
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testUpload_badActivityType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final TypedFile typedFile = new TypedFile("text/xml", file); //$NON-NLS-1$
-			try {
-				final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, "gpx", "ABC", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						typedFile);
-				waitForCompletionAndDelete(response);
-			} catch (final BadRequestException e) {
-				// Expected
-				return;
-			}
-
-			// If we get here it worked, but it shouldn't have
-			fail("Succeeded in uploading a file with a bad activity type!"); //$NON-NLS-1$
-		});
-	}
-
-	/**
 	 * Test invalid data type
 	 *
 	 * @throws Exception
@@ -124,30 +99,6 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 	}
 
 	/**
-	 * Test upload without an activity name
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void testUpload_noName() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final TypedFile typedFile = new TypedFile("text/xml", file); //$NON-NLS-1$
-			try {
-				final StravaUploadResponse response = apiWithWriteAccess().upload(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", typedFile); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				waitForCompletionAndDelete(response);
-			} catch (final BadRequestException e) {
-				// Expected
-				return;
-			}
-
-			// If we got here it worked, and it shouldn't have
-			fail("Succeeded in uploading a file with no name!"); //$NON-NLS-1$
-		});
-	}
-
-	/**
 	 * Test uploading without write scope in the token
 	 *
 	 * @throws Exception
@@ -204,7 +155,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 
 	/**
 	 * Wait for the upload to finish processing and then delete it
-	 * 
+	 *
 	 * @param response
 	 *            Initial Strava response from the upload
 	 * @throws NotFoundException
@@ -248,7 +199,7 @@ public class UploadTest extends APITest<StravaUploadResponse> {
 
 	/**
 	 * Wait for upload processing to complete
-	 * 
+	 *
 	 * @param response
 	 *            Initial Strava response to the upload
 	 * @return Final Strava response to the upload

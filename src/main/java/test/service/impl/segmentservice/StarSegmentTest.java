@@ -2,6 +2,7 @@ package test.service.impl.segmentservice;
 
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.service.Strava;
+import test.issues.strava.Issue162;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.SegmentDataUtils;
@@ -44,6 +45,14 @@ public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	protected void validate(StravaSegment result) {
 		SegmentDataUtils.validateSegment(result);
 
+	}
+
+	@Override
+	public void testPrivateWithNoViewPrivateScope() throws Exception {
+		if (new Issue162().isIssue()) {
+			return;
+		}
+		super.testPrivateWithNoViewPrivateScope();
 	}
 
 }

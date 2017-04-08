@@ -222,4 +222,9 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 
 	}
 
+	@Override
+	protected Class<StravaComment> classUnderTest() {
+		return StravaComment.class;
+	}
+
 }

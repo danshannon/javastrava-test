@@ -56,4 +56,9 @@ public class ListFriendsActivitiesTest extends PagingListMethodTest<StravaActivi
 		ActivityDataUtils.validate(activity);
 	}
 
+	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
 }

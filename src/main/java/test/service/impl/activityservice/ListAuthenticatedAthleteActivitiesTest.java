@@ -218,4 +218,9 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 		ActivityDataUtils.validate(activity);
 	}
 
+	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
 }

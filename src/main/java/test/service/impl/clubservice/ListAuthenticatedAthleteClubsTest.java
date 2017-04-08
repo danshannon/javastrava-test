@@ -80,4 +80,9 @@ public class ListAuthenticatedAthleteClubsTest extends ListMethodTest<StravaClub
 		ClubDataUtils.validate(object);
 	}
 
+	@Override
+	protected Class<StravaClub> classUnderTest() {
+		return StravaClub.class;
+	}
+
 }

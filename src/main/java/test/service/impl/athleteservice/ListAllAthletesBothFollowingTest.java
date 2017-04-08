@@ -86,4 +86,9 @@ public class ListAllAthletesBothFollowingTest extends ListMethodTest<StravaAthle
 		AthleteDataUtils.validateAthlete(object);
 	}
 
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+	}
+
 }

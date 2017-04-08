@@ -9,6 +9,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.config.JavastravaApplicationConfig;
 import test.api.rest.APICreateTest;
 import test.api.rest.callback.APICreateCallback;
+import test.issues.strava.Issue163;
 import test.issues.strava.Issue29;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -53,7 +54,10 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 
 	@Override
 	public void create_privateParentWithViewPrivate() throws Exception {
-		// Can't execute the test unless we have Strava's application-level permission to delete activities
+		if (new Issue163().isIssue()) {
+			return;
+		}
+
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_GIVE_KUDOS) {
 			super.create_privateParentWithViewPrivate();
 		}

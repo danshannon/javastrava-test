@@ -19,7 +19,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for listAllFriendsActivities methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -77,5 +77,10 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 	@Override
 	protected void validate(StravaActivity activity) {
 		ActivityDataUtils.validate(activity);
+	}
+
+	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
 	}
 }

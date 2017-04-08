@@ -10,7 +10,7 @@ import test.service.standardtests.data.AthleteDataUtils;
  * <p>
  * Specific tests for list authenticated athlete friends methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -53,5 +53,11 @@ public class ListAuthenticatedAthleteFriendsTest extends PagingListMethodTest<St
 	@Override
 	protected void validate(final StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete);
+	}
+
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+
 	}
 }

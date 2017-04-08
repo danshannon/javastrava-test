@@ -33,7 +33,7 @@ public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return RunningRaceDataUtils.RUNNING_RACE_VALID_ID;
+		return RunningRaceDataUtils.RUNNING_RACE_VALID_YEAR;
 	}
 
 	@Override
@@ -49,6 +49,11 @@ public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 	@Override
 	protected void validate(StravaRunningRace object) {
 		RunningRaceDataUtils.validateRace(object);
+	}
+
+	@Override
+	protected Class<StravaRunningRace> classUnderTest() {
+		return StravaRunningRace.class;
 	}
 
 }

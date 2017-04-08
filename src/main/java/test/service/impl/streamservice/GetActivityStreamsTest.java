@@ -196,7 +196,6 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Test
 	public void testGetActivityStreams_invalidStreamType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			// TODO This is a workaround for javastrava-api#88
 			if (new Issue88().isIssue()) {
 				return;
 			}
@@ -235,6 +234,11 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Override
 	protected void validate(StravaStream object) {
 		StreamDataUtils.validateStream(object);
+	}
+
+	@Override
+	protected Class<StravaStream> classUnderTest() {
+		return StravaStream.class;
 	}
 
 }

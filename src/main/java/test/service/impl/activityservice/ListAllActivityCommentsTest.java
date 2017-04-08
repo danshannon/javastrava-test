@@ -13,7 +13,7 @@ import test.service.standardtests.data.CommentDataUtils;
  * <p>
  * Specific tests for methods that list all activity comments
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -52,6 +52,11 @@ public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, L
 	@Override
 	protected void validate(StravaComment comment) {
 		CommentDataUtils.validateComment(comment);
+	}
+
+	@Override
+	protected Class<StravaComment> classUnderTest() {
+		return StravaComment.class;
 	}
 
 }

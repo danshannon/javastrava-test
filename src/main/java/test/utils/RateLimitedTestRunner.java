@@ -69,13 +69,14 @@ public class RateLimitedTestRunner {
 	}
 
 	/**
-	 * Wait until Strava rate limiting resets
+	 * Wait until Strava rate limiting resets, only try 8 times in case rate limiting is itself broken
 	 */
 	private static void waitForRateLimit() {
-		boolean loop = true;
-		while (loop) {
+		int loopCount = 1;
+		while (loopCount < 9) {
+			loopCount++;
 			try {
-				log.error("Rate limit exceeded - pausing test execution for 2 minutes"); //$NON-NLS-1$
+				log.error("Rate limit exceeded x" + loopCount + " - pausing test execution for 2 minutes"); //$NON-NLS-1$ //$NON-NLS-2$
 				Thread.sleep(120000L);
 			} catch (final InterruptedException e) {
 				// ignore
@@ -83,9 +84,12 @@ public class RateLimitedTestRunner {
 			try {
 				TestUtils.strava().getAuthenticatedAthlete();
 				// If the call to Strava works then we didn't get a rate limit exception so we're good to go
-				loop = false;
+				loopCount = 10;
 			} catch (final StravaAPIRateLimitException e) {
-				loop = true;
+				// Expected - if this is go 8 then fail
+				if (loopCount == 8) {
+					throw e;
+				}
 			}
 		}
 	}

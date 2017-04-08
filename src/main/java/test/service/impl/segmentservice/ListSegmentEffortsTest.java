@@ -233,4 +233,9 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 		SegmentEffortDataUtils.validateSegmentEffort(effort);
 	}
 
+	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
 }

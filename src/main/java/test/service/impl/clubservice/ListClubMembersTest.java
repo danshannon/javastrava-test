@@ -102,4 +102,10 @@ public class ListClubMembersTest extends PagingListMethodTest<StravaAthlete, Int
 		AthleteDataUtils.validateAthlete(athlete);
 	}
 
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+
+	}
+
 }

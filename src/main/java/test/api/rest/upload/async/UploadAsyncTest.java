@@ -9,6 +9,7 @@ import java.io.File;
 
 import javastrava.api.v3.model.StravaUploadResponse;
 import javastrava.api.v3.model.reference.StravaActivityType;
+import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.BadRequestException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import retrofit.mime.TypedFile;
@@ -17,21 +18,12 @@ import test.api.rest.upload.UploadTest;
 import test.utils.RateLimitedTestRunner;
 
 /**
- * @author danshannon
+ * Tests for {@link API#uploadAsync(StravaActivityType, String, String, Boolean, Boolean, Boolean, String, String, TypedFile)} methods
+ *
+ * @author Dan Shannon
  *
  */
 public class UploadAsyncTest extends UploadTest {
-	@Override
-	public void testUpload_badActivityType() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final TypedFile typedFile = new TypedFile("text/xml", file); //$NON-NLS-1$
-			final StravaUploadResponse response = apiWithWriteAccess()
-					.uploadAsync(StravaActivityType.UNKNOWN, "UploadServicesImplTest,testUpload_badActivityType", null, null, null, null, "gpx", "ABC", typedFile).get(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			waitForCompletionAndDelete(response);
-		});
-	}
-
 	@Override
 	public void testUpload_badDataType() throws Exception {
 		RateLimitedTestRunner.run(() -> {
@@ -80,26 +72,6 @@ public class UploadAsyncTest extends UploadTest {
 
 			APITest.forceDeleteActivity(response.getActivityId());
 			fail("Uploaded a file with no actual file!"); //$NON-NLS-1$
-		});
-	}
-
-	@Override
-	public void testUpload_noName() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final File file = new File("hyperdrive.gpx"); //$NON-NLS-1$
-			final TypedFile typedFile = new TypedFile("text/xml", file); //$NON-NLS-1$
-			try {
-				final StravaUploadResponse response = apiWithWriteAccess()
-						.uploadAsync(StravaActivityType.RIDE, null, "UploadServicesImplTest.testUpload_noName", null, null, null, "gpx", "ABC", typedFile).get(); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-				waitForCompletionAndDelete(response);
-			} catch (final BadRequestException e) {
-				// Expected
-				return;
-
-			}
-
-			// If we get here, we got a response
-			fail("Successfully uploaded a file with no name!"); //$NON-NLS-1$
 		});
 	}
 

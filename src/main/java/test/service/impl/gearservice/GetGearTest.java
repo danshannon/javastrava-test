@@ -32,7 +32,7 @@ public class GetGearTest extends GetMethodTest<StravaGear, String> {
 
 	@Override
 	protected String getIdPrivateBelongsToOtherUser() {
-		return GearDataUtils.GEAR_OTHER_ATHLETE_ID;
+		return null;
 	}
 
 	@Override

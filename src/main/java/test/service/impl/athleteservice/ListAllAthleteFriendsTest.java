@@ -17,7 +17,7 @@ import test.utils.TestUtils;
  * <p>
  * Specific tests for list all athlete friends methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -75,6 +75,11 @@ public class ListAllAthleteFriendsTest extends ListMethodTest<StravaAthlete, Int
 	@Override
 	protected void validate(StravaAthlete object) {
 		AthleteDataUtils.validateAthlete(object);
+	}
+
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
 	}
 
 }

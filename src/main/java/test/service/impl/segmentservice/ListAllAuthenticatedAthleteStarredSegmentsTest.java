@@ -86,4 +86,9 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTe
 	protected void validate(StravaSegment segment) {
 		SegmentDataUtils.validateSegment(segment);
 	}
+
+	@Override
+	protected Class<StravaSegment> classUnderTest() {
+		return StravaSegment.class;
+	}
 }

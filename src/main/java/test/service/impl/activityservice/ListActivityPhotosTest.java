@@ -11,7 +11,7 @@ import test.service.standardtests.data.PhotoDataUtils;
  * <p>
  * Specific tests for list activity photo methods
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -67,5 +67,10 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 	protected void validate(StravaPhoto photo) {
 		PhotoDataUtils.validate(photo);
 
+	}
+
+	@Override
+	protected Class<StravaPhoto> classUnderTest() {
+		return StravaPhoto.class;
 	}
 }

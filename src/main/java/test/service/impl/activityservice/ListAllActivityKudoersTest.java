@@ -53,4 +53,9 @@ public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Lo
 	protected void validate(StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete);
 	}
+
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+	}
 }

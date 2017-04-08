@@ -15,6 +15,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.api.v3.model.reference.StravaResourceState;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
@@ -249,8 +250,8 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 		RateLimitedTestRunner.run(() -> {
 			final StravaSegmentEffort segmentEffort = TestUtils.stravaWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID);
 			final StravaSegment segment = segmentEffort.getSegment();
-			final StravaActivity activity = segmentEffort.getActivity();
-			assertTrue("Activity " + SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID + " is not flagged as private!", activity.getPrivateActivity().booleanValue()); //$NON-NLS-1$ //$NON-NLS-2$
+			final StravaActivity activity = TestUtils.strava().getActivity(segmentEffort.getActivity().getId());
+			assertEquals("Activity " + SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID + " is not flagged as private!", StravaResourceState.PRIVATE, activity.getResourceState()); //$NON-NLS-1$ //$NON-NLS-2$
 			final List<StravaSegmentEffort> efforts = TestUtils.stravaWithViewPrivate().listAllSegmentEfforts(segment.getId());
 			assertNotNull(efforts);
 		});
@@ -259,6 +260,11 @@ public class ListAllSegmentEffortsTest extends ListMethodTest<StravaSegmentEffor
 	@Override
 	protected void validate(StravaSegmentEffort object) {
 		SegmentEffortDataUtils.validateSegmentEffort(object);
+	}
+
+	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
 	}
 
 }

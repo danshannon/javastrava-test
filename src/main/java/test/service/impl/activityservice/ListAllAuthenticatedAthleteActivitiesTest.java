@@ -199,4 +199,9 @@ public class ListAllAuthenticatedAthleteActivitiesTest extends ListMethodTest<St
 		ActivityDataUtils.validate(activity);
 	}
 
+	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
 }

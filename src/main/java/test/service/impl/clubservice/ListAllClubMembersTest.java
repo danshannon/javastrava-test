@@ -115,4 +115,10 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 		AthleteDataUtils.validateAthlete(athlete);
 	}
 
+	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+
+	}
+
 }
