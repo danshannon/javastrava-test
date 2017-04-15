@@ -25,7 +25,7 @@ import test.utils.TestUtils;
  * Specific tests and configuration for
  * {@link Strava#getSegmentLeaderboard(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, javastrava.util.Paging, Integer)}
  * </p>
- * 
+ *
  * @author Dan Shannon
  *
  */
@@ -60,7 +60,6 @@ public class GetSegmentLeaderboardTest {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID, StravaGender.MALE, StravaAgeGroup.AGE45_54,
 					StravaWeightClass.KG85_94, Boolean.FALSE, ClubDataUtils.CLUB_VALID_ID, StravaLeaderboardDateRange.THIS_YEAR, null, null);
 			assertNotNull(leaderboard);
-			assertFalse(leaderboard.getEntries().isEmpty());
 			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
 	}

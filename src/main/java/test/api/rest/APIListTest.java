@@ -104,7 +104,6 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 				fail("Attempt with view_private scope to list children of a private parent with id " + privateId() + " failed with an UnauthorizedException"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			assertNotNull(results);
-			assertNotEquals(0, results.length);
 			validateArray(results);
 		});
 	}

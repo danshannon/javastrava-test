@@ -18,7 +18,9 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	@Override
 	protected StravaActivity createObject() {
-		return ActivityDataUtils.createDefaultActivity("DeleteActivityTest"); //$NON-NLS-1$
+		final StravaActivity activity = ActivityDataUtils.createDefaultActivity("DeleteActivityTest"); //$NON-NLS-1$
+		final StravaActivity uploadActivity = apiWithFullAccess().createManualActivity(activity);
+		return uploadActivity;
 	}
 
 	@Override

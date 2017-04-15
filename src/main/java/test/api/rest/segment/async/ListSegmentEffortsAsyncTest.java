@@ -14,7 +14,6 @@ import java.time.Month;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.exception.NotFoundException;
 import test.api.rest.callback.APIListCallback;
@@ -24,7 +23,6 @@ import test.issues.strava.Issue33;
 import test.issues.strava.Issue86;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
-import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.utils.RateLimitedTestRunner;
 
 /**
@@ -152,25 +150,4 @@ public class ListSegmentEffortsAsyncTest extends ListSegmentEffortsTest {
 		});
 	}
 
-	@Override
-	@Test
-	public void testListSegmentEfforts_privateActivityWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = api().listSegmentEffortsAsync(segment.getId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null).get();
-			assertNotNull(efforts);
-			assertEquals(0, efforts.length);
-		});
-	}
-
-	@Override
-	@Test
-	public void testListSegmentEfforts_privateActivityWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = apiWithViewPrivate().listSegmentEffortsAsync(segment.getId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null).get();
-			assertNotNull(efforts);
-			assertFalse(efforts.length == 0);
-		});
-	}
 }

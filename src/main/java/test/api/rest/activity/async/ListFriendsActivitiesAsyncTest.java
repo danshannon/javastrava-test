@@ -14,6 +14,7 @@ import javastrava.config.StravaConfig;
 import test.api.rest.activity.ListFriendsActivitiesTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
+import test.issues.strava.Issue96;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -47,6 +48,9 @@ public class ListFriendsActivitiesAsyncTest extends ListFriendsActivitiesTest {
 	@Test
 	public void testListFriendsActivities_checkPrivateFlagAuthenticatedUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			if (new Issue96().isIssue()) {
+				return;
+			}
 			final StravaActivity[] activities = api().listFriendsActivitiesAsync(1, StravaConfig.MAX_PAGE_SIZE).get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getAthlete().getId().equals(AthleteDataUtils.ATHLETE_AUTHENTICATED_ID) && activity.getPrivateActivity().booleanValue()) {

@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
@@ -132,7 +131,7 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	/**
 	 * Filter by invalid athlete, valid segment
-	 * 
+	 *
 	 * @throws Exception
 	 *             If the test fails in an unexpected way
 	 */
@@ -152,7 +151,7 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	/**
 	 * Filter by valid athlete, valid segment
-	 * 
+	 *
 	 * @throws Exception
 	 *             If the test fails in an unexpected way
 	 */
@@ -171,7 +170,7 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 
 	/**
 	 * Test behaviour when listing efforts for a hazardous segment
-	 * 
+	 *
 	 * @throws Exception
 	 *             If the test fails in an unexpected way
 	 */
@@ -187,40 +186,6 @@ public class ListSegmentEffortsTest extends APIPagingListTest<StravaSegmentEffor
 			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(SegmentDataUtils.SEGMENT_HAZARDOUS_ID, null, null, null, null, null);
 			assertNotNull(efforts);
 			assertEquals(0, efforts.length);
-		});
-	}
-
-	/**
-	 * Test listing segment efforts filtered by an activity which is flagged as private, using a token which does not have view_private scope
-	 *
-	 * @throws Exception
-	 *             If the test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListSegmentEfforts_privateActivityWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = api().listSegmentEfforts(segment.getId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null);
-			assertNotNull(efforts);
-			assertEquals(0, efforts.length);
-		});
-	}
-
-	/**
-	 * Test listing segment efforts filtered by an activity which is flagged as private, using a token which does have view_private scope
-	 *
-	 * @throws Exception
-	 *             If the test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListSegmentEfforts_privateActivityWithViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final StravaSegment segment = apiWithViewPrivate().getSegmentEffort(SegmentEffortDataUtils.SEGMENT_EFFORT_PRIVATE_ACTIVITY_ID).getSegment();
-			final StravaSegmentEffort[] efforts = apiWithViewPrivate().listSegmentEfforts(segment.getId(), AthleteDataUtils.ATHLETE_AUTHENTICATED_ID, null, null, null, null);
-			assertNotNull(efforts);
-			assertFalse(efforts.length == 0);
 		});
 	}
 

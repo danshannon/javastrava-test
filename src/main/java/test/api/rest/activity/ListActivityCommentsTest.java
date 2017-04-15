@@ -23,10 +23,9 @@ public class ListActivityCommentsTest extends APIPagingListTest<StravaComment, L
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
 
-	@SuppressWarnings("boxing")
 	@Override
 	protected APIListCallback<StravaComment, Long> listCallback() {
-		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, 0, 0));
+		return ((api, id) -> api.listActivityComments(id, Boolean.FALSE, null, null));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
@@ -23,6 +24,23 @@ import test.utils.TestUtils;
  *
  */
 public class JoinClubTest {
+	/**
+	 * Setup data for the test
+	 *
+	 * @throws Exception
+	 *             If setup fails in an unexpected way
+	 */
+	@SuppressWarnings("static-method")
+	@Before
+	public void setup() throws Exception {
+		RateLimitedTestRunner.run(() -> {
+			final Strava strava = TestUtils.stravaWithWriteAccess();
+			strava.leaveClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			strava.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+			strava.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
+		});
+	}
+
 	/**
 	 * @param clubs
 	 *            List of clubs to check
@@ -129,7 +147,7 @@ public class JoinClubTest {
 
 	/**
 	 * Private club which authenticated user is NOT a member of
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexected way
 	 */
@@ -141,7 +159,8 @@ public class JoinClubTest {
 
 			final StravaClubMembershipResponse response = TestUtils.stravaWithWriteAccess().joinClub(id);
 			assertNotNull(response);
-			assertEquals(Boolean.FALSE, response.getSuccess());
+			assertEquals(Boolean.TRUE, response.getSuccess());
+			assertEquals(Boolean.FALSE, response.getActive());
 		});
 	}
 

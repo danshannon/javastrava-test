@@ -38,7 +38,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 	@Override
 	protected Integer idPrivate() {
-		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 
 	@Override
 	protected Integer idValidWithEntries() {
-		return null;
+		return AthleteDataUtils.ATHLETE_AUTHENTICATED_ID;
 	}
 
 	@Override

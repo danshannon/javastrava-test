@@ -2,11 +2,9 @@ package test.api.rest.club.async;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListClubMembersTest;
 import test.api.rest.util.ArrayCallback;
@@ -47,13 +45,9 @@ public class ListClubMembersAsyncTest extends ListClubMembersTest {
 	@Override
 	public void testListClubMembers_privateClubNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().listClubMembersAsync(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null).get();
-			} catch (final UnauthorizedException e) {
-				// Expected
-				return;
-			}
-			fail("Returned list of members for a club of which the authenticated athlete is not a member!"); //$NON-NLS-1$
+			apiWithFullAccess().leaveClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
+			final StravaAthlete[] members = api().listClubMembersAsync(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID, null, null).get();
+			assertNotNull(members);
 		});
 	}
 }

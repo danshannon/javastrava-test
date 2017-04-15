@@ -29,91 +29,37 @@ public class RateLimitedTestRunner {
 	 *             if the test fails for an unexpected reason
 	 */
 	public static void run(final TestCallback t) throws Exception {
-		boolean loop = true;
-		while (loop) {
+		int loopCount = 0;
+		final int maxLoops = 10;
+		long delayMilliseconds = 15000;
+		while (loopCount < (maxLoops + 1)) {
 			try {
+				loopCount++;
+				delayMilliseconds = delayMilliseconds * 2;
+				log.debug("RateLimitedTestRunner.run, loopCount = " + loopCount + ", maxLoops = " + maxLoops + ", delay = " + (delayMilliseconds / 1000)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				t.test();
-				loop = false;
+				loopCount = maxLoops + 1;
 			} catch (final StravaAPIRateLimitException e) {
-				waitForRateLimit();
-			} catch (final StravaServiceUnavailableException e) {
-				waitForServiceRestoration();
-			} catch (final StravaAPINetworkException e) {
-				waitForNetworkRestoration();
-			}
-
-		}
-	}
-
-	/**
-	 * Wait until network connection to Strava is restored
-	 */
-	private static void waitForNetworkRestoration() {
-		boolean loop = true;
-		while (loop) {
-			try {
-				log.error("Network failure - pausing test for 15 seconds"); //$NON-NLS-1$
-				Thread.sleep(15000l);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-			try {
-				TestUtils.strava().getAuthenticatedAthlete();
-				// If this call worked, we don't have network issues now
-				loop = false;
-			} catch (final StravaAPINetworkException e) {
-				loop = true;
-			}
-		}
-
-	}
-
-	/**
-	 * Wait until Strava rate limiting resets, only try 8 times in case rate limiting is itself broken
-	 */
-	private static void waitForRateLimit() {
-		int loopCount = 1;
-		while (loopCount < 9) {
-			loopCount++;
-			try {
-				log.error("Rate limit exceeded x" + loopCount + " - pausing test execution for 2 minutes"); //$NON-NLS-1$ //$NON-NLS-2$
-				Thread.sleep(120000L);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-			try {
-				TestUtils.strava().getAuthenticatedAthlete();
-				// If the call to Strava works then we didn't get a rate limit exception so we're good to go
-				loopCount = 10;
-			} catch (final StravaAPIRateLimitException e) {
-				// Expected - if this is go 8 then fail
-				if (loopCount == 8) {
+				if (loopCount == maxLoops) {
 					throw e;
 				}
-			}
-		}
-	}
-
-	/**
-	 * Wait for Strava service outage
-	 */
-	private static void waitForServiceRestoration() {
-		boolean loop = true;
-		while (loop) {
-			try {
-				log.error("Strava temporarily unavailable (503 error) - pausing execution for 60 seconds"); //$NON-NLS-1$
-				Thread.sleep(60000l);
-			} catch (final InterruptedException e) {
-				// ignore
-			}
-			try {
-				TestUtils.strava().getAuthenticatedAthlete();
-				// If the call works, then we didn't get a service unavailable exception so we're good to go
-				loop = false;
+				log.error("Rate limit exceeded x" + loopCount + " - pausing test execution for " + (delayMilliseconds / 1000) + " seconds"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				Thread.sleep(delayMilliseconds);
 			} catch (final StravaServiceUnavailableException e) {
-				loop = true;
+				if (loopCount == maxLoops) {
+					throw e;
+				}
+				log.error("Strava temporarily unavailable (503 error) - pausing execution for " + (delayMilliseconds / 1000) + " seconds"); //$NON-NLS-1$ //$NON-NLS-2$
+				Thread.sleep(delayMilliseconds);
+			} catch (final StravaAPINetworkException e) {
+				if (loopCount == maxLoops) {
+					throw e;
+				}
+				log.error("Network failure - pausing test for " + (delayMilliseconds / 1000) + " seconds"); //$NON-NLS-1$ //$NON-NLS-2$
+				Thread.sleep(delayMilliseconds);
 			}
-		}
 
+		}
 	}
+
 }

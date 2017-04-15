@@ -36,6 +36,14 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	protected abstract T createObject();
 
 	/**
+	 * @return <code>true</code> if the delete API endpoint returns empty object on success
+	 */
+	@SuppressWarnings("static-method")
+	protected boolean deleteReturnsNull() {
+		return true;
+	}
+
+	/**
 	 * <p>
 	 * Attempt to delete an invalid object that has a non-existent parent
 	 * </p>
@@ -79,15 +87,16 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	public void delete_privateParentBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithFullAccess();
-			T deletedObject = null;
+			T createdObject = null;
 			try {
-				deletedObject = deleter().delete(api, createObject(), privateParentOtherUserId());
+				createdObject = createObject();
+				deleter().delete(api, createdObject, privateParentOtherUserId());
 			} catch (final UnauthorizedException e) {
 				// Expected
-				forceDelete(deletedObject);
+				forceDelete(createdObject);
 				return;
 			}
-			forceDelete(deletedObject);
+			forceDelete(createdObject);
 			fail("Deleted an object with a private parent that belongs to another user!"); //$NON-NLS-1$
 		});
 	}
@@ -108,15 +117,16 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	public void delete_privateParentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
-			T deletedObject = null;
+			T createdObject = null;
 			try {
-				deletedObject = deleter().delete(api, createObject(), privateParentId());
+				createdObject = createObject();
+				deleter().delete(api, createdObject, privateParentId());
 			} catch (final UnauthorizedException e) {
 				// Expected
-				forceDelete(deletedObject);
+				forceDelete(createdObject);
 				return;
 			}
-			forceDelete(deletedObject);
+			forceDelete(createdObject);
 			fail("Deleted an object with a private parent, but without view_private"); //$NON-NLS-1$
 		});
 	}
@@ -158,7 +168,9 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
 			final T result = deleter().delete(api, createObject(), validParentId());
-			assertNull(result);
+			if (deleteReturnsNull()) {
+				assertNull(result);
+			}
 		});
 	}
 

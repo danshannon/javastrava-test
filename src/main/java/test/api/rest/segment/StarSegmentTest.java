@@ -76,6 +76,11 @@ public class StarSegmentTest {
 	@Test
 	public void starPrivateSegmentBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
+			// Workaround for issue #162
+			if (new Issue162().isIssue()) {
+				return;
+			}
+
 			try {
 				starCallback().get(new API(TestUtils.getValidTokenWithFullAccess()), SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
 			} catch (final UnauthorizedException e) {

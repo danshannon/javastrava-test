@@ -1,13 +1,11 @@
 package test.api.rest.club.async;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.callback.APIGetCallback;
 import test.api.rest.club.GetClubTest;
 import test.service.standardtests.data.ClubDataUtils;
@@ -41,13 +39,8 @@ public class GetClubAsyncTest extends GetClubTest {
 	@Test
 	public void testGetClub_privateClubIsNotMember() throws Exception {
 		RateLimitedTestRunner.run(() -> {
-			try {
-				api().getClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
-			} catch (final UnauthorizedException e) {
-				// expected
-				return;
-			}
-			fail("Returned details of a private club of which the authenticated athlete is not a member"); //$NON-NLS-1$
+			final StravaClub club = api().getClubAsync(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID).get();
+			assertNotNull(club);
 		});
 	}
 

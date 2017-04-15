@@ -1,6 +1,7 @@
 package test.api.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaComment;
@@ -137,8 +138,9 @@ public abstract class APITest<T> {
 		}
 		try {
 			return apiWithFullAccess().deleteActivity(activity.getId());
-		} catch (final NotFoundException e) {
-			// Ignore
+		} catch (final Exception e) {
+			fail("Failed to force delete activity with id =" + activity.getId() + " and name = " + activity.getName() + System.lineSeparator() + e.getMessage() + System.lineSeparator() //$NON-NLS-1$ //$NON-NLS-2$
+					+ e.getStackTrace());
 			return null;
 		}
 	}

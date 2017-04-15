@@ -136,4 +136,9 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	protected Long validParentId() {
 		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
 	}
+
+	@Override
+	protected boolean deleteReturnsNull() {
+		return false;
+	}
 }

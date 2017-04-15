@@ -48,7 +48,7 @@ public class GetActivityStreamsTest extends ListMethodTest<StravaStream, Long> {
 
 	@Override
 	protected Long idValidWithEntries() {
-		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
+		return ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER;
 	}
 
 	@Override
