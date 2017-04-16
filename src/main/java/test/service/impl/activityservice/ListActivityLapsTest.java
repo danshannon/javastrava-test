@@ -1,5 +1,7 @@
 package test.service.impl.activityservice;
 
+import static org.junit.Assume.assumeFalse;
+
 import javastrava.api.v3.model.StravaLap;
 import test.issues.strava.Issue105;
 import test.service.standardtests.ListMethodTest;
@@ -48,9 +50,7 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
 	public void testValidParentWithNoEntries() throws Exception {
-		if (new Issue105().isIssue()) {
-			return;
-		}
+		assumeFalse(Issue105.issue());
 		super.testValidParentWithNoEntries();
 	}
 

@@ -30,7 +30,7 @@ public class RateLimitedTestRunner {
 	 */
 	public static void run(final TestCallback t) throws Exception {
 		int loopCount = 0;
-		final int maxLoops = 10;
+		final int maxLoops = 5;
 		long delayMilliseconds = 15000;
 		while (loopCount < (maxLoops + 1)) {
 			try {

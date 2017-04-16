@@ -3,8 +3,8 @@ package test.service.impl.clubservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.List;
 
@@ -30,31 +30,6 @@ import test.utils.TestUtils;
  *
  */
 public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
-	/**
-	 * True if issue 166 is current
-	 */
-	private static boolean issue166;
-
-	static {
-		try {
-			issue166check();
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
-	/**
-	 * Set the flag to indicate if issue 166 is still current
-	 *
-	 * @throws Exception
-	 *             If issue check fails in an unexpected way
-	 */
-	private static void issue166check() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			issue166 = new Issue166().isIssue();
-		});
-	}
-
 	@Override
 	protected Integer idInvalid() {
 		return ClubDataUtils.CLUB_INVALID_ID;
@@ -133,32 +108,13 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 		});
 	}
 
-	/**
-	 * <p>
-	 * StravaClub the current authenticated athlete is NOT a member of (according to Strava should return 0 results)
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if test fails in an unexpected way
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testListRecentClubActivities_nonMember() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final List<StravaActivity> activities = TestUtils.strava().listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
-
-			assertTrue(activities.isEmpty());
-		});
-	}
-
 	@SuppressWarnings("boxing")
 	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		// Don't bother if issue 166 is still current
-		if (issue166) {
-			return;
-		}
+		assumeFalse(Issue166.issue);
+
 		RateLimitedTestRunner.run(() -> {
 			final List<StravaActivity> bothPages = pagingLister().getList(TestUtils.strava(), new Paging(1, 2), ClubDataUtils.CLUB_VALID_ID);
 			assertNotNull(bothPages);
@@ -195,25 +151,22 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 
 	@Override
 	public void testPageSize() throws Exception {
-		if (issue166) {
-			return;
-		}
+		assumeFalse(Issue166.issue);
+
 		super.testPageSize();
 	}
 
 	@Override
 	public void testPagingIgnoreLastN() throws Exception {
-		if (issue166) {
-			return;
-		}
+		assumeFalse(Issue166.issue);
+
 		super.testPagingIgnoreLastN();
 	}
 
 	@Override
 	public void testPagingIgnoreFirstN() throws Exception {
-		if (issue166) {
-			return;
-		}
+		assumeFalse(Issue166.issue);
+
 		super.testPagingIgnoreFirstN();
 	}
 }

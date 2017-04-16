@@ -15,12 +15,27 @@ import test.utils.TestUtils;
  *
  */
 public class Issue166 extends IssueTest {
+	/**
+	 * <code>true</code> if the issue is still current
+	 */
+	public static final boolean issue = Issue166.issue();
+
+	/**
+	 * @return <code>true</code> if the issue is still current
+	 */
+	public static boolean issue() {
+		try {
+			return new Issue166().isIssue();
+		} catch (final Exception e) {
+			return false;
+		}
+	}
 
 	@SuppressWarnings("boxing")
 	@Override
 	public boolean isIssue() throws Exception {
-		final List<StravaActivity> list = TestUtils.strava().listRecentClubActivities(2130, new Paging(1, 2));
-		if ((list != null) && (list.size() == 2)) {
+		final List<StravaActivity> list = TestUtils.strava().listRecentClubActivities(2130, new Paging(1, 200));
+		if ((list != null) && (list.size() == 200)) {
 			return false;
 		}
 		return true;

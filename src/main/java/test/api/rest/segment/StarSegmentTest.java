@@ -3,6 +3,7 @@ package test.api.rest.segment;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -77,9 +78,7 @@ public class StarSegmentTest {
 	public void starPrivateSegmentBelongsToOtherUser() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Workaround for issue #162
-			if (new Issue162().isIssue()) {
-				return;
-			}
+			assumeFalse(Issue162.isIssue);
 
 			try {
 				starCallback().get(new API(TestUtils.getValidTokenWithFullAccess()), SegmentDataUtils.SEGMENT_OTHER_USER_PRIVATE_ID);
@@ -101,9 +100,7 @@ public class StarSegmentTest {
 	public void starPrivateSegmentWithoutViewPrivate() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Workaround for issue #162
-			if (new Issue162().isIssue()) {
-				return;
-			}
+			assumeFalse(Issue162.isIssue);
 
 			try {
 				starCallback().get(new API(TestUtils.getValidTokenWithWriteAccess()), SegmentDataUtils.SEGMENT_PRIVATE_ID);

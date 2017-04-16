@@ -1,5 +1,7 @@
 package test.service.impl.segmentservice;
 
+import static org.junit.Assume.assumeFalse;
+
 import javastrava.api.v3.model.StravaSegment;
 import javastrava.api.v3.service.Strava;
 import test.issues.strava.Issue162;
@@ -49,9 +51,8 @@ public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 
 	@Override
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
-		if (new Issue162().isIssue()) {
-			return;
-		}
+		assumeFalse(Issue162.isIssue);
+
 		super.testPrivateWithNoViewPrivateScope();
 	}
 

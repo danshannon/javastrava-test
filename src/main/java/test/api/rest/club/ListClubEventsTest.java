@@ -1,6 +1,7 @@
 package test.api.rest.club;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -30,9 +31,8 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	public void list_privateBelongsToOtherUser() throws Exception {
-		if (new Issue112().isIssue()) {
-			return;
-		}
+		assumeFalse(Issue112.issue());
+
 		super.list_privateBelongsToOtherUser();
 	}
 
@@ -80,15 +80,15 @@ public class ListClubEventsTest extends APIListTest<StravaClubEvent, Integer> {
 	 */
 	@Override
 	protected void validate(final StravaClubEvent result) throws Exception {
-		// TODO #138
-		return;
+		ClubDataUtils.validateClubEvent(result);
 
 	}
 
 	@Override
-	protected void validateArray(final StravaClubEvent[] list) {
-		// TODO #138
-		return;
+	protected void validateArray(final StravaClubEvent[] list) throws Exception {
+		for (final StravaClubEvent event : list) {
+			validate(event);
+		}
 
 	}
 

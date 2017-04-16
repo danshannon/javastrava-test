@@ -333,13 +333,20 @@ public class ActivityDataUtils {
 		activity.setBestEfforts(ActivityDataUtils.testBestEffortList(resourceState));
 		activity.setDeviceName(text.word());
 		activity.setEmbedToken(text.randomString(64));
-		activity.setPhotos(testActivityPhotos(StravaResourceState.SUMMARY, activity));
+		activity.setPhotos(testActivityPhotos(StravaResourceState.SUMMARY));
 
 		return activity;
 	}
 
+	/**
+	 * Generate test data for StravaActivityPhotos
+	 *
+	 * @param resourceState
+	 *            The resource state the generated data should be in
+	 * @return The generated test data
+	 */
 	@SuppressWarnings("boxing")
-	private static StravaActivityPhotos testActivityPhotos(StravaResourceState resourceState, StravaActivity activity) {
+	public static StravaActivityPhotos testActivityPhotos(StravaResourceState resourceState) {
 		final StravaActivityPhotos photos = new StravaActivityPhotos();
 
 		photos.setCount(random.nextInt(20));
@@ -391,8 +398,11 @@ public class ActivityDataUtils {
 		return stats;
 	}
 
+	/**
+	 * @return Test data
+	 */
 	@SuppressWarnings("boxing")
-	private static StravaSimilarActivitiesTrend testSimilarActivitiesTrend() {
+	public static StravaSimilarActivitiesTrend testSimilarActivitiesTrend() {
 		final StravaSimilarActivitiesTrend trend = new StravaSimilarActivitiesTrend();
 
 		trend.setCurrentActivityIndex(random.nextInt(100));
@@ -461,8 +471,13 @@ public class ActivityDataUtils {
 		return lap;
 	}
 
+	/**
+	 * @param resourceState
+	 *            Resource state the video should be created in
+	 * @return The generated video
+	 */
 	@SuppressWarnings("boxing")
-	private static StravaVideo testVideo(StravaResourceState resourceState) {
+	public static StravaVideo testVideo(StravaResourceState resourceState) {
 		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
 			throw new IllegalArgumentException();
 		}

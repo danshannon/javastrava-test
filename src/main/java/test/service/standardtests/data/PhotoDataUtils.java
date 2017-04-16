@@ -34,7 +34,7 @@ public class PhotoDataUtils {
 
 	/**
 	 * Generate a photo with the required resource state
-	 * 
+	 *
 	 * @param resourceState
 	 *            required resource state
 	 * @return Generated photo
@@ -75,6 +75,17 @@ public class PhotoDataUtils {
 		return sizes;
 	}
 
+	/**
+	 * @return Generated test data
+	 */
+	public static StravaPhotoUrls testPhotoUrls() {
+		final StravaPhotoUrls urls = new StravaPhotoUrls();
+		urls.setUrl0(text.word());
+		urls.setUrl100(text.word());
+		urls.setUrl600(text.word());
+		return urls;
+	}
+
 	@SuppressWarnings("boxing")
 	private static List<Integer> integerList() {
 		final List<Integer> list = new ArrayList<>();
@@ -87,18 +98,18 @@ public class PhotoDataUtils {
 
 	/**
 	 * Validate the structure and content of a photo is as expected
-	 * 
+	 *
 	 * @param photo
 	 *            The photo to be validated
 	 */
 	public static void validate(final StravaPhoto photo) {
 		PhotoDataUtils.validatePhoto(photo, photo.getId(), photo.getResourceState());
-	
+
 	}
 
 	/**
 	 * Validate a list of photos
-	 * 
+	 *
 	 * @param list
 	 *            The list of photos to be validated
 	 */
@@ -106,12 +117,12 @@ public class PhotoDataUtils {
 		for (final StravaPhoto photo : list) {
 			validate(photo);
 		}
-	
+
 	}
 
 	/**
 	 * Validate the structure and content of a photo is as expected
-	 * 
+	 *
 	 * @param photo
 	 *            The photo to be validated
 	 * @param id
@@ -123,7 +134,7 @@ public class PhotoDataUtils {
 		assertNotNull(photo);
 		assertEquals(id, photo.getId());
 		assertEquals(state, photo.getResourceState());
-	
+
 		if (state == StravaResourceState.DETAILED) {
 			assertNotNull(photo.getCaption());
 			assertNotNull(photo.getCreatedAt());
@@ -170,7 +181,7 @@ public class PhotoDataUtils {
 
 	/**
 	 * Validate the structure and content of an object
-	 * 
+	 *
 	 * @param urls
 	 *            The object to be validated
 	 */

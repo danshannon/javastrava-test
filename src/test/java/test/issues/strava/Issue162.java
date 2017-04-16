@@ -11,6 +11,21 @@ import test.utils.TestUtils;
  *
  */
 public class Issue162 extends IssueTest {
+	/**
+	 * <code>true</code> if the issue is still unresolved
+	 */
+	public static boolean isIssue = issue();
+
+	/**
+	 * @return <code>true</code> if the issue is still unresolved
+	 */
+	private static boolean issue() {
+		try {
+			return new Issue162().isIssue();
+		} catch (final Exception e) {
+			return false;
+		}
+	}
 
 	/**
 	 * API instance to use in this case should have write access but not view_private access

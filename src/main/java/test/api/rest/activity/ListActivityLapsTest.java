@@ -1,5 +1,7 @@
 package test.api.rest.activity;
 
+import static org.junit.Assume.assumeFalse;
+
 import java.util.Arrays;
 
 import javastrava.api.v3.model.StravaLap;
@@ -32,9 +34,7 @@ public class ListActivityLapsTest extends APIListTest<StravaLap, Long> {
 
 	@Override
 	public void list_validParentNoChildren() throws Exception {
-		if (new Issue105().isIssue()) {
-			return;
-		}
+		assumeFalse(Issue105.issue());
 		super.list_validParentNoChildren();
 	}
 

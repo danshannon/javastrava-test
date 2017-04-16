@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
+import test.issues.strava.Issue175;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;
@@ -188,6 +190,30 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 	@Override
 	protected Class<StravaSegmentEffort> classUnderTest() {
 		return StravaSegmentEffort.class;
+	}
+
+	@Override
+	@Test
+	public void testPageNumberAndSize() throws Exception {
+		assumeFalse(Issue175.issue());
+
+		super.testPageNumberAndSize();
+	}
+
+	@Override
+	@Test
+	public void testPagingIgnoreFirstN() throws Exception {
+		assumeFalse(Issue175.issue());
+
+		super.testPagingIgnoreFirstN();
+	}
+
+	@Override
+	@Test
+	public void testPagingIgnoreLastN() throws Exception {
+		assumeFalse(Issue175.issue());
+
+		super.testPagingIgnoreLastN();
 	}
 
 }

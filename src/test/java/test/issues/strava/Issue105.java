@@ -15,6 +15,16 @@ import test.service.standardtests.data.ActivityDataUtils;
  *
  */
 public class Issue105 extends IssueTest {
+	/**
+	 * @return <code>true</code> if the issue is still unresolved
+	 */
+	public static boolean issue() {
+		try {
+			return new Issue105().isIssue();
+		} catch (final Exception e) {
+			return false;
+		}
+	}
 
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()

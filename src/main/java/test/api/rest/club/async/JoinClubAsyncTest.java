@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.club.JoinClubTest;
+import test.issues.strava.Issue164;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -26,10 +28,14 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class JoinClubAsyncTest extends JoinClubTest {
+	private static boolean issue164 = Issue164.issue();
+
 	// 3. Invalid club
 	@Override
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
@@ -47,6 +53,8 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_member() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -67,6 +75,8 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
@@ -89,6 +99,8 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -105,6 +117,8 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 

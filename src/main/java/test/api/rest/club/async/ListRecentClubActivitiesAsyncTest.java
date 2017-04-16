@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.rest.API;
@@ -12,6 +13,7 @@ import javastrava.util.Paging;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
+import test.issues.strava.Issue166;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -24,6 +26,10 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesTest {
+	/**
+	 * True if issue 166 is current
+	 */
+	private static boolean issue166 = Issue166.issue();
 
 	/**
 	 * @see test.api.rest.club.ListRecentClubActivitiesTest#listCallback()
@@ -90,6 +96,7 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	@SuppressWarnings("boxing")
 	@Override
 	public void testPageNumberAndSize() throws Exception {
+		assumeFalse(issue166);
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity[] bothPages = this.pagingCallback().getArray(new Paging(1, 2));
 			assertNotNull(bothPages);

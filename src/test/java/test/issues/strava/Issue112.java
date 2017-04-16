@@ -16,6 +16,16 @@ import test.utils.TestUtils;
  *
  */
 public class Issue112 extends IssueTest {
+	/**
+	 * @return <code>true</code> if the issue is still unresolved
+	 */
+	public static boolean issue() {
+		try {
+			return new Issue112().isIssue();
+		} catch (final Exception e) {
+			return false;
+		}
+	}
 
 	/**
 	 * @see test.issues.strava.IssueTest#isIssue()

@@ -3,6 +3,7 @@ package test.service.impl.clubservice;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubMembershipResponse;
 import javastrava.api.v3.service.Strava;
+import test.issues.strava.Issue164;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -24,6 +26,8 @@ import test.utils.TestUtils;
  *
  */
 public class JoinClubTest {
+	private static boolean issue164 = Issue164.issue();
+
 	/**
 	 * Setup data for the test
 	 *
@@ -33,6 +37,8 @@ public class JoinClubTest {
 	@SuppressWarnings("static-method")
 	@Before
 	public void setup() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Strava strava = TestUtils.stravaWithWriteAccess();
 			strava.leaveClub(ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID);
@@ -66,6 +72,8 @@ public class JoinClubTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
@@ -83,6 +91,8 @@ public class JoinClubTest {
 	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testJoinClub_member() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -108,6 +118,8 @@ public class JoinClubTest {
 	@SuppressWarnings({ "static-method", "boxing" })
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
@@ -136,6 +148,8 @@ public class JoinClubTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -154,6 +168,8 @@ public class JoinClubTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;
 

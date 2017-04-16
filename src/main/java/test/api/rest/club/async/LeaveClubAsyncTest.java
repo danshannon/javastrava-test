@@ -2,6 +2,7 @@ package test.api.rest.club.async;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import javastrava.api.v3.rest.API;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import test.api.rest.club.LeaveClubTest;
+import test.issues.strava.Issue164;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 
@@ -22,10 +24,13 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class LeaveClubAsyncTest extends LeaveClubTest {
+	private static boolean issue164 = Issue164.issue();
 
 	@Override
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
 
@@ -42,6 +47,8 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_member() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -60,6 +67,8 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
 
@@ -75,6 +84,8 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
+		assumeFalse(issue164);
+
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
 
@@ -91,6 +102,8 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_privateClubMember() throws Exception {
+		assumeFalse(issue164);
+
 		// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
 		return;
 		// RateLimitedTestRunner.run(() -> {

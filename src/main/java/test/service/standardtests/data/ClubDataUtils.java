@@ -17,6 +17,7 @@ import org.jfairy.producer.text.TextProducer;
 
 import javastrava.api.v3.model.StravaClub;
 import javastrava.api.v3.model.StravaClubAnnouncement;
+import javastrava.api.v3.model.StravaClubEvent;
 import javastrava.api.v3.model.reference.StravaClubType;
 import javastrava.api.v3.model.reference.StravaResourceState;
 import test.utils.TestUtils;
@@ -238,7 +239,7 @@ public class ClubDataUtils {
 		assertNotNull(object.getClubId());
 		assertNotEquals("Unknown StravaResourceState" + object.getResourceState(), object.getResourceState(), //$NON-NLS-1$
 				StravaResourceState.UNKNOWN);
-	
+
 	}
 
 	/**
@@ -255,5 +256,16 @@ public class ClubDataUtils {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param event
+	 *            The event to be validated
+	 */
+	public static void validateClubEvent(StravaClubEvent event) {
+		assertNotNull(event.getId());
+		assertNotNull(event.getClub());
+		assertNotNull(event.getResourceState());
+
 	}
 }

@@ -1,6 +1,7 @@
 package test.service.impl.activityservice;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import javastrava.api.v3.model.StravaComment;
 import javastrava.api.v3.service.exception.NotFoundException;
 import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
+import test.issues.strava.Issue172;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -69,6 +71,7 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 			RateLimitedTestRunner.run(() -> {
 				// Create a comment
 				final StravaComment comment = generateValidObject();
+				comment.setActivityId(ActivityDataUtils.ACTIVITY_INVALID);
 
 				// Add to Strava
 				final StravaComment createdComment;
@@ -154,6 +157,8 @@ public class CreateCommentTest extends CreateMethodTest<StravaComment, Integer> 
 	@Override
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
+		assumeFalse(Issue172.issue());
+
 		// Can't run the test if we don't have Strava's permission to write comments
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_COMMENTS_WRITE) {
 

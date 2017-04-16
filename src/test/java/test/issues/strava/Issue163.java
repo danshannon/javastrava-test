@@ -11,6 +11,14 @@ import test.utils.TestUtils;
  *
  */
 public class Issue163 extends IssueTest {
+	/**
+	 * <code>true</code> if issue is still unresolved
+	 */
+	public static final boolean issue = issue();
+
+	private static boolean issue() {
+		return new Issue163().isIssue();
+	}
 
 	/**
 	 * API instance to use should have both write and view_private scope
@@ -19,11 +27,13 @@ public class Issue163 extends IssueTest {
 
 	@SuppressWarnings("boxing")
 	@Override
-	public boolean isIssue() throws Exception {
+	public boolean isIssue() {
 		try {
 			this.api.giveKudos(2501850L);
 		} catch (final UnauthorizedException e) {
 			return true;
+		} catch (final Exception e) {
+			return false;
 		}
 		return false;
 	}

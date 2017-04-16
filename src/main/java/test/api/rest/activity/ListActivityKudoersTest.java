@@ -1,5 +1,7 @@
 package test.api.rest.activity;
 
+import static org.junit.Assume.assumeFalse;
+
 import javastrava.api.v3.model.StravaAthlete;
 import javastrava.api.v3.rest.API;
 import test.api.rest.APIPagingListTest;
@@ -91,9 +93,8 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 
 	@Override
 	public void list_privateWithoutViewPrivate() throws Exception {
-		if (new Issue161().isIssue()) {
-			return;
-		}
+		assumeFalse(Issue161.issue());
+
 		super.list_privateWithoutViewPrivate();
 	}
 
