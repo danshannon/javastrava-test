@@ -24,12 +24,10 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class LeaveClubAsyncTest extends LeaveClubTest {
-	private static boolean issue164 = Issue164.issue();
-
 	@Override
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
@@ -47,7 +45,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_member() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -67,7 +65,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
@@ -84,7 +82,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -102,7 +100,7 @@ public class LeaveClubAsyncTest extends LeaveClubTest {
 	@Override
 	@Test
 	public void testLeaveClub_privateClubMember() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		// CAN'T DO THIS IN TESTING AS YOU'LL NEVER BE ABLE TO JOIN IT AGAIN!!
 		return;

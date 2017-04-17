@@ -124,8 +124,11 @@ public class SegmentEffortDataUtils {
 		return effort;
 	}
 
+	/**
+	 * @return Generated test data
+	 */
 	@SuppressWarnings("boxing")
-	private static StravaAthleteSegmentStats testAthleteSegmentStats() {
+	public static StravaAthleteSegmentStats testAthleteSegmentStats() {
 		final StravaAthleteSegmentStats stats = new StravaAthleteSegmentStats();
 
 		stats.setEffortCount(random.nextInt(100));

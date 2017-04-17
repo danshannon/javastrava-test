@@ -47,4 +47,10 @@ public class GetAuthenticatedAthleteZonesTest extends GetMethodTest<StravaAthlet
 
 	}
 
+	@Override
+	public void testGetNullId() throws Exception {
+		// Test doesn't make sense as there's no id
+		return;
+	}
+
 }

@@ -381,8 +381,13 @@ public class ActivityDataUtils {
 		return split;
 	}
 
+	/**
+	 * @param resourceState
+	 *            Required resource state for the test data
+	 * @return Test data
+	 */
 	@SuppressWarnings("boxing")
-	private static StravaSimilarActivities testSimilarActivities(StravaResourceState resourceState) {
+	public static StravaSimilarActivities testSimilarActivities(StravaResourceState resourceState) {
 		final StravaSimilarActivities stats = new StravaSimilarActivities();
 
 		stats.setAverageSpeed(random.nextFloat() * 45);

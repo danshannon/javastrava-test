@@ -28,13 +28,11 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class JoinClubAsyncTest extends JoinClubTest {
-	private static boolean issue164 = Issue164.issue();
-
 	// 3. Invalid club
 	@Override
 	@Test
 	public void testJoinClub_invalidClub() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
@@ -53,7 +51,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_member() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -75,7 +73,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_nonMember() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
@@ -99,7 +97,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_noWriteAccess() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -117,7 +115,7 @@ public class JoinClubAsyncTest extends JoinClubTest {
 	@Override
 	@Test
 	public void testJoinClub_privateClub() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PRIVATE_NON_MEMBER_ID;

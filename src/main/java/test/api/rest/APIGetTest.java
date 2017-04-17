@@ -2,6 +2,7 @@ package test.api.rest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -33,9 +34,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void get_invalid() throws Exception {
-		if (invalidId() == null) {
-			return;
-		}
+		assumeFalse(invalidId() == null);
+
 		RateLimitedTestRunner.run(() -> {
 			try {
 				getter().get(api(), invalidId());
@@ -55,9 +55,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void get_private() throws Exception {
-		if (privateId() == null) {
-			return;
-		}
+		assumeFalse(privateId() == null);
+
 		RateLimitedTestRunner.run(() -> {
 			final T result = this.getter().get(apiWithViewPrivate(), privateId());
 			assertNotNull(result);
@@ -73,9 +72,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void get_privateBelongsToOtherUser() throws Exception {
-		if (privateIdBelongsToOtherUser() == null) {
-			return;
-		}
+		assumeFalse(privateIdBelongsToOtherUser() == null);
+
 		RateLimitedTestRunner.run(() -> {
 			try {
 				this.getter().get(apiWithViewPrivate(), privateIdBelongsToOtherUser());
@@ -95,9 +93,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void get_privateWithoutViewPrivate() throws Exception {
-		if (privateId() == null) {
-			return;
-		}
+		assumeFalse(privateId() == null);
+
 		RateLimitedTestRunner.run(() -> {
 			try {
 				this.getter().get(api(), privateId());
@@ -132,9 +129,8 @@ public abstract class APIGetTest<T, U> extends APITest<T> {
 	 */
 	@Test
 	public void get_validBelongsToOtherUser() throws Exception {
-		if (validIdBelongsToOtherUser() == null) {
-			return;
-		}
+		assumeFalse(validIdBelongsToOtherUser() == null);
+
 		RateLimitedTestRunner.run(() -> {
 			final T result = this.getter().get(api(), validIdBelongsToOtherUser());
 			assertNotNull(result);

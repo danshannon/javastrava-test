@@ -13,6 +13,7 @@ import javastrava.util.Paging;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.club.ListRecentClubActivitiesTest;
 import test.api.rest.util.ArrayCallback;
+import test.issues.strava.Issue164;
 import test.issues.strava.Issue166;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -52,7 +53,10 @@ public class ListRecentClubActivitiesAsyncTest extends ListRecentClubActivitiesT
 	 */
 	@Override
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
+		assumeFalse(Issue164.issue);
+
 		RateLimitedTestRunner.run(() -> {
+			apiWithFullAccess().joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
 			final StravaActivity[] activities = api().listRecentClubActivitiesAsync(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null).get();
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {

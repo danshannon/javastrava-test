@@ -26,7 +26,7 @@ import test.utils.TestUtils;
  *
  */
 public class JoinClubTest {
-	private static boolean issue164 = Issue164.issue();
+	private static boolean issue164 = Issue164.issue;
 
 	/**
 	 * Setup data for the test

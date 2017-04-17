@@ -14,6 +14,7 @@ import org.jfairy.producer.text.TextProducer;
 import javastrava.api.v3.model.StravaClubEvent;
 import javastrava.api.v3.model.StravaClubEventViewerPermissions;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import test.service.standardtests.callbacks.GetCallback;
 import test.utils.TestUtils;
 
 /**
@@ -167,10 +168,6 @@ public class ClubGroupEventDataUtils {
 		assertEquals(id, event.getId());
 		assertEquals(state, event.getResourceState());
 
-		// Deprecated fields must be null
-		assertNull(event.getClubId());
-		assertNull(event.getRouteId());
-
 		// If resource state is UNKNOWN, or UPDATING, then we can't do any more
 		if ((event.getResourceState() == StravaResourceState.UNKNOWN) || (event.getResourceState() == StravaResourceState.UPDATING)) {
 			throw new IllegalStateException("Event " + id + " has unexpected resource state " + state); //$NON-NLS-1$ //$NON-NLS-2$
@@ -243,5 +240,12 @@ public class ClubGroupEventDataUtils {
 			validateEvent(event);
 		}
 
+	}
+
+	/**
+	 * @return Method to use to get a particular event
+	 */
+	public static GetCallback<StravaClubEvent, Integer> getter() {
+		return (strava, id) -> strava.getEvent(id);
 	}
 }

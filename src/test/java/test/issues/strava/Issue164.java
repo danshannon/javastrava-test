@@ -12,9 +12,14 @@ import test.utils.TestUtils;
  */
 public class Issue164 extends IssueTest {
 	/**
+	 * <code>true</code> if the issue is still a problem
+	 */
+	public static final boolean issue = issue();
+
+	/**
 	 * @return <code>true</code> if the issue is still a problem
 	 */
-	public static boolean issue() {
+	private static boolean issue() {
 		try {
 			return new Issue164().isIssue();
 		} catch (final Exception e) {

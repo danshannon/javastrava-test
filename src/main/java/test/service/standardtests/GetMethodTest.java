@@ -3,6 +3,7 @@ package test.service.standardtests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -47,16 +48,9 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	public void testGetInvalidId() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			// Don't run if the id to test against is null
-			if (getIdInvalid() == null) {
-				return;
-			}
+			assumeFalse(getIdInvalid() == null);
 
 			final U id = getIdInvalid();
-
-			// If there's Nosaj Thing, then quit
-			if (id == null) {
-				return;
-			}
 
 			// Get the data - it should be null
 			final T object = getter().get(TestUtils.strava(), id);
@@ -66,6 +60,7 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	}
 
 	@Override
+	@Test
 	public void testGetNullId() throws Exception {
 		final T object = getter().get(TestUtils.strava(), null);
 		assertNull(object);
@@ -75,9 +70,7 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	@Test
 	public void testGetValidId() throws Exception {
 		// Don't run if the id to test against is null
-		if (getIdValid() == null) {
-			return;
-		}
+		assumeFalse(getIdValid() == null);
 
 		RateLimitedTestRunner.run(() -> {
 
@@ -98,18 +91,15 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	@Override
 	@Test
 	public void testInvalidId() throws Exception {
-		// Catered for by testGetInvalidId()
-		return;
-
+		// Test is dealt with by testGetInvalidId()
+		assumeFalse(true);
 	}
 
 	@Override
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
 		// Don't run if the id to test against is null
-		if (getIdPrivateBelongsToOtherUser() == null) {
-			return;
-		}
+		assumeFalse(getIdPrivateBelongsToOtherUser() == null);
 
 		RateLimitedTestRunner.run(() -> {
 			final U id = getIdPrivateBelongsToOtherUser();
@@ -130,9 +120,7 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	@Test
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		// Don't run if the id to test against is null
-		if (getIdPrivate() == null) {
-			return;
-		}
+		assumeFalse(getIdPrivate() == null);
 
 		RateLimitedTestRunner.run(() -> {
 
@@ -153,9 +141,7 @@ public abstract class GetMethodTest<T extends StravaEntity, U> extends MethodTes
 	@Test
 	public void testPrivateWithViewPrivateScope() throws Exception {
 		// Don't run if the id to test against is null
-		if (getIdPrivate() == null) {
-			return;
-		}
+		assumeFalse(getIdPrivate() == null);
 
 		RateLimitedTestRunner.run(() -> {
 

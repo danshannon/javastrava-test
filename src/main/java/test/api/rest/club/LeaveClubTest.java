@@ -26,8 +26,6 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class LeaveClubTest extends APITest<StravaClub> {
-	private static boolean issue164 = Issue164.issue();
-
 	/**
 	 * Set up the test data
 	 *
@@ -36,16 +34,15 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	 */
 	@BeforeClass
 	public static void testSetup() throws Exception {
-		if (issue164) {
-			return;
-		}
+		if (!Issue164.issue) {
 
-		RateLimitedTestRunner.run(() -> {
-			final API api = apiWithFullAccess();
-			api.joinClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
-			api.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
-			api.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
-		});
+			RateLimitedTestRunner.run(() -> {
+				final API api = apiWithFullAccess();
+				api.joinClub(ClubDataUtils.CLUB_PRIVATE_MEMBER_ID);
+				api.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
+				api.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
+			});
+		}
 	}
 
 	/**
@@ -56,9 +53,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	 */
 	@AfterClass
 	public static void testTeardown() throws Exception {
-		if (issue164) {
-			return;
-		}
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithFullAccess();
@@ -77,7 +72,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_invalidClub() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_INVALID_ID;
@@ -101,7 +96,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_member() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -127,7 +122,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_nonMember() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID;
@@ -150,7 +145,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_noWriteAccess() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			final Integer id = ClubDataUtils.CLUB_PUBLIC_MEMBER_ID;
@@ -176,7 +171,7 @@ public class LeaveClubTest extends APITest<StravaClub> {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLeaveClub_privateClubMember() throws Exception {
-		assumeFalse(issue164);
+		assumeFalse(Issue164.issue);
 
 		RateLimitedTestRunner.run(() -> {
 			// ClubService service = getClubService();
