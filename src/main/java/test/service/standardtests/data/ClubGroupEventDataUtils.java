@@ -156,7 +156,6 @@ public class ClubGroupEventDataUtils {
 	 * @param state
 	 *            The resource state of the club event
 	 */
-	@SuppressWarnings("deprecation")
 	public static void validateEvent(final StravaClubEvent event, final Integer id, final StravaResourceState state) {
 		assertNotNull(event);
 
