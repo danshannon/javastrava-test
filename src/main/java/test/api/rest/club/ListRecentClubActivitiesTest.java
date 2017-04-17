@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import javastrava.util.Paging;
 import test.api.rest.APIPagingListTest;
 import test.api.rest.callback.APIListCallback;
 import test.api.rest.util.ArrayCallback;
+import test.issues.strava.Issue164;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
@@ -62,7 +64,9 @@ public class ListRecentClubActivitiesTest extends APIPagingListTest<StravaActivi
 	@SuppressWarnings("static-method")
 	@Test
 	public void testListRecentClubActivities_checkPrivacy() throws Exception {
+		assumeFalse(Issue164.issue);
 		RateLimitedTestRunner.run(() -> {
+			apiWithFullAccess().joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
 			final StravaActivity[] activities = api().listRecentClubActivities(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID, null, null);
 			for (final StravaActivity activity : activities) {
 				if (activity.getPrivateActivity().equals(Boolean.TRUE)) {
