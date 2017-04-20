@@ -12,6 +12,18 @@ import javastrava.api.v3.model.reference.StravaWorkoutType;
  *
  */
 public class StravaWorkoutTypeTest {
+
+	/**
+	 * Test create method
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testCreate() {
+		for (final StravaWorkoutType type : StravaWorkoutType.values()) {
+			assertEquals(type, StravaWorkoutType.create(type.getValue()));
+		}
+	}
+
 	/**
 	 * Test returning the description
 	 */

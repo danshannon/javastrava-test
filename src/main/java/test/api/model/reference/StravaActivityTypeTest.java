@@ -15,6 +15,7 @@ public class StravaActivityTypeTest {
 	/**
 	 * Test the create method
 	 */
+	@Test
 	@SuppressWarnings("static-method")
 	public void testCreate() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
@@ -36,13 +37,13 @@ public class StravaActivityTypeTest {
 	}
 
 	/**
-	 * Test the getValue method
+	 * Test the description
 	 */
 	@SuppressWarnings("static-method")
+	@Test
 	public void testGetValue() {
 		for (final StravaActivityType type : StravaActivityType.values()) {
-			assertNotNull(type.getValue());
-			assertEquals(type, StravaActivityType.create(type.getValue()));
+			assertNotNull(type.getDescription());
 		}
 
 	}
