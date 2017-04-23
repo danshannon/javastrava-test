@@ -25,7 +25,6 @@ import test.utils.TestUtils;
  *
  */
 public class DeleteActivityTest extends DeleteMethodTest<StravaActivity, Long> {
-
 	@Override
 	protected CreateCallback<StravaActivity> creator() {
 		return ActivityDataUtils.creator();

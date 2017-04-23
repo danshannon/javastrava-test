@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNotNull;
 
 import org.junit.Test;
 
@@ -60,9 +61,7 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	@Test
 	public void list_invalidParent() throws Exception {
 		// If id is null, then don't run the test
-		if (invalidId() == null) {
-			return;
-		}
+		assumeNotNull(invalidId());
 
 		RateLimitedTestRunner.run(() -> {
 			try {
@@ -91,9 +90,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	@Test
 	public void list_private() throws Exception {
 		// If the id is null, then don't run the test
-		if (privateId() == null) {
-			return;
-		}
+		assumeNotNull(privateId());
+
 		RateLimitedTestRunner.run(() -> {
 			T[] results = null;
 			try {
@@ -125,9 +123,7 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	@Test
 	public void list_privateBelongsToOtherUser() throws Exception {
 		// If the id is null, then don't run the test
-		if (privateIdBelongsToOtherUser() == null) {
-			return;
-		}
+		assumeNotNull(privateIdBelongsToOtherUser());
 
 		RateLimitedTestRunner.run(() -> {
 			try {
@@ -158,12 +154,10 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	 */
 	@Test
 	public void list_privateWithoutViewPrivate() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			// If the id is null, then don't run the test
-			if (privateId() == null) {
-				return;
-			}
+		// If the id is null, then don't run the test
+		assumeNotNull(privateId());
 
+		RateLimitedTestRunner.run(() -> {
 			T[] list;
 			try {
 				list = this.listCallback().list(api(), privateId());
@@ -196,9 +190,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	@Test
 	public void list_validBelongsToOtherUser() throws Exception {
 		// If the id is null, then don't run the test
-		if (validIdBelongsToOtherUser() == null) {
-			return;
-		}
+		assumeNotNull(validIdBelongsToOtherUser());
+
 		RateLimitedTestRunner.run(() -> {
 			T[] results = null;
 			try {
@@ -231,6 +224,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	 */
 	@Test
 	public void list_validParent() throws Exception {
+		assumeNotNull(validId());
+
 		RateLimitedTestRunner.run(() -> {
 			final T[] results = this.listCallback().list(api(), validId());
 			assertNotNull(results);
@@ -255,9 +250,8 @@ public abstract class APIListTest<T extends StravaEntity, U> extends APITest<T> 
 	@Test
 	public void list_validParentNoChildren() throws Exception {
 		// If validIdNoChildren() is null, don't run
-		if (validIdNoChildren() == null) {
-			return;
-		}
+		assumeNotNull(validIdNoChildren());
+
 		RateLimitedTestRunner.run(() -> {
 			final T[] results = this.listCallback().list(api(), validIdNoChildren());
 			assertNotNull(results);

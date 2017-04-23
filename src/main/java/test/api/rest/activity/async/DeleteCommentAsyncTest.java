@@ -11,11 +11,10 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class DeleteCommentAsyncTest extends DeleteCommentTest {
-
 	@Override
-	public APIDeleteCallback<StravaComment, Long> deleter() {
-		return ((api, comment, id) -> {
-			api.deleteCommentAsync(id, comment.getId()).get();
+	public APIDeleteCallback<StravaComment> deleter() {
+		return ((api, comment) -> {
+			api.deleteCommentAsync(comment.getActivityId(), comment.getId()).get();
 			return comment;
 		});
 	}
@@ -26,6 +25,11 @@ public class DeleteCommentAsyncTest extends DeleteCommentTest {
 			final StravaComment comment = apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, "DeleteCommentAsyncTest - please ignore"); //$NON-NLS-1$
 			apiWithWriteAccess().deleteCommentAsync(comment.getActivityId(), comment.getId()).get();
 		});
+	}
+
+	@Override
+	protected String classUnderTest() {
+		return this.getClass().getName();
 	}
 
 }

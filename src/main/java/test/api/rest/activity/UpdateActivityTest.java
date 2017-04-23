@@ -32,7 +32,6 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class UpdateActivityTest extends APITest<StravaActivity> {
-
 	/**
 	 * @param activity
 	 *            The initial activity to create

@@ -14,9 +14,13 @@ import test.api.rest.callback.APIDeleteCallback;
  *
  */
 public class DeleteActivityAsyncTest extends DeleteActivityTest {
+	@Override
+	protected APIDeleteCallback<StravaActivity> deleter() {
+		return ((api, activity) -> api.deleteActivityAsync(activity.getId()).get());
+	}
 
 	@Override
-	protected APIDeleteCallback<StravaActivity, Long> deleter() {
-		return ((api, activity, id) -> api.deleteActivityAsync(id).get());
+	protected String classUnderTest() {
+		return this.getClass().getName();
 	}
 }

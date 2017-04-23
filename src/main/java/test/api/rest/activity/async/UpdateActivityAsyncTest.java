@@ -31,7 +31,6 @@ import test.utils.RateLimitedTestRunner;
  *
  */
 public class UpdateActivityAsyncTest extends UpdateActivityTest {
-
 	/**
 	 * @param activity
 	 *            The initial activity to create

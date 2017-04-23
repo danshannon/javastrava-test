@@ -14,7 +14,6 @@ import test.api.rest.callback.APICreateCallback;
  *
  */
 public class CreateCommentAsyncTest extends CreateCommentTest {
-
 	@Override
 	protected APICreateCallback<StravaComment, Long> creator() {
 		return ((api, comment, id) -> api.createCommentAsync(id, comment.getText()).get());

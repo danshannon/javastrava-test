@@ -29,11 +29,29 @@ import test.utils.RateLimitedTestRunner;
  */
 public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
+	 * @return The name of the class running tests, used to identify test data being created
+	 */
+	protected abstract String classUnderTest();
+
+	/**
 	 * Create an object
+	 *
+	 * @param name
+	 *            The name of the object
 	 *
 	 * @return The object created
 	 */
-	protected abstract T createObject();
+	protected abstract T createObject(String name);
+
+	/**
+	 * Create an object which is flagged as PRIVATE
+	 *
+	 * @param name
+	 *            Name of the object
+	 *
+	 * @return The object created
+	 */
+	protected abstract T createPrivateObject(String name);
 
 	/**
 	 * @return <code>true</code> if the delete API endpoint returns empty object on success
@@ -56,50 +74,7 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 *             if the test fails in an unexpected way
 	 */
 	@Test
-	public void delete_invalidParent() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final API api = apiWithWriteAccess();
-			T deletedObject = null;
-			try {
-				deletedObject = deleter().delete(api, createObject(), invalidParentId());
-			} catch (final NotFoundException e) {
-				// Expected
-				return;
-			}
-			forceDelete(deletedObject);
-			fail("Deleted an object with an invalid id!"); //$NON-NLS-1$
-		});
-	}
-
-	/**
-	 * <p>
-	 * Attempt to delete a private object that belongs to someone other than the authenticated user.
-	 * </p>
-	 *
-	 * <p>
-	 * Should throw an {@link UnauthorizedException} (which is trapped)
-	 * </p>
-	 *
-	 * @throws Exception
-	 *             if the test fails in an unexpected way
-	 */
-	@Test
-	public void delete_privateParentBelongsToOtherUser() throws Exception {
-		RateLimitedTestRunner.run(() -> {
-			final API api = apiWithFullAccess();
-			T createdObject = null;
-			try {
-				createdObject = createObject();
-				deleter().delete(api, createdObject, privateParentOtherUserId());
-			} catch (final UnauthorizedException e) {
-				// Expected
-				forceDelete(createdObject);
-				return;
-			}
-			forceDelete(createdObject);
-			fail("Deleted an object with a private parent that belongs to another user!"); //$NON-NLS-1$
-		});
-	}
+	public abstract void delete_invalidParent() throws Exception;
 
 	/**
 	 * <p>
@@ -119,8 +94,12 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 			final API api = apiWithWriteAccess();
 			T createdObject = null;
 			try {
-				createdObject = createObject();
-				deleter().delete(api, createdObject, privateParentId());
+				createdObject = createPrivateObject(classUnderTest() + ".delete_privateParentWithoutViewPrivate()"); //$NON-NLS-1$
+				if (createdObject == null) {
+					return;
+				}
+
+				deleter().delete(api, createdObject);
 			} catch (final UnauthorizedException e) {
 				// Expected
 				forceDelete(createdObject);
@@ -149,7 +128,12 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 			final API api = apiWithFullAccess();
 			T result = null;
 			try {
-				result = deleter().delete(api, createObject(), privateParentId());
+				final T createdObject = createPrivateObject(classUnderTest() + ".delete_privateParentWithViewPrivate()"); //$NON-NLS-1$
+				if (createdObject == null) {
+					return;
+				}
+
+				result = deleter().delete(api, createdObject);
 			} catch (final NotFoundException e) {
 				return;
 			}
@@ -167,7 +151,7 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	public void delete_valid() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = apiWithWriteAccess();
-			final T result = deleter().delete(api, createObject(), validParentId());
+			final T result = deleter().delete(api, createObject(classUnderTest() + ".delete_valid()")); //$NON-NLS-1$
 			if (deleteReturnsNull()) {
 				assertNull(result);
 			}
@@ -190,15 +174,16 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	public void delete_validParentNoWriteAccess() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final API api = api();
-			T deletedObject = null;
+			T createdObject = null;
 			try {
-				deletedObject = deleter().delete(api, createObject(), validParentId());
+				createdObject = createObject(classUnderTest() + ".delete_validParentNoWriteAccess()"); //$NON-NLS-1$
+				deleter().delete(api, createdObject);
 			} catch (final UnauthorizedException e) {
 				// Expected
-				forceDelete(deletedObject);
+				forceDelete(createdObject);
 				return;
 			}
-			forceDelete(deletedObject);
+			forceDelete(createdObject);
 			fail("Deleted an object with a valid parent, but without write access!"); //$NON-NLS-1$
 		});
 	}
@@ -209,7 +194,7 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 * @return The callback
 	 *
 	 */
-	protected abstract APIDeleteCallback<T, U> deleter();
+	protected abstract APIDeleteCallback<T> deleter();
 
 	/**
 	 * Force delete the object
@@ -246,5 +231,13 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 * @return The id
 	 */
 	protected abstract U validParentId();
+
+	/**
+	 * Attempt to delete an object that is private and does not belong to the authenticated user
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	public abstract void delete_privateParentBelongsToOtherUser() throws Exception;
 
 }

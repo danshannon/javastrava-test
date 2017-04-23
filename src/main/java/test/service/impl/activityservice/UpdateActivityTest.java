@@ -30,7 +30,6 @@ import test.utils.TestUtils;
  *
  */
 public class UpdateActivityTest {
-
 	/**
 	 * @param activity
 	 *            The initial activity to create

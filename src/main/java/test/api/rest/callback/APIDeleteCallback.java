@@ -14,11 +14,8 @@ import javastrava.api.v3.rest.API;
  * @author Dan Shannon
  * @param <T>
  *            The object type being created
- * @param <U>
- *            the type of its parent's identifier
- *
  */
-public interface APIDeleteCallback<T extends StravaEntity, U> {
+public interface APIDeleteCallback<T extends StravaEntity> {
 	/**
 	 * Delete an object using the provided API call
 	 *
@@ -26,11 +23,9 @@ public interface APIDeleteCallback<T extends StravaEntity, U> {
 	 *            The API instance (and therefore the token) to use to delete the object
 	 * @param objectToDelete
 	 *            The object to be deleted
-	 * @param id
-	 *            The id of the object
 	 * @return The object that was deleted
 	 * @throws Exception
 	 *             if the delete fails for some unexpected reason
 	 */
-	public T delete(API api, T objectToDelete, U id) throws Exception;
+	public T delete(API api, T objectToDelete) throws Exception;
 }

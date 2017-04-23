@@ -83,7 +83,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 
 	/**
 	 * Attempt to create a manual activity with an invalid type. Call to create API should return a {@link BadRequestException}
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -109,7 +109,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 
 	/**
 	 * Attempt to create a manual activity with no elapsed time specified. Call to create API should return a {@link BadRequestException}
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -172,7 +172,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 
 	/**
 	 * Attempt to create a manual activity with no start time specified. Call to create API should return a {@link BadRequestException}
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
@@ -199,7 +199,7 @@ public class CreateManualActivityTest extends APICreateTest<StravaActivity, Inte
 
 	/**
 	 * Attempt to create a manual activity with no start time specified. Call to create API should return a {@link BadRequestException}
-	 * 
+	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way
 	 */
