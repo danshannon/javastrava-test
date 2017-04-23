@@ -356,152 +356,6 @@ public class ActivityDataUtils {
 		return photos;
 	}
 
-	private static List<StravaSplit> testSplitsList(StravaResourceState resourceState, StravaMeasurementMethod measurementMethod) {
-		final List<StravaSplit> splits = new ArrayList<>();
-		final int entries = random.nextInt(1000);
-		for (int i = 0; i < entries; i++) {
-			splits.add(testSplit(resourceState, measurementMethod));
-		}
-		return splits;
-	}
-
-	@SuppressWarnings("boxing")
-	private static StravaSplit testSplit(StravaResourceState resourceState, StravaMeasurementMethod measurementMethod) {
-		final StravaSplit split = new StravaSplit();
-
-		split.setAverageHeartrate(random.nextFloat() * 175);
-		split.setAverageSpeed(random.nextFloat() * 45);
-		split.setDistance(random.nextFloat() * 10000);
-		split.setElapsedTime(random.nextInt(3600));
-		split.setElevationDifference(random.nextFloat() * 1000);
-		split.setMovingTime(random.nextInt(3600));
-		split.setPaceZone(random.nextInt(5));
-		split.setSplit(random.nextInt(100));
-
-		return split;
-	}
-
-	/**
-	 * @param resourceState
-	 *            Required resource state for the test data
-	 * @return Test data
-	 */
-	@SuppressWarnings("boxing")
-	public static StravaSimilarActivities testSimilarActivities(StravaResourceState resourceState) {
-		final StravaSimilarActivities stats = new StravaSimilarActivities();
-
-		stats.setAverageSpeed(random.nextFloat() * 45);
-		stats.setEffortCount(random.nextInt(50));
-		stats.setFrequencyMilestone(text.word());
-		stats.setMaxAverageSpeed(random.nextFloat() * 50);
-		stats.setMidAverageSpeed(random.nextFloat() * 50);
-		stats.setMinAverageSpeed(random.nextFloat() * 50);
-		stats.setPrRank(random.nextInt(100));
-		stats.setResourceState(resourceState);
-		stats.setTrend(testSimilarActivitiesTrend());
-
-		return stats;
-	}
-
-	/**
-	 * @return Test data
-	 */
-	@SuppressWarnings("boxing")
-	public static StravaSimilarActivitiesTrend testSimilarActivitiesTrend() {
-		final StravaSimilarActivitiesTrend trend = new StravaSimilarActivitiesTrend();
-
-		trend.setCurrentActivityIndex(random.nextInt(100));
-		trend.setDirection(random.nextInt(8));
-		trend.setMaxSpeed(random.nextFloat() * 100);
-		trend.setMidSpeed(random.nextFloat() * 100);
-		trend.setMinSpeed(random.nextFloat() * 100);
-		final List<Float> speeds = new ArrayList<>();
-		final int entries = random.nextInt(100);
-		for (int i = 0; i < entries; i++) {
-			speeds.add(random.nextFloat() * 50);
-		}
-		trend.setSpeeds(speeds);
-		return trend;
-
-	}
-
-	private static List<StravaLap> testLapsList(StravaResourceState resourceState) {
-		final List<StravaLap> list = new ArrayList<>();
-		final int entries = random.nextInt(10000);
-		for (int i = 0; i < entries; i++) {
-			list.add(testLap(resourceState));
-		}
-		return list;
-	}
-
-	@SuppressWarnings("boxing")
-	private static StravaLap testLap(StravaResourceState resourceState) {
-		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
-			throw new IllegalArgumentException();
-		}
-
-		final StravaLap lap = new StravaLap();
-
-		// Set attributes that are common to all resource states
-		lap.setId(random.nextLong());
-		lap.setResourceState(resourceState);
-
-		// If this is a META or PRIVATE state, return it now
-		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
-			return lap;
-		}
-
-		lap.setActivity(ActivityDataUtils.testActivity(StravaResourceState.META));
-		lap.setAthlete(AthleteDataUtils.testAthlete(StravaResourceState.META));
-		lap.setAverageCadence(random.nextFloat() * 100);
-		lap.setAverageHeartrate(random.nextFloat() * 175);
-		lap.setAverageSpeed(random.nextFloat() * 45);
-		lap.setAverageWatts(random.nextFloat() * 500);
-		lap.setDeviceWatts(random.nextBoolean());
-		lap.setDistance(random.nextFloat() * 10000);
-		lap.setElapsedTime(random.nextInt(3600));
-		lap.setEndIndex(random.nextInt(50000));
-		lap.setId(random.nextLong());
-		lap.setLapIndex(random.nextInt(100));
-		lap.setMaxHeartrate(random.nextFloat() * 220);
-		lap.setMaxSpeed(random.nextFloat() * 100);
-		lap.setMovingTime(random.nextInt(3600));
-		lap.setName(text.word(3));
-		lap.setPaceZone(random.nextInt(5));
-		lap.setSplit(text.word());
-		lap.setStartDate(DateUtils.zonedDateTime());
-		lap.setStartIndex(random.nextInt(10000));
-		lap.setTotalElevationGain(random.nextFloat() * 9000);
-
-		return lap;
-	}
-
-	/**
-	 * @param resourceState
-	 *            Resource state the video should be created in
-	 * @return The generated video
-	 */
-	@SuppressWarnings("boxing")
-	public static StravaVideo testVideo(StravaResourceState resourceState) {
-		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
-			throw new IllegalArgumentException();
-		}
-
-		final StravaVideo video = new StravaVideo();
-
-		video.setId(random.nextInt(Integer.MAX_VALUE));
-		video.setResourceState(resourceState);
-
-		// If this is a META or PRIVATE video, return it now
-		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
-			return video;
-		}
-
-		video.setBadgeImageUrl(text.randomString(100));
-
-		return video;
-	}
-
 	/**
 	 * Generate a {@link StravaBestRunningEffort} with the required resource state
 	 *
@@ -555,6 +409,152 @@ public class ActivityDataUtils {
 			list.add(testBestEffort(resourceState));
 		}
 		return list;
+	}
+
+	@SuppressWarnings("boxing")
+	private static StravaLap testLap(StravaResourceState resourceState) {
+		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
+			throw new IllegalArgumentException();
+		}
+
+		final StravaLap lap = new StravaLap();
+
+		// Set attributes that are common to all resource states
+		lap.setId(random.nextLong());
+		lap.setResourceState(resourceState);
+
+		// If this is a META or PRIVATE state, return it now
+		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
+			return lap;
+		}
+
+		lap.setActivity(ActivityDataUtils.testActivity(StravaResourceState.META));
+		lap.setAthlete(AthleteDataUtils.testAthlete(StravaResourceState.META));
+		lap.setAverageCadence(random.nextFloat() * 100);
+		lap.setAverageHeartrate(random.nextFloat() * 175);
+		lap.setAverageSpeed(random.nextFloat() * 45);
+		lap.setAverageWatts(random.nextFloat() * 500);
+		lap.setDeviceWatts(random.nextBoolean());
+		lap.setDistance(random.nextFloat() * 10000);
+		lap.setElapsedTime(random.nextInt(3600));
+		lap.setEndIndex(random.nextInt(50000));
+		lap.setId(random.nextLong());
+		lap.setLapIndex(random.nextInt(100));
+		lap.setMaxHeartrate(random.nextFloat() * 220);
+		lap.setMaxSpeed(random.nextFloat() * 100);
+		lap.setMovingTime(random.nextInt(3600));
+		lap.setName(text.word(3));
+		lap.setPaceZone(random.nextInt(5));
+		lap.setSplit(text.word());
+		lap.setStartDate(DateUtils.zonedDateTime());
+		lap.setStartIndex(random.nextInt(10000));
+		lap.setTotalElevationGain(random.nextFloat() * 9000);
+
+		return lap;
+	}
+
+	private static List<StravaLap> testLapsList(StravaResourceState resourceState) {
+		final List<StravaLap> list = new ArrayList<>();
+		final int entries = random.nextInt(10000);
+		for (int i = 0; i < entries; i++) {
+			list.add(testLap(resourceState));
+		}
+		return list;
+	}
+
+	/**
+	 * @param resourceState
+	 *            Required resource state for the test data
+	 * @return Test data
+	 */
+	@SuppressWarnings("boxing")
+	public static StravaSimilarActivities testSimilarActivities(StravaResourceState resourceState) {
+		final StravaSimilarActivities stats = new StravaSimilarActivities();
+
+		stats.setAverageSpeed(random.nextFloat() * 45);
+		stats.setEffortCount(random.nextInt(50));
+		stats.setFrequencyMilestone(text.word());
+		stats.setMaxAverageSpeed(random.nextFloat() * 50);
+		stats.setMidAverageSpeed(random.nextFloat() * 50);
+		stats.setMinAverageSpeed(random.nextFloat() * 50);
+		stats.setPrRank(random.nextInt(100));
+		stats.setResourceState(resourceState);
+		stats.setTrend(testSimilarActivitiesTrend());
+
+		return stats;
+	}
+
+	/**
+	 * @return Test data
+	 */
+	@SuppressWarnings("boxing")
+	public static StravaSimilarActivitiesTrend testSimilarActivitiesTrend() {
+		final StravaSimilarActivitiesTrend trend = new StravaSimilarActivitiesTrend();
+
+		trend.setCurrentActivityIndex(random.nextInt(100));
+		trend.setDirection(random.nextInt(8));
+		trend.setMaxSpeed(random.nextFloat() * 100);
+		trend.setMidSpeed(random.nextFloat() * 100);
+		trend.setMinSpeed(random.nextFloat() * 100);
+		final List<Float> speeds = new ArrayList<>();
+		final int entries = random.nextInt(100);
+		for (int i = 0; i < entries; i++) {
+			speeds.add(random.nextFloat() * 50);
+		}
+		trend.setSpeeds(speeds);
+		return trend;
+
+	}
+
+	@SuppressWarnings("boxing")
+	private static StravaSplit testSplit(StravaResourceState resourceState, StravaMeasurementMethod measurementMethod) {
+		final StravaSplit split = new StravaSplit();
+
+		split.setAverageHeartrate(random.nextFloat() * 175);
+		split.setAverageSpeed(random.nextFloat() * 45);
+		split.setDistance(random.nextFloat() * 10000);
+		split.setElapsedTime(random.nextInt(3600));
+		split.setElevationDifference(random.nextFloat() * 1000);
+		split.setMovingTime(random.nextInt(3600));
+		split.setPaceZone(random.nextInt(5));
+		split.setSplit(random.nextInt(100));
+
+		return split;
+	}
+
+	private static List<StravaSplit> testSplitsList(StravaResourceState resourceState, StravaMeasurementMethod measurementMethod) {
+		final List<StravaSplit> splits = new ArrayList<>();
+		final int entries = random.nextInt(1000);
+		for (int i = 0; i < entries; i++) {
+			splits.add(testSplit(resourceState, measurementMethod));
+		}
+		return splits;
+	}
+
+	/**
+	 * @param resourceState
+	 *            Resource state the video should be created in
+	 * @return The generated video
+	 */
+	@SuppressWarnings("boxing")
+	public static StravaVideo testVideo(StravaResourceState resourceState) {
+		if ((resourceState == StravaResourceState.UNKNOWN) || (resourceState == StravaResourceState.UPDATING)) {
+			throw new IllegalArgumentException();
+		}
+
+		final StravaVideo video = new StravaVideo();
+
+		video.setId(random.nextInt(Integer.MAX_VALUE));
+		video.setResourceState(resourceState);
+
+		// If this is a META or PRIVATE video, return it now
+		if ((resourceState == StravaResourceState.META) || (resourceState == StravaResourceState.PRIVATE)) {
+			return video;
+		}
+
+		video.setBadgeImageUrl(text.randomString(100));
+
+		return video;
 	}
 
 	/**
