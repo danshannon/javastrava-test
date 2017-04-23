@@ -13,13 +13,13 @@ import test.service.standardtests.data.ClubDataUtils;
 public class ListClubAdminsAsyncTest extends ListClubAdminsTest {
 
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listClubAdminsAsync(ClubDataUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize()).get();
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listClubAdminsAsync(id, null, null).get();
 	}
 
 	@Override
-	protected APIListCallback<StravaAthlete, Integer> listCallback() {
-		return (api, id) -> api.listClubAdminsAsync(id, null, null).get();
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listClubAdminsAsync(ClubDataUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize()).get();
 	}
 
 }

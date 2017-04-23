@@ -17,6 +17,11 @@ import test.service.standardtests.data.RunningRaceDataUtils;
 public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 
 	@Override
+	protected Class<StravaRunningRace> classUnderTest() {
+		return StravaRunningRace.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -49,11 +54,6 @@ public class ListRacesTest extends ListMethodTest<StravaRunningRace, Integer> {
 	@Override
 	protected void validate(StravaRunningRace object) {
 		RunningRaceDataUtils.validateRace(object);
-	}
-
-	@Override
-	protected Class<StravaRunningRace> classUnderTest() {
-		return StravaRunningRace.class;
 	}
 
 }

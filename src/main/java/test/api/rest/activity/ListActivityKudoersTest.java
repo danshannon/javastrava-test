@@ -29,6 +29,13 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	}
 
 	@Override
+	public void list_privateWithoutViewPrivate() throws Exception {
+		assumeFalse(Issue161.issue());
+
+		super.list_privateWithoutViewPrivate();
+	}
+
+	@Override
 	protected APIListCallback<StravaAthlete, Long> listCallback() {
 		return ((api, id) -> api.listActivityKudoers(id, null, null));
 	}
@@ -89,13 +96,6 @@ public class ListActivityKudoersTest extends APIPagingListTest<StravaAthlete, Lo
 	@Override
 	protected Long validIdNoChildren() {
 		return ActivityDataUtils.ACTIVITY_WITHOUT_KUDOS;
-	}
-
-	@Override
-	public void list_privateWithoutViewPrivate() throws Exception {
-		assumeFalse(Issue161.issue());
-
-		super.list_privateWithoutViewPrivate();
 	}
 
 }

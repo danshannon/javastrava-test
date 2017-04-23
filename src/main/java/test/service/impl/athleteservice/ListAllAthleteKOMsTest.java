@@ -32,6 +32,11 @@ import test.utils.TestUtils;
  */
 public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, Integer> {
 	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
@@ -194,11 +199,6 @@ public class ListAllAthleteKOMsTest extends ListMethodTest<StravaSegmentEffort, 
 	@Override
 	protected void validate(StravaSegmentEffort object) {
 		SegmentEffortDataUtils.validateSegmentEffort(object);
-	}
-
-	@Override
-	protected Class<StravaSegmentEffort> classUnderTest() {
-		return StravaSegmentEffort.class;
 	}
 
 }

@@ -28,23 +28,6 @@ public class MapDataUtils {
 	private static TextProducer text = Fairy.create().textProducer();
 
 	/**
-	 * Generate a random map point
-	 *
-	 * @param resourceState
-	 *            The required resource state of the map point
-	 * @return The generated map point
-	 */
-	@SuppressWarnings("boxing")
-	public static StravaMapPoint testMapPoint(StravaResourceState resourceState) {
-		final StravaMapPoint point = new StravaMapPoint();
-
-		point.setLatitude((random.nextFloat() * 180) - 90);
-		point.setLongitude((random.nextFloat() * 360) - 180);
-
-		return point;
-	}
-
-	/**
 	 * Generate a random map
 	 *
 	 * @param resourceState
@@ -60,6 +43,23 @@ public class MapDataUtils {
 		map.setSummaryPolyline(text.randomString(100));
 
 		return map;
+	}
+
+	/**
+	 * Generate a random map point
+	 *
+	 * @param resourceState
+	 *            The required resource state of the map point
+	 * @return The generated map point
+	 */
+	@SuppressWarnings("boxing")
+	public static StravaMapPoint testMapPoint(StravaResourceState resourceState) {
+		final StravaMapPoint point = new StravaMapPoint();
+
+		point.setLatitude((random.nextFloat() * 180) - 90);
+		point.setLongitude((random.nextFloat() * 360) - 180);
+
+		return point;
 	}
 
 	/**

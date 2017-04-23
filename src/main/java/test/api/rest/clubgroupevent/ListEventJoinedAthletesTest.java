@@ -19,11 +19,6 @@ import test.service.standardtests.data.ClubGroupEventDataUtils;
 public class ListEventJoinedAthletesTest extends APIPagingListTest<StravaAthlete, Integer> {
 
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return (paging -> api().listEventJoinedAthletes(ClubGroupEventDataUtils.CLUB_EVENT_VALID_ID, paging.getPage(), paging.getPageSize()));
-	}
-
-	@Override
 	protected Integer invalidId() {
 		return ClubGroupEventDataUtils.CLUB_EVENT_INVALID_ID;
 	}
@@ -34,6 +29,11 @@ public class ListEventJoinedAthletesTest extends APIPagingListTest<StravaAthlete
 	}
 
 	@Override
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return (paging -> api().listEventJoinedAthletes(ClubGroupEventDataUtils.CLUB_EVENT_VALID_ID, paging.getPage(), paging.getPageSize()));
+	}
+
+	@Override
 	protected Integer privateId() {
 		return null;
 	}
@@ -41,6 +41,12 @@ public class ListEventJoinedAthletesTest extends APIPagingListTest<StravaAthlete
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected void validate(StravaAthlete athlete) throws Exception {
+		AthleteDataUtils.validateAthlete(athlete);
+
 	}
 
 	@Override
@@ -64,12 +70,6 @@ public class ListEventJoinedAthletesTest extends APIPagingListTest<StravaAthlete
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaAthlete athlete) throws Exception {
-		AthleteDataUtils.validateAthlete(athlete);
-
 	}
 
 }

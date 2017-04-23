@@ -19,10 +19,10 @@ public class DateUtils {
 	private static EnhancedRandom random = EnhancedRandomBuilder.aNewEnhancedRandom();
 
 	/**
-	 * @return A random zoned datetime
+	 * @return A random local date
 	 */
-	public static ZonedDateTime zonedDateTime() {
-		return random.nextObject(ZonedDateTime.class);
+	public static LocalDate localDate() {
+		return random.nextObject(LocalDate.class);
 	}
 
 	/**
@@ -30,13 +30,6 @@ public class DateUtils {
 	 */
 	public static LocalDateTime localDateTime() {
 		return random.nextObject(LocalDateTime.class);
-	}
-
-	/**
-	 * @return A random local date
-	 */
-	public static LocalDate localDate() {
-		return random.nextObject(LocalDate.class);
 	}
 
 	/**
@@ -53,5 +46,12 @@ public class DateUtils {
 		}
 
 		return list;
+	}
+
+	/**
+	 * @return A random zoned datetime
+	 */
+	public static ZonedDateTime zonedDateTime() {
+		return random.nextObject(ZonedDateTime.class);
 	}
 }

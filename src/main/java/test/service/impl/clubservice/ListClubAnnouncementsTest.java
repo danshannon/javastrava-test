@@ -11,6 +11,11 @@ import test.service.standardtests.data.ClubDataUtils;
  */
 public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnouncement, Integer> {
 	@Override
+	protected Class<StravaClubAnnouncement> classUnderTest() {
+		return StravaClubAnnouncement.class;
+	}
+
+	@Override
 	public Integer idInvalid() {
 		return ClubDataUtils.CLUB_INVALID_ID;
 	}
@@ -43,11 +48,6 @@ public class ListClubAnnouncementsTest extends ListMethodTest<StravaClubAnnounce
 	@Override
 	protected void validate(StravaClubAnnouncement object) {
 		ClubDataUtils.validateClubAnnouncement(object);
-	}
-
-	@Override
-	protected Class<StravaClubAnnouncement> classUnderTest() {
-		return StravaClubAnnouncement.class;
 	}
 
 }

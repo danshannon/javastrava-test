@@ -20,6 +20,11 @@ import test.service.standardtests.data.CommentDataUtils;
 public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, Long> {
 
 	@Override
+	protected Class<StravaComment> classUnderTest() {
+		return StravaComment.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -52,11 +57,6 @@ public class ListAllActivityCommentsTest extends ListMethodTest<StravaComment, L
 	@Override
 	protected void validate(StravaComment comment) {
 		CommentDataUtils.validateComment(comment);
-	}
-
-	@Override
-	protected Class<StravaComment> classUnderTest() {
-		return StravaComment.class;
 	}
 
 }

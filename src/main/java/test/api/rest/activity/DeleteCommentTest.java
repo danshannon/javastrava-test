@@ -28,8 +28,19 @@ import test.utils.RateLimitedTestRunner;
  */
 public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	@Override
+	protected String classUnderTest() {
+		return this.getClass().getName();
+	}
+
+	@Override
 	protected StravaComment createObject(String name) {
 		return apiWithWriteAccess().createComment(ActivityDataUtils.ACTIVITY_WITH_COMMENTS, name + " - test data only - please ignore"); //$NON-NLS-1$
+	}
+
+	@Override
+	protected StravaComment createPrivateObject(String name) {
+		// No such thing!
+		return null;
 	}
 
 	@SuppressWarnings("boxing")
@@ -106,6 +117,11 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	}
 
 	@Override
+	protected boolean deleteReturnsNull() {
+		return false;
+	}
+
+	@Override
 	protected void forceDelete(final StravaComment comment) {
 		APITest.forceDeleteComment(comment);
 
@@ -153,21 +169,5 @@ public class DeleteCommentTest extends APIDeleteTest<StravaComment, Long> {
 	@Override
 	protected Long validParentId() {
 		return ActivityDataUtils.ACTIVITY_WITH_COMMENTS;
-	}
-
-	@Override
-	protected boolean deleteReturnsNull() {
-		return false;
-	}
-
-	@Override
-	protected StravaComment createPrivateObject(String name) {
-		// No such thing!
-		return null;
-	}
-
-	@Override
-	protected String classUnderTest() {
-		return this.getClass().getName();
 	}
 }

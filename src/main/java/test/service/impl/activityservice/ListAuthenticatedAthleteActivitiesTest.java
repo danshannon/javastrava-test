@@ -32,6 +32,11 @@ import test.utils.TestUtils;
  */
 public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -216,11 +221,6 @@ public class ListAuthenticatedAthleteActivitiesTest extends PagingListMethodTest
 	@Override
 	protected void validate(final StravaActivity activity) {
 		ActivityDataUtils.validate(activity);
-	}
-
-	@Override
-	protected Class<StravaActivity> classUnderTest() {
-		return StravaActivity.class;
 	}
 
 }

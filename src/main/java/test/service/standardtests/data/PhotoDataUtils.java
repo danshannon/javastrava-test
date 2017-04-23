@@ -32,6 +32,16 @@ public class PhotoDataUtils {
 
 	private static TextProducer text = Fairy.create().textProducer();
 
+	@SuppressWarnings("boxing")
+	private static List<Integer> integerList() {
+		final List<Integer> list = new ArrayList<>();
+		final int entries = random.nextInt(100);
+		for (int i = 0; i < entries; i++) {
+			list.add(random.nextInt());
+		}
+		return list;
+	}
+
 	/**
 	 * Generate a photo with the required resource state
 	 *
@@ -86,16 +96,6 @@ public class PhotoDataUtils {
 		return urls;
 	}
 
-	@SuppressWarnings("boxing")
-	private static List<Integer> integerList() {
-		final List<Integer> list = new ArrayList<>();
-		final int entries = random.nextInt(100);
-		for (int i = 0; i < entries; i++) {
-			list.add(random.nextInt());
-		}
-		return list;
-	}
-
 	/**
 	 * Validate the structure and content of a photo is as expected
 	 *
@@ -104,19 +104,6 @@ public class PhotoDataUtils {
 	 */
 	public static void validate(final StravaPhoto photo) {
 		PhotoDataUtils.validatePhoto(photo, photo.getId(), photo.getResourceState());
-
-	}
-
-	/**
-	 * Validate a list of photos
-	 *
-	 * @param list
-	 *            The list of photos to be validated
-	 */
-	public static void validatePhotoList(final List<StravaPhoto> list) {
-		for (final StravaPhoto photo : list) {
-			validate(photo);
-		}
 
 	}
 
@@ -177,6 +164,19 @@ public class PhotoDataUtils {
 			return;
 		}
 		fail("Unexpected resource state " + state + " for photo " + photo); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Validate a list of photos
+	 *
+	 * @param list
+	 *            The list of photos to be validated
+	 */
+	public static void validatePhotoList(final List<StravaPhoto> list) {
+		for (final StravaPhoto photo : list) {
+			validate(photo);
+		}
+
 	}
 
 	/**

@@ -167,21 +167,14 @@ public class AthleteDataUtils {
 	}
 
 	/**
-	 * <p>
-	 * Validate structure and content
-	 * </p>
-	 *
+	 * Validate the structure and content of a statistics object
+	 * 
 	 * @param stats
-	 *            Stats to be validated
+	 *            The object to be validated
 	 */
-	@SuppressWarnings("boxing")
-	public static void validateAthleteSegmentStats(final StravaAthleteSegmentStats stats) {
+	public static void validate(final StravaStatistics stats) {
 		assertNotNull(stats);
-		assertNotNull(stats.getEffortCount());
-		assertTrue(stats.getEffortCount() > 0);
-		assertNotNull(stats.getPrElapsedTime());
-		assertTrue(stats.getPrElapsedTime() > 0);
-		assertNotNull(stats.getPrDate());
+	
 	}
 
 	/**
@@ -337,11 +330,21 @@ public class AthleteDataUtils {
 	}
 
 	/**
-	 * @param zones
-	 *            Zones to be validated
+	 * <p>
+	 * Validate structure and content
+	 * </p>
+	 *
+	 * @param stats
+	 *            Stats to be validated
 	 */
-	public static void validateAthleteZones(StravaAthleteZones zones) {
-		assertNotNull(zones.getHeartRate());
+	@SuppressWarnings("boxing")
+	public static void validateAthleteSegmentStats(final StravaAthleteSegmentStats stats) {
+		assertNotNull(stats);
+		assertNotNull(stats.getEffortCount());
+		assertTrue(stats.getEffortCount() > 0);
+		assertNotNull(stats.getPrElapsedTime());
+		assertTrue(stats.getPrElapsedTime() > 0);
+		assertNotNull(stats.getPrDate());
 	}
 
 	/**
@@ -353,13 +356,10 @@ public class AthleteDataUtils {
 	}
 
 	/**
-	 * Validate the structure and content of a statistics object
-	 * 
-	 * @param stats
-	 *            The object to be validated
+	 * @param zones
+	 *            Zones to be validated
 	 */
-	public static void validate(final StravaStatistics stats) {
-		assertNotNull(stats);
-	
+	public static void validateAthleteZones(StravaAthleteZones zones) {
+		assertNotNull(zones.getHeartRate());
 	}
 }

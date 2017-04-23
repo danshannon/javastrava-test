@@ -51,6 +51,13 @@ public class ClubGroupEventDataUtils {
 	}
 
 	/**
+	 * @return Method to use to get a particular event
+	 */
+	public static GetCallback<StravaClubEvent, Integer> getter() {
+		return (strava, id) -> strava.getEvent(id);
+	}
+
+	/**
 	 * Construct a test club group event with the given resource state
 	 *
 	 * @param resourceState
@@ -108,13 +115,6 @@ public class ClubGroupEventDataUtils {
 		return event;
 	}
 
-	@SuppressWarnings("boxing")
-	private static StravaClubEventViewerPermissions testViewerPermissions() {
-		final StravaClubEventViewerPermissions perms = new StravaClubEventViewerPermissions();
-		perms.setEdit(random.nextBoolean());
-		return perms;
-	}
-
 	/**
 	 * Generate a list of clubs
 	 *
@@ -129,6 +129,13 @@ public class ClubGroupEventDataUtils {
 			list.add(testClubGroupEvent(resourceState));
 		}
 		return list;
+	}
+
+	@SuppressWarnings("boxing")
+	private static StravaClubEventViewerPermissions testViewerPermissions() {
+		final StravaClubEventViewerPermissions perms = new StravaClubEventViewerPermissions();
+		perms.setEdit(random.nextBoolean());
+		return perms;
 	}
 
 	/**
@@ -239,12 +246,5 @@ public class ClubGroupEventDataUtils {
 			validateEvent(event);
 		}
 
-	}
-
-	/**
-	 * @return Method to use to get a particular event
-	 */
-	public static GetCallback<StravaClubEvent, Integer> getter() {
-		return (strava, id) -> strava.getEvent(id);
 	}
 }

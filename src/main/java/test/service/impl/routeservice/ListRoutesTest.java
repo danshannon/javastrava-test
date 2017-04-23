@@ -17,6 +17,12 @@ import test.service.standardtests.data.RouteDataUtils;
 public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 
 	@Override
+	protected Class<StravaRoute> classUnderTest() {
+		return StravaRoute.class;
+
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return RouteDataUtils.ROUTE_INVALID_ID;
 	}
@@ -49,12 +55,6 @@ public class ListRoutesTest extends ListMethodTest<StravaRoute, Integer> {
 	@Override
 	protected void validate(StravaRoute result) {
 		RouteDataUtils.validateRoute(result);
-	}
-
-	@Override
-	protected Class<StravaRoute> classUnderTest() {
-		return StravaRoute.class;
-
 	}
 
 }

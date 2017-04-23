@@ -23,6 +23,17 @@ public class StravaWeekOfMonthTest {
 	}
 
 	/**
+	 * Test description
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testGetDescription() {
+		for (final StravaWeekOfMonth week : StravaWeekOfMonth.values()) {
+			assertNotNull(week.getDescription());
+		}
+	}
+
+	/**
 	 * Test integrity of the id
 	 */
 	@SuppressWarnings("static-method")
@@ -31,17 +42,6 @@ public class StravaWeekOfMonthTest {
 		for (final StravaWeekOfMonth week : StravaWeekOfMonth.values()) {
 			assertNotNull(week.getId());
 			assertEquals(week, StravaWeekOfMonth.create(week.getId()));
-		}
-	}
-
-	/**
-	 * Test description
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testGetDescription() {
-		for (final StravaWeekOfMonth week : StravaWeekOfMonth.values()) {
-			assertNotNull(week.getDescription());
 		}
 	}
 

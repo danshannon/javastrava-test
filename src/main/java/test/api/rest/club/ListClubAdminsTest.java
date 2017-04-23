@@ -19,13 +19,13 @@ public class ListClubAdminsTest extends APIPagingListTest<StravaAthlete, Integer
 	}
 
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listClubAdmins(ClubDataUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize());
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listClubAdmins(id, null, null);
 	}
 
 	@Override
-	protected APIListCallback<StravaAthlete, Integer> listCallback() {
-		return (api, id) -> api.listClubAdmins(id, null, null);
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listClubAdmins(ClubDataUtils.CLUB_VALID_ID, paging.getPage(), paging.getPageSize());
 	}
 
 	@Override
@@ -36,6 +36,12 @@ public class ListClubAdminsTest extends APIPagingListTest<StravaAthlete, Integer
 	@Override
 	protected Integer privateIdBelongsToOtherUser() {
 		return null;
+	}
+
+	@Override
+	protected void validate(StravaAthlete result) throws Exception {
+		AthleteDataUtils.validateAthlete(result);
+
 	}
 
 	@Override
@@ -59,12 +65,6 @@ public class ListClubAdminsTest extends APIPagingListTest<StravaAthlete, Integer
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaAthlete result) throws Exception {
-		AthleteDataUtils.validateAthlete(result);
-
 	}
 
 }

@@ -18,6 +18,11 @@ import test.service.standardtests.data.PhotoDataUtils;
 public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 
 	@Override
+	protected Class<StravaPhoto> classUnderTest() {
+		return StravaPhoto.class;
+	}
+
+	@Override
 	public Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -67,10 +72,5 @@ public class ListActivityPhotosTest extends ListMethodTest<StravaPhoto, Long> {
 	protected void validate(StravaPhoto photo) {
 		PhotoDataUtils.validate(photo);
 
-	}
-
-	@Override
-	protected Class<StravaPhoto> classUnderTest() {
-		return StravaPhoto.class;
 	}
 }

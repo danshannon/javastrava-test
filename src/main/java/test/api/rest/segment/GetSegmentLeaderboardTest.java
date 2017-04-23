@@ -36,6 +36,16 @@ import test.utils.RateLimitedTestRunner;
  */
 public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboard, Integer> implements ArrayCallback<StravaSegmentLeaderboardEntry> {
 	/**
+	 * @param entries
+	 *            array of entries to be validated
+	 */
+	protected static void validateArray(final StravaSegmentLeaderboardEntry[] entries) {
+		for (final StravaSegmentLeaderboardEntry entry : entries) {
+			SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
+		}
+	}
+
+	/**
 	 * @see test.api.rest.APIGetTest#get_privateWithoutViewPrivate()
 	 */
 	@Override
@@ -314,16 +324,6 @@ public class GetSegmentLeaderboardTest extends APIGetTest<StravaSegmentLeaderboa
 	protected void validate(final StravaSegmentLeaderboard leaderboard) throws Exception {
 		SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 
-	}
-
-	/**
-	 * @param entries
-	 *            array of entries to be validated
-	 */
-	protected static void validateArray(final StravaSegmentLeaderboardEntry[] entries) {
-		for (final StravaSegmentLeaderboardEntry entry : entries) {
-			SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
-		}
 	}
 
 	@Override

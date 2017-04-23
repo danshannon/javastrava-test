@@ -31,6 +31,15 @@ import test.utils.TestUtils;
  */
 public class GetSegmentLeaderboardTest {
 	/**
+	 * @param entry
+	 *            Entry to be validated
+	 */
+	protected static void validate(final StravaSegmentLeaderboardEntry entry) {
+		SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
+
+	}
+
+	/**
 	 * Filter by age group
 	 *
 	 * @throws Exception
@@ -266,15 +275,6 @@ public class GetSegmentLeaderboardTest {
 			final StravaSegmentLeaderboard leaderboard = TestUtils.strava().getSegmentLeaderboard(SegmentDataUtils.SEGMENT_VALID_ID);
 			SegmentDataUtils.validateSegmentLeaderboard(leaderboard);
 		});
-	}
-
-	/**
-	 * @param entry
-	 *            Entry to be validated
-	 */
-	protected static void validate(final StravaSegmentLeaderboardEntry entry) {
-		SegmentDataUtils.validateSegmentLeaderboardEntry(entry);
-
 	}
 
 }

@@ -69,6 +69,22 @@ public class ClubDataUtils {
 	}
 
 	/**
+	 * @param clubs
+	 *            List of clubs to check
+	 * @param id
+	 *            Id of the club we're checking for membership
+	 * @return <code>true</code> if one of the clubs has the given id
+	 */
+	public static boolean checkIsMember(final StravaClub[] clubs, final Integer id) {
+		for (final StravaClub club : clubs) {
+			if (club.getId().intValue() == id.intValue()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Construct a test club with the given resource state
 	 *
 	 * @param resourceState
@@ -214,21 +230,6 @@ public class ClubDataUtils {
 	}
 
 	/**
-	 * <p>
-	 * Validate the contents of all the clubs in a list
-	 * </p>
-	 *
-	 * @param list
-	 *            List of clubs to be validated
-	 */
-	public static void validateList(final List<StravaClub> list) {
-		for (final StravaClub club : list) {
-			validate(club);
-		}
-
-	}
-
-	/**
 	 * Validate contents of the object
 	 *
 	 * @param object
@@ -243,22 +244,6 @@ public class ClubDataUtils {
 	}
 
 	/**
-	 * @param clubs
-	 *            List of clubs to check
-	 * @param id
-	 *            Id of the club we're checking for membership
-	 * @return <code>true</code> if one of the clubs has the given id
-	 */
-	public static boolean checkIsMember(final StravaClub[] clubs, final Integer id) {
-		for (final StravaClub club : clubs) {
-			if (club.getId().intValue() == id.intValue()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * @param event
 	 *            The event to be validated
 	 */
@@ -266,6 +251,21 @@ public class ClubDataUtils {
 		assertNotNull(event.getId());
 		assertNotNull(event.getClub());
 		assertNotNull(event.getResourceState());
+
+	}
+
+	/**
+	 * <p>
+	 * Validate the contents of all the clubs in a list
+	 * </p>
+	 *
+	 * @param list
+	 *            List of clubs to be validated
+	 */
+	public static void validateList(final List<StravaClub> list) {
+		for (final StravaClub club : list) {
+			validate(club);
+		}
 
 	}
 }

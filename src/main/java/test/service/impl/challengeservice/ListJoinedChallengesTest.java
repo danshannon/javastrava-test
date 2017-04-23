@@ -20,6 +20,11 @@ import test.service.standardtests.data.ChallengeDataUtils;
 public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, Integer> {
 
 	@Override
+	protected Class<StravaChallenge> classUnderTest() {
+		return StravaChallenge.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -47,11 +52,6 @@ public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, In
 	@Override
 	protected ListCallback<StravaChallenge, Integer> lister() {
 		return (strava, id) -> strava.listJoinedChallenges();
-	}
-
-	@Override
-	protected void validate(StravaChallenge object) {
-		ChallengeDataUtils.validate(object);
 	}
 
 	@Override
@@ -103,16 +103,16 @@ public class ListJoinedChallengesTest extends ListMethodTest<StravaChallenge, In
 	}
 
 	@Override
+	protected void validate(StravaChallenge object) {
+		ChallengeDataUtils.validate(object);
+	}
+
+	@Override
 	protected void validateList(List<StravaChallenge> list) {
 		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
 			super.validateList(list);
 		}
-	}
-
-	@Override
-	protected Class<StravaChallenge> classUnderTest() {
-		return StravaChallenge.class;
 	}
 
 }

@@ -62,6 +62,29 @@ public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
 	}
 
 	/**
+	 * Test that you can successfully leave a valid challenge using a token with write access
+	 *
+	 * @throws Exception
+	 *             if the test fails for an unexpected reason
+	 */
+	@Test
+	public void testJoinChallenge_validChallenge() throws Exception {
+		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
+		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
+
+			// Leave the challenge first, to be sure
+			final Integer id = ChallengeDataUtils.CHALLENGE_VALID_ID;
+			final Strava strava = TestUtils.stravaWithWriteAccess();
+			strava.leaveChallenge(id);
+
+			// Then join it
+			getter().get(strava, id);
+
+			// If it works, it works.
+		}
+	}
+
+	/**
 	 * Test that you can't successfully join a valid challenge using a token without write access
 	 *
 	 * @throws Exception
@@ -86,29 +109,6 @@ public class JoinChallengeTest extends MethodTest<StravaChallenge, Integer> {
 
 			// If it works, it fails
 			fail("Succeeded in joining a challenge using a token that doesn't have WRITE scope"); //$NON-NLS-1$
-		}
-	}
-
-	/**
-	 * Test that you can successfully leave a valid challenge using a token with write access
-	 *
-	 * @throws Exception
-	 *             if the test fails for an unexpected reason
-	 */
-	@Test
-	public void testJoinChallenge_validChallenge() throws Exception {
-		// Can't run the test unless there's permission at the Strava end to use the challenges endpoint
-		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
-
-			// Leave the challenge first, to be sure
-			final Integer id = ChallengeDataUtils.CHALLENGE_VALID_ID;
-			final Strava strava = TestUtils.stravaWithWriteAccess();
-			strava.leaveChallenge(id);
-
-			// Then join it
-			getter().get(strava, id);
-
-			// If it works, it works.
 		}
 	}
 

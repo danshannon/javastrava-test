@@ -31,6 +31,12 @@ import test.utils.TestUtils;
  */
 public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaActivity, Integer> {
 	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return ClubDataUtils.CLUB_INVALID_ID;
 	}
@@ -138,22 +144,17 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	}
 
 	@Override
-	protected void validate(final StravaActivity activity) {
-		ActivityDataUtils.validate(activity);
-
-	}
-
-	@Override
-	protected Class<StravaActivity> classUnderTest() {
-		return StravaActivity.class;
-
-	}
-
-	@Override
 	public void testPageSize() throws Exception {
 		assumeFalse(Issue166.issue);
 
 		super.testPageSize();
+	}
+
+	@Override
+	public void testPagingIgnoreFirstN() throws Exception {
+		assumeFalse(Issue166.issue);
+
+		super.testPagingIgnoreFirstN();
 	}
 
 	@Override
@@ -164,9 +165,8 @@ public class ListRecentClubActivitiesTest extends PagingListMethodTest<StravaAct
 	}
 
 	@Override
-	public void testPagingIgnoreFirstN() throws Exception {
-		assumeFalse(Issue166.issue);
+	protected void validate(final StravaActivity activity) {
+		ActivityDataUtils.validate(activity);
 
-		super.testPagingIgnoreFirstN();
 	}
 }

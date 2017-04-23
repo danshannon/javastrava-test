@@ -16,6 +16,11 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivity, Long> {
 	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -53,11 +58,6 @@ public class ListRelatedActivitiesTest extends PagingListMethodTest<StravaActivi
 	@Override
 	protected void validate(final StravaActivity activity) {
 		ActivityDataUtils.validate(activity);
-	}
-
-	@Override
-	protected Class<StravaActivity> classUnderTest() {
-		return StravaActivity.class;
 	}
 
 }

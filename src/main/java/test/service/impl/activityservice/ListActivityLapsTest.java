@@ -19,6 +19,11 @@ import test.service.standardtests.data.ActivityDataUtils;
 public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 
 	@Override
+	protected Class<StravaLap> classUnderTest() {
+		return StravaLap.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -57,11 +62,6 @@ public class ListActivityLapsTest extends ListMethodTest<StravaLap, Long> {
 	@Override
 	protected void validate(final StravaLap object) {
 		ActivityDataUtils.validateLap(object);
-	}
-
-	@Override
-	protected Class<StravaLap> classUnderTest() {
-		return StravaLap.class;
 	}
 
 }

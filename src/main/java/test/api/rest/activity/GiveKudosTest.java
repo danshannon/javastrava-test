@@ -97,6 +97,11 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 		super.create_validParentNoWriteAccess();
 	}
 
+	@Override
+	protected boolean createAPIResponseIsNull() {
+		return true;
+	}
+
 	/**
 	 * @see test.api.rest.APICreateTest#createObject()
 	 */
@@ -165,11 +170,6 @@ public class GiveKudosTest extends APICreateTest<StravaResponse, Long> {
 	@Override
 	protected Long validParentOtherUserId() {
 		return ActivityDataUtils.ACTIVITY_FOR_UNAUTHENTICATED_USER;
-	}
-
-	@Override
-	protected boolean createAPIResponseIsNull() {
-		return true;
 	}
 
 }

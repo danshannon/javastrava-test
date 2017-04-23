@@ -24,8 +24,21 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 	@Override
+	protected String classUnderTest() {
+		return this.getClass().getName();
+	}
+
+	@Override
 	protected StravaActivity createObject(String name) {
 		final StravaActivity activity = ActivityDataUtils.createDefaultActivity(name);
+		final StravaActivity uploadActivity = apiWithFullAccess().createManualActivity(activity);
+		return uploadActivity;
+	}
+
+	@Override
+	protected StravaActivity createPrivateObject(String name) {
+		final StravaActivity activity = ActivityDataUtils.createDefaultActivity(name);
+		activity.setPrivateActivity(Boolean.TRUE);
 		final StravaActivity uploadActivity = apiWithFullAccess().createManualActivity(activity);
 		return uploadActivity;
 	}
@@ -133,19 +146,6 @@ public class DeleteActivityTest extends APIDeleteTest<StravaActivity, Long> {
 		StravaActivity activity = ActivityDataUtils.createDefaultActivity("DeleteActivityTest.notPrivateParentId"); //$NON-NLS-1$
 		activity = apiWithFullAccess().createManualActivity(activity);
 		return activity.getId();
-	}
-
-	@Override
-	protected StravaActivity createPrivateObject(String name) {
-		final StravaActivity activity = ActivityDataUtils.createDefaultActivity(name);
-		activity.setPrivateActivity(Boolean.TRUE);
-		final StravaActivity uploadActivity = apiWithFullAccess().createManualActivity(activity);
-		return uploadActivity;
-	}
-
-	@Override
-	protected String classUnderTest() {
-		return this.getClass().getName();
 	}
 
 }

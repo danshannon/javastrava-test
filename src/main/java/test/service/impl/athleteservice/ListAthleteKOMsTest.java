@@ -33,6 +33,11 @@ import test.utils.TestUtils;
  */
 public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffort, Integer> {
 	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return AthleteDataUtils.ATHLETE_INVALID_ID;
 	}
@@ -183,16 +188,6 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 	}
 
 	@Override
-	protected void validate(final StravaSegmentEffort effort) {
-		SegmentEffortDataUtils.validateSegmentEffort(effort);
-	}
-
-	@Override
-	protected Class<StravaSegmentEffort> classUnderTest() {
-		return StravaSegmentEffort.class;
-	}
-
-	@Override
 	@Test
 	public void testPageNumberAndSize() throws Exception {
 		assumeFalse(Issue175.issue());
@@ -214,6 +209,11 @@ public class ListAthleteKOMsTest extends PagingListMethodTest<StravaSegmentEffor
 		assumeFalse(Issue175.issue());
 
 		super.testPagingIgnoreLastN();
+	}
+
+	@Override
+	protected void validate(final StravaSegmentEffort effort) {
+		SegmentEffortDataUtils.validateSegmentEffort(effort);
 	}
 
 }

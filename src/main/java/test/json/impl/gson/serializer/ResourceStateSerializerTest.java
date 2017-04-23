@@ -14,12 +14,12 @@ public class ResourceStateSerializerTest extends EnumSerializerTest<StravaResour
 	}
 
 	@Override
-	protected StravaResourceState getUnknownValue() {
-		return StravaResourceState.UNKNOWN;
+	protected Class<?> getIdClass() {
+		return Integer.class;
 	}
 
 	@Override
-	protected Class<?> getIdClass() {
-		return Integer.class;
+	protected StravaResourceState getUnknownValue() {
+		return StravaResourceState.UNKNOWN;
 	}
 }

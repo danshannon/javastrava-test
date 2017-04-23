@@ -30,6 +30,11 @@ import test.utils.TestUtils;
  *
  */
 public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment, Long> {
+	@Override
+	protected Class<StravaComment> classUnderTest() {
+		return StravaComment.class;
+	}
+
 	@SuppressWarnings("static-method")
 	private void forceDelete(StravaComment comment) {
 		TestUtils.stravaWithFullAccess().deleteComment(comment);
@@ -220,11 +225,6 @@ public class ListActivityCommentsTest extends PagingListMethodTest<StravaComment
 	protected void validate(final StravaComment comment) {
 		CommentDataUtils.validateComment(comment);
 
-	}
-
-	@Override
-	protected Class<StravaComment> classUnderTest() {
-		return StravaComment.class;
 	}
 
 }

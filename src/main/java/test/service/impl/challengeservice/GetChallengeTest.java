@@ -43,12 +43,6 @@ public class GetChallengeTest extends GetMethodTest<StravaChallenge, Integer> {
 	}
 
 	@Override
-	protected void validate(StravaChallenge object) {
-		ChallengeDataUtils.validate(object);
-
-	}
-
-	@Override
 	public void testGetInvalidId() throws Exception {
 		// Can't run the test if we don't have permission to use the challenges endpoint
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
@@ -102,6 +96,12 @@ public class GetChallengeTest extends GetMethodTest<StravaChallenge, Integer> {
 		if (JavastravaApplicationConfig.STRAVA_ALLOWS_CHALLENGES_ENDPOINT) {
 			super.testPrivateWithViewPrivateScope();
 		}
+	}
+
+	@Override
+	protected void validate(StravaChallenge object) {
+		ChallengeDataUtils.validate(object);
+
 	}
 
 }

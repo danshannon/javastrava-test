@@ -44,16 +44,16 @@ public class StarSegmentTest extends GetMethodTest<StravaSegment, Integer> {
 	}
 
 	@Override
-	protected void validate(StravaSegment result) {
-		SegmentDataUtils.validateSegment(result);
-
-	}
-
-	@Override
 	public void testPrivateWithNoViewPrivateScope() throws Exception {
 		assumeFalse(Issue162.isIssue);
 
 		super.testPrivateWithNoViewPrivateScope();
+	}
+
+	@Override
+	protected void validate(StravaSegment result) {
+		SegmentDataUtils.validateSegment(result);
+
 	}
 
 }

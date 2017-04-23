@@ -37,6 +37,12 @@ public class GetEventTest extends APIGetTest<StravaClubEvent, Integer> {
 	}
 
 	@Override
+	protected void validate(StravaClubEvent event) throws Exception {
+		ClubGroupEventDataUtils.validateEvent(event);
+
+	}
+
+	@Override
 	protected Integer validId() {
 		return ClubGroupEventDataUtils.CLUB_EVENT_VALID_ID;
 	}
@@ -44,12 +50,6 @@ public class GetEventTest extends APIGetTest<StravaClubEvent, Integer> {
 	@Override
 	protected Integer validIdBelongsToOtherUser() {
 		return null;
-	}
-
-	@Override
-	protected void validate(StravaClubEvent event) throws Exception {
-		ClubGroupEventDataUtils.validateEvent(event);
-
 	}
 
 }

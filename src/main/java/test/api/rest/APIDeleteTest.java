@@ -54,14 +54,6 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	protected abstract T createPrivateObject(String name);
 
 	/**
-	 * @return <code>true</code> if the delete API endpoint returns empty object on success
-	 */
-	@SuppressWarnings("static-method")
-	protected boolean deleteReturnsNull() {
-		return true;
-	}
-
-	/**
 	 * <p>
 	 * Attempt to delete an invalid object that has a non-existent parent
 	 * </p>
@@ -75,6 +67,14 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 */
 	@Test
 	public abstract void delete_invalidParent() throws Exception;
+
+	/**
+	 * Attempt to delete an object that is private and does not belong to the authenticated user
+	 *
+	 * @throws Exception
+	 *             If the test fails in an unexpected way
+	 */
+	public abstract void delete_privateParentBelongsToOtherUser() throws Exception;
 
 	/**
 	 * <p>
@@ -197,6 +197,14 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	protected abstract APIDeleteCallback<T> deleter();
 
 	/**
+	 * @return <code>true</code> if the delete API endpoint returns empty object on success
+	 */
+	@SuppressWarnings("static-method")
+	protected boolean deleteReturnsNull() {
+		return true;
+	}
+
+	/**
 	 * Force delete the object
 	 *
 	 * @param objectToDelete
@@ -231,13 +239,5 @@ public abstract class APIDeleteTest<T extends StravaEntity, U> extends APITest<T
 	 * @return The id
 	 */
 	protected abstract U validParentId();
-
-	/**
-	 * Attempt to delete an object that is private and does not belong to the authenticated user
-	 *
-	 * @throws Exception
-	 *             If the test fails in an unexpected way
-	 */
-	public abstract void delete_privateParentBelongsToOtherUser() throws Exception;
 
 }

@@ -32,6 +32,11 @@ import test.utils.TestUtils;
  */
 public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Override
+	protected Class<StravaStream> classUnderTest() {
+		return StravaStream.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return SegmentEffortDataUtils.SEGMENT_EFFORT_INVALID_ID;
 	}
@@ -241,11 +246,6 @@ public class GetEffortStreamsTest extends ListMethodTest<StravaStream, Long> {
 	@Override
 	protected void validate(StravaStream object) {
 		StreamDataUtils.validateStream(object);
-	}
-
-	@Override
-	protected Class<StravaStream> classUnderTest() {
-		return StravaStream.class;
 	}
 
 }

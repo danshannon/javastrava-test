@@ -30,14 +30,6 @@ import test.utils.RateLimitedTestRunner;
  */
 public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T> {
 	/**
-	 * @return <code>true</code> if the response from the API when creating an object is null
-	 */
-	@SuppressWarnings("static-method")
-	protected boolean createAPIResponseIsNull() {
-		return false;
-	}
-
-	/**
 	 * Attempt to create an object inside a parent that does not exist. Creation call should return a {@link NotFoundException}.
 	 *
 	 * @throws Exception
@@ -181,6 +173,14 @@ public abstract class APICreateTest<T extends StravaEntity, U> extends APITest<T
 			forceDelete(createdObject);
 			fail("Created an object with a valid parent, but without write access!"); //$NON-NLS-1$
 		});
+	}
+
+	/**
+	 * @return <code>true</code> if the response from the API when creating an object is null
+	 */
+	@SuppressWarnings("static-method")
+	protected boolean createAPIResponseIsNull() {
+		return false;
 	}
 
 	/**

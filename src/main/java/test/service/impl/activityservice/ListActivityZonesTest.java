@@ -15,6 +15,11 @@ import test.service.standardtests.data.ActivityDataUtils;
  */
 public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Long> {
 	@Override
+	protected Class<StravaActivityZone> classUnderTest() {
+		return StravaActivityZone.class;
+	}
+
+	@Override
 	public Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -47,11 +52,6 @@ public class ListActivityZonesTest extends ListMethodTest<StravaActivityZone, Lo
 	@Override
 	protected void validate(StravaActivityZone zone) {
 		ActivityDataUtils.validateActivityZone(zone);
-	}
-
-	@Override
-	protected Class<StravaActivityZone> classUnderTest() {
-		return StravaActivityZone.class;
 	}
 
 }

@@ -22,17 +22,17 @@ import javastrava.json.exception.JsonSerialisationException;
 public abstract class EnumSerializerTest<T extends Enum<T>> extends SerializerTest<T> {
 
 	/**
-	 * @return The UNKNOWN value of the enum
-	 */
-	protected abstract T getUnknownValue();
-
-	/**
 	 * @return The class of the enum's id field
 	 */
 	@SuppressWarnings("static-method")
 	protected Class<?> getIdClass() {
 		return String.class;
 	}
+
+	/**
+	 * @return The UNKNOWN value of the enum
+	 */
+	protected abstract T getUnknownValue();
 
 	@Override
 	public void testDeserialiseInputStream() throws JsonSerialisationException {

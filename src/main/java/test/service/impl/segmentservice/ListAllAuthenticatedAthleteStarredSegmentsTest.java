@@ -25,6 +25,11 @@ import test.utils.TestUtils;
  */
 public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTest<StravaSegment, Integer> {
 	@Override
+	protected Class<StravaSegment> classUnderTest() {
+		return StravaSegment.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -85,10 +90,5 @@ public class ListAllAuthenticatedAthleteStarredSegmentsTest extends ListMethodTe
 	@Override
 	protected void validate(StravaSegment segment) {
 		SegmentDataUtils.validateSegment(segment);
-	}
-
-	@Override
-	protected Class<StravaSegment> classUnderTest() {
-		return StravaSegment.class;
 	}
 }

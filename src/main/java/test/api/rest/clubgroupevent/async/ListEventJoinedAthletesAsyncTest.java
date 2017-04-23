@@ -16,13 +16,13 @@ import test.service.standardtests.data.ClubGroupEventDataUtils;
 public class ListEventJoinedAthletesAsyncTest extends ListEventJoinedAthletesTest {
 
 	@Override
-	protected ArrayCallback<StravaAthlete> pagingCallback() {
-		return paging -> api().listEventJoinedAthletesAsync(ClubGroupEventDataUtils.CLUB_EVENT_VALID_ID, paging.getPage(), paging.getPageSize()).get();
+	protected APIListCallback<StravaAthlete, Integer> listCallback() {
+		return (api, id) -> api.listEventJoinedAthletesAsync(id, null, null).get();
 	}
 
 	@Override
-	protected APIListCallback<StravaAthlete, Integer> listCallback() {
-		return (api, id) -> api.listEventJoinedAthletesAsync(id, null, null).get();
+	protected ArrayCallback<StravaAthlete> pagingCallback() {
+		return paging -> api().listEventJoinedAthletesAsync(ClubGroupEventDataUtils.CLUB_EVENT_VALID_ID, paging.getPage(), paging.getPageSize()).get();
 	}
 
 }

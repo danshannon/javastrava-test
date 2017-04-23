@@ -155,125 +155,6 @@ public class SegmentDataUtils {
 	}
 
 	/**
-	 * Validate the structure and content of a response segment
-	 *
-	 * @param segment
-	 *            The segment to be validated
-	 */
-	@SuppressWarnings("boxing")
-	public static void validateSegmentExplorerResponseSegment(final StravaSegmentExplorerResponseSegment segment) {
-		assertNotNull(segment);
-		assertNotNull(segment.getAvgGrade());
-		assertNotNull(segment.getClimbCategory());
-		assertFalse(segment.getClimbCategory().equals(StravaClimbCategory.UNKNOWN));
-		assertNotNull(segment.getClimbCategoryDesc());
-		// assertEquals(segment.getClimbCategoryDesc(),segment.getClimbCategory().getDescription());
-		assertNotNull(segment.getDistance());
-		assertTrue(segment.getDistance() >= 0);
-		assertNotNull(segment.getElevDifference());
-		assertTrue(segment.getElevDifference() >= 0);
-		assertNotNull(segment.getEndLatlng());
-		MapDataUtils.validate(segment.getEndLatlng());
-		assertNotNull(segment.getId());
-		assertNotNull(segment.getName());
-		assertNotNull(segment.getPoints());
-		assertNotNull(segment.getStartLatlng());
-		MapDataUtils.validate(segment.getStartLatlng());
-
-	}
-
-	/**
-	 * Validate the structure and content of a response
-	 *
-	 * @param response
-	 *            The response to be validated
-	 */
-	public static void validateSegmentExplorerResponse(final StravaSegmentExplorerResponse response) {
-		assertNotNull(response);
-		assertNotNull(response.getSegments());
-		for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
-			validateSegmentExplorerResponseSegment(segment);
-		}
-
-	}
-
-	/**
-	 * Validate the structure and content of a leaderboard entry
-	 *
-	 * @param entry
-	 *            The entry to be validated
-	 */
-	@SuppressWarnings("boxing")
-	public static void validateSegmentLeaderboardEntry(final StravaSegmentLeaderboardEntry entry) {
-		assertNotNull(entry);
-		assertNotNull(entry.getActivityId());
-		if (entry.getAthleteGender() != null) {
-			assertFalse(entry.getAthleteGender() == StravaGender.UNKNOWN);
-		}
-		assertNotNull(entry.getAthleteName());
-		assertNotNull(entry.getAthleteProfile());
-		if (entry.getAverageHr() != null) {
-			assertTrue(entry.getAverageHr() >= 0);
-		}
-		if (entry.getAverageWatts() != null) {
-			assertTrue(entry.getAverageWatts() >= 0);
-		}
-		assertNotNull(entry.getDistance());
-		assertTrue(entry.getDistance() >= 0);
-		assertNotNull(entry.getEffortId());
-		assertNotNull(entry.getElapsedTime());
-		assertTrue(entry.getElapsedTime() >= 0);
-		assertNotNull(entry.getMovingTime());
-		assertTrue(entry.getMovingTime() >= 0);
-		assertTrue(entry.getElapsedTime() >= entry.getMovingTime());
-		assertNotNull(entry.getRank());
-		assertTrue(entry.getRank() > 0);
-		assertNotNull(entry.getStartDate());
-		assertNotNull(entry.getStartDateLocal());
-	}
-
-	/**
-	 * Validate the structure and content of a leaderboard
-	 *
-	 * @param leaderboard
-	 *            the leaderboard to be validated
-	 */
-	@SuppressWarnings("boxing")
-	public static void validateSegmentLeaderboard(final StravaSegmentLeaderboard leaderboard) {
-		assertNotNull(leaderboard);
-		// Optional (if using API only) assertNotNull(leaderboard.getAthleteEntries());
-		// Optional assertNotNull(leaderboard.getEffortCount());
-		assertNotNull(leaderboard.getEntryCount());
-		if (leaderboard.getEntryCount() != 0) {
-			assertNotNull(leaderboard.getEntries());
-		}
-		// TODO Apparently optional but see https://github.com/danshannon/javastravav3api/issues/22
-		// assertNotNull(leaderboard.getKomType());
-		assertNotNull(leaderboard.getNeighborhoodCount());
-		if (leaderboard.getAthleteEntries() != null) {
-			for (final StravaSegmentLeaderboardEntry entry : leaderboard.getAthleteEntries()) {
-				validateSegmentLeaderboardEntry(entry);
-			}
-		}
-		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
-			validateSegmentLeaderboardEntry(entry);
-		}
-	}
-
-	/**
-	 * Validate a list of segments
-	 *
-	 * @param segments
-	 *            The list of segments to be validated
-	 */
-	public static void validateSegmentList(final List<StravaSegment> segments) {
-		for (final StravaSegment segment : segments) {
-			SegmentDataUtils.validateSegment(segment);
-		}
-
-	}
-
-	/**
 	 * Validate the structure and content of a segment
 	 *
 	 * @param segment
@@ -382,5 +263,124 @@ public class SegmentDataUtils {
 			return;
 		}
 		fail("Unexpected segment state " + state + " for segment " + segment); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Validate the structure and content of a response
+	 *
+	 * @param response
+	 *            The response to be validated
+	 */
+	public static void validateSegmentExplorerResponse(final StravaSegmentExplorerResponse response) {
+		assertNotNull(response);
+		assertNotNull(response.getSegments());
+		for (final StravaSegmentExplorerResponseSegment segment : response.getSegments()) {
+			validateSegmentExplorerResponseSegment(segment);
+		}
+
+	}
+
+	/**
+	 * Validate the structure and content of a response segment
+	 *
+	 * @param segment
+	 *            The segment to be validated
+	 */
+	@SuppressWarnings("boxing")
+	public static void validateSegmentExplorerResponseSegment(final StravaSegmentExplorerResponseSegment segment) {
+		assertNotNull(segment);
+		assertNotNull(segment.getAvgGrade());
+		assertNotNull(segment.getClimbCategory());
+		assertFalse(segment.getClimbCategory().equals(StravaClimbCategory.UNKNOWN));
+		assertNotNull(segment.getClimbCategoryDesc());
+		// assertEquals(segment.getClimbCategoryDesc(),segment.getClimbCategory().getDescription());
+		assertNotNull(segment.getDistance());
+		assertTrue(segment.getDistance() >= 0);
+		assertNotNull(segment.getElevDifference());
+		assertTrue(segment.getElevDifference() >= 0);
+		assertNotNull(segment.getEndLatlng());
+		MapDataUtils.validate(segment.getEndLatlng());
+		assertNotNull(segment.getId());
+		assertNotNull(segment.getName());
+		assertNotNull(segment.getPoints());
+		assertNotNull(segment.getStartLatlng());
+		MapDataUtils.validate(segment.getStartLatlng());
+
+	}
+
+	/**
+	 * Validate the structure and content of a leaderboard
+	 *
+	 * @param leaderboard
+	 *            the leaderboard to be validated
+	 */
+	@SuppressWarnings("boxing")
+	public static void validateSegmentLeaderboard(final StravaSegmentLeaderboard leaderboard) {
+		assertNotNull(leaderboard);
+		// Optional (if using API only) assertNotNull(leaderboard.getAthleteEntries());
+		// Optional assertNotNull(leaderboard.getEffortCount());
+		assertNotNull(leaderboard.getEntryCount());
+		if (leaderboard.getEntryCount() != 0) {
+			assertNotNull(leaderboard.getEntries());
+		}
+		// TODO Apparently optional but see https://github.com/danshannon/javastravav3api/issues/22
+		// assertNotNull(leaderboard.getKomType());
+		assertNotNull(leaderboard.getNeighborhoodCount());
+		if (leaderboard.getAthleteEntries() != null) {
+			for (final StravaSegmentLeaderboardEntry entry : leaderboard.getAthleteEntries()) {
+				validateSegmentLeaderboardEntry(entry);
+			}
+		}
+		for (final StravaSegmentLeaderboardEntry entry : leaderboard.getEntries()) {
+			validateSegmentLeaderboardEntry(entry);
+		}
+	}
+
+	/**
+	 * Validate the structure and content of a leaderboard entry
+	 *
+	 * @param entry
+	 *            The entry to be validated
+	 */
+	@SuppressWarnings("boxing")
+	public static void validateSegmentLeaderboardEntry(final StravaSegmentLeaderboardEntry entry) {
+		assertNotNull(entry);
+		assertNotNull(entry.getActivityId());
+		if (entry.getAthleteGender() != null) {
+			assertFalse(entry.getAthleteGender() == StravaGender.UNKNOWN);
+		}
+		assertNotNull(entry.getAthleteName());
+		assertNotNull(entry.getAthleteProfile());
+		if (entry.getAverageHr() != null) {
+			assertTrue(entry.getAverageHr() >= 0);
+		}
+		if (entry.getAverageWatts() != null) {
+			assertTrue(entry.getAverageWatts() >= 0);
+		}
+		assertNotNull(entry.getDistance());
+		assertTrue(entry.getDistance() >= 0);
+		assertNotNull(entry.getEffortId());
+		assertNotNull(entry.getElapsedTime());
+		assertTrue(entry.getElapsedTime() >= 0);
+		assertNotNull(entry.getMovingTime());
+		assertTrue(entry.getMovingTime() >= 0);
+		assertTrue(entry.getElapsedTime() >= entry.getMovingTime());
+		assertNotNull(entry.getRank());
+		assertTrue(entry.getRank() > 0);
+		assertNotNull(entry.getStartDate());
+		assertNotNull(entry.getStartDateLocal());
+	}
+
+	/**
+	 * Validate a list of segments
+	 *
+	 * @param segments
+	 *            The list of segments to be validated
+	 */
+	public static void validateSegmentList(final List<StravaSegment> segments) {
+		for (final StravaSegment segment : segments) {
+			SegmentDataUtils.validateSegment(segment);
+		}
+
 	}
 }

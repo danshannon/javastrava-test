@@ -64,20 +64,38 @@ public class SegmentEffortDataUtils {
 
 	private static TextProducer text = Fairy.create().textProducer();
 
-	/**
-	 * Generate a list of randomised segment efforts with the required resource state
-	 *
-	 * @param resourceState
-	 *            The required resource state
-	 * @return The generated list
-	 */
-	public static List<StravaSegmentEffort> testSegmentEffortList(StravaResourceState resourceState) {
-		final List<StravaSegmentEffort> list = new ArrayList<>();
-		final int entries = random.nextInt(10000);
+	@SuppressWarnings("boxing")
+	private static StravaAchievement testAchievement() {
+		final StravaAchievement achievement = new StravaAchievement();
+
+		achievement.setRank(random.nextInt(10000));
+		achievement.setType(text.word());
+		achievement.setTypeId(random.nextInt(2));
+
+		return achievement;
+	}
+
+	private static List<StravaAchievement> testAchievementsList() {
+		final List<StravaAchievement> list = new ArrayList<StravaAchievement>();
+		final int entries = random.nextInt(100);
 		for (int i = 0; i < entries; i++) {
-			list.add(testSegmentEffort(resourceState));
+			list.add(testAchievement());
 		}
 		return list;
+	}
+
+	/**
+	 * @return Generated test data
+	 */
+	@SuppressWarnings("boxing")
+	public static StravaAthleteSegmentStats testAthleteSegmentStats() {
+		final StravaAthleteSegmentStats stats = new StravaAthleteSegmentStats();
+
+		stats.setEffortCount(random.nextInt(100));
+		stats.setPrDate(DateUtils.localDate());
+		stats.setPrElapsedTime(random.nextInt(10000));
+
+		return stats;
 	}
 
 	/**
@@ -125,50 +143,19 @@ public class SegmentEffortDataUtils {
 	}
 
 	/**
-	 * @return Generated test data
+	 * Generate a list of randomised segment efforts with the required resource state
+	 *
+	 * @param resourceState
+	 *            The required resource state
+	 * @return The generated list
 	 */
-	@SuppressWarnings("boxing")
-	public static StravaAthleteSegmentStats testAthleteSegmentStats() {
-		final StravaAthleteSegmentStats stats = new StravaAthleteSegmentStats();
-
-		stats.setEffortCount(random.nextInt(100));
-		stats.setPrDate(DateUtils.localDate());
-		stats.setPrElapsedTime(random.nextInt(10000));
-
-		return stats;
-	}
-
-	private static List<StravaAchievement> testAchievementsList() {
-		final List<StravaAchievement> list = new ArrayList<StravaAchievement>();
-		final int entries = random.nextInt(100);
+	public static List<StravaSegmentEffort> testSegmentEffortList(StravaResourceState resourceState) {
+		final List<StravaSegmentEffort> list = new ArrayList<>();
+		final int entries = random.nextInt(10000);
 		for (int i = 0; i < entries; i++) {
-			list.add(testAchievement());
+			list.add(testSegmentEffort(resourceState));
 		}
 		return list;
-	}
-
-	@SuppressWarnings("boxing")
-	private static StravaAchievement testAchievement() {
-		final StravaAchievement achievement = new StravaAchievement();
-
-		achievement.setRank(random.nextInt(10000));
-		achievement.setType(text.word());
-		achievement.setTypeId(random.nextInt(2));
-
-		return achievement;
-	}
-
-	/**
-	 * Validate a list of efforts
-	 *
-	 * @param list
-	 *            The list to be validated
-	 */
-	public static void validateSegmentEffortList(final List<StravaSegmentEffort> list) {
-		for (final StravaSegmentEffort effort : list) {
-			validateSegmentEffort(effort);
-		}
-
 	}
 
 	/**
@@ -332,5 +319,18 @@ public class SegmentEffortDataUtils {
 			return;
 		}
 		fail("Unexpected state for segment effort " + state + " " + effort); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Validate a list of efforts
+	 *
+	 * @param list
+	 *            The list to be validated
+	 */
+	public static void validateSegmentEffortList(final List<StravaSegmentEffort> list) {
+		for (final StravaSegmentEffort effort : list) {
+			validateSegmentEffort(effort);
+		}
+
 	}
 }

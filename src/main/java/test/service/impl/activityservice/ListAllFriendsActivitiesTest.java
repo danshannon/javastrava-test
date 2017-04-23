@@ -25,6 +25,11 @@ import test.utils.TestUtils;
  */
 public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity, Integer> {
 	@Override
+	protected Class<StravaActivity> classUnderTest() {
+		return StravaActivity.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -77,10 +82,5 @@ public class ListAllFriendsActivitiesTest extends ListMethodTest<StravaActivity,
 	@Override
 	protected void validate(StravaActivity activity) {
 		ActivityDataUtils.validate(activity);
-	}
-
-	@Override
-	protected Class<StravaActivity> classUnderTest() {
-		return StravaActivity.class;
 	}
 }

@@ -17,6 +17,11 @@ import test.service.standardtests.data.AthleteDataUtils;
  */
 public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete, Long> {
 	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -54,10 +59,5 @@ public class ListActivityKudoersTest extends PagingListMethodTest<StravaAthlete,
 	@Override
 	protected void validate(final StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete, athlete.getId(), athlete.getResourceState());
-	}
-
-	@Override
-	protected Class<StravaAthlete> classUnderTest() {
-		return StravaAthlete.class;
 	}
 }

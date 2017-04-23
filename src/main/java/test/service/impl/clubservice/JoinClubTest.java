@@ -29,6 +29,22 @@ public class JoinClubTest {
 	private static boolean issue164 = Issue164.issue;
 
 	/**
+	 * @param clubs
+	 *            List of clubs to check
+	 * @param id
+	 *            Id of the club we're checking for membership
+	 * @return <code>true</code> if one of the clubs has the given id
+	 */
+	private static boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
+		for (final StravaClub club : clubs) {
+			if (club.getId().intValue() == id.intValue()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Setup data for the test
 	 *
 	 * @throws Exception
@@ -45,22 +61,6 @@ public class JoinClubTest {
 			strava.leaveClub(ClubDataUtils.CLUB_PUBLIC_NON_MEMBER_ID);
 			strava.joinClub(ClubDataUtils.CLUB_PUBLIC_MEMBER_ID);
 		});
-	}
-
-	/**
-	 * @param clubs
-	 *            List of clubs to check
-	 * @param id
-	 *            Id of the club we're checking for membership
-	 * @return <code>true</code> if one of the clubs has the given id
-	 */
-	private static boolean checkIsMember(final List<StravaClub> clubs, final Integer id) {
-		for (final StravaClub club : clubs) {
-			if (club.getId().intValue() == id.intValue()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

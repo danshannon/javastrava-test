@@ -24,6 +24,12 @@ import test.utils.TestUtils;
  */
 public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Integer> {
 	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return ClubDataUtils.CLUB_INVALID_ID;
 	}
@@ -113,12 +119,6 @@ public class ListAllClubMembersTest extends ListMethodTest<StravaAthlete, Intege
 	@Override
 	protected void validate(StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete);
-	}
-
-	@Override
-	protected Class<StravaAthlete> classUnderTest() {
-		return StravaAthlete.class;
-
 	}
 
 }

@@ -9,8 +9,8 @@ import org.junit.Test;
 import javastrava.api.v3.model.StravaActivity;
 import javastrava.api.v3.model.StravaSegmentEffort;
 import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.api.v3.service.Strava;
 import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.StravaServiceImpl;
 import test.service.standardtests.UpdatableGetMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
@@ -81,9 +81,9 @@ public class GetActivityTest extends UpdatableGetMethodTest<StravaActivity, Long
 	public void testGetActivity_caching() throws Exception {
 		RateLimitedTestRunner.run(() -> {
 			final StravaActivity activity = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			final int requests = StravaServiceImpl.requestRate;
+			final int requests = Strava.REQUEST_RATE_CURRENT;
 			final StravaActivity activity2 = getter().get(TestUtils.strava(), ActivityDataUtils.ACTIVITY_FOR_AUTHENTICATED_USER);
-			assertEquals(StravaServiceImpl.requestRate, requests);
+			assertEquals(Strava.REQUEST_RATE_CURRENT, requests);
 			assertEquals(activity, activity2);
 		});
 	}

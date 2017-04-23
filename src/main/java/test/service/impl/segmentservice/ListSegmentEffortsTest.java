@@ -34,6 +34,11 @@ import test.utils.TestUtils;
  */
 public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEffort, Integer> {
 	@Override
+	protected Class<StravaSegmentEffort> classUnderTest() {
+		return StravaSegmentEffort.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return SegmentDataUtils.SEGMENT_INVALID_ID;
 	}
@@ -231,11 +236,6 @@ public class ListSegmentEffortsTest extends PagingListMethodTest<StravaSegmentEf
 	@Override
 	protected void validate(final StravaSegmentEffort effort) {
 		SegmentEffortDataUtils.validateSegmentEffort(effort);
-	}
-
-	@Override
-	protected Class<StravaSegmentEffort> classUnderTest() {
-		return StravaSegmentEffort.class;
 	}
 
 }

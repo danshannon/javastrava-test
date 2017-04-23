@@ -7,8 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import javastrava.api.v3.service.impl.StravaServiceImpl;
-import javastrava.config.StravaConfig;
+import javastrava.api.v3.service.Strava;
 
 /**
  * <p>
@@ -25,8 +24,8 @@ public class StravaServiceImplTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testRequestRateDailyPercentageExceeded() {
-		StravaServiceImpl.requestRateDaily = StravaConfig.RATE_LIMIT_DAILY + 1;
-		assertTrue(100f < StravaServiceImpl.requestRateDailyPercentage());
+		Strava.REQUEST_RATE_DAILY = Strava.RATE_LIMIT_DAILY + 1;
+		assertTrue(100f < Strava.requestRateDailyPercentage());
 	}
 
 	/**
@@ -38,8 +37,8 @@ public class StravaServiceImplTest {
 	 * Check that the calculation of rate limit excession works
 	 */
 	public void testRequestRateDailyPercentageWarning() {
-		StravaServiceImpl.requestRateDaily = StravaConfig.RATE_LIMIT_DAILY;
-		assertTrue(100f == StravaServiceImpl.requestRateDailyPercentage());
+		Strava.REQUEST_RATE_DAILY = Strava.RATE_LIMIT_DAILY;
+		assertTrue(100f == Strava.requestRateDailyPercentage());
 	}
 
 	/**
@@ -48,8 +47,8 @@ public class StravaServiceImplTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testRequestRatePercentageExceeded() {
-		StravaServiceImpl.requestRate = StravaConfig.RATE_LIMIT + 1;
-		assertTrue(100f < StravaServiceImpl.requestRatePercentage());
+		Strava.REQUEST_RATE_CURRENT = Strava.RATE_LIMIT_CURRENT + 1;
+		assertTrue(100f < Strava.requestRateCurrentPercentage());
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class StravaServiceImplTest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testRequestRatePercentageWarning() {
-		StravaServiceImpl.requestRate = StravaConfig.RATE_LIMIT;
-		assertTrue(100f == StravaServiceImpl.requestRatePercentage());
+		Strava.REQUEST_RATE_CURRENT = Strava.RATE_LIMIT_CURRENT;
+		assertTrue(100f == Strava.requestRateCurrentPercentage());
 	}
 }

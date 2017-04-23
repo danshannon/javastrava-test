@@ -21,6 +21,11 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscription, Integer> {
 
 	@Override
+	protected Class<StravaEventSubscription> classUnderTest() {
+		return StravaEventSubscription.class;
+	}
+
+	@Override
 	protected Integer idInvalid() {
 		return null;
 	}
@@ -107,11 +112,6 @@ public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscriptio
 	@Override
 	protected void validate(StravaEventSubscription object) {
 		StravaEventSubscriptionTest.validate(object);
-	}
-
-	@Override
-	protected Class<StravaEventSubscription> classUnderTest() {
-		return StravaEventSubscription.class;
 	}
 
 }

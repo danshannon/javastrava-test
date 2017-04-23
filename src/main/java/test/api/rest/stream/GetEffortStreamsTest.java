@@ -48,6 +48,18 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 		return list;
 	}
 
+	/**
+	 * Validate an array of streams
+	 *
+	 * @param streams
+	 *            The streams to be validated
+	 */
+	protected static void validateArray(final StravaStream[] streams) {
+		for (final StravaStream stream : streams) {
+			StreamDataUtils.validateStream(stream);
+		}
+	}
+
 	@Override
 	public void get_privateWithoutViewPrivate() throws Exception {
 		if (new Issue78().isIssue()) {
@@ -311,18 +323,6 @@ public class GetEffortStreamsTest extends APIGetTest<StravaStream[], Long> {
 			StreamDataUtils.validateStream(stream);
 		}
 
-	}
-
-	/**
-	 * Validate an array of streams
-	 *
-	 * @param streams
-	 *            The streams to be validated
-	 */
-	protected static void validateArray(final StravaStream[] streams) {
-		for (final StravaStream stream : streams) {
-			StreamDataUtils.validateStream(stream);
-		}
 	}
 
 	@Override

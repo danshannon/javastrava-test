@@ -20,6 +20,11 @@ import test.service.standardtests.data.AthleteDataUtils;
 public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Long> {
 
 	@Override
+	protected Class<StravaAthlete> classUnderTest() {
+		return StravaAthlete.class;
+	}
+
+	@Override
 	protected Long idInvalid() {
 		return ActivityDataUtils.ACTIVITY_INVALID;
 	}
@@ -52,10 +57,5 @@ public class ListAllActivityKudoersTest extends ListMethodTest<StravaAthlete, Lo
 	@Override
 	protected void validate(StravaAthlete athlete) {
 		AthleteDataUtils.validateAthlete(athlete);
-	}
-
-	@Override
-	protected Class<StravaAthlete> classUnderTest() {
-		return StravaAthlete.class;
 	}
 }

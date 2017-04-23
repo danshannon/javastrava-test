@@ -24,6 +24,31 @@ import test.utils.TestUtils;
 public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 	@Override
+	protected Integer getIdInvalid() {
+		return AthleteDataUtils.ATHLETE_INVALID_ID;
+	}
+
+	@Override
+	protected Integer getIdPrivate() {
+		return null;
+	}
+
+	@Override
+	protected Integer getIdPrivateBelongsToOtherUser() {
+		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
+	}
+
+	@Override
+	protected Integer getIdValid() {
+		return AthleteDataUtils.ATHLETE_VALID_ID;
+	}
+
+	@Override
+	protected GetCallback<StravaAthlete, Integer> getter() {
+		return ((strava, id) -> strava.getAthlete(id));
+	}
+
+	@Override
 	@Test
 	public void testPrivateBelongsToOtherUser() throws Exception {
 		// Don't run if the id to test against is null
@@ -50,31 +75,6 @@ public class GetAthleteTest extends GetMethodTest<StravaAthlete, Integer> {
 
 		});
 
-	}
-
-	@Override
-	protected Integer getIdInvalid() {
-		return AthleteDataUtils.ATHLETE_INVALID_ID;
-	}
-
-	@Override
-	protected Integer getIdPrivate() {
-		return null;
-	}
-
-	@Override
-	protected Integer getIdPrivateBelongsToOtherUser() {
-		return AthleteDataUtils.ATHLETE_PRIVATE_ID;
-	}
-
-	@Override
-	protected Integer getIdValid() {
-		return AthleteDataUtils.ATHLETE_VALID_ID;
-	}
-
-	@Override
-	protected GetCallback<StravaAthlete, Integer> getter() {
-		return ((strava, id) -> strava.getAthlete(id));
 	}
 
 	@Override
