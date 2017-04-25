@@ -7,8 +7,8 @@ import static org.junit.Assume.assumeFalse;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaEntity;
+import javastrava.model.reference.StravaResourceState;
 import test.service.standardtests.spec.GetTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

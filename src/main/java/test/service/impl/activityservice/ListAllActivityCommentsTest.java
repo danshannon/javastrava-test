@@ -3,7 +3,7 @@
  */
 package test.service.impl.activityservice;
 
-import javastrava.api.v3.model.StravaComment;
+import javastrava.model.StravaComment;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;

@@ -7,9 +7,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.service.SegmentService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
+import javastrava.service.SegmentService;
+import javastrava.service.exception.InvalidTokenException;
+import javastrava.service.impl.SegmentServiceImpl;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;

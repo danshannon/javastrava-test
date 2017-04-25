@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaMeasurementMethod;
+import javastrava.model.reference.StravaMeasurementMethod;
 
 /**
  * @author Dan Shannon

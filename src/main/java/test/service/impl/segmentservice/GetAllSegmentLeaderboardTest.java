@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.model.reference.StravaAgeGroup;
-import javastrava.api.v3.model.reference.StravaGender;
-import javastrava.api.v3.model.reference.StravaLeaderboardDateRange;
-import javastrava.api.v3.model.reference.StravaWeightClass;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaSegmentLeaderboard;
+import javastrava.model.StravaSegmentLeaderboardEntry;
+import javastrava.model.reference.StravaAgeGroup;
+import javastrava.model.reference.StravaGender;
+import javastrava.model.reference.StravaLeaderboardDateRange;
+import javastrava.model.reference.StravaWeightClass;
+import javastrava.service.Strava;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;

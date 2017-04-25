@@ -1,6 +1,6 @@
 package test.service.impl.clubservice;
 
-import javastrava.api.v3.model.StravaClubAnnouncement;
+import javastrava.model.StravaClubAnnouncement;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ClubDataUtils;

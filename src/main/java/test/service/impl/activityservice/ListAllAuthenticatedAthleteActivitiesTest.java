@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaActivity;
+import javastrava.model.reference.StravaResourceState;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.reference.StravaResourceState;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.SegmentEffortDataUtils;

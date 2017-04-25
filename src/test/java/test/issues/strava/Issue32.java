@@ -1,10 +1,10 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.service.impl.SegmentServiceImpl;
+import javastrava.model.StravaSegment;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.StravaSegmentLeaderboard;
+import javastrava.model.StravaSegmentLeaderboardEntry;
+import javastrava.service.impl.SegmentServiceImpl;
 import test.utils.TestUtils;
 
 /**

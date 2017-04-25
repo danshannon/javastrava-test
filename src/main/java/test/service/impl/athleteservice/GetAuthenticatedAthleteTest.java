@@ -2,9 +2,9 @@ package test.service.impl.athleteservice;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaAthlete;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.Strava;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

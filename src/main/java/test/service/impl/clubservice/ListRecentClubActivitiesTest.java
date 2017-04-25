@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
+import javastrava.model.StravaActivity;
 import javastrava.util.Paging;
 import test.issues.strava.Issue166;
 import test.service.standardtests.PagingListMethodTest;

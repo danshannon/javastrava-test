@@ -5,8 +5,8 @@ package test.service.standardtests.spec;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * <p>

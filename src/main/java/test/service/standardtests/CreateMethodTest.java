@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaEntity;
+import javastrava.service.exception.UnauthorizedException;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.spec.CreateTests;

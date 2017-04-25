@@ -13,10 +13,10 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaGear;
-import javastrava.api.v3.model.reference.StravaFrameType;
-import javastrava.api.v3.model.reference.StravaGearType;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaGear;
+import javastrava.model.reference.StravaFrameType;
+import javastrava.model.reference.StravaGearType;
+import javastrava.model.reference.StravaResourceState;
 import test.utils.TestUtils;
 
 /**

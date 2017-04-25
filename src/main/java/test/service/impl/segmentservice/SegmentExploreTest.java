@@ -5,12 +5,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaMapPoint;
-import javastrava.api.v3.model.StravaSegmentExplorerResponse;
-import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
-import javastrava.api.v3.model.reference.StravaClimbCategory;
-import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaMapPoint;
+import javastrava.model.StravaSegmentExplorerResponse;
+import javastrava.model.StravaSegmentExplorerResponseSegment;
+import javastrava.model.reference.StravaClimbCategory;
+import javastrava.model.reference.StravaSegmentExplorerActivityType;
+import javastrava.service.Strava;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

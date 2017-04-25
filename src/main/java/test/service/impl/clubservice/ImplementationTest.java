@@ -7,9 +7,9 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.service.ClubService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.impl.ClubServiceImpl;
+import javastrava.service.ClubService;
+import javastrava.service.exception.InvalidTokenException;
+import javastrava.service.impl.ClubServiceImpl;
 import test.service.standardtests.data.ClubDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;

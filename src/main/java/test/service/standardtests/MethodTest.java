@@ -1,6 +1,6 @@
 package test.service.standardtests;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.model.StravaEntity;
 import test.service.standardtests.callbacks.GetCallback;
 
 /**

@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import javastrava.api.v3.service.Strava;
+import javastrava.service.Strava;
 
 /**
  * <p>

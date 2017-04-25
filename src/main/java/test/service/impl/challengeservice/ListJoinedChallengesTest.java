@@ -2,9 +2,9 @@ package test.service.impl.challengeservice;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaChallenge;
-import javastrava.api.v3.service.Strava;
 import javastrava.config.JavastravaApplicationConfig;
+import javastrava.model.StravaChallenge;
+import javastrava.service.Strava;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ChallengeDataUtils;

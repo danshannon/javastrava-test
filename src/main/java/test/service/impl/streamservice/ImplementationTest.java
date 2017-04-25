@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.service.StreamService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.impl.StreamServiceImpl;
+import javastrava.model.StravaStream;
+import javastrava.service.StreamService;
+import javastrava.service.exception.InvalidTokenException;
+import javastrava.service.impl.StreamServiceImpl;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;

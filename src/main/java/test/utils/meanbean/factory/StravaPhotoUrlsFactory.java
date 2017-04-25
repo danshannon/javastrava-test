@@ -2,7 +2,7 @@ package test.utils.meanbean.factory;
 
 import org.meanbean.lang.Factory;
 
-import javastrava.api.v3.model.StravaPhotoUrls;
+import javastrava.model.StravaPhotoUrls;
 import test.service.standardtests.data.PhotoDataUtils;
 
 /**

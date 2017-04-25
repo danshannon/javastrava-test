@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaClimbCategory;
+import javastrava.model.reference.StravaClimbCategory;
 
 /**
  * @author Dan Shannon

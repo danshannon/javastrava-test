@@ -7,10 +7,10 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.service.AthleteService;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.AthleteServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.service.AthleteService;
+import javastrava.service.exception.UnauthorizedException;
+import javastrava.service.impl.AthleteServiceImpl;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

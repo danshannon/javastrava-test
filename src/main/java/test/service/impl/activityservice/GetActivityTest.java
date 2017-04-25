@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.Strava;
+import javastrava.service.exception.UnauthorizedException;
 import test.service.standardtests.UpdatableGetMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;

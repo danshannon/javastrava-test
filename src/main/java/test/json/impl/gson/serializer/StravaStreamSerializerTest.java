@@ -9,11 +9,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamResolutionType;
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.json.exception.JsonSerialisationException;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamResolutionType;
+import javastrava.model.reference.StravaStreamSeriesDownsamplingType;
+import javastrava.service.exception.UnauthorizedException;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;
 

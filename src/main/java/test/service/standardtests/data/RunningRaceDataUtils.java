@@ -2,7 +2,7 @@ package test.service.standardtests.data;
 
 import static org.junit.Assert.assertNotNull;
 
-import javastrava.api.v3.model.StravaRunningRace;
+import javastrava.model.StravaRunningRace;
 import test.utils.TestUtils;
 
 /**

@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaComment;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaComment;
 import javastrava.util.Paging;
-import test.api.rest.APITest;
+import test.api.APITest;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;

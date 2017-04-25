@@ -3,7 +3,7 @@
  */
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaSkillLevel;
+import javastrava.model.reference.StravaSkillLevel;
 
 /**
  * @author danshannon

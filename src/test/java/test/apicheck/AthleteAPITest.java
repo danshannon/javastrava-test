@@ -2,11 +2,11 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.StravaStatistics;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.AthleteAPI;
+import javastrava.api.API;
+import javastrava.api.AthleteAPI;
+import javastrava.model.StravaAthlete;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.StravaStatistics;
 import retrofit.client.Response;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.TestUtils;

@@ -1,7 +1,7 @@
 package test.service.impl.athleteservice;
 
-import javastrava.api.v3.model.StravaAthleteZones;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaAthleteZones;
+import javastrava.service.Strava;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.AthleteDataUtils;

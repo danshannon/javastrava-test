@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import javastrava.api.v3.model.StravaMapPoint;
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamResolutionType;
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
-import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.model.StravaMapPoint;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamResolutionType;
+import javastrava.model.reference.StravaStreamSeriesDownsamplingType;
+import javastrava.model.reference.StravaStreamType;
 
 /**
  * <p>

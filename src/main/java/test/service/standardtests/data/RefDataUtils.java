@@ -2,27 +2,27 @@ package test.service.standardtests.data;
 
 import java.util.Random;
 
-import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.model.reference.StravaAthleteType;
-import javastrava.api.v3.model.reference.StravaClimbCategory;
-import javastrava.api.v3.model.reference.StravaClubMembershipStatus;
-import javastrava.api.v3.model.reference.StravaClubType;
-import javastrava.api.v3.model.reference.StravaEventFrequency;
-import javastrava.api.v3.model.reference.StravaFollowerState;
-import javastrava.api.v3.model.reference.StravaFrameType;
-import javastrava.api.v3.model.reference.StravaGearType;
-import javastrava.api.v3.model.reference.StravaGender;
-import javastrava.api.v3.model.reference.StravaMeasurementMethod;
-import javastrava.api.v3.model.reference.StravaPhotoSource;
-import javastrava.api.v3.model.reference.StravaPhotoType;
-import javastrava.api.v3.model.reference.StravaRouteSubType;
-import javastrava.api.v3.model.reference.StravaRouteType;
-import javastrava.api.v3.model.reference.StravaSegmentActivityType;
-import javastrava.api.v3.model.reference.StravaSkillLevel;
-import javastrava.api.v3.model.reference.StravaSportType;
-import javastrava.api.v3.model.reference.StravaTerrainType;
-import javastrava.api.v3.model.reference.StravaWeekOfMonth;
-import javastrava.api.v3.model.reference.StravaWorkoutType;
+import javastrava.model.reference.StravaActivityType;
+import javastrava.model.reference.StravaAthleteType;
+import javastrava.model.reference.StravaClimbCategory;
+import javastrava.model.reference.StravaClubMembershipStatus;
+import javastrava.model.reference.StravaClubType;
+import javastrava.model.reference.StravaEventFrequency;
+import javastrava.model.reference.StravaFollowerState;
+import javastrava.model.reference.StravaFrameType;
+import javastrava.model.reference.StravaGearType;
+import javastrava.model.reference.StravaGender;
+import javastrava.model.reference.StravaMeasurementMethod;
+import javastrava.model.reference.StravaPhotoSource;
+import javastrava.model.reference.StravaPhotoType;
+import javastrava.model.reference.StravaRouteSubType;
+import javastrava.model.reference.StravaRouteType;
+import javastrava.model.reference.StravaSegmentActivityType;
+import javastrava.model.reference.StravaSkillLevel;
+import javastrava.model.reference.StravaSportType;
+import javastrava.model.reference.StravaTerrainType;
+import javastrava.model.reference.StravaWeekOfMonth;
+import javastrava.model.reference.StravaWorkoutType;
 
 /**
  * Test data utilities for generating randomised reference data instances

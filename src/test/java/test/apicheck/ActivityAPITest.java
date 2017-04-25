@@ -2,14 +2,14 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaActivityZone;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.model.StravaLap;
-import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ActivityAPI;
+import javastrava.api.API;
+import javastrava.api.ActivityAPI;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaActivityZone;
+import javastrava.model.StravaAthlete;
+import javastrava.model.StravaComment;
+import javastrava.model.StravaLap;
+import javastrava.model.StravaPhoto;
 import retrofit.client.Response;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.TestUtils;

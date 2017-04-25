@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaResponse;
-import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
+import javastrava.model.StravaResponse;
+import javastrava.service.exception.StravaAPIRateLimitException;
 
 /**
  * Tests for StravaAPIRateLimitException

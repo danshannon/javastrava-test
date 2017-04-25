@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.rest.APITest;
+import javastrava.model.StravaComment;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
+import test.api.APITest;
 import test.service.standardtests.DeleteMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;

@@ -1,7 +1,7 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaComment;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * Issue test for #172 - see https://github.com/danshannon/javastravav3api/issues/172

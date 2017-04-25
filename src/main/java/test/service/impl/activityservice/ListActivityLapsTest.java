@@ -2,7 +2,7 @@ package test.service.impl.activityservice;
 
 import static org.junit.Assume.assumeFalse;
 
-import javastrava.api.v3.model.StravaLap;
+import javastrava.model.StravaLap;
 import test.issues.strava.Issue105;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;

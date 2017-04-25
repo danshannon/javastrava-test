@@ -3,7 +3,7 @@
  */
 package test.service.impl.activityservice;
 
-import javastrava.api.v3.model.StravaAthlete;
+import javastrava.model.StravaAthlete;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;

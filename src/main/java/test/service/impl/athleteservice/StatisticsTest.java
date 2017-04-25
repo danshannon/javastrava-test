@@ -2,7 +2,7 @@ package test.service.impl.athleteservice;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaStatistics;
+import javastrava.model.StravaStatistics;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.AthleteDataUtils;

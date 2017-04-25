@@ -13,12 +13,12 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaAchievement;
-import javastrava.api.v3.model.StravaAthleteSegmentStats;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import test.api.model.StravaAchievementTest;
+import javastrava.model.StravaAchievement;
+import javastrava.model.StravaAthleteSegmentStats;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.reference.StravaActivityType;
+import javastrava.model.reference.StravaResourceState;
+import test.model.StravaAchievementTest;
 import test.utils.TestUtils;
 
 /**

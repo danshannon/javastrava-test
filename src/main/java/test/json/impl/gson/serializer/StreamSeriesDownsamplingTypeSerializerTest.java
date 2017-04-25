@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
+import javastrava.model.reference.StravaStreamSeriesDownsamplingType;
 
 /**
  * @author Dan Shannon

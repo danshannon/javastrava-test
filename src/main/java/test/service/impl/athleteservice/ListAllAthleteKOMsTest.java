@@ -8,12 +8,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaSegment;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.StravaSegmentLeaderboard;
+import javastrava.model.StravaSegmentLeaderboardEntry;
+import javastrava.service.Strava;
+import javastrava.service.exception.UnauthorizedException;
 import test.issues.strava.Issue32;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;

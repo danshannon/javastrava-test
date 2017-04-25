@@ -3,7 +3,7 @@ package test.service.standardtests.callbacks;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import javastrava.api.v3.service.Strava;
+import javastrava.service.Strava;
 
 /**
  * <p>

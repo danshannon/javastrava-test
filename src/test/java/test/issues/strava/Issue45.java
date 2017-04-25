@@ -1,7 +1,7 @@
 package test.issues.strava;
 
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * <p>

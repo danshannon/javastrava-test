@@ -2,10 +2,10 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.StravaClubEvent;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ClubGroupEventAPI;
+import javastrava.api.API;
+import javastrava.api.ClubGroupEventAPI;
+import javastrava.model.StravaAthlete;
+import javastrava.model.StravaClubEvent;
 import retrofit.client.Response;
 import test.service.standardtests.data.ClubGroupEventDataUtils;
 import test.utils.TestUtils;

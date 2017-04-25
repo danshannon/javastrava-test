@@ -1,6 +1,6 @@
 package test.service.impl.activityservice;
 
-import javastrava.api.v3.model.StravaActivity;
+import javastrava.model.StravaActivity;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;

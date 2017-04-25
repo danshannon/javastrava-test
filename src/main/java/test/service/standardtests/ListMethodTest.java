@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.model.StravaEntity;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.spec.ListMethodTests;
 import test.utils.RateLimitedTestRunner;

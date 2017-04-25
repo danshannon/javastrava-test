@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.auth.ref.AuthorisationApprovalPrompt;
+import javastrava.auth.ref.AuthorisationApprovalPrompt;
 
 /**
  * @author Dan Shannon

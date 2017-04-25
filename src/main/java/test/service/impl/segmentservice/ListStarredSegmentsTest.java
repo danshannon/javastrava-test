@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaSegment;
+import javastrava.service.Strava;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.callbacks.PagingListCallback;

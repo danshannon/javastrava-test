@@ -2,7 +2,7 @@ package test.issues.strava;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaActivity;
+import javastrava.model.StravaActivity;
 import javastrava.util.Paging;
 import test.utils.TestUtils;
 

@@ -1,6 +1,6 @@
 package test.service.impl.segmentservice;
 
-import javastrava.api.v3.model.StravaSegment;
+import javastrava.model.StravaSegment;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.SegmentDataUtils;

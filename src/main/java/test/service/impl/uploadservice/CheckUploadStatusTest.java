@@ -4,8 +4,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaUploadResponse;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaUploadResponse;
+import javastrava.service.Strava;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

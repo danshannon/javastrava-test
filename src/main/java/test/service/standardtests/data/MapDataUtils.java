@@ -11,10 +11,10 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaMap;
-import javastrava.api.v3.model.StravaMapPoint;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaMap;
+import javastrava.model.StravaMapPoint;
+import javastrava.model.reference.StravaResourceState;
 
 /**
  * Test data generation utilities for map data

@@ -7,11 +7,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.model.StravaUploadResponse;
-import javastrava.api.v3.service.UploadService;
-import javastrava.api.v3.service.exception.UnauthorizedException;
-import javastrava.api.v3.service.impl.UploadServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.model.StravaUploadResponse;
+import javastrava.service.UploadService;
+import javastrava.service.exception.UnauthorizedException;
+import javastrava.service.impl.UploadServiceImpl;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;
@@ -79,7 +79,7 @@ public class ImplementationTest implements ServiceInstanceTests {
 	}
 
 	/**
-	 * Test method for {@link javastrava.api.v3.service.impl.StreamServiceImpl#instance(Token)}.
+	 * Test method for {@link javastrava.service.impl.StreamServiceImpl#instance(Token)}.
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way

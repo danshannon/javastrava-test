@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
+import javastrava.model.StravaAthlete;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
 import test.issues.strava.Issue163;
 import test.issues.strava.Issue29;
 import test.service.standardtests.data.ActivityDataUtils;

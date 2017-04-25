@@ -1,7 +1,7 @@
 package test.service.standardtests.data;
 
-import javastrava.api.v3.model.StravaChallenge;
-import test.api.rest.callback.APIGetCallback;
+import javastrava.model.StravaChallenge;
+import test.api.callback.APIGetCallback;
 import test.service.standardtests.callbacks.GetCallback;
 import test.utils.TestUtils;
 

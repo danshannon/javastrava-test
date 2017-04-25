@@ -2,10 +2,10 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamType;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.StreamAPI;
+import javastrava.api.API;
+import javastrava.api.StreamAPI;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamType;
 import retrofit.client.Response;
 import test.service.standardtests.data.ActivityDataUtils;
 import test.service.standardtests.data.RouteDataUtils;
@@ -28,7 +28,7 @@ public class StreamAPITest {
 
 	/**
 	 * Test the
-	 * {@link StreamAPI#getActivityStreamsRaw(Long, String, javastrava.api.v3.model.reference.StravaStreamResolutionType, javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType)}
+	 * {@link StreamAPI#getActivityStreamsRaw(Long, String, javastrava.model.reference.StravaStreamResolutionType, javastrava.model.reference.StravaStreamSeriesDownsamplingType)}
 	 * endpoint
 	 *
 	 * @throws Exception
@@ -42,7 +42,7 @@ public class StreamAPITest {
 	}
 
 	/**
-	 * Test the {@link StreamAPI#getEffortStreamsRaw(Long, String, javastrava.api.v3.model.reference.StravaStreamResolutionType, javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType)}
+	 * Test the {@link StreamAPI#getEffortStreamsRaw(Long, String, javastrava.model.reference.StravaStreamResolutionType, javastrava.model.reference.StravaStreamSeriesDownsamplingType)}
 	 * endpoint
 	 *
 	 * @throws Exception
@@ -70,7 +70,7 @@ public class StreamAPITest {
 
 	/**
 	 * Test the
-	 * {@link StreamAPI#getSegmentStreamsRaw(Integer, String, javastrava.api.v3.model.reference.StravaStreamResolutionType, javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType)}
+	 * {@link StreamAPI#getSegmentStreamsRaw(Integer, String, javastrava.model.reference.StravaStreamResolutionType, javastrava.model.reference.StravaStreamSeriesDownsamplingType)}
 	 * endpoint
 	 *
 	 * @throws Exception

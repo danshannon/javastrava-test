@@ -4,7 +4,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.rest.API;
+import javastrava.api.API;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 

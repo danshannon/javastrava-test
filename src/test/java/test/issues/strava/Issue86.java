@@ -3,7 +3,7 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.service.exception.NotFoundException;
+import javastrava.service.exception.NotFoundException;
 
 /**
  * <p>

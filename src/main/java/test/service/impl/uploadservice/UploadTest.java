@@ -6,13 +6,13 @@ import java.io.File;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaUploadResponse;
-import javastrava.api.v3.model.reference.StravaActivityType;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaUploadResponse;
+import javastrava.model.reference.StravaActivityType;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.Strava;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
 

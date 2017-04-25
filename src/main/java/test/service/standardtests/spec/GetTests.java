@@ -5,7 +5,7 @@ package test.service.standardtests.spec;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.model.StravaEntity;
 
 /**
  * <p>

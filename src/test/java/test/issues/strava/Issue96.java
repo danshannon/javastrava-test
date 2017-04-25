@@ -1,6 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaActivity;
+import javastrava.model.StravaActivity;
 
 /**
  * Issue test for #96 - see https://github.com/danshannon/javastravav3api/issues/96

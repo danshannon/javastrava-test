@@ -15,11 +15,11 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaClubAnnouncement;
-import javastrava.api.v3.model.StravaClubEvent;
-import javastrava.api.v3.model.reference.StravaClubType;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaClub;
+import javastrava.model.StravaClubAnnouncement;
+import javastrava.model.StravaClubEvent;
+import javastrava.model.reference.StravaClubType;
+import javastrava.model.reference.StravaResourceState;
 import test.utils.TestUtils;
 
 /**

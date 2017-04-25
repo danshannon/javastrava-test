@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import javastrava.json.JsonUtil;
 import javastrava.json.exception.JsonSerialisationException;
-import javastrava.json.impl.gson.JsonUtilImpl;
+import javastrava.json.impl.JsonUtilImpl;
 
 /**
  * <p>

@@ -3,7 +3,7 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaSegment;
+import javastrava.model.StravaSegment;
 
 /**
  * <p>

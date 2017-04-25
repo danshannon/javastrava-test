@@ -2,9 +2,9 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaRoute;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.RouteAPI;
+import javastrava.api.API;
+import javastrava.api.RouteAPI;
+import javastrava.model.StravaRoute;
 import retrofit.client.Response;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.data.RouteDataUtils;

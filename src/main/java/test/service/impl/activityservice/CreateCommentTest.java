@@ -6,10 +6,10 @@ import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
+import javastrava.model.StravaComment;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
 import test.issues.strava.Issue172;
 import test.service.standardtests.CreateMethodTest;
 import test.service.standardtests.callbacks.CreateCallback;

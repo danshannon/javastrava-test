@@ -7,10 +7,10 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.service.SegmentEffortService;
-import javastrava.api.v3.service.exception.InvalidTokenException;
-import javastrava.api.v3.service.impl.SegmentEffortServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.service.SegmentEffortService;
+import javastrava.service.exception.InvalidTokenException;
+import javastrava.service.impl.SegmentEffortServiceImpl;
 import test.service.standardtests.data.SegmentEffortDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;

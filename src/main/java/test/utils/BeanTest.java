@@ -2,7 +2,7 @@ package test.utils;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.model.StravaEntity;
 import test.utils.equalsverifier.EqualsVerifierUtil;
 import test.utils.meanbean.MeanBean;
 

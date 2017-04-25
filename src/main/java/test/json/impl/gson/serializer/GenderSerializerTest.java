@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaGender;
+import javastrava.model.reference.StravaGender;
 
 /**
  * @author Dan Shannon

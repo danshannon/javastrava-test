@@ -1,7 +1,7 @@
 package test.service.impl.routeservice;
 
-import javastrava.api.v3.model.StravaRoute;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaRoute;
+import javastrava.service.Strava;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.RouteDataUtils;

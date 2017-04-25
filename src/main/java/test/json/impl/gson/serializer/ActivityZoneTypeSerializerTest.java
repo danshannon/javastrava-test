@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaActivityZoneType;
+import javastrava.model.reference.StravaActivityZoneType;
 
 /**
  * @author Dan Shannon

@@ -1,6 +1,6 @@
 package test.service.impl.activityservice;
 
-import javastrava.api.v3.model.StravaActivityZone;
+import javastrava.model.StravaActivityZone;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.ActivityDataUtils;

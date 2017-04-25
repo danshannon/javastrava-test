@@ -8,8 +8,8 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaMapPoint;
 import javastrava.json.exception.JsonSerialisationException;
+import javastrava.model.StravaMapPoint;
 
 /**
  * @author Dan Shannon

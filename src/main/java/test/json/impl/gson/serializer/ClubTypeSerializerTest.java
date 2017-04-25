@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaClubType;
+import javastrava.model.reference.StravaClubType;
 
 /**
  * @author Dan Shannon

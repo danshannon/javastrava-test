@@ -2,8 +2,8 @@ package test.service.impl.segmentservice;
 
 import static org.junit.Assume.assumeFalse;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaSegment;
+import javastrava.service.Strava;
 import test.issues.strava.Issue162;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;

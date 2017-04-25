@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.model.StravaGear;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.service.GearService;
-import javastrava.api.v3.service.impl.GearServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.model.StravaGear;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.GearService;
+import javastrava.service.impl.GearServiceImpl;
 import test.service.standardtests.data.GearDataUtils;
 import test.service.standardtests.spec.ServiceInstanceTests;
 import test.utils.RateLimitedTestRunner;

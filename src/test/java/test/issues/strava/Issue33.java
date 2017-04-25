@@ -1,6 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaSegmentEffort;
+import javastrava.model.StravaSegmentEffort;
 
 /**
  * <p>

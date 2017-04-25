@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.service.Strava;
+import javastrava.service.exception.UnauthorizedException;
 import test.issues.strava.Issue175;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;

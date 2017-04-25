@@ -3,7 +3,7 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaLap;
+import javastrava.model.StravaLap;
 import test.service.standardtests.data.ActivityDataUtils;
 
 /**

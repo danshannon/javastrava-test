@@ -1,7 +1,7 @@
 package test.issues.strava;
 
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.API;
+import javastrava.service.exception.UnauthorizedException;
 import test.utils.TestUtils;
 
 /**

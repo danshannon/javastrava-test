@@ -1,7 +1,7 @@
 package test.service.impl.clubgroupeventservice;
 
-import javastrava.api.v3.model.StravaClubEvent;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaClubEvent;
+import javastrava.service.Strava;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.ClubGroupEventDataUtils;

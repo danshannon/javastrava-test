@@ -2,10 +2,10 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaChallenge;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ChallengeAPI;
+import javastrava.api.API;
+import javastrava.api.ChallengeAPI;
 import javastrava.config.JavastravaApplicationConfig;
+import javastrava.model.StravaChallenge;
 import retrofit.client.Response;
 import test.service.standardtests.data.ChallengeDataUtils;
 import test.utils.TestUtils;

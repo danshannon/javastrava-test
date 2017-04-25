@@ -14,15 +14,15 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.StravaSegmentExplorerResponse;
-import javastrava.api.v3.model.StravaSegmentExplorerResponseSegment;
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.model.StravaSegmentLeaderboardEntry;
-import javastrava.api.v3.model.reference.StravaClimbCategory;
-import javastrava.api.v3.model.reference.StravaGender;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.model.reference.StravaSegmentActivityType;
+import javastrava.model.StravaSegment;
+import javastrava.model.StravaSegmentExplorerResponse;
+import javastrava.model.StravaSegmentExplorerResponseSegment;
+import javastrava.model.StravaSegmentLeaderboard;
+import javastrava.model.StravaSegmentLeaderboardEntry;
+import javastrava.model.reference.StravaClimbCategory;
+import javastrava.model.reference.StravaGender;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.model.reference.StravaSegmentActivityType;
 import test.utils.TestUtils;
 
 /**

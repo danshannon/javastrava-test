@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.service.Strava;
 import javastrava.util.Paging;
 import test.service.standardtests.PagingListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;

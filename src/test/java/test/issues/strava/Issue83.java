@@ -1,6 +1,6 @@
 package test.issues.strava;
 
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * @author Dan Shannon

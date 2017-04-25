@@ -1,7 +1,7 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamType;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamType;
 
 /**
  * <p>

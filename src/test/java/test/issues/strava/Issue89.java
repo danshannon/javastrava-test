@@ -3,9 +3,9 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamResolutionType;
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamResolutionType;
+import javastrava.model.reference.StravaStreamSeriesDownsamplingType;
 
 /**
  * @author Dan Shannon

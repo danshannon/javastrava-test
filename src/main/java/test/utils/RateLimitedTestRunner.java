@@ -6,9 +6,9 @@ package test.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javastrava.api.v3.service.exception.StravaAPINetworkException;
-import javastrava.api.v3.service.exception.StravaAPIRateLimitException;
-import javastrava.api.v3.service.exception.StravaServiceUnavailableException;
+import javastrava.service.exception.StravaAPINetworkException;
+import javastrava.service.exception.StravaAPIRateLimitException;
+import javastrava.service.exception.StravaServiceUnavailableException;
 
 /**
  * @author Dan Shannon

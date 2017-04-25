@@ -3,16 +3,16 @@ package test.utils;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import javastrava.api.v3.auth.TokenManager;
-import javastrava.api.v3.auth.TokenService;
-import javastrava.api.v3.auth.impl.retrofit.TokenServiceImpl;
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.auth.model.TokenResponse;
-import javastrava.api.v3.auth.ref.AuthorisationScope;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.BadRequestException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.auth.TokenManager;
+import javastrava.auth.TokenService;
+import javastrava.auth.impl.TokenServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.auth.model.TokenResponse;
+import javastrava.auth.ref.AuthorisationScope;
+import javastrava.model.StravaAthlete;
+import javastrava.service.Strava;
+import javastrava.service.exception.BadRequestException;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * @author Dan Shannon

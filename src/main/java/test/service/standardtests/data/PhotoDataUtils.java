@@ -13,11 +13,11 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.model.StravaPhotoSizes;
-import javastrava.api.v3.model.StravaPhotoUrls;
-import javastrava.api.v3.model.reference.StravaPhotoType;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaPhoto;
+import javastrava.model.StravaPhotoSizes;
+import javastrava.model.StravaPhotoUrls;
+import javastrava.model.reference.StravaPhotoType;
+import javastrava.model.reference.StravaResourceState;
 
 /**
  * <p>

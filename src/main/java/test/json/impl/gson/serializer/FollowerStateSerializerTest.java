@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaFollowerState;
+import javastrava.model.reference.StravaFollowerState;
 
 /**
  * @author Dan Shannon

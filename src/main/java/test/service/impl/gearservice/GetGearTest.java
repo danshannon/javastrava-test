@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaGear;
+import javastrava.model.StravaGear;
 import test.service.standardtests.GetMethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.GearDataUtils;

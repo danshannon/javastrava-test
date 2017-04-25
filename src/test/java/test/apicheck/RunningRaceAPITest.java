@@ -2,9 +2,9 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaRunningRace;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.RunningRaceAPI;
+import javastrava.api.API;
+import javastrava.api.RunningRaceAPI;
+import javastrava.model.StravaRunningRace;
 import retrofit.client.Response;
 import test.service.standardtests.data.RunningRaceDataUtils;
 import test.utils.TestUtils;

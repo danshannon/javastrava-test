@@ -2,13 +2,13 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaClubAnnouncement;
-import javastrava.api.v3.model.StravaClubEvent;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.ClubAPI;
+import javastrava.api.API;
+import javastrava.api.ClubAPI;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaAthlete;
+import javastrava.model.StravaClub;
+import javastrava.model.StravaClubAnnouncement;
+import javastrava.model.StravaClubEvent;
 import retrofit.client.Response;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.TestUtils;

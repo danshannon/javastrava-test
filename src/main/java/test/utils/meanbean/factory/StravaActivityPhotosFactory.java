@@ -2,8 +2,8 @@ package test.utils.meanbean.factory;
 
 import org.meanbean.lang.Factory;
 
-import javastrava.api.v3.model.StravaActivityPhotos;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaActivityPhotos;
+import javastrava.model.reference.StravaResourceState;
 import test.service.standardtests.data.ActivityDataUtils;
 
 /**

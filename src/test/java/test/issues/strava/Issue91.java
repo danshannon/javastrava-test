@@ -3,7 +3,7 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.service.exception.BadRequestException;
+import javastrava.service.exception.BadRequestException;
 
 /**
  * @author Dan Shannon

@@ -7,9 +7,9 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import javastrava.api.v3.model.StravaComment;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import test.api.rest.callback.APICreateCallback;
+import javastrava.model.StravaComment;
+import javastrava.model.reference.StravaResourceState;
+import test.api.callback.APICreateCallback;
 import test.service.standardtests.callbacks.CreateCallback;
 import test.service.standardtests.callbacks.DeleteCallback;
 import test.service.standardtests.callbacks.GetCallback;

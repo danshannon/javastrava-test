@@ -2,10 +2,10 @@ package test.utils.meanbean.factory;
 
 import org.meanbean.lang.Factory;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.reference.StravaClimbCategory;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.model.reference.StravaSegmentActivityType;
+import javastrava.model.StravaSegment;
+import javastrava.model.reference.StravaClimbCategory;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.model.reference.StravaSegmentActivityType;
 
 /**
  * <p>

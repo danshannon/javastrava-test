@@ -1,7 +1,7 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaRouteSubType;
-import javastrava.json.impl.gson.serializer.RouteSubTypeSerializer;
+import javastrava.json.impl.serializer.RouteSubTypeSerializer;
+import javastrava.model.reference.StravaRouteSubType;
 
 /**
  * <p>

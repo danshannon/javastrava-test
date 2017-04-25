@@ -11,9 +11,9 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaClubEvent;
-import javastrava.api.v3.model.StravaClubEventViewerPermissions;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaClubEvent;
+import javastrava.model.StravaClubEventViewerPermissions;
+import javastrava.model.reference.StravaResourceState;
 import test.service.standardtests.callbacks.GetCallback;
 import test.utils.TestUtils;
 

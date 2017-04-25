@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaEntity;
+import javastrava.model.StravaEntity;
 import javastrava.util.Paging;
 import test.service.standardtests.callbacks.AsyncPagingListCallback;
 import test.service.standardtests.spec.PagingListMethodTests;

@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaSportType;
+import javastrava.model.reference.StravaSportType;
 
 /**
  * @author Dan Shannon

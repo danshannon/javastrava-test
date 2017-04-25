@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaSegmentExplorerActivityType;
+import javastrava.model.reference.StravaSegmentExplorerActivityType;
 
 /**
  * @author Dan Shannon

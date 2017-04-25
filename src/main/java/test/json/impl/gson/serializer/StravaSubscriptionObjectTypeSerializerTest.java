@@ -3,7 +3,7 @@
  */
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.webhook.reference.StravaSubscriptionObjectType;
+import javastrava.model.webhook.reference.StravaSubscriptionObjectType;
 
 /**
  * @author danshannon

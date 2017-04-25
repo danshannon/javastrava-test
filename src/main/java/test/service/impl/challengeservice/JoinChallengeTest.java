@@ -4,11 +4,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaChallenge;
-import javastrava.api.v3.service.Strava;
-import javastrava.api.v3.service.exception.NotFoundException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
 import javastrava.config.JavastravaApplicationConfig;
+import javastrava.model.StravaChallenge;
+import javastrava.service.Strava;
+import javastrava.service.exception.NotFoundException;
+import javastrava.service.exception.UnauthorizedException;
 import test.service.standardtests.MethodTest;
 import test.service.standardtests.callbacks.GetCallback;
 import test.service.standardtests.data.ChallengeDataUtils;

@@ -8,8 +8,8 @@ import java.util.Random;
 import org.jfairy.Fairy;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaRoute;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaRoute;
+import javastrava.model.reference.StravaResourceState;
 import test.utils.TestUtils;
 
 /**

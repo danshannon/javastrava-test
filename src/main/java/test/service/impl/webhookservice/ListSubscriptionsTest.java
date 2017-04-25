@@ -3,17 +3,18 @@
  */
 package test.service.impl.webhookservice;
 
-import javastrava.api.v3.model.webhook.StravaEventSubscription;
-import javastrava.api.v3.service.Strava;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.model.webhook.StravaEventSubscriptionTest;
+import javastrava.model.webhook.StravaEventSubscription;
+import javastrava.service.Strava;
+import test.model.webhook.StravaEventSubscriptionTest;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.AthleteDataUtils;
+import test.utils.TestUtils;
 
 /**
  * <p>
- * Specific tests for {@link Strava#listSubscriptions() methods}
+ * Specific tests for {@link Strava#listSubscriptions(Integer, String) methods}
  * </p>
  *
  * @author Dan Shannon
@@ -52,7 +53,7 @@ public class ListSubscriptionsTest extends ListMethodTest<StravaEventSubscriptio
 
 	@Override
 	protected ListCallback<StravaEventSubscription, Integer> lister() {
-		return ((strava, id) -> strava.listSubscriptions());
+		return ((strava, id) -> strava.listSubscriptions(TestUtils.STRAVA_APPLICATION_ID, TestUtils.STRAVA_CLIENT_SECRET));
 	}
 
 	@Override

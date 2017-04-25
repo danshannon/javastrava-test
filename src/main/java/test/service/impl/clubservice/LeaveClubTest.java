@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaClubMembershipResponse;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaClub;
+import javastrava.model.StravaClubMembershipResponse;
+import javastrava.service.Strava;
 import test.service.standardtests.data.ClubDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;

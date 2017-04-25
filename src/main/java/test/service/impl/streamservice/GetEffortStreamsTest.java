@@ -10,11 +10,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaStream;
-import javastrava.api.v3.model.reference.StravaStreamResolutionType;
-import javastrava.api.v3.model.reference.StravaStreamSeriesDownsamplingType;
-import javastrava.api.v3.model.reference.StravaStreamType;
-import javastrava.api.v3.service.Strava;
+import javastrava.model.StravaStream;
+import javastrava.model.reference.StravaStreamResolutionType;
+import javastrava.model.reference.StravaStreamSeriesDownsamplingType;
+import javastrava.model.reference.StravaStreamType;
+import javastrava.service.Strava;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;
 import test.service.standardtests.data.SegmentEffortDataUtils;

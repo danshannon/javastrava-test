@@ -1,7 +1,7 @@
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaPhoto;
-import javastrava.api.v3.rest.API;
+import javastrava.api.API;
+import javastrava.model.StravaPhoto;
 import test.utils.TestUtils;
 
 /**

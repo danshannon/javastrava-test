@@ -8,15 +8,15 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.reference.StravaResourceState;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.Strava;
+import javastrava.api.API;
+import javastrava.auth.model.Token;
 import javastrava.cache.StravaCache;
 import javastrava.cache.impl.StravaCacheImpl;
-import test.api.rest.APITest;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaAthlete;
+import javastrava.model.reference.StravaResourceState;
+import javastrava.service.Strava;
+import test.api.APITest;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.utils.RateLimitedTestRunner;
 import test.utils.TestUtils;
@@ -382,7 +382,7 @@ public class CacheTest extends APITest<StravaCache<?, ?>> {
 	}
 
 	/**
-	 * @see test.api.rest.APITest#validate(java.lang.Object)
+	 * @see test.api.APITest#validate(java.lang.Object)
 	 */
 	@Override
 	protected void validate(final StravaCache<?, ?> result) throws Exception {

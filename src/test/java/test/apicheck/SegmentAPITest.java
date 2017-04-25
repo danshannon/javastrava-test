@@ -2,11 +2,15 @@ package test.apicheck;
 
 import org.junit.Test;
 
-import javastrava.api.v3.model.StravaSegment;
-import javastrava.api.v3.model.StravaSegmentEffort;
-import javastrava.api.v3.model.StravaSegmentLeaderboard;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.rest.SegmentAPI;
+import javastrava.api.API;
+import javastrava.api.SegmentAPI;
+import javastrava.model.StravaSegment;
+import javastrava.model.StravaSegmentEffort;
+import javastrava.model.StravaSegmentLeaderboard;
+import javastrava.model.reference.StravaAgeGroup;
+import javastrava.model.reference.StravaGender;
+import javastrava.model.reference.StravaLeaderboardDateRange;
+import javastrava.model.reference.StravaWeightClass;
 import retrofit.client.Response;
 import test.service.standardtests.data.SegmentDataUtils;
 import test.utils.TestUtils;
@@ -34,8 +38,7 @@ public class SegmentAPITest {
 	}
 
 	/**
-	 * Test for
-	 * {@link SegmentAPI#getSegmentLeaderboardRaw(Integer, javastrava.api.v3.model.reference.StravaGender, javastrava.api.v3.model.reference.StravaAgeGroup, javastrava.api.v3.model.reference.StravaWeightClass, Boolean, Integer, javastrava.api.v3.model.reference.StravaLeaderboardDateRange, Integer, Integer, Integer)}
+	 * Test for {@link SegmentAPI#getSegmentLeaderboardRaw(Integer, StravaGender, StravaAgeGroup, StravaWeightClass, Boolean, Integer, StravaLeaderboardDateRange, Integer, Integer, Integer)}
 	 *
 	 * @throws Exception
 	 *             if the test fails in an unexpected way

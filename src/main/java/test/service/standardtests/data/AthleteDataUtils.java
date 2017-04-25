@@ -15,17 +15,17 @@ import org.jfairy.Fairy;
 import org.jfairy.producer.person.Person;
 import org.jfairy.producer.text.TextProducer;
 
-import javastrava.api.v3.model.StravaAthlete;
-import javastrava.api.v3.model.StravaAthleteSegmentStats;
-import javastrava.api.v3.model.StravaAthleteZone;
-import javastrava.api.v3.model.StravaAthleteZones;
-import javastrava.api.v3.model.StravaClub;
-import javastrava.api.v3.model.StravaStatistics;
-import javastrava.api.v3.model.reference.StravaFollowerState;
-import javastrava.api.v3.model.reference.StravaGearType;
-import javastrava.api.v3.model.reference.StravaGender;
-import javastrava.api.v3.model.reference.StravaMeasurementMethod;
-import javastrava.api.v3.model.reference.StravaResourceState;
+import javastrava.model.StravaAthlete;
+import javastrava.model.StravaAthleteSegmentStats;
+import javastrava.model.StravaAthleteZone;
+import javastrava.model.StravaAthleteZones;
+import javastrava.model.StravaClub;
+import javastrava.model.StravaStatistics;
+import javastrava.model.reference.StravaFollowerState;
+import javastrava.model.reference.StravaGearType;
+import javastrava.model.reference.StravaGender;
+import javastrava.model.reference.StravaMeasurementMethod;
+import javastrava.model.reference.StravaResourceState;
 import test.utils.TestUtils;
 
 /**

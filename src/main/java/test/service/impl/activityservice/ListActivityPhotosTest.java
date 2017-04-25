@@ -1,6 +1,6 @@
 package test.service.impl.activityservice;
 
-import javastrava.api.v3.model.StravaPhoto;
+import javastrava.model.StravaPhoto;
 import test.issues.strava.Issue68;
 import test.service.standardtests.ListMethodTest;
 import test.service.standardtests.callbacks.ListCallback;

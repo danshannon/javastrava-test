@@ -1,6 +1,6 @@
 package test.json.impl.gson.serializer;
 
-import javastrava.api.v3.model.reference.StravaWeightClass;
+import javastrava.model.reference.StravaWeightClass;
 
 /**
  * @author Dan Shannon

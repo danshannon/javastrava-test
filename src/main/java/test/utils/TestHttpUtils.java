@@ -17,16 +17,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import javastrava.api.v3.auth.AuthorisationService;
-import javastrava.api.v3.auth.impl.retrofit.AuthorisationServiceImpl;
-import javastrava.api.v3.auth.model.Token;
-import javastrava.api.v3.auth.ref.AuthorisationApprovalPrompt;
-import javastrava.api.v3.auth.ref.AuthorisationResponseType;
-import javastrava.api.v3.auth.ref.AuthorisationScope;
-import javastrava.api.v3.service.exception.BadRequestException;
-import javastrava.api.v3.service.exception.StravaInternalServerErrorException;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.auth.AuthorisationService;
+import javastrava.auth.impl.AuthorisationServiceImpl;
+import javastrava.auth.model.Token;
+import javastrava.auth.ref.AuthorisationApprovalPrompt;
+import javastrava.auth.ref.AuthorisationResponseType;
+import javastrava.auth.ref.AuthorisationScope;
 import javastrava.config.StravaConfig;
+import javastrava.service.exception.BadRequestException;
+import javastrava.service.exception.StravaInternalServerErrorException;
+import javastrava.service.exception.UnauthorizedException;
 
 /**
  * @author Dan Shannon

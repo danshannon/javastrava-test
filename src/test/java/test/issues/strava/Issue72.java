@@ -3,12 +3,12 @@
  */
 package test.issues.strava;
 
-import javastrava.api.v3.model.StravaActivity;
-import javastrava.api.v3.model.StravaActivityUpdate;
-import javastrava.api.v3.rest.API;
-import javastrava.api.v3.service.exception.UnauthorizedException;
+import javastrava.api.API;
 import javastrava.config.JavastravaApplicationConfig;
-import test.api.rest.APITest;
+import javastrava.model.StravaActivity;
+import javastrava.model.StravaActivityUpdate;
+import javastrava.service.exception.UnauthorizedException;
+import test.api.APITest;
 import test.utils.TestUtils;
 
 /**
