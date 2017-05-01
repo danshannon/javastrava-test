@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.danshannon</groupId>
   <artifactId>javastrava-test</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.0</version>
   <name>Javastrava Test Suite</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,4 +129,14 @@
 			<version>3.6.0</version>
 		</dependency>
 	</dependencies>
+	<url>https://github.com/danshannon/javastrava-test</url>
+	<description>Test suite for javastrava - see https://github.com/danshannon/javastravav3api</description>
+	<scm>
+		<url>https://github.com/danshannon/javastrava-test.git</url>
+		<developerConnection>Dan Shannon</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/danshannon/javastravav3api/issues</url>
+	</issueManagement>
 </project>
