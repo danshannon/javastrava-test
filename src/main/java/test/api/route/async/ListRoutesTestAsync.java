@@ -7,7 +7,7 @@ import test.api.route.ListRoutesTest;
 
 /**
  * <p>
- * Tests for {@link API#listAthleteRoutesAsync(Integer)}
+ * Tests for {@link API#listAthleteRoutesAsync(Integer, Integer, Integer)}
  * </p>
  *
  * @author Dan Shannon
@@ -16,7 +16,7 @@ import test.api.route.ListRoutesTest;
 public class ListRoutesTestAsync extends ListRoutesTest {
 	@Override
 	protected APIListCallback<StravaRoute, Integer> listCallback() {
-		return ((api, id) -> api.listAthleteRoutesAsync(id).get());
+		return ((api, id) -> api.listAthleteRoutesAsync(id, null, null).get());
 	}
 
 }

@@ -37,7 +37,7 @@ public class RouteAPITest {
 	}
 
 	/**
-	 * Test the {@link RouteAPI#listAthleteRoutesRaw(Integer)} endpoint
+	 * Test the {@link RouteAPI#listAthleteRoutesRaw(Integer, Integer, Integer)} endpoint
 	 *
 	 * @throws Exception
 	 *             if the test fails for an unexpected reason
@@ -45,7 +45,7 @@ public class RouteAPITest {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testListRoutes() throws Exception {
-		final Response response = api().listAthleteRoutesRaw(AthleteDataUtils.ATHLETE_VALID_ID);
+		final Response response = api().listAthleteRoutesRaw(AthleteDataUtils.ATHLETE_VALID_ID, null, null);
 		ResponseValidator.validate(response, StravaRoute.class, "listRoutes"); //$NON-NLS-1$
 	}
 }

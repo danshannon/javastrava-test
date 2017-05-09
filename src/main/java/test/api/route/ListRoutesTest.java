@@ -2,20 +2,21 @@ package test.api.route;
 
 import javastrava.api.API;
 import javastrava.model.StravaRoute;
-import test.api.APIListTest;
+import test.api.APIPagingListTest;
 import test.api.callback.APIListCallback;
+import test.api.util.ArrayCallback;
 import test.service.standardtests.data.AthleteDataUtils;
 import test.service.standardtests.data.RouteDataUtils;
 
 /**
  * <p>
- * Tests for {@link API#listAthleteRoutes(Integer)}
+ * Tests for {@link API#listAthleteRoutes(Integer, Integer, Integer)}
  * </p>
  *
  * @author Dan Shannon
  *
  */
-public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
+public class ListRoutesTest extends APIPagingListTest<StravaRoute, Integer> {
 
 	@Override
 	protected Integer invalidId() {
@@ -24,7 +25,7 @@ public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 
 	@Override
 	protected APIListCallback<StravaRoute, Integer> listCallback() {
-		return ((api, id) -> api.listAthleteRoutes(id));
+		return ((api, id) -> api.listAthleteRoutes(id, null, null));
 	}
 
 	@Override
@@ -62,6 +63,11 @@ public class ListRoutesTest extends APIListTest<StravaRoute, Integer> {
 	@Override
 	protected Integer validIdNoChildren() {
 		return null;
+	}
+
+	@Override
+	protected ArrayCallback<StravaRoute> pagingCallback() {
+		return paging -> api().listAthleteRoutes(validId(), paging.getPage(), paging.getPageSize());
 	}
 
 }
